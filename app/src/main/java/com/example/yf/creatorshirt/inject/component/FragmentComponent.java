@@ -2,9 +2,9 @@ package com.example.yf.creatorshirt.inject.component;
 
 import android.app.Activity;
 
-import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.module.FragmentModule;
 import com.example.yf.creatorshirt.inject.scope.FragmentScope;
+import com.example.yf.creatorshirt.ui.fragment.CommunityFragment;
 
 import dagger.Component;
 
@@ -15,4 +15,6 @@ import dagger.Component;
 @Component(dependencies = {AppComponent.class}, modules = {FragmentModule.class})
 public interface FragmentComponent {
     Activity getActivity();
+
+    void inject(CommunityFragment communityFragment);
 }

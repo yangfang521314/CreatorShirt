@@ -1,19 +1,17 @@
 package com.example.yf.creatorshirt.ui.activity;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.ui.fragment.CommunityFragment;
 import com.example.yf.creatorshirt.ui.fragment.CreateFragment;
 import com.example.yf.creatorshirt.ui.fragment.HomeFragment;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,6 +26,8 @@ public class MainActivity extends BaseActivity {
     TextView mCreateText;
     @BindView(R.id.my_text)
     TextView mMyText;
+    @BindView(R.id.tool_bar)
+    Toolbar mToolbar;
 
     private FragmentTransaction mTransaction;
 
@@ -39,11 +39,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         mCommunityFragment = new CommunityFragment();
         mCreateFragment = new CreateFragment();
         mHomeFragment = new HomeFragment();
@@ -52,6 +57,7 @@ public class MainActivity extends BaseActivity {
         mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.add(R.id.content, mCommunityFragment).show(mCommunityFragment).add(R.id.content, mCreateFragment).hide(mCreateFragment)
                 .add(R.id.content, mHomeFragment).hide(mHomeFragment).commit();
+        setSupportActionBar(mToolbar);
     }
 
     @OnClick({R.id.home_text, R.id.create_text, R.id.my_text})

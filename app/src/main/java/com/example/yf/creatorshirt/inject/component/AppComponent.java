@@ -2,6 +2,8 @@ package com.example.yf.creatorshirt.inject.component;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.module.AppModule;
+import com.example.yf.creatorshirt.inject.module.HttpModule;
+import com.example.yf.creatorshirt.model.db.RetrofitHelper;
 
 import javax.inject.Singleton;
 
@@ -12,7 +14,10 @@ import dagger.Component;
  * 连接module的桥梁
  */
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class, HttpModule.class})
 public interface AppComponent {
-    App getContext();
+    App getContext();//提供App的Context
+
+    RetrofitHelper retrofitHelper();  //提供http的帮助类
+
 }

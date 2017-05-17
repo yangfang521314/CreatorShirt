@@ -10,6 +10,11 @@ import com.example.yf.creatorshirt.R;
 
 public class HomeFragment extends BaseFragemnt{
     @Override
+    protected void initInject() {
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.home_fragment;
     }

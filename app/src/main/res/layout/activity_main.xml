@@ -6,6 +6,7 @@
 
     <include layout="@layout/app_bar_title" />
 
+
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.example.yf.creatorshirt.inject.module;
 
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.model.db.HttpHelper;
+import com.example.yf.creatorshirt.model.db.RetrofitHelper;
 
 import javax.inject.Singleton;
 
@@ -9,7 +11,7 @@ import dagger.Provides;
 
 /**
  * Created by yang on 16/05/2017.
- * 依赖注入所需要的实体类
+ * 依赖注入所需要的实体类Application
  */
 @Module
 public class AppModule {
@@ -29,4 +31,11 @@ public class AppModule {
     App providerApplicationContext() {
         return mApplication;
     }
+
+    @Provides
+    @Singleton
+    HttpHelper provideHttpHelper(RetrofitHelper retrofitHelper) {
+        return retrofitHelper;
+    }
+
 }

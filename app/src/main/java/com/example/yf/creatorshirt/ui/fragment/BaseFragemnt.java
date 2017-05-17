@@ -30,12 +30,12 @@ public abstract class BaseFragemnt extends Fragment {
             mView = inflater.inflate(getLayoutId(), null);
             ButterKnife.bind(this, mView);
         }
-        initInject();
         initViews(mView);
+        initInject();
         return mView;
     }
 
-    private FragmentComponent getFragmentComponet() {
+    protected FragmentComponent getFragmentComponent() {
         return DaggerFragmentComponent.builder().appComponent(App.getAppComponent())
                 .fragmentModule(getFragmentModule())
                 .build();
