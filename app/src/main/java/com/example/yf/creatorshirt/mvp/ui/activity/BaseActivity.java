@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.ui.activity;
+package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

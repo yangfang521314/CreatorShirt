@@ -1,8 +1,8 @@
 package com.example.yf.creatorshirt.inject.module;
 
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.model.db.HttpHelper;
-import com.example.yf.creatorshirt.model.db.RetrofitHelper;
+import com.example.yf.creatorshirt.mvp.model.db.HttpHelper;
+import com.example.yf.creatorshirt.mvp.model.db.RetrofitHelper;
 
 import javax.inject.Singleton;
 

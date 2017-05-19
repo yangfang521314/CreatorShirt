@@ -3,7 +3,7 @@ package com.example.yf.creatorshirt.inject.component;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.module.AppModule;
 import com.example.yf.creatorshirt.inject.module.HttpModule;
-import com.example.yf.creatorshirt.model.db.RetrofitHelper;
+import com.example.yf.creatorshirt.mvp.model.db.RetrofitHelper;
 
 import javax.inject.Singleton;
 

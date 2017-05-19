@@ -1,6 +1,7 @@
-package com.example.yf.creatorshirt.model.db;
+package com.example.yf.creatorshirt.mvp.model.db;
 
-import com.example.yf.creatorshirt.model.bean.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
+import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
 
 import javax.inject.Inject;
 
@@ -32,5 +33,16 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<NewsSummary> getDataNewsSummary() {
         return mRequestApi.getNewsSummary();
+    }
+
+    /**
+     * 获取照片
+     *
+     * @param size
+     * @param page
+     * @return
+     */
+    public Flowable<GirlData> getPhotoList(int size, int page) {
+        return mRequestApi.getPhotoList(size, page);
     }
 }

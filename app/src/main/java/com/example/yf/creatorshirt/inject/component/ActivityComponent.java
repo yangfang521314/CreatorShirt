@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.inject.scope.AcitivityScope;
-import com.example.yf.creatorshirt.ui.activity.MainActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.MainActivity;
 
 import dagger.Component;
 

@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.ui.fragment;
+package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

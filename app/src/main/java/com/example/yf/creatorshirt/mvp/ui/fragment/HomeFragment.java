@@ -1,26 +1,26 @@
-package com.example.yf.creatorshirt.ui.fragment;
+package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
 
 /**
- * Created by yf on 2017/5/11.
+ * Created by panguso on 2017/5/11.
  */
 
-public class CommunityFragment extends BaseFragemnt {
-
+public class HomeFragment extends BaseFragemnt{
     @Override
     protected void initInject() {
-        getFragmentComponent().inject(this);
+
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.community_fragment;
+        return R.layout.home_fragment;
     }
 
     @Override
     protected void initViews(View mView) {
+
     }
 }

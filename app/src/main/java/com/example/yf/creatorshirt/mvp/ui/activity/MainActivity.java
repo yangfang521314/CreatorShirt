@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.ui.activity;
+package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -9,9 +9,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.ui.fragment.CommunityFragment;
-import com.example.yf.creatorshirt.ui.fragment.CreateFragment;
-import com.example.yf.creatorshirt.ui.fragment.HomeFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.CreateFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.HomeFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
