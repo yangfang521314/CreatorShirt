@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.inject.component;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.module.AppModule;
 import com.example.yf.creatorshirt.inject.module.HttpModule;
+import com.example.yf.creatorshirt.mvp.model.db.DataManager;
 import com.example.yf.creatorshirt.mvp.model.db.RetrofitHelper;
 
 import javax.inject.Singleton;
@@ -20,4 +21,5 @@ public interface AppComponent {
 
     RetrofitHelper retrofitHelper();  //提供http的帮助类
 
+    DataManager getDataManager(); //数据查找
 }

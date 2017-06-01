@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.inject.module;
 
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.mvp.model.db.DataManager;
 import com.example.yf.creatorshirt.mvp.model.db.HttpHelper;
 import com.example.yf.creatorshirt.mvp.model.db.RetrofitHelper;
 
@@ -38,4 +39,9 @@ public class AppModule {
         return retrofitHelper;
     }
 
+    @Provides
+    @Singleton
+    DataManager providerDataManager(HttpHelper helper){
+        return new DataManager(helper);
+    }
 }

@@ -5,14 +5,19 @@ import android.view.View;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
 import com.example.yf.creatorshirt.mvp.presenter.GirlContract;
+import com.example.yf.creatorshirt.mvp.presenter.GirlPresenterImpl;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by yf on 2017/5/11.
  */
 
 public class CommunityFragment extends BaseFragemnt implements GirlContract.GirlView{
+    @Inject
+    GirlPresenterImpl mPresenter;
 
     @Override
     protected void initInject() {
@@ -26,7 +31,8 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     protected void initViews(View mView) {
-
+        mPresenter.attach(this);
+        mPresenter.getGirlData();
     }
 
     @Override
@@ -46,6 +52,5 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     public void showData(List<GirlData> list) {
-
     }
 }

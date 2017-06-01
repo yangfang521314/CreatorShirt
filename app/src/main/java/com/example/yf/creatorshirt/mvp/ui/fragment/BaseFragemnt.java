@@ -36,7 +36,8 @@ public abstract class BaseFragemnt extends Fragment {
     }
 
     protected FragmentComponent getFragmentComponent() {
-        return DaggerFragmentComponent.builder().appComponent(App.getAppComponent())
+        return DaggerFragmentComponent.builder()
+                .appComponent(App.getAppComponent())
                 .fragmentModule(getFragmentModule())
                 .build();
     }
