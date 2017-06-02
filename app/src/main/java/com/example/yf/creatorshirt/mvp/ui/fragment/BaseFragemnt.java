@@ -30,8 +30,9 @@ public abstract class BaseFragemnt extends Fragment {
             mView = inflater.inflate(getLayoutId(), null);
             ButterKnife.bind(this, mView);
         }
-        initViews(mView);
         initInject();
+        initData();
+        initViews(mView);
         return mView;
     }
 
@@ -50,6 +51,7 @@ public abstract class BaseFragemnt extends Fragment {
     protected abstract int getLayoutId();
 
     protected abstract void initViews(View mView);
+    protected abstract void initData();
 
     public FragmentModule getFragmentModule() {
         return new FragmentModule(this);

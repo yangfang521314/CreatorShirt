@@ -23,4 +23,9 @@ public class HomeFragment extends BaseFragemnt{
     protected void initViews(View mView) {
 
     }
+
+    @Override
+    protected void initData() {
+
+    }
 }

@@ -22,6 +22,7 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
     @Override
     protected void initInject() {
         getFragmentComponent().inject(this);
+
     }
 
     @Override
@@ -31,6 +32,10 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     protected void initViews(View mView) {
+    }
+
+    @Override
+    protected void initData() {
         mPresenter.attach(this);
         mPresenter.getGirlData();
     }
