@@ -1,9 +1,11 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
+import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
 import com.example.yf.creatorshirt.mvp.presenter.GirlContract;
 import com.example.yf.creatorshirt.mvp.presenter.GirlPresenterImpl;
 
@@ -15,7 +17,9 @@ import javax.inject.Inject;
  * Created by yf on 2017/5/11.
  */
 
-public class CommunityFragment extends BaseFragemnt implements GirlContract.GirlView{
+public class CommunityFragment extends BaseFragemnt implements GirlContract.GirlView {
+
+
     @Inject
     GirlPresenterImpl mPresenter;
 
@@ -32,6 +36,7 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     protected void initViews(View mView) {
+
     }
 
     @Override
@@ -42,7 +47,7 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     public void showErrorMsg(String msg) {
-
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -56,6 +61,7 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
     }
 
     @Override
-    public void showData(List<GirlData> list) {
+    public void showData(List<PhotoGirl> list) {
+        Log.e("TAG", "LIST" + list.size());
     }
 }

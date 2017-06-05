@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
+import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface GirlContract {
     interface GirlView extends BaseView {
-        void showData(List<GirlData> list);
+        void showData(List<PhotoGirl> list);
     }
 
     interface GirlPresenter extends BasePresenter<GirlView> {
