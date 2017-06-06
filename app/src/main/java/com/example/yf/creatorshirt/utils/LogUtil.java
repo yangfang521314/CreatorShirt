@@ -11,7 +11,6 @@ import com.example.yf.creatorshirt.BuildConfig;
 public class LogUtil {
 
     public static boolean isDebug = BuildConfig.DEBUG;
-    private static final String TAG = "com.codeest.geeknews";
 
     /**
      * 设置开启debug模式
