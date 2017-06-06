@@ -6,7 +6,7 @@ import android.util.Log;
 import com.example.yf.creatorshirt.BuildConfig;
 
 /**
- * Created by codeest on 2016/8/3.
+ * Created by yang on 2016/8/3.
  */
 public class LogUtil {
 
