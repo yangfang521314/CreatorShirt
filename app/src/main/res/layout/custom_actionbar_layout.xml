@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp" >
+    <ImageButton 
+        android:id="@+id/leftBtn"
+        android:layout_width="34dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"/>
+    <TextView 
+        android:id="@+id/titleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+
+    <ImageButton
+        android:id="@+id/rightBtn"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:padding="10dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+    <Button
+        android:id="@+id/openNewsBtn"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:layout_toLeftOf="@id/rightBtn"
+        android:text="新闻"/>
+    <TextView
+        android:id="@+id/rightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/toast_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ProgressBar
+        android:id="@+id/progressIconToast"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:indeterminateDuration="1000"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/progress_icon"
+        android:indeterminateOnly="true" />
+
+    <TextView
+        android:id="@+id/tvTextToast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

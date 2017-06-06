@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,12 +14,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+
 /**
  * Created by yf on 2017/5/11.
  */
 
 public class CommunityFragment extends BaseFragemnt implements GirlContract.GirlView {
 
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
     @Inject
     GirlPresenterImpl mPresenter;
@@ -36,7 +41,15 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     protected void initViews(View mView) {
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+//        mRecyclerView.setAdapter();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     @Override
@@ -62,6 +75,6 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
 
     @Override
     public void showData(List<PhotoGirl> list) {
-        Log.e("TAG", "LIST" + list.size());
+
     }
 }
