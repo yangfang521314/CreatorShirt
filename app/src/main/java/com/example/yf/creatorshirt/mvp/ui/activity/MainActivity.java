@@ -1,17 +1,16 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.CreateFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.HomeFragment;
+import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,11 +43,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        SystemUtilsBar.with(this)
+                .statusBarDarkFont(true, 0.2f)
+                .init();
         mCommunityFragment = new CommunityFragment();
         mCreateFragment = new CreateFragment();
         mHomeFragment = new HomeFragment();
@@ -57,6 +54,7 @@ public class MainActivity extends BaseActivity {
         mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.add(R.id.content, mCommunityFragment).show(mCommunityFragment).add(R.id.content, mCreateFragment).hide(mCreateFragment)
                 .add(R.id.content, mHomeFragment).hide(mHomeFragment).commit();
+        mToolbar.setTitle(null);
         setSupportActionBar(mToolbar);
     }
 

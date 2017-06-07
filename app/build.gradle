@@ -37,7 +37,6 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile rootProject.ext.dependencies["support-v4"]
-    testCompile 'junit:junit:4.12'
 
     /* dagger2 && butterKnife*/
     compile rootProject.ext.dependencies["butterknife"]
@@ -60,4 +59,6 @@ dependencies {
     compile rootProject.ext.dependencies["glide"]
     annotationProcessor rootProject.ext.dependencies["annotationProcessor"]
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

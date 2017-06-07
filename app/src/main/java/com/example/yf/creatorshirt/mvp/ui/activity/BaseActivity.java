@@ -8,6 +8,7 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.ActivityComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
+import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.ButterKnife;
 
@@ -20,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemUtilsBar.with(this).init();
         setContentView(getView());
         ButterKnife.bind(this);
         initView();
