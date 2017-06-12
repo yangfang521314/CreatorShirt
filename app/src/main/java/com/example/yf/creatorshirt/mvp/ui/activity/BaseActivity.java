@@ -24,8 +24,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         SystemUtilsBar.with(this).init();
         setContentView(getView());
         ButterKnife.bind(this);
-        initView();
         inject();
+        initView();
     }
 
     /**

@@ -1,9 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#3F51B5</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="background_red">#FF4081</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
+  <color name="colorPrimary">#ffffff</color>
+  <color name="colorPrimaryDark">#3F51B5</color>
+  <color name="colorAccent">#FF4081</color>
+  <color name="background_red">#FF4081</color>
+  <color name="white">#ffffff</color>
+  <color name="black">#000000</color>
+  <color name="ashgrey">#b2b2b2</color>
+  <color name="snow">#fbfcfc</color>
+  <color name="palatinateblue">#0040dd</color>
+  <color name="pastelgray">#cccccc</color>
+  <color name="munsell">#f2f2f2</color>
+  <color name="manatee">#999999</color>
+  <color name="sand">#c8a985</color>
+  <color name="taupe">#333333</color>
 </resources>
+

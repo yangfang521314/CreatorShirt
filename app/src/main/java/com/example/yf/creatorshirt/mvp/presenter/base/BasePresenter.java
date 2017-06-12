@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.presenter;
+package com.example.yf.creatorshirt.mvp.presenter.base;
 
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -7,5 +7,9 @@ import com.example.yf.creatorshirt.mvp.view.BaseView;
  */
 
 public interface BasePresenter<T extends BaseView> {
+    //关联
     void attach(T view);
+
+    //释放
+    void detach(T view);
 }

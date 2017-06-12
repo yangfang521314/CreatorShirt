@@ -4,34 +4,35 @@ import android.text.TextUtils;
 
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
-import io.reactivex.subscribers.ResourceSubscriber;
+import io.reactivex.observers.ResourceObserver;
 import retrofit2.HttpException;
 
 /**
- * Created by yang on 05/06/2017.
- * Flowable的观察者封装
+ * Created by yang on 12/06/2017.
+ * Observable的观察者封装
  */
 
-public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
+public abstract class CommonObserver<T> extends ResourceObserver<T> {
+
     private BaseView mView;
     private String mErrorMsg;
     private boolean isShowErrorState = true;
 
-    protected CommonSubscriber(BaseView view) {
+    protected CommonObserver(BaseView view) {
         this.mView = view;
     }
 
-    protected CommonSubscriber(BaseView view, String errorMsg) {
+    protected CommonObserver(BaseView view, String errorMsg) {
         this.mView = view;
         this.mErrorMsg = errorMsg;
     }
 
-    protected CommonSubscriber(BaseView view, boolean isShowErrorState) {
+    protected CommonObserver(BaseView view, boolean isShowErrorState) {
         this.mView = view;
         this.isShowErrorState = isShowErrorState;
     }
 
-    protected CommonSubscriber(BaseView view, String errorMsg, boolean isShowErrorState) {
+    protected CommonObserver(BaseView view, String errorMsg, boolean isShowErrorState) {
         this.mView = view;
         this.mErrorMsg = errorMsg;
         this.isShowErrorState = isShowErrorState;

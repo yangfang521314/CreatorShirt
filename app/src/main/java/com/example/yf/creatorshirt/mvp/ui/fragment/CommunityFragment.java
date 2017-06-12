@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
-import com.example.yf.creatorshirt.mvp.presenter.GirlContract;
-import com.example.yf.creatorshirt.mvp.presenter.GirlPresenterImpl;
+import com.example.yf.creatorshirt.mvp.presenter.contract.GirlContract;
+import com.example.yf.creatorshirt.mvp.presenter.GirlPresenter;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class CommunityFragment extends BaseFragemnt implements GirlContract.Girl
     RecyclerView mRecyclerView;
 
     @Inject
-    GirlPresenterImpl mPresenter;
+    GirlPresenter mPresenter;
 
     @Override
     protected void initInject() {

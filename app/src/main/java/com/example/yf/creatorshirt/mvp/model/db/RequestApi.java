@@ -1,9 +1,11 @@
 package com.example.yf.creatorshirt.mvp.model.db;
 
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
+import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -23,4 +25,11 @@ public interface RequestApi {
     Flowable<GirlData> getPhotoList(
             @Path("size") int size,
             @Path("page") int page);
+
+    //登录
+    Observable<LoginBean> loginPhone(String phone, String code);
+
+    //获取验证码
+
+    Observable<LoginBean> getCode(String phone);
 }

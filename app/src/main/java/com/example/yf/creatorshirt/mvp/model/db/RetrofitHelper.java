@@ -1,11 +1,13 @@
 package com.example.yf.creatorshirt.mvp.model.db;
 
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
+import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 /**
  * Created by yang on 17/05/2017.
@@ -45,4 +47,28 @@ public class RetrofitHelper implements HttpHelper {
     public Flowable<GirlData> getPhotoList(int size, int page) {
         return mRequestApi.getPhotoList(size, page);
     }
+
+    /**
+     * phone login
+     *
+     * @param phone
+     * @param code
+     * @return
+     */
+    @Override
+    public Observable<LoginBean> login(String phone, String code) {
+        return mRequestApi.loginPhone(phone, code);
+    }
+
+    /**
+     * 发送验证码
+     *
+     * @param phone
+     * @return
+     */
+    @Override
+    public Observable<LoginBean> getVerifyCode(String phone) {
+        return mRequestApi.getCode(phone);
+    }
+
 }

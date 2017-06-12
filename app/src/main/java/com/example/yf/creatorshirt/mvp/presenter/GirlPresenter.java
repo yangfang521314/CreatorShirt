@@ -1,10 +1,13 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
 import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
 import com.example.yf.creatorshirt.mvp.model.db.DataManager;
+import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.GirlContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
@@ -12,7 +15,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
@@ -20,18 +22,12 @@ import io.reactivex.functions.Function;
  * Created by yang on 27/05/2017.
  */
 
-public class GirlPresenterImpl implements BasePresenter<GirlContract.GirlView>, GirlContract.GirlPresenter {
-    GirlContract.GirlView mView;
+public class GirlPresenter extends RxPresenter<GirlContract.GirlView> implements GirlContract.GirlPresenter {
     private DataManager mDataManager;
     public static final int NUM_OF_PAGE = 20;
 
-    @Override
-    public void attach(GirlContract.GirlView view) {
-        mView = view;
-    }
-
     @Inject
-    public GirlPresenterImpl(DataManager mDataManager) {
+    public GirlPresenter(DataManager mDataManager) {
         this.mDataManager = mDataManager;
     }
 
