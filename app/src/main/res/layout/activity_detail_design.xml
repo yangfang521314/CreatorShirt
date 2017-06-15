@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DesignActivity">
+
+    <include layout="@layout/app_bar_title" />
+
+    <com.example.yf.creatorshirt.widget.sticker.StickerView
+        android:id="@+id/sticker_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/man_t_shirt" />
+
+
+    </com.example.yf.creatorshirt.widget.sticker.StickerView>
+
+    <RelativeLayout
+        android:id="@+id/choice_front_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sticker_view"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正面" />
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/front"
+            android:text="反面" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/choice_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choice_front_back"
+        android:layout_marginTop="5dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choice_front_back"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+
+</LinearLayout>

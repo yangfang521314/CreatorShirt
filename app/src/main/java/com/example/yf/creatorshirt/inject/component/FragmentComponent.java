@@ -17,4 +17,5 @@ public interface FragmentComponent {
     Activity getActivity();
 
     void inject(CommunityFragment communityFragment);
+
 }

@@ -3,7 +3,17 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/app_bar_title" />
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_title" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginBottom="65dp" />
 
     <View
         android:id="@+id/view_line"
@@ -54,7 +64,7 @@
                 android:drawablePadding="4dp"
                 android:drawableTop="@mipmap/add"
                 android:gravity="center"
-                android:text="社区定制" />
+                android:text="设计定制" />
         </FrameLayout>
 
         <FrameLayout

@@ -17,7 +17,12 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
 
     @Override
     public int getItemCount() {
-        return mData == null ? 0 : mData.size();
+
+        if(mData != null){
+            return mData.size();
+        }else {
+            return 6;
+        }
     }
 
     public void setData(List<M> data) {

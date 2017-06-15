@@ -43,4 +43,8 @@ public abstract class AbsAdapter<M, VH extends BaseViewHolder> extends RecyclerV
      */
     protected abstract void bindCustomViewHolder(VH holder, int position);
 
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 }

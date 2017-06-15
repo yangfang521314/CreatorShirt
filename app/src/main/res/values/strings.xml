@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CreatorShirt</string>
+    <string name="title_activity_detail_design">DetailDesign</string>
 </resources>

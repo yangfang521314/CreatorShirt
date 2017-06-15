@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
-import com.example.yf.creatorshirt.mvp.ui.fragment.CreateFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.HomeFragment;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
@@ -31,7 +31,6 @@ public class MainActivity extends BaseActivity {
     private FragmentTransaction mTransaction;
 
     private CommunityFragment mCommunityFragment;
-    private CreateFragment mCreateFragment;
     private HomeFragment mHomeFragment;
     private String showFragment;
     private String hideFragment;
@@ -47,13 +46,12 @@ public class MainActivity extends BaseActivity {
                 .statusBarDarkFont(true, 0.2f)
                 .init();
         mCommunityFragment = new CommunityFragment();
-        mCreateFragment = new CreateFragment();
         mHomeFragment = new HomeFragment();
         showFragment = TYPE_COMMUNITY;
         hideFragment = TYPE_COMMUNITY;
         mTransaction = getSupportFragmentManager().beginTransaction();
-        mTransaction.add(R.id.content, mCommunityFragment).show(mCommunityFragment).add(R.id.content, mCreateFragment).hide(mCreateFragment)
-                .add(R.id.content, mHomeFragment).hide(mHomeFragment).commit();
+        mTransaction.add(R.id.content, mCommunityFragment, "community").show(mCommunityFragment)
+                .add(R.id.content, mHomeFragment, "home").hide(mHomeFragment).commit();
         mToolbar.setTitle(null);
         setSupportActionBar(mToolbar);
     }
@@ -65,7 +63,7 @@ public class MainActivity extends BaseActivity {
                 showFragment = TYPE_COMMUNITY;
                 break;
             case R.id.create_text:
-                showFragment = TYPE_CREATE;
+                startActivity(new Intent(this, DesignActivity.class));
                 break;
             case R.id.my_text:
                 showFragment = TYPE_HOME;
@@ -87,8 +85,6 @@ public class MainActivity extends BaseActivity {
         switch (flag) {
             case TYPE_COMMUNITY:
                 return mCommunityFragment;
-            case TYPE_CREATE:
-                return mCreateFragment;
             case TYPE_HOME:
                 return mHomeFragment;
         }

@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,10 +23,11 @@ import butterknife.ButterKnife;
 public abstract class BaseFragemnt extends Fragment {
 
     private View mView;
-
+    protected Context mContext;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mContext = App.getInstance();
         if (mView == null) {
             mView = inflater.inflate(getLayoutId(), null);
             ButterKnife.bind(this, mView);
