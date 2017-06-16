@@ -2,7 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseViewHolder;
@@ -12,9 +12,9 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseViewHolder;
  */
 
 class ItemViewHolder extends BaseViewHolder {
-    public ImageView mStyleImageView;
+    public TextView mStyleImageView;
     public ItemViewHolder(ViewGroup parent, @LayoutRes int resId) {
         super(parent, resId);
-        mStyleImageView = getView(R.id.style_image);
+        mStyleImageView = getView(R.id.common_style);
     }
 }

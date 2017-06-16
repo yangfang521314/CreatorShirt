@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter.base;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -17,17 +18,18 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
 
     @Override
     public int getItemCount() {
-
-        if(mData != null){
-            return mData.size();
-        }else {
-            return 6;
+        if (mData == null) {
+            Log.e("TAG","DA");
+            return 0;
         }
+        return mData.size();
     }
 
+
     public void setData(List<M> data) {
-        if (mData != null)
+        if (mData != null) {
             this.mData = data;
+        }
     }
 
     /**

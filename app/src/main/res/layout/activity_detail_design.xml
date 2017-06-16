@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DesignActivity">
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity">
 
-    <include layout="@layout/app_bar_title" />
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_title" />
 
-    <com.example.yf.creatorshirt.widget.sticker.StickerView
-        android:id="@+id/sticker_view"
+    <RelativeLayout
+        android:id="@+id/container_background"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
+        android:layout_height="320dp"
+        android:layout_below="@+id/app_bar"
         android:layout_marginTop="5dp"
-        android:layout_weight="1">
+        android:background="@mipmap/man_t_shirt" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/man_t_shirt" />
-
-
-    </com.example.yf.creatorshirt.widget.sticker.StickerView>
 
     <RelativeLayout
         android:id="@+id/choice_front_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sticker_view"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/container_background"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -53,16 +48,26 @@
         android:id="@+id/choice_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_finish"
         android:layout_below="@id/choice_front_back"
-        android:layout_marginTop="5dp" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/choice_front_back"
-        android:layout_marginTop="20dp"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@color/sand"
+        android:text="完成"
+        android:textColor="@color/white" />
 
-</LinearLayout>
+</RelativeLayout>
