@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
@@ -23,7 +24,8 @@ public class DetailDesignActivity extends BaseActivity {
     RecyclerView mRecyclerStyle;
 
     private int[] image = {R.mipmap.icon_edit_neck, R.mipmap.icon_select_longarm, R.mipmap.icon_edit_color, R.mipmap.icon_edit_pattern, R.mipmap.icon_edit_text};
-    private List<Integer> list = new ArrayList<>();
+    private String[] styleTitle = {"衣领", "衣袖", "颜色", "图案", "标签"};
+    private List<StyleBean> list = new ArrayList<>();
 
     @Override
     protected void inject() {
@@ -37,17 +39,25 @@ public class DetailDesignActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initData();
         SystemUtilsBar.with(this)
                 .statusBarDarkFont(true, 0.2f)
                 .init();
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        for (int i = 0; i < image.length; i++) {
-            list.add(image[i]);
-        }
         StyleAdapter adapter = new StyleAdapter(this);
         adapter.setData(list);
         mRecyclerStyle.setAdapter(adapter);
+    }
+
+    private void initData() {
+        StyleBean styleBean;
+        for (int i = 0; i < image.length; i++) {
+            styleBean = new StyleBean();
+            styleBean.setImageId(image[i]);
+            styleBean.setTitle(styleTitle[i]);
+            list.add(styleBean);
+        }
     }
 
 

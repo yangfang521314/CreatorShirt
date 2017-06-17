@@ -8,7 +8,7 @@ import com.example.yf.creatorshirt.R;
  * Created by panguso on 2017/5/11.
  */
 
-public class HomeFragment extends BaseFragemnt{
+public class HomeFragment extends BaseFragment {
     @Override
     protected void initInject() {
 

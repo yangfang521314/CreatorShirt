@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
+import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
  * Created by yang on 15/06/2017.
  */
 
-public class StyleAdapter extends BaseAdapter<Integer, ItemViewHolder> {
+public class StyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     public StyleAdapter(Context context) {
         super(context);
@@ -29,13 +31,13 @@ public class StyleAdapter extends BaseAdapter<Integer, ItemViewHolder> {
 
     @Override
     protected void bindCustomViewHolder(ItemViewHolder holder, int position) {
-        Drawable drawable = ContextCompat.getDrawable(App.getInstance(),mData.get(position));
-        Log.e("TAG","DDDDD"+drawable);
-        holder.mStyleImageView.setCompoundDrawables(null, null, drawable, null);
+        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
+        holder.mStyleTextView.setText(mData.get(position).getTitle());
     }
 
     @Override
-    public void setData(List<Integer> data) {
+    public void setData(List<StyleBean> data) {
+        LogUtil.e("TAG","SIZE"+data.size()+data.get(1).getTitle());
         super.setData(data);
     }
 }

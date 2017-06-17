@@ -20,7 +20,7 @@ import butterknife.BindView;
  * Created by yf on 2017/5/11.
  */
 
-public class CommunityFragment extends BaseFragemnt implements GirlContract.GirlView {
+public class CommunityFragment extends BaseFragment implements GirlContract.GirlView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;

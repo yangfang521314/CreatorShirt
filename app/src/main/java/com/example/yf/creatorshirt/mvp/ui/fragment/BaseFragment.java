@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by yf on 2017/5/11.
  */
 
-public abstract class BaseFragemnt extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private View mView;
     protected Context mContext;

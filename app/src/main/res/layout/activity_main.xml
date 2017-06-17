@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
-                android:drawableTop="@mipmap/wall"
+                android:drawableTop="@mipmap/icon_square_normal"
                 android:gravity="center"
                 android:text="广场" />
         </FrameLayout>
@@ -59,10 +59,10 @@
             <TextView
                 android:id="@+id/create_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
-                android:drawableTop="@mipmap/add"
+                android:drawableTop="@mipmap/icon_design_normal"
                 android:gravity="center"
                 android:text="设计定制" />
         </FrameLayout>
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
-                android:drawableTop="@drawable/ic_home"
+                android:drawableTop="@mipmap/icon_mine_normal"
                 android:gravity="center"
                 android:text="我的" />
 

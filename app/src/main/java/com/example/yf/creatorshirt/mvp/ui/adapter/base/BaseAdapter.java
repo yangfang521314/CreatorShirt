@@ -27,9 +27,7 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
 
 
     public void setData(List<M> data) {
-        if (mData != null) {
             this.mData = data;
-        }
     }
 
     /**

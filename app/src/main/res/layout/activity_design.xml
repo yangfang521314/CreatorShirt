@@ -27,13 +27,15 @@
         android:layout_below="@+id/sex_choice"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="3dp">
 
         <RelativeLayout
             android:id="@+id/choice_man"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_weight="1"
             android:background="@drawable/sex_clothe_background"
             android:gravity="center">
 
@@ -59,9 +61,10 @@
 
         <RelativeLayout
             android:id="@+id/choice_woman"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_weight="1"
             android:background="@drawable/sex_clothe_background"
             android:gravity="center">
 
@@ -100,19 +103,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
         android:layout_below="@+id/clothe_style"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal"
+        android:padding="3dp">
 
         <RelativeLayout
             android:id="@+id/choice_t_shirt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/sex_clothe_background"
-            android:gravity="center">
+            android:layout_weight="1"
+            android:background="@drawable/sex_clothe_background">
 
             <TextView
                 android:id="@+id/t_shirt"
@@ -135,9 +136,11 @@
 
         <RelativeLayout
             android:id="@+id/choice_shirts"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
             android:background="@drawable/sex_clothe_background"
             android:gravity="center">
 
