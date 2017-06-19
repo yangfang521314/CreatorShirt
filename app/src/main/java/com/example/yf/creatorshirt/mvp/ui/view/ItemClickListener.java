@@ -8,7 +8,7 @@ import android.view.View;
  * Created by yang on 2017/6/18.
  */
 
-public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+public class ItemClickListener implements RecyclerView.OnItemTouchListener {
 
     private OnItemClickListener clickListener;
 
@@ -22,7 +22,11 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         void onItemClick(View view, int position);
     }
 
-    public RecyclerItemClickListener(OnItemClickListener clickListener) {
+    public interface OnClickListener {
+        void onClick(int position);
+    }
+
+    public ItemClickListener(OnItemClickListener clickListener) {
         this.clickListener = clickListener;
     }
 

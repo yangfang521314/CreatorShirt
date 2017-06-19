@@ -239,7 +239,7 @@ public class StickerView extends ImageView {
         }
 
         topBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_top_enable);
-        deleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.delet);
+        deleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.delete);
         flipVBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.flip);
         resizeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.scale);
 

@@ -36,24 +36,43 @@ public class DesignActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
+        mToolbarTitle.setText(R.string.design_title_bar);
         SystemUtilsBar.with(this)
                 .statusBarDarkFont(true, 0.2f)
                 .init();
-        mChoiceTShirt.setPressed(true);
-        mChoiceMan.setPressed(true);
         mClickBack.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.btn_start})
+    @OnClick({R.id.btn_start, R.id.choice_man, R.id.choice_woman, R.id.back, R.id.choice_shirts, R.id.choice_t_shirt})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                startActivity(new Intent(this, DetailDesignActivity.class));
+                if ((mChoiceWoman.isSelected() || mChoiceMan.isSelected()) && ((mChoiceTShirt.isSelected()) || mChoiceShirts.isSelected()))
+                    startActivity(new Intent(this, DetailDesignActivity.class));
+                break;
+            case R.id.back:
+                finish();
+                break;
+            case R.id.choice_man:
+                mChoiceMan.setSelected(true);
+                mChoiceWoman.setSelected(false);
+                break;
+            case R.id.choice_woman:
+                mChoiceWoman.setSelected(true);
+                mChoiceMan.setSelected(false);
+                break;
+            case R.id.choice_shirts:
+                mChoiceShirts.setSelected(true);
+                mChoiceTShirt.setSelected(false);
+                break;
+            case R.id.choice_t_shirt:
+                mChoiceShirts.setSelected(false);
+                mChoiceTShirt.setSelected(true);
                 break;
         }
     }

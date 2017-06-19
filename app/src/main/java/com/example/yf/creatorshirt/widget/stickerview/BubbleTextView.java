@@ -384,7 +384,7 @@ public class BubbleTextView extends ImageView {
             MAX_SCALE = 1.0f * mScreenwidth / mBitmap.getWidth();
         }
         topBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_top_enable);
-        deleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.delet);
+        deleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.delete);
         flipVBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.flip);
         resizeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.scale);
 

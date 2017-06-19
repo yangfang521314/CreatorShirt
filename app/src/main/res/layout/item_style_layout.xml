@@ -23,5 +23,6 @@
         android:layout_below="@+id/design_icon_style"
         android:layout_centerInParent="true"
         android:layout_marginTop="3dp"
+        android:textSize="14.0sp"
         android:text="衣领" />
 </RelativeLayout>

@@ -4,7 +4,7 @@
     <solid android:color="@color/whitesmoke" />
     <padding
         android:bottom="35dp"
-        android:left="42dp"
-        android:right="42dp"
+        android:left="40dp"
+        android:right="40dp"
         android:top="35dp" />
 </shape>

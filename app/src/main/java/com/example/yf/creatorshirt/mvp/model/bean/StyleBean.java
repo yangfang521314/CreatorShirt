@@ -26,4 +26,12 @@ public class StyleBean {
     public void setImageId(int imageId) {
         this.imageId = imageId;
     }
+
+    @Override
+    public String toString() {
+        return "StyleBean{" +
+                "title='" + title + '\'' +
+                ", imageId=" + imageId +
+                '}';
+    }
 }
