@@ -4,5 +4,8 @@
     <item android:drawable="@drawable/cloth_press" android:state_pressed="true" />
     <item android:drawable="@drawable/cloth_press" android:state_selected="true" />
     <item android:drawable="@drawable/cloth_normal" android:state_enabled="true" />
+    <!--<item android:drawable="@drawable/cloth_normal" android:state_activated="true"></item> &lt;!&ndash; 未点击时的颜色 &ndash;&gt;-->
+
+    <!--<item android:drawable="@drawable/cloth_press" android:state_activated="false"></item> &lt;!&ndash; 点击后的颜色 &ndash;&gt;-->
 
 </selector>

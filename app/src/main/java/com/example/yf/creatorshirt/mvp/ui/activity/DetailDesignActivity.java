@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
@@ -39,8 +42,24 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     ImageView mChoiceNeck;
     @BindView(R.id.container_background)
     RelativeLayout mContainer;
-    private int mCurrentPosition = 0;
+    @BindView(R.id.ll_choice_back)
+    LinearLayout mChoiceOrBack;
+    @BindView(R.id.btn_choice_finish)
+    Button mBtnStart;
+    @BindView(R.id.choice_back)
+    ImageView mChoiceBack;
+    @BindView(R.id.choice_done)
+    ImageView mChoiceDone;
 
+
+    //总的样式
+    private View mBeforeView;
+    private View mCurrentView;
+    //每个具体的样式
+    private View mDesBeforeView;
+    private View mDesCurrentView;
+
+    private int mCurrentPosition = 0;
     private List<StyleBean> list = new ArrayList<>();
     private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
 
@@ -63,6 +82,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 .init();
         mBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
+        mBtnStart.setVisibility(View.VISIBLE);
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         StyleAdapter adapter = new StyleAdapter(this);
         adapter.setItemClickListener(this);
@@ -85,6 +105,38 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     }
 
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_choice_finish:
+                if (mCurrentView.isSelected()) {
+                    clickItem(mCurrentPosition);//点击进入详情设计界面
+                }
+                break;
+            case R.id.back:
+                finish();
+                break;
+            case R.id.choice_back:
+                //衣领样式，点击back，返回最初设置的样式
+                if (mCurrentPosition == 0) {
+                    mChoiceNeck.setVisibility(View.GONE);
+                }
+                mRecyclerStyle.setVisibility(View.VISIBLE);
+                mRecyclerChoice.setVisibility(View.GONE);
+                mBtnStart.setVisibility(View.VISIBLE);
+                mChoiceOrBack.setVisibility(View.GONE);
+                break;
+            case R.id.choice_done:
+                if (mDesCurrentView.isSelected()) {
+                    mRecyclerStyle.setVisibility(View.VISIBLE);
+                    mRecyclerChoice.setVisibility(View.GONE);
+                    mBtnStart.setVisibility(View.VISIBLE);
+                    mChoiceOrBack.setVisibility(View.GONE);
+                }
+                break;
+        }
+    }
+
     /**
      * 每个style的具体设计数据
      *
@@ -93,6 +145,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
      * @param designTitle
      */
     private void addMap(String key, int[] images, String[] designTitle) {
+
         if (!detailData.containsKey(key)) {
             detailData.put(key, new ArrayList<StyleBean>());
         }
@@ -102,29 +155,38 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             bean.setImageId(images[i]);
             detailData.get(key).add(bean);
         }
+
     }
 
     /**
-     * 点击style
+     * 点击total style
      *
      * @param position
      */
     @Override
-    public void onClick(int position) {
-        clickItem(position);
+    public void onClick(View view, int position) {
+        if (mBeforeView != null) {
+            mBeforeView.setSelected(false);
+        }
+        view.setSelected(true);
+        mCurrentView = view;
         mCurrentPosition = position;
         Log.e("TAG", "DDDD" + mCurrentPosition);
+        mBeforeView = view;
 
     }
 
     /**
-     * 具体design style
+     * detail a design style
      *
-     * @param view
-     * @param position 点击的位置
+     * @param currentView
+     * @param position    点击的位置
      */
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View currentView, int position) {
+        if (mDesBeforeView != null) {
+            mDesBeforeView.setSelected(false);
+        }
         switch (mCurrentPosition) {
             case 0:
                 mChoiceNeck.setVisibility(View.VISIBLE);
@@ -134,10 +196,14 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 mContainer.setBackgroundResource(Constants.shirt_container[position]);
                 break;
         }
+        currentView.setSelected(true);
+        mDesCurrentView = currentView;
+        mDesBeforeView = currentView;
+
     }
 
     /**
-     * 点击跳转
+     * click a design style
      *
      * @param position
      */
@@ -146,6 +212,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         if (detailData.containsKey(list.get(position).getTitle())) {
             mRecyclerStyle.setVisibility(View.GONE);
             mRecyclerChoice.setVisibility(View.VISIBLE);
+            mBtnStart.setVisibility(View.GONE);
+            mChoiceOrBack.setVisibility(View.VISIBLE);
             mRecyclerChoice.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             detailAdapter.setData(detailData.get(list.get(position).getTitle()));
             detailAdapter.setOnClickListener(this);
@@ -153,6 +221,5 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             detailAdapter.notifyDataSetChanged();
         }
     }
-
 
 }

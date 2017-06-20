@@ -54,7 +54,7 @@
         android:id="@+id/choice_style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_finish"
+        android:layout_above="@+id/btn_choice_finish"
         android:layout_below="@id/choice_front_back"
         android:layout_marginTop="10dp"
         android:visibility="gone" />
@@ -68,17 +68,18 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/btn_finish"
+        android:id="@+id/btn_choice_finish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@color/sand"
+        android:background="@color/black"
         android:text="完成"
         android:textColor="@color/white"
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/ll_choice_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -86,14 +87,14 @@
         android:visibility="visible">
 
         <ImageView
-            android:id="@+id/choice_delete"
+            android:id="@+id/choice_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/choice_delete" />
 
         <ImageView
-            android:id="@+id/choice_finish"
+            android:id="@+id/choice_done"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

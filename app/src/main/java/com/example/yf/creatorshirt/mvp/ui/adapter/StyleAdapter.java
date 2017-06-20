@@ -36,7 +36,7 @@ public class StyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
             @Override
             public void onClick(View v) {
                 holder.mCommonStyle.setPressed(true);
-                onClickListener.onClick(position);
+                onClickListener.onClick(holder.mCommonStyle,position);
             }
         });
     }

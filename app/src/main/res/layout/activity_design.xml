@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@color/sand"
+        android:background="@color/black"
         android:text="开始设计"
         android:textColor="@color/white" />
 
