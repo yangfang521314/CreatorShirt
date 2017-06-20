@@ -8,6 +8,7 @@ import com.example.yf.creatorshirt.R;
 
 public class Constants {
 
+    //总的样式列表
     public final static int[] styleImage = {R.mipmap.icon_edit_neck, R.mipmap.icon_select_longarm, R.mipmap.icon_edit_color, R.mipmap.icon_edit_color, R.mipmap.icon_edit_pattern, R.mipmap.icon_edit_text};
     public final static String[] styleTitle = {"衣领", "衣袖", "颜色", "配饰", "图案", "标签"};
     public final static int[] neck = {R.mipmap.icon_select_circle, R.mipmap.icon_select_v, R.mipmap.icon_select_t};
