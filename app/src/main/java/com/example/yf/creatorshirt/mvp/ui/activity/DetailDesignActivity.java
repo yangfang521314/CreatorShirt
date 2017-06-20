@@ -57,8 +57,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     //每个具体的样式
     private View mDesBeforeView;
     private View mDesCurrentView;
-
     private int mCurrentPosition = 0;
+
     private List<StyleBean> list = new ArrayList<>();
     private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
 
