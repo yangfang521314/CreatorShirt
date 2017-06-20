@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -29,7 +28,6 @@ import butterknife.OnClick;
 public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener {
 
-
     @BindView(R.id.choice)
     RecyclerView mRecyclerChoice;//具体设计的recyclerView
     @BindView(R.id.choice_style)
@@ -41,7 +39,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     @BindView(R.id.choice_select_neck)
     ImageView mChoiceNeck;
     @BindView(R.id.container_background)
-    RelativeLayout mContainer;
+    ImageView mContainer;
     @BindView(R.id.ll_choice_back)
     LinearLayout mChoiceOrBack;
     @BindView(R.id.btn_choice_finish)
@@ -50,7 +48,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     ImageView mChoiceBack;
     @BindView(R.id.choice_done)
     ImageView mChoiceDone;
-
+    @BindView(R.id.choice_ornament)
+    ImageView mChoiceOrnament;
 
     //总的样式
     private View mBeforeView;
@@ -62,6 +61,14 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     private int mCurrentPosition = 0;
     private List<StyleBean> list = new ArrayList<>();
     private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
+
+    public static String CLOTHES_STYLE;
+    public static final String NECK = "衣领";
+    public static final String ARM = "衣袖";
+    public static final String COLOR = "颜色";
+    public static final String PATTERN = "图案";
+    public static final String SIGNATURE = "标签";
+
 
     @Override
     protected void inject() {
@@ -102,14 +109,15 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         }
         addMap(styleTitle[0], Constants.neck, Constants.select_neck_title);
         addMap(styleTitle[1], Constants.longarm, Constants.select_neck_arm);
-
+        addMap(styleTitle[2], Constants.clothes_color, Constants.color_name);
+        addMap(styleTitle[3], Constants.select_ornament, Constants.ornament_name);
     }
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                if (mCurrentView.isSelected()) {
+                if (mCurrentView != null && mCurrentView.isSelected()) {
                     clickItem(mCurrentPosition);//点击进入详情设计界面
                 }
                 break;
@@ -117,17 +125,24 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 finish();
                 break;
             case R.id.choice_back:
-                //衣领样式，点击back，返回最初设置的样式
-                if (mCurrentPosition == 0) {
-                    mChoiceNeck.setVisibility(View.GONE);
+                switch (CLOTHES_STYLE) {
+                    case NECK:
+                        //衣领样式，点击back，返回最初设置的样式
+                        mChoiceNeck.setVisibility(View.GONE);
+                        break;
+                    case COLOR:
+                        //不选择默认是白色
+                        mContainer.setBackgroundResource(R.color.white);
+                        break;
                 }
+
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerChoice.setVisibility(View.GONE);
                 mBtnStart.setVisibility(View.VISIBLE);
                 mChoiceOrBack.setVisibility(View.GONE);
                 break;
             case R.id.choice_done:
-                if (mDesCurrentView.isSelected()) {
+                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
                     mRecyclerChoice.setVisibility(View.GONE);
                     mBtnStart.setVisibility(View.VISIBLE);
@@ -187,13 +202,20 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
-        switch (mCurrentPosition) {
-            case 0:
+        filter(mCurrentPosition);
+        switch (CLOTHES_STYLE) {
+            case NECK:
                 mChoiceNeck.setVisibility(View.VISIBLE);
                 mChoiceNeck.setImageResource(Constants.shirt_neck[position]);
                 break;
-            case 1:
-                mContainer.setBackgroundResource(Constants.shirt_container[position]);
+            case ARM:
+                mContainer.setImageResource(Constants.shirt_container[position]);
+                break;
+            case COLOR:
+                mContainer.setBackgroundResource(Constants.choice_color[position]);
+                break;
+            case PATTERN:
+                mChoiceOrnament.setVisibility(View.VISIBLE);
                 break;
         }
         currentView.setSelected(true);
@@ -221,5 +243,28 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             detailAdapter.notifyDataSetChanged();
         }
     }
+
+    private void filter(int mCurrentPosition) {
+        switch (mCurrentPosition) {
+            case 0:
+                CLOTHES_STYLE = NECK;
+                break;
+            case 1:
+                CLOTHES_STYLE = ARM;
+                break;
+            case 2:
+                CLOTHES_STYLE = COLOR;
+                break;
+            case 3:
+                CLOTHES_STYLE = PATTERN;
+                break;
+            case 4:
+                CLOTHES_STYLE = SIGNATURE;
+                break;
+            default:
+                CLOTHES_STYLE = NECK;
+        }
+    }
+
 
 }

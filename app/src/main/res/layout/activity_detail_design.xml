@@ -12,26 +12,47 @@
         layout="@layout/app_bar_title" />
 
     <RelativeLayout
-        android:id="@+id/container_background"
+        android:id="@+id/rl_clothes"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_below="@+id/app_bar"
-        android:layout_marginTop="11.2dp"
-        android:background="@mipmap/man_t_shirt" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:adjustViewBounds="true"
+        android:background="@null">
 
-    <ImageView
-        android:id="@+id/choice_select_neck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:src="@mipmap/icon_circler_neck"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/container_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/man_t_shirt" />
+
+        <ImageView
+            android:id="@+id/choice_select_neck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/icon_circle_neck"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/choice_ornament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/ornament"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/choice_front_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/container_background"
+        android:layout_below="@id/rl_clothes"
+        android:layout_marginTop="3dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -39,13 +60,25 @@
             android:id="@+id/front"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/sex_clothes_background"
+            android:paddingBottom="4dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="4dp"
             android:text="正面" />
 
         <TextView
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/front"
+            android:background="@drawable/sex_clothes_background"
+            android:paddingBottom="4dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="4dp"
             android:text="反面" />
 
     </RelativeLayout>
@@ -72,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:background="@color/black"
         android:text="完成"
         android:textColor="@color/white"

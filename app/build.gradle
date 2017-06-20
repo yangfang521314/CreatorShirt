@@ -37,11 +37,9 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile rootProject.ext.dependencies["support-v4"]
-
     /* dagger2 && butterKnife*/
     compile rootProject.ext.dependencies["butterknife"]
     apt rootProject.ext.dependencies["butterknife-compiler"]
-
     compile rootProject.ext.dependencies["dagger"]
     provided rootProject.ext.dependencies["dagger-compiler"]
     provided rootProject.ext.dependencies["annotation"]
@@ -51,14 +49,12 @@ dependencies {
     compile rootProject.ext.dependencies["retrofit-adapter-rxjava2"]
     compile rootProject.ext.dependencies["okhttp"]
     compile rootProject.ext.dependencies["okhttp-logging-interceptor"]
-
     //rx
     compile rootProject.ext.dependencies["rxjava"]
     compile rootProject.ext.dependencies["rxandroid"]
     //glide
     compile rootProject.ext.dependencies["glide"]
     annotationProcessor rootProject.ext.dependencies["annotationProcessor"]
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

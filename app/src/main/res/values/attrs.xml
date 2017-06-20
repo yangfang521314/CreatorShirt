@@ -4,7 +4,14 @@
         <attr name="showIcons" format="boolean" />
         <attr name="showBorder" format="boolean" />
         <attr name="bringToFrontCurrentSticker" format="boolean" />
-        <attr name="borderColor" format="color"/>
-        <attr name="borderAlpha" format="integer"/>
+        <attr name="borderColor" format="color" />
+        <attr name="borderAlpha" format="integer" />
+    </declare-styleable>
+
+    //自定义颜色圆
+    <declare-styleable name="SetCircle">
+        <attr name="showColor" format="color" />
+        <attr name="radius" format="float" />
+
     </declare-styleable>
 </resources>

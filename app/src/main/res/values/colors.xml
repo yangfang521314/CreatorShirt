@@ -19,6 +19,9 @@
   <color name="almond">#f0e3cc</color>
   <color name="whitesmoke">#f7f7f7</color>
   <color name="platinum">#e5e5e5</color>
-    <color name="red_e73a3d">#e73a3d</color>
+  <color name="red_e73a3d">#e73a3d</color>
+  <color name="glitter">#dde8ef</color>
+  <color name="onyx">#141414</color>
+  <color name="onyx_1">#111111</color>
 </resources>
 

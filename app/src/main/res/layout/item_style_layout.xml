@@ -3,9 +3,13 @@
     android:id="@+id/common_style"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_margin="1.5dp"
+    android:paddingTop="35dp"
+    android:paddingBottom="35dp"
+    android:paddingRight="41.5dp"
+    android:paddingLeft="42dp"
     android:gravity="center"
-    android:background="@drawable/clothe_style_background"
+    android:background="@drawable/sex_clothes_background"
     android:orientation="vertical">
 
     <ImageView

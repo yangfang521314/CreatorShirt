@@ -16,6 +16,8 @@ import java.util.List;
  */
 
 public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
+    public static int TWO_ITEM = 1;
+    public static int ONE_ITEM = 2;
     private ItemClickListener.OnItemClickListener clickListener;
 
     public DetailStyleAdapter(Context context) {
@@ -24,7 +26,9 @@ public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        return new ItemViewHolder(parent, R.layout.item_style_layout);
+        ItemViewHolder holder = null;
+        holder = new ItemViewHolder(parent, R.layout.item_style_layout);
+        return holder;
     }
 
     @Override
@@ -42,7 +46,11 @@ public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
     @Override
     public void setData(List<StyleBean> data) {
         super.setData(data);
+        if (mData.size() > 2) {
+            //// TODO: 20/06/2017 如数两不同可能需要分类 
+        }
     }
+
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
         this.clickListener = clickListener;
