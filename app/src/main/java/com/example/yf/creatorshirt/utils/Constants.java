@@ -3,7 +3,7 @@ package com.example.yf.creatorshirt.utils;
 import com.example.yf.creatorshirt.R;
 
 /**
- * Created by Administrator on 2017/6/18.
+ * Created by yang on 2017/6/18.
  */
 
 public class Constants {
@@ -31,4 +31,10 @@ public class Constants {
     public final static int[] select_ornament = {R.mipmap.icon_select_blank, R.mipmap.icon_select_blank};
     public final static String[] ornament_name = {"空白", "拉链"};
 
+    //图案
+    public final static int[] clothes_pattern ={R.mipmap.icon_select_circle, R.mipmap.icon_select_v, R.mipmap.icon_select_t};
+    public final static String[] pattern_title = {"创意手绘","创意手绘","创意手绘"};
+    //签名
+    public final static int[] clothes_signature = {R.mipmap.icon_select_blank,R.mipmap.icon_select_text};
+    public final static String[] signature_name = {"空白","文字"};
 }

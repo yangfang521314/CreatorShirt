@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -17,6 +18,8 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ItemClickListener;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
+import com.example.yf.creatorshirt.widget.stickerview.BubbleTextView;
+import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,14 @@ import butterknife.OnClick;
 public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener {
 
+    public static String CLOTHES_STYLE;
+    public static final String NECK = "衣领";
+    public static final String ARM = "衣袖";
+    public static final String COLOR = "颜色";
+    public static final String PATTERN = "图案";
+    public static final String SIGNATURE = "标签";
+    public static final String ORNAMENT = "配饰";
+
     @BindView(R.id.choice)
     RecyclerView mRecyclerChoice;//具体设计的recyclerView
     @BindView(R.id.choice_style)
@@ -38,8 +49,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     TextView mToolbarTitle;
     @BindView(R.id.choice_select_neck)
     ImageView mChoiceNeck;
-    @BindView(R.id.container_background)
-    ImageView mContainer;
+    @BindView(R.id.clothes_container_background)
+    ImageView mClothes;
     @BindView(R.id.ll_choice_back)
     LinearLayout mChoiceOrBack;
     @BindView(R.id.btn_choice_finish)
@@ -50,6 +61,12 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     ImageView mChoiceDone;
     @BindView(R.id.choice_ornament)
     ImageView mChoiceOrnament;
+    @BindView(R.id.rl_clothes_root)
+    RelativeLayout mContainerBackground;
+    @BindView(R.id.clothes_pattern_bounds)
+    RelativeLayout mPatternBounds;
+    @BindView(R.id.clothes_signature)
+    TextView mClothesSignature;
 
     //总的样式
     private View mBeforeView;
@@ -59,15 +76,18 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     private View mDesCurrentView;
     private int mCurrentPosition = 0;
 
+    //总样式的集合
     private List<StyleBean> list = new ArrayList<>();
+    //总样式和每一个具体的样式列表形成ArrayMap;
     private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
 
-    public static String CLOTHES_STYLE;
-    public static final String NECK = "衣领";
-    public static final String ARM = "衣袖";
-    public static final String COLOR = "颜色";
-    public static final String PATTERN = "图案";
-    public static final String SIGNATURE = "标签";
+    //处于编辑的贴纸
+    private StickerView mStickerView;
+    //当前处于编辑状态的气泡
+    private BubbleTextView mCurrentEditTextView;
+
+    // 存储贴纸列表
+    private ArrayList<View> mViews = new ArrayList<>();
 
 
     @Override
@@ -111,6 +131,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         addMap(styleTitle[1], Constants.longarm, Constants.select_neck_arm);
         addMap(styleTitle[2], Constants.clothes_color, Constants.color_name);
         addMap(styleTitle[3], Constants.select_ornament, Constants.ornament_name);
+        addMap(styleTitle[4], Constants.clothes_pattern, Constants.pattern_title);
+        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
     }
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
@@ -125,6 +147,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 finish();
                 break;
             case R.id.choice_back:
+                filter(mCurrentPosition);
                 switch (CLOTHES_STYLE) {
                     case NECK:
                         //衣领样式，点击back，返回最初设置的样式
@@ -132,10 +155,20 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                         break;
                     case COLOR:
                         //不选择默认是白色
-                        mContainer.setBackgroundResource(R.color.white);
+                        mContainerBackground.setBackgroundResource(R.color.white);
+                        break;
+                    case ORNAMENT:
+                        mChoiceOrnament.setVisibility(View.GONE);
+                        break;
+                    case PATTERN:
+                        mViews.remove(mStickerView);
+                        mContainerBackground.removeView(mStickerView);
+                        break;
+                    case SIGNATURE:
+                        mClothesSignature.setVisibility(View.GONE);
                         break;
                 }
-
+                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerChoice.setVisibility(View.GONE);
                 mBtnStart.setVisibility(View.VISIBLE);
@@ -147,6 +180,12 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                     mRecyclerChoice.setVisibility(View.GONE);
                     mBtnStart.setVisibility(View.VISIBLE);
                     mChoiceOrBack.setVisibility(View.GONE);
+                }
+                if (mStickerView != null) {
+                    mStickerView.setInEdit(false);
+                    mPatternBounds.setVisibility(View.GONE);
+                    mStickerView.setOperationListener(null);
+                    mStickerView.setEnabled(false);
                 }
                 break;
         }
@@ -209,18 +248,74 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 mChoiceNeck.setImageResource(Constants.shirt_neck[position]);
                 break;
             case ARM:
-                mContainer.setImageResource(Constants.shirt_container[position]);
+                mClothes.setImageResource(Constants.shirt_container[position]);
                 break;
             case COLOR:
-                mContainer.setBackgroundResource(Constants.choice_color[position]);
+                mContainerBackground.setBackgroundResource(Constants.choice_color[position]);
+                break;
+            case ORNAMENT:
+                mChoiceOrnament.setVisibility(View.VISIBLE);
                 break;
             case PATTERN:
-                mChoiceOrnament.setVisibility(View.VISIBLE);
+                mStickerView = new StickerView(this);
+                mPatternBounds.setVisibility(View.VISIBLE);
+                addStickerView(Constants.clothes_pattern[position]);
+                break;
+            case SIGNATURE:
+                mClothesSignature.setVisibility(View.VISIBLE);
                 break;
         }
         currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
+
+    }
+
+    /**
+     * 添加壁纸
+     *
+     * @param imageId
+     */
+    private void addStickerView(int imageId) {
+        mStickerView.setImageResource(imageId);
+        mStickerView.setOperationListener(new StickerView.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(mStickerView);
+                mContainerBackground.removeView(mStickerView);
+            }
+
+            @Override
+            public void onEdit(StickerView stickerView) {
+//                mStickerView.setInEdit(true);
+            }
+
+            @Override
+            public void onTop(StickerView stickerView) {
+                int position = mViews.indexOf(stickerView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                StickerView stickerTemp = (StickerView) mViews.remove(position);
+                mViews.add(mViews.size(), stickerTemp);
+            }
+        });
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContainerBackground.addView(mStickerView, lp);
+        mViews.add(mStickerView);
+        setStickerViewEdit(mStickerView);
+    }
+
+    /**
+     * 设置当前处于编辑模式的贴纸
+     *
+     * @param mStickerView
+     */
+    private void setStickerViewEdit(StickerView mStickerView) {
+        if (mStickerView != null) {
+            mStickerView.setInEdit(false);
+        }
+        mStickerView.setInEdit(true);
 
     }
 
@@ -244,6 +339,11 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         }
     }
 
+    /**
+     * 假数据将相应的位置过滤成对应的样式名
+     *
+     * @param mCurrentPosition
+     */
     private void filter(int mCurrentPosition) {
         switch (mCurrentPosition) {
             case 0:
@@ -256,15 +356,17 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 CLOTHES_STYLE = COLOR;
                 break;
             case 3:
-                CLOTHES_STYLE = PATTERN;
+                CLOTHES_STYLE = ORNAMENT;
                 break;
             case 4:
+                CLOTHES_STYLE = PATTERN;
+                break;
+            case 5:
                 CLOTHES_STYLE = SIGNATURE;
                 break;
             default:
                 CLOTHES_STYLE = NECK;
         }
     }
-
 
 }

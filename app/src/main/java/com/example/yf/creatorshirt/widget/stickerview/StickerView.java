@@ -175,7 +175,7 @@ public class StickerView extends ImageView {
                 canvas.drawBitmap(deleteBitmap, null, dst_delete, null);
                 canvas.drawBitmap(resizeBitmap, null, dst_resize, null);
                 canvas.drawBitmap(flipVBitmap, null, dst_flipV, null);
-                canvas.drawBitmap(topBitmap, null, dst_top, null);
+//                canvas.drawBitmap(topBitmap, null, dst_top, null);
             }
 
             canvas.restore();
