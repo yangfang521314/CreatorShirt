@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_signature"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="151dp"
+        android:background="@drawable/shape_clothe_pattern"
+        android:gravity="center"
+        android:padding="10dp"
+        android:maxLength="5"
+        android:inputType="textCapWords"
+        android:textColor="@color/outerspace"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tv_show_sig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_signature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="左侧个性签名"
+        android:textColor="@color/taupegray"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_show_sig"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="最多包含五个字符，包括数字和大写字母。。。。。。。。。。"
+        android:textColor="@color/taupegray"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_choice_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/choice_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/choice_delete" />
+
+        <ImageView
+            android:id="@+id/choice_done"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/choice" />
+
+    </LinearLayout>
+
+</RelativeLayout>

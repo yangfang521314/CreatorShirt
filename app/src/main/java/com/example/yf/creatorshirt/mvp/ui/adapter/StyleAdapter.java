@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class StyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
+
     private ItemClickListener.OnClickListener onClickListener;
 
     public StyleAdapter(Context context) {

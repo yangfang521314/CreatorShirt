@@ -56,8 +56,8 @@
             android:layout_marginTop="80dp"
             android:background="@drawable/shape_clothe_pattern"
             android:gravity="center"
-            android:text="ABCDE"
             android:textColor="@color/goldenpoppy"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <ImageView
@@ -89,23 +89,26 @@
 
     <LinearLayout
         android:id="@+id/choice_front_back"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_clothes_root"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="3dp"
-        android:paddingTop="3dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/front"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/sex_clothes_background"
+            android:background="@drawable/shape_clothe_button"
             android:gravity="center"
-            android:text="正面" />
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="正面"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/back"
@@ -113,9 +116,14 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/front"
             android:layout_weight="1"
-            android:background="@drawable/sex_clothes_background"
+            android:background="@drawable/shape_clothe_button"
             android:gravity="center"
-            android:text="反面" />
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="反面"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -141,10 +149,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/black"
+        android:gravity="center"
         android:text="完成"
         android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_choice_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/share_weixin"
+        android:layout_margin="8dp"
+        android:background="@color/black"
+        android:text="生成订单49.99￥"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <LinearLayout
@@ -153,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/choice_back"
@@ -168,7 +190,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/choice" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/share_weixin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/sex_clothes_background"
+        android:gravity="center"
+        android:padding="13dp"
+        android:text="分享给微信好友"
+        android:textColor="@color/sand"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

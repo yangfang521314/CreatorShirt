@@ -1,10 +1,17 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,8 +24,10 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ItemClickListener;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
-import com.example.yf.creatorshirt.widget.stickerview.BubbleTextView;
+import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
@@ -31,6 +40,7 @@ import butterknife.OnClick;
 public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener {
 
+    private static final String TAG = DetailDesignActivity.class.getSimpleName();
     public static String CLOTHES_STYLE;
     public static final String NECK = "衣领";
     public static final String ARM = "衣袖";
@@ -54,7 +64,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     @BindView(R.id.ll_choice_back)
     LinearLayout mChoiceOrBack;
     @BindView(R.id.btn_choice_finish)
-    Button mBtnStart;
+    Button mBtnFinish;
     @BindView(R.id.choice_back)
     ImageView mChoiceBack;
     @BindView(R.id.choice_done)
@@ -67,6 +77,10 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     RelativeLayout mPatternBounds;
     @BindView(R.id.clothes_signature)
     TextView mClothesSignature;
+    @BindView(R.id.btn_choice_order)
+    Button mCreateOrder;
+    @BindView(R.id.share_weixin)
+    TextView mShareWeixin;
 
     //总的样式
     private View mBeforeView;
@@ -83,12 +97,15 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     //处于编辑的贴纸
     private StickerView mStickerView;
-    //当前处于编辑状态的气泡
-    private BubbleTextView mCurrentEditTextView;
+
+    //是否要编辑标签
+    private boolean isEditSign = false;
 
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
 
+    //标签名
+    private String mSignatureText;
 
     @Override
     protected void inject() {
@@ -109,7 +126,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 .init();
         mBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
-        mBtnStart.setVisibility(View.VISIBLE);
+        mBtnFinish.setVisibility(View.VISIBLE);
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         StyleAdapter adapter = new StyleAdapter(this);
         adapter.setItemClickListener(this);
@@ -135,13 +152,15 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
     }
 
-    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.share_weixin, R.id.btn_choice_order})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                if (mCurrentView != null && mCurrentView.isSelected()) {
-                    clickItem(mCurrentPosition);//点击进入详情设计界面
-                }
+                generateBitmap();
+                mRecyclerStyle.setVisibility(View.GONE);
+                mBtnFinish.setVisibility(View.GONE);
+                mShareWeixin.setVisibility(View.VISIBLE);
+                mCreateOrder.setVisibility(View.VISIBLE);
                 break;
             case R.id.back:
                 finish();
@@ -171,24 +190,75 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerChoice.setVisibility(View.GONE);
-                mBtnStart.setVisibility(View.VISIBLE);
+                mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceOrBack.setVisibility(View.GONE);
                 break;
             case R.id.choice_done:
+                filter(mCurrentPosition);
                 if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
                     mRecyclerChoice.setVisibility(View.GONE);
-                    mBtnStart.setVisibility(View.VISIBLE);
+                    mBtnFinish.setVisibility(View.VISIBLE);
                     mChoiceOrBack.setVisibility(View.GONE);
                 }
                 if (mStickerView != null) {
                     mStickerView.setInEdit(false);
                     mPatternBounds.setVisibility(View.GONE);
-                    mStickerView.setOperationListener(null);
-                    mStickerView.setEnabled(false);
+                    //完成后禁止StickerView的点击事件
+                    // TODO: 22/06/2017
+                    mStickerView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
                 }
+                if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
+                    setSignatureText();//签名处理
+                }
+
                 break;
         }
+    }
+
+    private void generateBitmap() {
+        Bitmap bitmap = Bitmap.createBitmap(mContainerBackground.getWidth(),
+                mContainerBackground.getHeight()
+                , Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        mContainerBackground.draw(canvas);
+        String imagePath = FileUtils.saveBitmap(bitmap, this);
+        mClothes.setImageURI(Uri.parse(imagePath));
+    }
+
+
+    /**
+     * 签名
+     */
+    private void setSignatureText() {
+        final SignatureDialog dialog = new SignatureDialog(this);
+        dialog.show();
+        Window win = dialog.getWindow();
+        win.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        win.setAttributes(lp);
+        dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
+            @Override
+            public void onClickChoiceOrBack(View view, String s) {
+                switch (view.getId()) {
+                    case R.id.choice_done:
+                        mSignatureText = s;
+                        mClothesSignature.setText(mSignatureText);
+                        dialog.dismiss();
+                        break;
+                    case R.id.choice_back:
+                        mSignatureText = "";
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        });
     }
 
     /**
@@ -225,8 +295,11 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         view.setSelected(true);
         mCurrentView = view;
         mCurrentPosition = position;
-        Log.e("TAG", "DDDD" + mCurrentPosition);
+        LogUtil.e(TAG, "currentPosition" + mCurrentPosition);
         mBeforeView = view;
+        if (mCurrentView != null && mCurrentView.isSelected()) {
+            clickItem(mCurrentPosition);//点击进入详情设计界面
+        }
 
     }
 
@@ -236,6 +309,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
      * @param currentView
      * @param position    点击的位置
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onItemClick(View currentView, int position) {
         if (mDesBeforeView != null) {
@@ -261,8 +335,14 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 mPatternBounds.setVisibility(View.VISIBLE);
                 addStickerView(Constants.clothes_pattern[position]);
                 break;
-            case SIGNATURE:
-                mClothesSignature.setVisibility(View.VISIBLE);
+            case SIGNATURE://签名处理
+                if (position == 0) {
+                    mClothesSignature.setVisibility(View.GONE);
+                    isEditSign = false;
+                } else if (position == 1) {
+                    mClothesSignature.setVisibility(View.VISIBLE);
+                    isEditSign = true;
+                }
                 break;
         }
         currentView.setSelected(true);
@@ -272,7 +352,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     }
 
     /**
-     * 添加壁纸
+     * 添加贴纸效果
      *
      * @param imageId
      */
@@ -287,7 +367,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
             @Override
             public void onEdit(StickerView stickerView) {
-//                mStickerView.setInEdit(true);
+                mStickerView.setInEdit(false);
+                mStickerView.setInEdit(true);
             }
 
             @Override
@@ -329,7 +410,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         if (detailData.containsKey(list.get(position).getTitle())) {
             mRecyclerStyle.setVisibility(View.GONE);
             mRecyclerChoice.setVisibility(View.VISIBLE);
-            mBtnStart.setVisibility(View.GONE);
+            mBtnFinish.setVisibility(View.GONE);
             mChoiceOrBack.setVisibility(View.VISIBLE);
             mRecyclerChoice.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             detailAdapter.setData(detailData.get(list.get(position).getTitle()));
