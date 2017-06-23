@@ -22,6 +22,7 @@ public class ChoiceSizePopupWindow extends BasePopupWindow {
 
     @Override
     public View getView() {
+        //// TODO: 23/06/2017 can use ConstraintLayout ?
         View view = layoutInflater.inflate(R.layout.choice_size_item, null);
         ButterKnife.bind(this, view);
         return view;

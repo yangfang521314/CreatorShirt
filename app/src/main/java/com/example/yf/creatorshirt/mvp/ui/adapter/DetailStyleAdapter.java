@@ -47,7 +47,7 @@ public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
     public void setData(List<StyleBean> data) {
         super.setData(data);
         if (mData.size() > 2) {
-            //// TODO: 20/06/2017 如数两不同可能需要分类 
+            //// TODO: 20/06/2017 如size不同可能需要分类
         }
     }
 

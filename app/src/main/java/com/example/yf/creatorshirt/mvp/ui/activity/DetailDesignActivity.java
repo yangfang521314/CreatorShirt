@@ -203,8 +203,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 if (mStickerView != null) {
                     mStickerView.setInEdit(false);
                     mPatternBounds.setVisibility(View.GONE);
-                    //完成后禁止StickerView的点击事件
-                    // TODO: 22/06/2017
+                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
                     mStickerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
