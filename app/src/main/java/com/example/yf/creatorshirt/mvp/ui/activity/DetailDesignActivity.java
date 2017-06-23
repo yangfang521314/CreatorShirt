@@ -1,8 +1,8 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.util.ArrayMap;
@@ -22,7 +22,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
-import com.example.yf.creatorshirt.mvp.ui.view.ItemClickListener;
+import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
@@ -77,10 +77,6 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     RelativeLayout mPatternBounds;
     @BindView(R.id.clothes_signature)
     TextView mClothesSignature;
-    @BindView(R.id.btn_choice_order)
-    Button mCreateOrder;
-    @BindView(R.id.share_weixin)
-    TextView mShareWeixin;
 
     //总的样式
     private View mBeforeView;
@@ -107,6 +103,9 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     //标签名
     private String mSignatureText;
 
+    //定制完成后图片的路径
+    private String imagePath;
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -119,7 +118,6 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
-        initData();
         mToolbarTitle.setText(R.string.design_title_bar);
         SystemUtilsBar.with(this)
                 .statusBarDarkFont(true, 0.2f)
@@ -134,7 +132,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         mRecyclerStyle.setAdapter(adapter);
     }
 
-    private void initData() {
+    @Override
+    public void initData() {
         int[] image = Constants.styleImage;
         String[] styleTitle = Constants.styleTitle;
         StyleBean styleBean;
@@ -152,15 +151,15 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
     }
 
-    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.share_weixin, R.id.btn_choice_order})
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                generateBitmap();
-                mRecyclerStyle.setVisibility(View.GONE);
-                mBtnFinish.setVisibility(View.GONE);
-                mShareWeixin.setVisibility(View.VISIBLE);
-                mCreateOrder.setVisibility(View.VISIBLE);
+                generateBitmap();//生成衣服的图片
+                Intent intent = new Intent();
+                intent.putExtra("imageUrl", imagePath);
+                intent.setClass(this, ChoiceSizeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.back:
                 finish();
@@ -216,8 +215,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
                     setSignatureText();//签名处理
                 }
-
                 break;
+
         }
     }
 
@@ -227,10 +226,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 , Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         mContainerBackground.draw(canvas);
-        String imagePath = FileUtils.saveBitmap(bitmap, this);
-        mClothes.setImageURI(Uri.parse(imagePath));
+        imagePath = FileUtils.saveBitmap(bitmap, this);
     }
-
 
     /**
      * 签名

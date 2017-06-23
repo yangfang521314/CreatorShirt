@@ -37,5 +37,8 @@
   <color name="snow_1">#fbfbfb</color>
   <color name="taupegray">#8c8c8c</color>
   <color name="taupegray_1">#8d8d8d</color>
+  <color name="timberwolf">#d8d8d8</color>
+  <color name="gainsboro">#dddddd</color>
+  <color name="lightgray">#d2d2d4</color>
 </resources>
 

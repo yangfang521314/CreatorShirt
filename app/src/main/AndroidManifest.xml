@@ -29,6 +29,11 @@
         <activity
             android:name=".mvp.ui.activity.DetailDesignActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".mvp.ui.activity.ChoiceSizeActivity" />
+        <activity
+            android:name=".mvp.ui.activity.MyOrderActivity"
+            android:label="@string/title_activity_my_order"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.view;
+package com.example.yf.creatorshirt.mvp.listener;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
