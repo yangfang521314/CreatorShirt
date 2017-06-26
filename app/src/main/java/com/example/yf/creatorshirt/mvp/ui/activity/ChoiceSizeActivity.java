@@ -20,6 +20,9 @@ import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 选择设计尺寸大小页面
+ */
 public class ChoiceSizeActivity extends BaseActivity {
     @BindView(R.id.app_bar_title)
     TextView mToolbarTitle;

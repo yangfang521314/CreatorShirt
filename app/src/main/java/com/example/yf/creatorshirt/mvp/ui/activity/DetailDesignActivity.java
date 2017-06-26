@@ -36,7 +36,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
+/**
+ * 衣服具体设计样式界面
+ */
 public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener {
 

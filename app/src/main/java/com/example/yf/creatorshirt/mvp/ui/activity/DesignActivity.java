@@ -14,6 +14,9 @@ import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 选择衣服总体样式页面
+ */
 public class DesignActivity extends BaseActivity {
     @BindView(R.id.choice_t_shirt)
     RelativeLayout mChoiceTShirt;

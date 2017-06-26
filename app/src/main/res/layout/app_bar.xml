@@ -48,8 +48,7 @@
         android:layout_height="1dp"
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@id/tool_bar"
-        android:background="#dedede"
-        android:padding="2dp" />
+        android:background="@color/ashgrey" />
 
 
 </RelativeLayout>
