@@ -11,9 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        app:contentInsetStart="0dp"
+        android:minHeight="?attr/actionBarSize"
         app:title="">
 
         <RelativeLayout
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -21,9 +25,8 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:src="@mipmap/back"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/app_bar_title"
@@ -49,6 +52,4 @@
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@id/tool_bar"
         android:background="@color/ashgrey" />
-
-
 </RelativeLayout>

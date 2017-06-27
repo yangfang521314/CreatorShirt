@@ -51,7 +51,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     public static final String SIGNATURE = "标签";
     public static final String ORNAMENT = "配饰";
 
-    @BindView(R.id.choice)
+    @BindView(R.id.design_choice_style)
     RecyclerView mRecyclerChoice;//具体设计的recyclerView
     @BindView(R.id.choice_style)
     RecyclerView mRecyclerStyle;//style的recyclerView

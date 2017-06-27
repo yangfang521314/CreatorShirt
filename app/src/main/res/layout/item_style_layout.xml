@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/common_style"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_margin="1.5dp"
-    android:paddingTop="35dp"
-    android:paddingBottom="35dp"
-    android:paddingRight="41.5dp"
-    android:paddingLeft="42dp"
-    android:gravity="center"
     android:background="@drawable/sex_clothes_background"
+    android:gravity="center"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/design_icon_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleX="0.9"
-        android:scaleY="0.9"
         android:src="@mipmap/icon_select_longarm" />
 
     <TextView
         android:id="@+id/design_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/design_icon_style"
-        android:layout_centerInParent="true"
         android:layout_marginTop="3dp"
-        android:textSize="14.0sp"
-        android:text="衣领" />
-</RelativeLayout>
+        android:text="衣领"
+        android:textSize="14.0sp" />
+</LinearLayout>

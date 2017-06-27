@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity {
         mTransaction.add(R.id.content, mCommunityFragment, "community").show(mCommunityFragment)
                 .add(R.id.content, mHomeFragment, "home").hide(mHomeFragment).commit();
         mToolbar.setTitle(null);
-        setSupportActionBar(mToolbar);
     }
 
     @OnClick({R.id.home_text, R.id.create_text, R.id.my_text})

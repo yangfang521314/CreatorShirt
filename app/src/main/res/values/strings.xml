@@ -5,4 +5,5 @@
     <string name="design_title_bar">设计制作</string>
     <string name="title_activity_my_order">MyOrderActivity</string>
     <string name="detail_order">订单详情</string>
+    <string name="my_order">我的订单</string>
 </resources>

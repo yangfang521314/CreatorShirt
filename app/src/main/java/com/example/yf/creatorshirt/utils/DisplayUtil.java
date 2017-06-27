@@ -47,4 +47,11 @@ public class DisplayUtil {
 		layoutParams.width = width/2 + width/4;
 		linearLayout.setLayoutParams(layoutParams);
 	}
+
+	public static void calculateItemWidth(Context context,LinearLayout linearLayout){
+		int width = getScreenW(context);
+		ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+		layoutParams.width = width/3;
+		linearLayout.setLayoutParams(layoutParams);
+	}
 }
