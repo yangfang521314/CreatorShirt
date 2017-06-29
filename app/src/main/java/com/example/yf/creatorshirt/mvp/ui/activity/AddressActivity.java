@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class AddressActivity extends BaseActivity {
     @BindView(R.id.address_recyclerview)
@@ -23,6 +25,8 @@ public class AddressActivity extends BaseActivity {
     TextView mAppBarTitle;
     @BindView(R.id.back)
     ImageView mAppBarBack;
+    @BindView(R.id.add_address)
+    TextView mEditAddress;
 
     private List<AddressBean> addressBeanList = new ArrayList<>();
 
@@ -43,6 +47,18 @@ public class AddressActivity extends BaseActivity {
         }
 
     }
+
+    @OnClick({R.id.add_address})
+    public void onClick(View view){
+        switch (view.getId()) {
+            case R.id.add_address:
+                Intent intent = new Intent();
+                intent.setClass(this,EditAddressActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     @Override
     protected void initView() {

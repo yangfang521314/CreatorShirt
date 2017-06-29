@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.EditAddressActivity">
+
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="7dp"
+        android:text="收货人"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_name"
+        android:background="@null"
+        android:gravity="end|center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="35dp"
+        android:paddingTop="7dp"
+        android:text="张芷溪"
+        android:textColorHint="#c2c3cb"
+        android:textSize="16sp" />
+
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="5dp"
+        android:background="@color/ashgrey" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="7dp"
+        android:text="联系电话"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_phone"
+        android:background="@null"
+        android:gravity="end|center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="35dp"
+        android:paddingTop="7dp"
+        android:text="15868178345"
+        android:textColorHint="#c2c3cb"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_phone"
+        android:layout_marginTop="5dp"
+        android:background="@color/ashgrey" />
+
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="7dp"
+        android:text="所在地区"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/edit_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_phone"
+        android:background="@null"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/address_forward"
+        android:gravity="end|center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="7dp"
+        android:paddingTop="7dp"
+        android:text="浙江市余杭区"
+        android:textColorHint="#c2c3cb"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/view_line12"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_address"
+        android:layout_marginTop="5dp"
+        android:background="@color/ashgrey" />
+
+    <TextView
+        android:id="@+id/tv_detail_road"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line12"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="街道"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_show_road"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line12"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/tv_name"
+        android:background="@null"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/address_forward"
+        android:gravity="end|center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="7dp"
+        android:paddingTop="7dp"
+        android:text="请选择"
+        android:textColorHint="#c2c3cb"
+        android:textSize="16sp" />
+
+
+    <View
+        android:id="@+id/view_line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_detail_road"
+        android:layout_marginTop="5dp"
+        android:background="@color/ashgrey" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/view_line3"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="7dp"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="请填写详细地址，不少于5个字"
+        android:paddingBottom="5dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="5dp"
+        android:paddingTop="7dp"
+        android:textSize="16sp" />
+
+    <Button
+        style="@style/common_start_btn"
+        android:layout_margin="10dp"
+        android:text="确定" />
+</RelativeLayout>

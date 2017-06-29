@@ -34,7 +34,8 @@
             android:name=".mvp.ui.activity.MyOrderActivity"
             android:label="@string/title_activity_my_order"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.AddressActivity"></activity>
+        <activity android:name=".mvp.ui.activity.AddressActivity" />
+        <activity android:name=".mvp.ui.activity.EditAddressActivity"></activity>
     </application>
 
 </manifest>

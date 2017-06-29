@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,8 +23,8 @@ public class MyOrderActivity extends BaseActivity {
     ImageView mAppBarBack;
     @BindView(R.id.order_receiver_address)
     TextView mChoiceAddress;
-
-
+    @BindView(R.id.pay_for_money)
+    Button mPayfor;
     @Override
     protected void inject() {
 
@@ -38,7 +39,7 @@ public class MyOrderActivity extends BaseActivity {
         mAppBarBack.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.order_receiver_address})
+    @OnClick({R.id.order_receiver_address,R.id.pay_for_money})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
