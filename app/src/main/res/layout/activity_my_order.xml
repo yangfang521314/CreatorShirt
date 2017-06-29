@@ -41,7 +41,7 @@
             android:layout_height="0dp"
             android:layout_below="@+id/view_line"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="6dp"
             android:layout_marginRight="10dp"
             android:layout_weight="2">
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_receiver_email"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:drawableRight="@mipmap/address_forward"
                 android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
                 android:textColor="@color/black"
