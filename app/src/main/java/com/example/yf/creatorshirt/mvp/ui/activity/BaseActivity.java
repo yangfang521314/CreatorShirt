@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SystemUtilsBar.with(this).init();
         setContentView(getView());
+        SystemUtilsBar.with(this)
+                .statusBarDarkFont(true, 0.2f)
+                .init();
         ButterKnife.bind(this);
         inject();
         initData();
@@ -49,4 +53,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     protected abstract int getView();
+
+    public void startCommonActivity(BaseActivity formActivity, Class toActivity) {
+        if (formActivity != null && toActivity != null) {
+            Intent intent = new Intent(formActivity, toActivity);
+            formActivity.startActivity(intent);
+        }
+    }
+
+    public void startCommonActivity(BaseActivity formActivity, Intent intent) {
+        if (formActivity != null && intent != null) {
+            formActivity.startActivity(intent);
+        }
+    }
 }

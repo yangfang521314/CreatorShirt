@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,6 +24,7 @@ public class MyOrderActivity extends BaseActivity {
     TextView mChoiceAddress;
     @BindView(R.id.pay_for_money)
     Button mPayfor;
+
     @Override
     protected void inject() {
 
@@ -32,20 +32,21 @@ public class MyOrderActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.order_receiver_address,R.id.pay_for_money})
+    @OnClick({R.id.order_receiver_address, R.id.pay_for_money})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
                 Intent intent = new Intent();
                 intent.setClass(this, AddressActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.pay_for_money:
+                //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
+                startCommonActivity(this,SuccessPayActivity.class);
                 break;
         }
     }

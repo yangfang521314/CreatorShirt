@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +13,6 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,10 +40,10 @@ public class ChoiceSizeActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-        imagePath = getIntent().getStringExtra("imageUrl");
-        if (imagePath == null) {
-            return;
-        }
+//        imagePath = getIntent().getStringExtra("imageUrl");
+//        if (imagePath == null) {
+//            return;
+//        }
 
     }
 
@@ -59,10 +56,7 @@ public class ChoiceSizeActivity extends BaseActivity {
     protected void initView() {
         mToolbarTitle.setText(R.string.design_title_bar);
         mActivityBack.setVisibility(View.VISIBLE);
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
-        mImageClothes.setImageURI(Uri.parse(imagePath));
+//        mImageClothes.setImageURI(Uri.parse(imagePath));
 
     }
 
@@ -75,6 +69,9 @@ public class ChoiceSizeActivity extends BaseActivity {
                 break;
             case R.id.back:
                 finish();
+                break;
+            case R.id.share_weixin:
+                //// TODO: 30/06/2017 微信分享
                 break;
         }
     }
@@ -94,9 +91,10 @@ public class ChoiceSizeActivity extends BaseActivity {
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-                Intent intent = new Intent();
-                intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
+//                startActivity(intent);
+                startCommonActivity(ChoiceSizeActivity.this,MyOrderActivity.class);
             }
         });
         return mPopupWindow;

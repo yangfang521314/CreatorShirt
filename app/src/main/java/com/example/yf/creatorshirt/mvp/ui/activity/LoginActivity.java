@@ -6,11 +6,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import javax.inject.Inject;
 
@@ -40,9 +39,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     @Override
     protected void initView() {
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
         mPresenter.attach(this);
         mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));
         mPresenter.setPhoneCode(PhoneUtils.getTextString(mEditCode));

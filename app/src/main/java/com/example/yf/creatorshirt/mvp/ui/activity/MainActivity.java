@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.HomeFragment;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,9 +41,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
         mCommunityFragment = new CommunityFragment();
         mHomeFragment = new HomeFragment();
         showFragment = TYPE_COMMUNITY;

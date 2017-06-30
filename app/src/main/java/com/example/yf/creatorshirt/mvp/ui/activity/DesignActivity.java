@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,9 +44,6 @@ public class DesignActivity extends BaseActivity {
     @Override
     protected void initView() {
         mToolbarTitle.setText(R.string.design_title_bar);
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
         mClickBack.setVisibility(View.VISIBLE);
     }
 

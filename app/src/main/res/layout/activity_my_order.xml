@@ -12,10 +12,11 @@
 
     <ScrollView
         android:id="@+id/scrollview"
-        android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pay_for_money"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/app_bar"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -59,7 +60,8 @@
                     android:text="张芷溪"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/order_text_size" />
+                    android:textSize="@dimen/order_text_size"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/order_receiver_email"
@@ -67,10 +69,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:text="1555555555"
                     android:layout_marginRight="20dp"
+                    android:text="1555555555"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/order_text_size" />
+                    android:textSize="@dimen/order_text_size"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
 
@@ -104,9 +107,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/view_line2"
                 android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
                 android:padding="5dp"
                 android:text="支付方式"
-                android:gravity="center_vertical"
                 android:textColor="@color/darkjunglegreen"
                 android:textSize="@dimen/order_text_size" />
 
@@ -123,8 +126,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_line3"
-                android:layout_marginTop="3dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
                 android:padding="3dp">
 
                 <RadioButton
@@ -156,8 +159,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_alipay"
-                android:layout_marginTop="3dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
                 android:padding="3dp">
 
                 <RadioButton
@@ -391,6 +394,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
+
     <Button
         android:id="@+id/pay_for_money"
         style="@style/common_start_btn"

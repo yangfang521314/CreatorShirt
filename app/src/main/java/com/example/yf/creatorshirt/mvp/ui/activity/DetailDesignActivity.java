@@ -19,14 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
-import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
@@ -52,7 +51,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     public static final String ORNAMENT = "配饰";
 
     @BindView(R.id.design_choice_style)
-    RecyclerView mRecyclerChoice;//具体设计的recyclerView
+    RecyclerView mRecyclerDetailStyle;//具体设计的recyclerView
     @BindView(R.id.choice_style)
     RecyclerView mRecyclerStyle;//style的recyclerView
     @BindView(R.id.back)
@@ -121,9 +120,6 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     @Override
     protected void initView() {
         mToolbarTitle.setText(R.string.design_title_bar);
-        SystemUtilsBar.with(this)
-                .statusBarDarkFont(true, 0.2f)
-                .init();
         mBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.VISIBLE);
@@ -157,9 +153,9 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                generateBitmap();//生成衣服的图片
+//                generateBitmap();//生成衣服的图片
                 Intent intent = new Intent();
-                intent.putExtra("imageUrl", imagePath);
+//                intent.putExtra("imageUrl", imagePath);
                 intent.setClass(this, ChoiceSizeActivity.class);
                 startActivity(intent);
                 break;
@@ -190,7 +186,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 }
                 mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
-                mRecyclerChoice.setVisibility(View.GONE);
+                mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceOrBack.setVisibility(View.GONE);
                 break;
@@ -198,7 +194,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 filter(mCurrentPosition);
                 if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
-                    mRecyclerChoice.setVisibility(View.GONE);
+                    mRecyclerDetailStyle.setVisibility(View.GONE);
                     mBtnFinish.setVisibility(View.VISIBLE);
                     mChoiceOrBack.setVisibility(View.GONE);
                 }
@@ -407,13 +403,13 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         DetailStyleAdapter detailAdapter = new DetailStyleAdapter(this);
         if (detailData.containsKey(list.get(position).getTitle())) {
             mRecyclerStyle.setVisibility(View.GONE);
-            mRecyclerChoice.setVisibility(View.VISIBLE);
+            mRecyclerDetailStyle.setVisibility(View.VISIBLE);
             mBtnFinish.setVisibility(View.GONE);
             mChoiceOrBack.setVisibility(View.VISIBLE);
-            mRecyclerChoice.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             detailAdapter.setData(detailData.get(list.get(position).getTitle()));
             detailAdapter.setOnClickListener(this);
-            mRecyclerChoice.setAdapter(detailAdapter);
+            mRecyclerDetailStyle.setAdapter(detailAdapter);
             detailAdapter.notifyDataSetChanged();
         }
     }
