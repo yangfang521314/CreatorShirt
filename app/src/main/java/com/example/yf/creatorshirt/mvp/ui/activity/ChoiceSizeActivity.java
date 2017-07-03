@@ -21,8 +21,6 @@ import butterknife.OnClick;
  * 选择设计尺寸大小页面
  */
 public class ChoiceSizeActivity extends BaseActivity {
-    @BindView(R.id.app_bar_title)
-    TextView mToolbarTitle;
     @BindView(R.id.clothes_image)
     ImageView mImageClothes;
     @BindView(R.id.rl_choice_size)
@@ -31,8 +29,6 @@ public class ChoiceSizeActivity extends BaseActivity {
     Button mCreateOrder;
     @BindView(R.id.share_weixin)
     TextView mShareWeixin;
-    @BindView(R.id.back)
-    ImageView mActivityBack;
 
     private String imagePath;
     private ChoiceSizePopupWindow mPopupWindow;
@@ -54,8 +50,8 @@ public class ChoiceSizeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mToolbarTitle.setText(R.string.design_title_bar);
-        mActivityBack.setVisibility(View.VISIBLE);
+        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarBack.setVisibility(View.VISIBLE);
 //        mImageClothes.setImageURI(Uri.parse(imagePath));
 
     }

@@ -13,6 +13,8 @@ public class SuccessPayActivity extends BaseActivity {
     @BindView(R.id.btn_check_order)
     Button mCheckOrder;
 
+
+
     @Override
     protected void inject() {
 
@@ -20,7 +22,8 @@ public class SuccessPayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        mAppBarBack.setVisibility(View.VISIBLE);
+        mAppBarTitle.setText(R.string.design_title_bar);
     }
 
     @OnClick({R.id.btn_check_order})

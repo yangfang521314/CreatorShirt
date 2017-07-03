@@ -2,7 +2,7 @@
     <string name="app_name">CreatorShirt</string>
     <string name="title_activity_detail_design">DetailDesign</string>
     <string name="double_click_input_text">双击输入文字</string>
-    <string name="design_title_bar">设计制作</string>
+    <string name="design_title_bar">设计定制</string>
     <string name="title_activity_my_order">MyOrderActivity</string>
     <string name="detail_order">订单详情</string>
     <string name="my_order">我的订单</string>

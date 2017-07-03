@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 
@@ -25,10 +23,6 @@ public class DesignActivity extends BaseActivity {
     RelativeLayout mChoiceMan;
     @BindView(R.id.choice_woman)
     RelativeLayout mChoiceWoman;
-    @BindView(R.id.app_bar_title)
-    TextView mToolbarTitle;
-    @BindView(R.id.back)
-    ImageView mClickBack;
     @BindView(R.id.btn_start)
     Button mStartDesign;
 
@@ -43,8 +37,8 @@ public class DesignActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mToolbarTitle.setText(R.string.design_title_bar);
-        mClickBack.setVisibility(View.VISIBLE);
+        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarBack.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.btn_start, R.id.choice_man, R.id.choice_woman, R.id.back, R.id.choice_shirts, R.id.choice_t_shirt})

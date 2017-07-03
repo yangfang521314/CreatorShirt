@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.ActivityComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
@@ -19,6 +22,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected TextView mAppBarTitle;
+    protected ImageView mAppBarBack;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +35,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         inject();
         initData();
+        initToolbar();
         initView();
+    }
+
+    private void initToolbar() {
+        mAppBarTitle= (TextView) findViewById(R.id.app_bar_title);
+        mAppBarBack = (ImageView) findViewById(R.id.back);
     }
 
     public void initData() {

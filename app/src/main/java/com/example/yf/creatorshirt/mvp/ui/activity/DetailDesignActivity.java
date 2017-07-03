@@ -54,10 +54,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     RecyclerView mRecyclerDetailStyle;//具体设计的recyclerView
     @BindView(R.id.choice_style)
     RecyclerView mRecyclerStyle;//style的recyclerView
-    @BindView(R.id.back)
-    ImageView mBarBack;
-    @BindView(R.id.app_bar_title)
-    TextView mToolbarTitle;
+
     @BindView(R.id.choice_select_neck)
     ImageView mChoiceNeck;
     @BindView(R.id.clothes_container_background)
@@ -119,8 +116,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
-        mToolbarTitle.setText(R.string.design_title_bar);
-        mBarBack.setVisibility(View.VISIBLE);
+        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.VISIBLE);
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

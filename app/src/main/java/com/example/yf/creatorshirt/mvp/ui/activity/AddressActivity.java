@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -21,10 +20,6 @@ import butterknife.OnClick;
 public class AddressActivity extends BaseActivity {
     @BindView(R.id.address_recyclerview)
     RecyclerView mRecyclerView;
-    @BindView(R.id.app_bar_title)
-    TextView mAppBarTitle;
-    @BindView(R.id.back)
-    ImageView mAppBarBack;
     @BindView(R.id.add_address)
     TextView mEditAddress;
 

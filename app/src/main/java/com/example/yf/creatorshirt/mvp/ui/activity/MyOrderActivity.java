@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -16,10 +15,7 @@ import butterknife.OnClick;
  */
 
 public class MyOrderActivity extends BaseActivity {
-    @BindView(R.id.app_bar_title)
-    TextView mAppBarTitle;
-    @BindView(R.id.back)
-    ImageView mAppBarBack;
+
     @BindView(R.id.order_receiver_address)
     TextView mChoiceAddress;
     @BindView(R.id.pay_for_money)

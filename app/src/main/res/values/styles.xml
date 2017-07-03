@@ -9,6 +9,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>    <!--toolbar -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!-- 状态栏 -->
         <item name="colorAccent">@color/colorAccent</item>  <!-- 重点 -->
+        <item name="android:listDivider">@drawable/divider_bg</item>
+
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme" />
