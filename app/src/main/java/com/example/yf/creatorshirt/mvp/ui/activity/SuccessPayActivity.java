@@ -8,12 +8,11 @@ import com.example.yf.creatorshirt.R;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+//// TODO: 2017/7/4 maybe this page and ChoiceActivity use a common Activity;
 public class SuccessPayActivity extends BaseActivity {
 
     @BindView(R.id.btn_check_order)
     Button mCheckOrder;
-
-
 
     @Override
     protected void inject() {
