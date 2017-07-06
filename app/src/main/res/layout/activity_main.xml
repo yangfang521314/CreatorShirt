@@ -40,13 +40,14 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/home_text"
+                android:id="@+id/square_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
                 android:drawableTop="@mipmap/icon_square_normal"
                 android:gravity="center"
+                android:textColor="@color/manatee_1"
                 android:text="广场" />
         </FrameLayout>
 
@@ -57,13 +58,14 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/create_text"
+                android:id="@+id/design_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
                 android:drawableTop="@mipmap/icon_design_normal"
                 android:gravity="center"
+                android:textColor="@color/manatee_1"
                 android:text="设计定制" />
         </FrameLayout>
 
@@ -74,13 +76,14 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/my_text"
+                android:id="@+id/mine_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawablePadding="4dp"
                 android:drawableTop="@mipmap/icon_mine_normal"
                 android:gravity="center"
+                android:textColor="@color/manatee_1"
                 android:text="我的" />
 
         </FrameLayout>
