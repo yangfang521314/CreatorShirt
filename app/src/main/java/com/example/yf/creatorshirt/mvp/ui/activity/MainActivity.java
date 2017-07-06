@@ -6,13 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
-import com.example.yf.creatorshirt.mvp.ui.fragment.HomeFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,13 +27,11 @@ public class MainActivity extends BaseActivity {
     TextView mDesignContainer;
     @BindView(R.id.mine_text)
     TextView mMineContainer;
-    @BindView(R.id.tool_bar)
-    Toolbar mToolbar;
 
     private FragmentTransaction mTransaction;
 
-    private CommunityFragment mCommunityFragment;
-    private HomeFragment mHomeFragment;
+    private SquareFragment mSquareFragment;
+    private MineFragment mMineFragment;
     private String showFragment;
     private String hideFragment;
 
@@ -45,14 +42,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mCommunityFragment = new CommunityFragment();
-        mHomeFragment = new HomeFragment();
+        mSquareFragment = new SquareFragment();
+        mMineFragment = new MineFragment();
         showFragment = TYPE_SQUARE;
         hideFragment = TYPE_SQUARE;
         mTransaction = getSupportFragmentManager().beginTransaction();
-        mTransaction.add(R.id.content, mCommunityFragment, "community").show(mCommunityFragment)
-                .add(R.id.content, mHomeFragment, "home").hide(mHomeFragment).commit();
-        mToolbar.setTitle(null);
+        mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
+                .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
@@ -123,11 +119,11 @@ public class MainActivity extends BaseActivity {
     private Fragment getShowFragment(String flag) {
         switch (flag) {
             case TYPE_SQUARE:
-                return mCommunityFragment;
+                return mSquareFragment;
             case TYPE_MINE:
-                return mHomeFragment;
+                return mMineFragment;
         }
-        return mCommunityFragment;
+        return mSquareFragment;
     }
 
     @Override

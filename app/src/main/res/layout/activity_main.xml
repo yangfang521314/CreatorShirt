@@ -48,7 +48,7 @@
                 android:drawableTop="@mipmap/icon_square_normal"
                 android:gravity="center"
                 android:textColor="@color/manatee_1"
-                android:text="广场" />
+                android:text="@string/square" />
         </FrameLayout>
 
         <FrameLayout
@@ -66,7 +66,7 @@
                 android:drawableTop="@mipmap/icon_design_normal"
                 android:gravity="center"
                 android:textColor="@color/manatee_1"
-                android:text="设计定制" />
+                android:text="@string/design" />
         </FrameLayout>
 
         <FrameLayout
@@ -84,7 +84,7 @@
                 android:drawableTop="@mipmap/icon_mine_normal"
                 android:gravity="center"
                 android:textColor="@color/manatee_1"
-                android:text="我的" />
+                android:text="@string/mine" />
 
         </FrameLayout>
 

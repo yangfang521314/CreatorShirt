@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.example.yf.creatorshirt.inject.module.FragmentModule;
 import com.example.yf.creatorshirt.inject.scope.FragmentScope;
-import com.example.yf.creatorshirt.mvp.ui.fragment.CommunityFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 
 import dagger.Component;
 
@@ -16,6 +16,6 @@ import dagger.Component;
 public interface FragmentComponent {
     Activity getActivity();
 
-    void inject(CommunityFragment communityFragment);
+    void inject(SquareFragment communityFragment);
 
 }

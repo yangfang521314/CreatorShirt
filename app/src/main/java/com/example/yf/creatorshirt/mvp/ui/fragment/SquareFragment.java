@@ -20,7 +20,7 @@ import butterknife.BindView;
  * Created by yf on 2017/5/11.
  */
 
-public class CommunityFragment extends BaseFragment implements GirlContract.GirlView {
+public class SquareFragment extends BaseFragment implements GirlContract.GirlView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -36,7 +36,7 @@ public class CommunityFragment extends BaseFragment implements GirlContract.Girl
 
     @Override
     protected int getLayoutId() {
-        return R.layout.community_fragment;
+        return R.layout.square_fragment;
     }
 
     @Override
