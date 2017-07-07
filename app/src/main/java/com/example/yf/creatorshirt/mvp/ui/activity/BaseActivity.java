@@ -12,7 +12,6 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.ActivityComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
-import com.example.yf.creatorshirt.utils.AndroidWorkAround;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import butterknife.ButterKnife;
@@ -25,15 +24,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected TextView mAppBarTitle;
     protected ImageView mAppBarBack;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         SystemUtilsBar.with(this).init();
         setContentView(getView());
-        if (AndroidWorkAround.checkDeviceHasNavigationBar(this)) {
-            AndroidWorkAround.assistActivity(findViewById(android.R.id.content));
-        }
         SystemUtilsBar.with(this)
                 .statusBarDarkFont(true, 0.2f)
                 .init();
@@ -45,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        mAppBarTitle= (TextView) findViewById(R.id.app_bar_title);
+        mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
         mAppBarBack = (ImageView) findViewById(R.id.back);
     }
 

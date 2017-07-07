@@ -82,5 +82,24 @@
         android:padding="@dimen/my_order_padding"
         android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
         android:textColor="@color/darkjunglegreen"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
+
+    <View
+        android:layout_below="@id/order_receiver_address"
+        android:id="@+id/view_line1"
+        android:layout_marginTop="5dp"
+        android:background="@color/platinum"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <TextView
+        android:layout_below="@+id/view_line1"
+        android:id="@+id/deliver_number"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:padding="@dimen/my_order_padding"
+        android:text="快递单号：顺丰速运 000000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

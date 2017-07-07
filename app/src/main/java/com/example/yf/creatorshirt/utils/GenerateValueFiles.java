@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
+/**
+ * 布局是适配生成策略
+ */
 public class GenerateValueFiles {
 
     private int baseW;
@@ -46,8 +49,7 @@ public class GenerateValueFiles {
     }
 
     /**
-     * @param supportStr
-     *            w,h_...w,h;
+     * @param supportStr w,h_...w,h;
      * @return
      */
     private String validateInput(String supportStr) {
@@ -102,8 +104,8 @@ public class GenerateValueFiles {
         StringBuffer sbForHeight = new StringBuffer();
         sbForHeight.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
         sbForHeight.append("<resources>");
-        float cellh = h *1.0f/ baseH;
-        System.out.println("height : "+ h + "," + baseH + "," + cellh);
+        float cellh = h * 1.0f / baseH;
+        System.out.println("height : " + h + "," + baseH + "," + cellh);
         for (int i = 1; i < baseH; i++) {
             sbForHeight.append(HTemplate.replace("{0}", i + "").replace("{1}",
                     change(cellh * i) + ""));
