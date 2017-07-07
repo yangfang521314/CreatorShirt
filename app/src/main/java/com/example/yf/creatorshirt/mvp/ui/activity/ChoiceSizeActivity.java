@@ -50,7 +50,7 @@ public class ChoiceSizeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
 //        mImageClothes.setImageURI(Uri.parse(imagePath));
 

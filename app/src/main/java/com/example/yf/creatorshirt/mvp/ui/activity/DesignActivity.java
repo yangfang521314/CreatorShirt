@@ -37,7 +37,7 @@ public class DesignActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
     }
 

@@ -9,8 +9,8 @@
         android:id="@+id/rl_order_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
         android:gravity="center_horizontal"
         android:paddingBottom="6dp"
         android:paddingTop="6dp">

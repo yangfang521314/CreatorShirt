@@ -116,7 +116,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.VISIBLE);

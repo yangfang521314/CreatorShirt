@@ -22,7 +22,7 @@ public class SuccessPayActivity extends BaseActivity {
     @Override
     protected void initView() {
         mAppBarBack.setVisibility(View.VISIBLE);
-        mAppBarTitle.setText(R.string.design_title_bar);
+        mAppBarTitle.setText(R.string.design);
     }
 
     @OnClick({R.id.btn_check_order})

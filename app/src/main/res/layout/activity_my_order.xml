@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity">
 
     <include
@@ -11,17 +12,19 @@
         layout="@layout/app_bar" />
 
     <ScrollView
+        android:layout_above="@+id/pay_for_money"
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
         android:scrollbars="none">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="@drawable/mysetting_divider"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <TextView
                 android:id="@+id/tv_address"
@@ -29,29 +32,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:padding="5dp"
+                android:padding="@dimen/my_order_padding"
                 android:text="收货地址"
                 android:textColor="@color/darkjunglegreen"
                 android:textSize="@dimen/order_text_size" />
 
 
-            <View
-                android:id="@+id/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/tv_address"
-                android:layout_marginTop="3dp"
-                android:background="@color/platinum" />
-
             <RelativeLayout
                 android:id="@+id/rl_receiver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/view_line"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:padding="5dp">
+                android:padding="@dimen/my_order_padding">
 
                 <TextView
                     android:id="@+id/order_receiver_name"
@@ -71,7 +65,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginRight="20dp"
                     android:text="1555555555"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkjunglegreen"
                     android:textSize="@dimen/order_text_size"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -86,18 +80,11 @@
                 android:layout_marginTop="2dp"
                 android:drawablePadding="1dp"
                 android:drawableRight="@mipmap/address_forward"
-                android:padding="5dp"
+                android:padding="@dimen/my_order_padding"
                 android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textColor="@color/darkjunglegreen"
+                android:textSize="15sp" />
 
-            <View
-                android:id="@+id/view_line2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/order_receiver_address"
-                android:layout_marginTop="5dp"
-                android:background="@color/platinum" />
 
             <TextView
                 android:id="@+id/clothes_pay_way"
@@ -105,30 +92,21 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/view_line2"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:padding="5dp"
+                android:padding="@dimen/my_order_padding"
                 android:text="支付方式"
                 android:textColor="@color/darkjunglegreen"
                 android:textSize="@dimen/order_text_size" />
 
-            <View
-                android:id="@+id/view_line3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/clothes_pay_way"
-                android:layout_marginTop="3dp"
-                android:background="@color/platinum" />
 
             <RelativeLayout
                 android:id="@+id/rl_alipay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/view_line3"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
-                android:padding="3dp">
+                android:padding="4dp">
 
                 <RadioButton
                     android:id="@+id/pay_alipay"
@@ -146,13 +124,6 @@
                     android:textSize="16sp" />
             </RelativeLayout>
 
-            <View
-                android:id="@+id/view_line4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/rl_alipay"
-                android:layout_marginLeft="10dp"
-                android:background="@color/platinum" />
 
             <RelativeLayout
                 android:id="@+id/rl_weichat_pay"
@@ -161,7 +132,7 @@
                 android:layout_below="@+id/rl_alipay"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
-                android:padding="3dp">
+                android:padding="4dp">
 
                 <RadioButton
                     android:id="@+id/pay_weixin"
@@ -179,39 +150,23 @@
                     android:textSize="16sp" />
             </RelativeLayout>
 
-            <View
-                android:id="@+id/view_line5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/rl_weichat_pay"
-                android:layout_marginTop="3dp"
-                android:background="@color/platinum" />
 
             <TextView
                 android:id="@+id/tv_detail_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/view_line5"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:padding="5dp"
+                android:padding="@dimen/my_order_padding"
                 android:text="@string/detail_order"
                 android:textColor="@color/darkjunglegreen"
                 android:textSize="@dimen/order_text_size" />
 
-            <View
-                android:id="@+id/view_line6"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/tv_detail_order"
-                android:layout_marginTop="3dp"
-                android:background="@color/ashgrey" />
 
             <RelativeLayout
                 android:id="@+id/rl_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/view_line6"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="8dp">
 
@@ -227,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="20dp"
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture">
 
@@ -236,7 +191,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="定制"
-                        android:textSize="15sp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/order_text_size" />
 
                     <TextView
                         android:id="@+id/order_clothes_prices"
@@ -245,7 +201,7 @@
                         android:layout_alignParentRight="true"
                         android:text="￥49.99"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/order_text_size" />
                 </RelativeLayout>
 
 
@@ -255,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_clothes_order"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="10dp"
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture">
 
@@ -263,9 +219,11 @@
                         android:id="@+id/clothes_sex_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:text="女-上衣 T恤"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout"
@@ -288,7 +246,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="99"
-                            android:textSize="15sp" />
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <ImageView
                             android:id="@+id/order_clothes_add"
@@ -311,7 +270,7 @@
                     android:layout_toRightOf="@+id/clothes_picture"
                     android:text="商品ID: 10892473"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/order_clothes_size"
@@ -324,7 +283,8 @@
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture"
                     android:text="尺寸：XL"
-                    android:textSize="15sp" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/clothes_color"
@@ -337,7 +297,8 @@
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture"
                     android:text="颜色"
-                    android:textSize="15sp" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <RelativeLayout
                     android:id="@+id/rl_freight"
@@ -345,7 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/clothes_color"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture">
@@ -370,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_freight"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture">
@@ -381,7 +342,7 @@
                         android:layout_height="wrap_content"
                         android:text="总计"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/order_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -389,14 +350,18 @@
                         android:layout_alignParentRight="true"
                         android:text="￥49.99"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/order_text_size" />
                 </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/pay_for_money"
-        style="@style/common_start_btn"
-        android:text="结算付款" />
+
+
+        <Button
+            android:id="@+id/pay_for_money"
+            style="@style/common_start_btn"
+            android:text="结算付款"
+          />
 </RelativeLayout>

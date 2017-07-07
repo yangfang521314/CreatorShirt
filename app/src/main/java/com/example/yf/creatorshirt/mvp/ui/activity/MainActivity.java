@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -76,36 +77,36 @@ public class MainActivity extends BaseActivity {
         clearSelection();
         switch (position) {
             case TYPE_SQUARE:
-                Drawable drawable01 = getResources().getDrawable(R.mipmap.icon_square_hover, null);
+                Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_hover);
                 mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
-                mSquareContainer.setTextColor(getResources().getColor(R.color.sand, null));
+                mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
                 break;
             case TYPE_DESIGN:
-                Drawable drawable02 = getResources().getDrawable(R.mipmap.icon_design_hover, null);
+                Drawable drawable02 = ContextCompat.getDrawable(this, R.mipmap.icon_design_hover);
                 mDesignContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable02, null, null);
-                mDesignContainer.setTextColor(getResources().getColor(R.color.sand, null));
+                mDesignContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
                 break;
             case TYPE_MINE:
-                Drawable drawable03 = getResources().getDrawable(R.mipmap.icon_mine_hover, null);
+                Drawable drawable03 = ContextCompat.getDrawable(this, R.mipmap.icon_mine_hover);
                 mMineContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable03, null, null);
-                mMineContainer.setTextColor(getResources().getColor(R.color.sand, null));
+                mMineContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
                 break;
         }
     }
 
     //清除上次的状态
     private void clearSelection() {
-        Drawable drawable01 = getResources().getDrawable(R.mipmap.icon_square_normal, null);
+        Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_normal);
         mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
-        mSquareContainer.setTextColor(getResources().getColor(R.color.manatee_1, null));
+        mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
 
-        Drawable drawable02 = getResources().getDrawable(R.mipmap.icon_design_normal, null);
+        Drawable drawable02 = ContextCompat.getDrawable(this, R.mipmap.icon_design_normal);
         mDesignContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable02, null, null);
-        mDesignContainer.setTextColor(getResources().getColor(R.color.manatee_1, null));
+        mDesignContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
 
-        Drawable drawable03 = getResources().getDrawable(R.mipmap.icon_mine_normal, null);
+        Drawable drawable03 = ContextCompat.getDrawable(this, R.mipmap.icon_mine_normal);
         mMineContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable03, null, null);
-        mMineContainer.setTextColor(getResources().getColor(R.color.manatee_1, null));
+        mMineContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
 
     }
 
