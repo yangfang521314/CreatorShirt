@@ -19,11 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
@@ -116,6 +118,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
+        DisplayUtil.calculateBGWidth(App.getInstance(),mContainerBackground);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);

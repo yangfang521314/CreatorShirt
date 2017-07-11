@@ -1,6 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="order_text_size">18sp</dimen>
+    <dimen name="order_text_size">17.5sp</dimen>
     <dimen name="order_detail_size">13sp</dimen>
     <dimen name="clothe_dp">320dp</dimen>
     <dimen name="back_front">150dp</dimen>
