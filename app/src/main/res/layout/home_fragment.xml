@@ -6,9 +6,24 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shape_white" />
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mine_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <TextView
+
+            android:layout_alignRight="@+id/mine_photo"
+            android:text="张止溪"
+            android:layout_toRightOf="@+id/mine_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
 
 </LinearLayout>

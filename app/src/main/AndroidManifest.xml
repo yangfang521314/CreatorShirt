@@ -38,7 +38,7 @@
         <activity android:name=".mvp.ui.activity.EditAddressActivity" />
         <activity android:name=".mvp.ui.activity.AllOrderActivity" />
         <activity android:name=".mvp.ui.activity.SuccessPayActivity" />
-        <activity android:name=".mvp.ui.activity.DetailOrderActivity"></activity>
+        <activity android:name=".mvp.ui.activity.DetailOrderActivity" />
     </application>
 
 </manifest>

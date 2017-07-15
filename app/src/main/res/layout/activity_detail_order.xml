@@ -85,21 +85,36 @@
         android:textSize="16sp" />
 
     <View
-        android:layout_below="@id/order_receiver_address"
         android:id="@+id/view_line1"
-        android:layout_marginTop="5dp"
-        android:background="@color/platinum"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:layout_below="@id/order_receiver_address"
+        android:layout_marginTop="5dp"
+        android:background="@color/platinum" />
+
     <TextView
-        android:layout_below="@+id/view_line1"
         android:id="@+id/deliver_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line1"
         android:layout_marginLeft="10dp"
-        android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:padding="@dimen/my_order_padding"
         android:text="快递单号：顺丰速运 000000000"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/view_blank"
+        android:layout_below="@+id/deliver_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/manatee_1"
+        android:layout_height="10dp" />
+
+    <include
+        android:id="@+id/detail_order"
+        layout="@layout/item_order_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_blank" />
 
 </RelativeLayout>
