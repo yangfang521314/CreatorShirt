@@ -105,10 +105,10 @@
 
     <View
         android:id="@+id/view_blank"
-        android:layout_below="@+id/deliver_number"
         android:layout_width="match_parent"
-        android:background="@color/manatee_1"
-        android:layout_height="10dp" />
+        android:layout_height="10dp"
+        android:layout_below="@+id/deliver_number"
+        android:background="@color/isabelline" />
 
     <include
         android:id="@+id/detail_order"
@@ -116,5 +116,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_blank" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detail_order"
+        android:layout_marginTop="10dp"
+        android:background="@color/isabelline" />
+
+    <Button
+        android:id="@+id/pay_for_money"
+        style="@style/common_start_btn"
+        android:text="确认收货" />
 
 </RelativeLayout>

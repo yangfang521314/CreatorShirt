@@ -358,9 +358,8 @@
         </LinearLayout>
     </ScrollView>
 
-        <Button
-            android:id="@+id/pay_for_money"
-            style="@style/common_start_btn"
-            android:text="结算付款"
-          />
+    <Button
+        android:id="@+id/pay_for_money"
+        style="@style/common_start_btn"
+        android:text="结算付款" />
 </RelativeLayout>
