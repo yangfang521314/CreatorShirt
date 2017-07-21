@@ -77,4 +77,10 @@ public class SquareFragment extends BaseFragment implements GirlContract.GirlVie
     public void showData(List<PhotoGirl> list) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach(this);
+    }
 }

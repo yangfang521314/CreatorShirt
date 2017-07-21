@@ -39,6 +39,12 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
         }
     }
 
+    /**
+     * 记得解除presenter的绑定
+     * 考虑到生命周期
+     *
+     * @param view
+     */
     @Override
     public void detach(T view) {
         this.mView = null;
