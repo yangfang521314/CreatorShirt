@@ -1,13 +1,14 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.DaggerFragmentComponent;
@@ -24,6 +25,7 @@ public abstract class BaseFragment extends Fragment {
 
     private View mView;
     protected Context mContext;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +55,15 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutId();
 
     protected abstract void initViews(View mView);
+
     protected abstract void initData();
+
+    protected void startCommonActivity(Activity formActivity, Class toActivity) {
+        if (formActivity != null && toActivity != null) {
+            Intent intent = new Intent(formActivity, toActivity);
+            formActivity.startActivity(intent);
+        }
+    }
 
     public FragmentModule getFragmentModule() {
         return new FragmentModule(this);

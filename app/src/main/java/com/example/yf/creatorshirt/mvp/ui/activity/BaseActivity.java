@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected TextView mAppBarTitle;
     protected ImageView mAppBarBack;
+    protected LinearLayout mAppBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initToolbar() {
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
         mAppBarBack = (ImageView) findViewById(R.id.back);
+        mAppBar  = (LinearLayout) findViewById(R.id.app_bar);
     }
 
     public void initData() {

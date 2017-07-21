@@ -39,6 +39,7 @@
         <activity android:name=".mvp.ui.activity.AllOrderActivity" />
         <activity android:name=".mvp.ui.activity.SuccessPayActivity" />
         <activity android:name=".mvp.ui.activity.DetailOrderActivity" />
+        <activity android:name=".mvp.ui.activity.UserCenterActivity"></activity>
     </application>
 
 </manifest>

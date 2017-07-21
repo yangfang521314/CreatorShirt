@@ -42,6 +42,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected int getView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void initView() {
         mSquareFragment = new SquareFragment();
         mMineFragment = new MineFragment();
@@ -66,6 +71,7 @@ public class MainActivity extends BaseActivity {
             case R.id.mine_text:
                 showFragment = TYPE_MINE;
                 choiceTabState(TYPE_MINE);
+                mAppBar.setVisibility(View.GONE);
                 break;
         }
         changeFragment(getShowFragment(showFragment), getShowFragment(hideFragment));
@@ -125,11 +131,6 @@ public class MainActivity extends BaseActivity {
                 return mMineFragment;
         }
         return mSquareFragment;
-    }
-
-    @Override
-    protected int getView() {
-        return R.layout.activity_main;
     }
 
 }
