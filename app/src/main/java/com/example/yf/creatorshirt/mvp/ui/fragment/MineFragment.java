@@ -1,10 +1,13 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 
 import javax.inject.Inject;
@@ -20,6 +23,12 @@ public class MineFragment extends BaseFragment {
 
     @BindView(R.id.user_avatar)
     ImageView mUserPicture;
+    @BindView(R.id.choice_address_iv)
+    ImageView mChoiceAddress;
+    @BindView(R.id.choice_design_iv)
+    ImageView mChoiceDesign;
+    @BindView(R.id.choice_order_iv)
+    ImageView mChoiceOrder;
     @Inject
     Activity mActivity;
 
@@ -43,11 +52,19 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.user_avatar})
+    @OnClick({R.id.user_avatar, R.id.choice_address_iv, R.id.choice_order_iv, R.id.choice_design_iv})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_avatar:
                 startCommonActivity(mActivity, UserCenterActivity.class);
+                break;
+            case R.id.choice_address_iv:
+                startCommonActivity(mActivity, AddressActivity.class);
+                break;
+            case R.id.choice_order_iv:
+                startCommonActivity(mActivity, MyOrderActivity.class);
+                break;
+            case R.id.choice_design_iv:
                 break;
         }
     }

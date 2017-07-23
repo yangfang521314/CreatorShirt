@@ -42,6 +42,7 @@
         android:showDividers="middle">
 
         <RelativeLayout
+            android:id="@+id/rl_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -50,13 +51,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="收货地址"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/address_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -67,6 +70,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/choice_address_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -90,6 +94,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/design_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -100,6 +105,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/choice_design_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -123,6 +129,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/order_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -133,6 +140,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/choice_order_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
