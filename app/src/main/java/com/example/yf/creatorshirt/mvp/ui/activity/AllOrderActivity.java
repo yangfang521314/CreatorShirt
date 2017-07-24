@@ -15,17 +15,29 @@ public class AllOrderActivity extends BaseActivity implements ItemClickListener.
     @BindView(R.id.all_order_recyclerView)
     RecyclerView mAllOrderRY;
 
+    private String title;
+
     @Override
     protected void inject() {
 
     }
 
     @Override
+    public void initData() {
+        super.initData();
+        if (getIntent().getExtras() != null) {
+            title = getIntent().getExtras().getString("title");
+        } else {
+            title = getString(R.string.my_order);
+        }
+    }
+
+    @Override
     protected void initView() {
-        mAppBarTitle.setText("我的订单");
+        mAppBarTitle.setText(title);
         AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
         mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAllOrderRY.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         allOrderAdapter.setOnClickListener(this);
         mAllOrderRY.setAdapter(allOrderAdapter);
     }
@@ -37,6 +49,10 @@ public class AllOrderActivity extends BaseActivity implements ItemClickListener.
 
     @Override
     public void onItemClick(View view, int position) {
-        startCommonActivity(this,DetailOrderActivity.class);
+        if(title.equals(getString(R.string.my_order))) {
+            startCommonActivity(this, null, DetailOrderActivity.class);
+        }else {
+            startCommonActivity(this,null,MyDesignActivity.class);
+        }
     }
 }

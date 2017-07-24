@@ -90,7 +90,7 @@ public class ChoiceSizeActivity extends BaseActivity {
 //                Intent intent = new Intent();
 //                intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
 //                startActivity(intent);
-                startCommonActivity(ChoiceSizeActivity.this,MyOrderActivity.class);
+                startCommonActivity(ChoiceSizeActivity.this,null,MyOrderActivity.class);
             }
         });
         return mPopupWindow;

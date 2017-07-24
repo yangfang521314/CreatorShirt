@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <TextView
+        android:id="@+id/tv_design_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:text="2017-05-17 12:12:12" />
+
+    <TextView
+        android:id="@+id/tv_buy_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_bar"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:text="已付款"
+        android:textColor="@color/sand" />
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:id="@+id/rl_clothes_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_buy_number"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/clothes_picture"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@mipmap/mm"
+            app:layout_heightPercent="50%h" />
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_clothes_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_clothes_iv">
+
+        <RelativeLayout
+            android:id="@+id/ll_clothes_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:id="@+id/tv_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张芷溪 的原创定制"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/order_clothes_prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="￥49.99"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/clothes_sex_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_clothes_order"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:text="女-上衣 T恤"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/clothes_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clothes_sex_style"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:text="商品ID: 10892473"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/order_clothes_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clothes_id"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:text="尺寸：XL"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/clothes_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/order_clothes_size"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:text="颜色"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_check_order"
+        style="@style/common_start_btn"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="查看我的订单"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</RelativeLayout>

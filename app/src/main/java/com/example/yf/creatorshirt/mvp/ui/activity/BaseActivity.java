@@ -45,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initToolbar() {
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
         mAppBarBack = (ImageView) findViewById(R.id.back);
-        mAppBar  = (LinearLayout) findViewById(R.id.app_bar);
+        mAppBar = (LinearLayout) findViewById(R.id.app_bar);
     }
 
     public void initData() {
@@ -69,16 +69,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getView();
 
-    public void startCommonActivity(BaseActivity formActivity, Class toActivity) {
+    public void startCommonActivity(BaseActivity formActivity, Bundle bundle, Class toActivity) {
         if (formActivity != null && toActivity != null) {
-            Intent intent = new Intent(formActivity, toActivity);
-            formActivity.startActivity(intent);
-        }
-    }
-
-    public void startCommonActivity(BaseActivity formActivity, Intent intent) {
-        if (formActivity != null && intent != null) {
-            formActivity.startActivity(intent);
+            if (bundle == null) {
+                Intent intent = new Intent(formActivity, toActivity);
+                formActivity.startActivity(intent);
+            } else {
+                Intent intent = new Intent(formActivity, toActivity);
+                intent.putExtras(bundle);
+                formActivity.startActivity(intent);
+            }
         }
     }
 }

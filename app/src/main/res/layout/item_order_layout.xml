@@ -22,6 +22,8 @@
             android:text="2017-05-17 12:12:12" />
 
         <TextView
+            android:id="@+id/pay_state"
+            android:textColor="@color/sand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -80,7 +82,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_clothes_order"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
         android:layout_toEndOf="@+id/clothes_picture"
         android:layout_toRightOf="@+id/clothes_picture">
 
@@ -99,7 +100,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_number"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/clothes_picture"
         android:layout_toRightOf="@+id/clothes_picture"
@@ -113,7 +113,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/clothes_id"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/clothes_picture"
         android:layout_toRightOf="@+id/clothes_picture"
@@ -126,7 +125,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/order_clothes_size"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/clothes_picture"
         android:layout_toRightOf="@+id/clothes_picture"
@@ -144,11 +142,12 @@
         android:background="@color/gainsboro" />
 
     <RelativeLayout
+        android:id="@+id/rl_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/clothes_color"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:layout_toRightOf="@+id/clothes_picture">
 
         <TextView
@@ -163,19 +162,20 @@
             android:id="@+id/tv_clothes_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="合计￥:49.99"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/tv_clothes_total"
+            android:text="合计￥:49.99"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/tv_include_freight"
-            android:text="(含运费￥0.00)"
-            android:layout_marginLeft="2dp"
-            android:textColor="@color/black"
-            android:layout_toRightOf="@+id/tv_clothes_price"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@+id/tv_clothes_price"
+            android:text="(含运费￥0.00)"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
 </RelativeLayout>

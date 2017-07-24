@@ -58,10 +58,17 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void initData();
 
-    protected void startCommonActivity(Activity formActivity, Class toActivity) {
+
+    public void startCommonActivity(Activity formActivity, Bundle bundle, Class toActivity) {
         if (formActivity != null && toActivity != null) {
-            Intent intent = new Intent(formActivity, toActivity);
-            formActivity.startActivity(intent);
+            if (bundle == null) {
+                Intent intent = new Intent(formActivity, toActivity);
+                formActivity.startActivity(intent);
+            } else {
+                Intent intent = new Intent(formActivity, toActivity);
+                intent.putExtras(bundle);
+                formActivity.startActivity(intent);
+            }
         }
     }
 

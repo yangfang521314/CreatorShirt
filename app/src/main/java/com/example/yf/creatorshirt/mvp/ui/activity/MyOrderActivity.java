@@ -42,7 +42,7 @@ public class MyOrderActivity extends BaseActivity {
                 break;
             case R.id.pay_for_money:
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
-                startCommonActivity(this,SuccessPayActivity.class);
+                startCommonActivity(this,null,SuccessPayActivity.class);
                 break;
         }
     }

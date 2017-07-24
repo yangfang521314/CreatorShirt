@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,7 +29,9 @@ public class SuccessPayActivity extends BaseActivity {
     @OnClick({R.id.btn_check_order})
     public void onClick(View view) {
         if (view.getId() == R.id.btn_check_order) {
-            startCommonActivity(this, AllOrderActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("title",getString(R.string.my_order));
+            startCommonActivity(this,bundle,AllOrderActivity.class);
         }
     }
 

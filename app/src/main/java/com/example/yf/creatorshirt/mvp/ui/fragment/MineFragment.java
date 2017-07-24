@@ -1,13 +1,14 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
-import android.media.Image;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 
 import javax.inject.Inject;
@@ -29,6 +30,13 @@ public class MineFragment extends BaseFragment {
     ImageView mChoiceDesign;
     @BindView(R.id.choice_order_iv)
     ImageView mChoiceOrder;
+    @BindView(R.id.design_number)
+    TextView mDesignNumber;
+    @BindView(R.id.order_number)
+    TextView mOrderNumber;
+    @BindView(R.id.address_number)
+    TextView mAddressNumber;
+
     @Inject
     Activity mActivity;
 
@@ -52,19 +60,26 @@ public class MineFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.user_avatar, R.id.choice_address_iv, R.id.choice_order_iv, R.id.choice_design_iv})
+    @OnClick({R.id.user_avatar, R.id.choice_address_iv, R.id.choice_order_iv, R.id.choice_design_iv,
+            R.id.order_number, R.id.address_number, R.id.design_number})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_avatar:
-                startCommonActivity(mActivity, UserCenterActivity.class);
+                startCommonActivity(mActivity,null, UserCenterActivity.class);
                 break;
             case R.id.choice_address_iv:
-                startCommonActivity(mActivity, AddressActivity.class);
+            case R.id.address_number:
+                startCommonActivity(mActivity,null, AddressActivity.class);
                 break;
             case R.id.choice_order_iv:
-                startCommonActivity(mActivity, MyOrderActivity.class);
+            case R.id.order_number:
+                startCommonActivity(mActivity,null, AllOrderActivity.class);
                 break;
+            case R.id.design_number:
             case R.id.choice_design_iv:
+                Bundle bundle = new Bundle();
+                bundle.putString("title","我的设计");
+                startCommonActivity(mActivity,bundle,AllOrderActivity.class);
                 break;
         }
     }
