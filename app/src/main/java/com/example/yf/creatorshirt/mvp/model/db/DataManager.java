@@ -34,12 +34,12 @@ public class DataManager implements HttpHelper {
      * phone 登录
      *
      * @param phone
-     * @param code
+     * @param password
      * @return
      */
     @Override
-    public Observable<LoginBean> login(String phone, String code) {
-        return mHttpHelper.login(phone, code);
+    public Observable<LoginBean> login(String phone, String password) {
+        return mHttpHelper.login(phone, password);
     }
 
     /**

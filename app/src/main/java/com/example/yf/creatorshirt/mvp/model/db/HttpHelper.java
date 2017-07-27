@@ -16,7 +16,7 @@ public interface HttpHelper {
 
     Flowable<GirlData> getPhotoList(int size, int page);
 
-    Observable<LoginBean> login(String phone, String code);
+    Observable<LoginBean> login(String phone, String password);
 
     Observable<LoginBean> getVerifyCode(String phone);
 

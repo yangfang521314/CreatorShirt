@@ -52,12 +52,12 @@ public class RetrofitHelper implements HttpHelper {
      * phone login
      *
      * @param phone
-     * @param code
+     * @param password
      * @return
      */
     @Override
-    public Observable<LoginBean> login(String phone, String code) {
-        return mRequestApi.loginPhone(phone, code);
+    public Observable<LoginBean> login(String phone, String password) {
+        return mRequestApi.loginPhone(phone, password);
     }
 
     /**

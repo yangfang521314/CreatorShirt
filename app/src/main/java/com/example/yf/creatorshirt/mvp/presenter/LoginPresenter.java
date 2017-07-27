@@ -19,7 +19,7 @@ import io.reactivex.annotations.NonNull;
 public class LoginPresenter extends RxPresenter<LoginContract.LoginView> implements LoginContract.LoginPresenter {
     private DataManager mDataManager;
     private String phone;
-    private String code;
+    private String password;
 
     @Inject
     public LoginPresenter(DataManager manager) {
@@ -38,7 +38,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
 
     @Override
     public void setPhoneCode(String code) {
-        this.code = code;
+        this.password = password;
     }
 
     /**
@@ -46,7 +46,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
      */
     @Override
     public void phoneLogin() {
-        addSubscribe(mDataManager.login(phone, code)
+        addSubscribe(mDataManager.login(phone, password)
                 .compose(RxUtils.<LoginBean>rxObScheduleHelper())
                 .subscribeWith(new CommonObserver(mView) {
                     @Override
