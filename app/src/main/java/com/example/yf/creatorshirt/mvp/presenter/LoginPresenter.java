@@ -16,7 +16,7 @@ import io.reactivex.annotations.NonNull;
  * 微信登录和手机登录方法类
  */
 
-public class LoginPresenter extends RxPresenter<LoginContract.LoginView> implements LoginContract.LoginPresenter {
+public class LoginPresenter extends RxPresenter<LoginContract.LoginView> implements LoginContract.Presenter {
     private DataManager mDataManager;
     private String phone;
     private String password;
@@ -24,11 +24,6 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     @Inject
     public LoginPresenter(DataManager manager) {
         this.mDataManager = manager;
-    }
-
-    @Override
-    public void attach(LoginContract.LoginView view) {
-        mView = view;
     }
 
     @Override
@@ -48,10 +43,10 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     public void phoneLogin() {
         addSubscribe(mDataManager.login(phone, password)
                 .compose(RxUtils.<LoginBean>rxObScheduleHelper())
-                .subscribeWith(new CommonObserver(mView) {
+                .subscribeWith(new CommonObserver<LoginBean>(mView, "登录失败") {
                     @Override
-                    public void onNext(@NonNull Object o) {
-
+                    public void onNext(@NonNull LoginBean loginBean) {
+                        mView.LoginSuccess(loginBean);
                     }
                 }));
     }
@@ -71,5 +66,4 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     public void wenxinLogin() {
 
     }
-
 }

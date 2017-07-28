@@ -16,7 +16,7 @@ public interface GirlContract {
         void showData(List<PhotoGirl> list);
     }
 
-    interface GirlPresenter extends BasePresenter<GirlView> {
+    interface Presenter extends BasePresenter<GirlView> {
         void getGirlData();
     }
 }

@@ -71,4 +71,9 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.getCode(phone);
     }
 
+    @Override
+    public Observable getUserInfo() {
+        return mRequestApi.getUserInfo();
+    }
+
 }

@@ -13,7 +13,11 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.ActivityComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
+import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
+import com.example.yf.creatorshirt.mvp.view.BaseView;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
@@ -21,11 +25,14 @@ import butterknife.ButterKnife;
  * Created by yang on 2017/5/11.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
 
     protected TextView mAppBarTitle;
     protected ImageView mAppBarBack;
     protected LinearLayout mAppBar;
+
+    @Inject
+    T mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,10 +44,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .init();
         ButterKnife.bind(this);
         inject();
+        if (mPresenter != null)
+            mPresenter.attachView(this);
         initData();
         initToolbar();
         initView();
     }
+
 
     private void initToolbar() {
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
@@ -80,5 +90,28 @@ public abstract class BaseActivity extends AppCompatActivity {
                 formActivity.startActivity(intent);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.detachView(this);
+        }
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }

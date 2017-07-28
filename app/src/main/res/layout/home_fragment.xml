@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/user_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/back"
             android:layout_centerInParent="true"
             android:src="@mipmap/haizewang_23" />
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_avatar"
             android:layout_centerInParent="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="张芷溪"
             android:textColor="@color/white"
             android:textSize="16sp" />

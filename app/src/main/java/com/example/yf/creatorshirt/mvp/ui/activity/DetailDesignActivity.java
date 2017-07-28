@@ -1,13 +1,14 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -108,7 +109,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void inject() {
-        getActivityComponent().inject(this);
+//        getActivityComponent().inject(this);
     }
 
     @Override
@@ -153,11 +154,10 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-//                generateBitmap();//生成衣服的图片
-                Intent intent = new Intent();
-//                intent.putExtra("imageUrl", imagePath);
-                intent.setClass(this, ChoiceSizeActivity.class);
-                startActivity(intent);
+                generateBitmap();//生成衣服的图片
+                Bundle bundle = new Bundle();
+                bundle.putString("imageUrl",imagePath);
+                startCommonActivity(this,bundle,ChoiceSizeActivity.class);
                 break;
             case R.id.back:
                 finish();
@@ -224,6 +224,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         Canvas canvas = new Canvas(bitmap);
         mContainerBackground.draw(canvas);
         imagePath = FileUtils.saveBitmap(bitmap, this);
+        Log.e("TAG","DDDD"+imagePath);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.model.db;
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
 import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -20,4 +21,5 @@ public interface HttpHelper {
 
     Observable<LoginBean> getVerifyCode(String phone);
 
+    Observable<UserInfo> getUserInfo();
 }

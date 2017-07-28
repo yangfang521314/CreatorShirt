@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,23 +37,24 @@ public class ChoiceSizeActivity extends BaseActivity {
     @Override
     public void initData() {
         super.initData();
-//        imagePath = getIntent().getStringExtra("imageUrl");
-//        if (imagePath == null) {
-//            return;
-//        }
+        if (getIntent().getExtras() != null) {
+            imagePath = getIntent().getExtras().getString("imageUrl");
+        } else {
+//            imagePath = getString(R.string.my_order);
+        }
 
     }
 
     @Override
     protected void inject() {
-        getActivityComponent().inject(this);
+//        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
-//        mImageClothes.setImageURI(Uri.parse(imagePath));
+        mImageClothes.setImageURI(Uri.parse(imagePath));
 
     }
 
@@ -109,4 +111,5 @@ public class ChoiceSizeActivity extends BaseActivity {
     protected int getView() {
         return R.layout.activity_choice;
     }
+
 }

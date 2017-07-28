@@ -5,30 +5,35 @@ package com.example.yf.creatorshirt.mvp.model.bean;
  */
 
 public class LoginBean {
-    private String mobile;
-    private String password;
 
-    public String getMobile() {
-        return mobile;
+    private LoginToken result;
+    private int status;
+
+    public class LoginToken {
+        private String token;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public LoginToken getResult() {
+        return result;
     }
 
-    public String getPassword() {
-        return password;
+    public void setResult(LoginToken result) {
+        this.result = result;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public int getStatus() {
+        return status;
     }
 
-    @Override
-    public String toString() {
-        return "LoginBean{" +
-                "mobile='" + mobile + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

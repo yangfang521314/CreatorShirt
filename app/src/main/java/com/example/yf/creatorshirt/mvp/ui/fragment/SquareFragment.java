@@ -3,16 +3,13 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
-import com.example.yf.creatorshirt.mvp.presenter.contract.GirlContract;
 import com.example.yf.creatorshirt.mvp.presenter.GirlPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.GirlContract;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 
@@ -20,13 +17,10 @@ import butterknife.BindView;
  * Created by yf on 2017/5/11.
  */
 
-public class SquareFragment extends BaseFragment implements GirlContract.GirlView {
+public class SquareFragment extends BaseFragment<GirlPresenter> implements GirlContract.GirlView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
-    @Inject
-    GirlPresenter mPresenter;
 
     @Override
     protected void initInject() {
@@ -54,23 +48,7 @@ public class SquareFragment extends BaseFragment implements GirlContract.GirlVie
 
     @Override
     protected void initData() {
-        mPresenter.attach(this);
-        mPresenter.getGirlData();
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
+//        mPresenter.getGirlData();
     }
 
     @Override
@@ -81,6 +59,5 @@ public class SquareFragment extends BaseFragment implements GirlContract.GirlVie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detach(this);
     }
 }

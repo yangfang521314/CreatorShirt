@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yang on 02/06/2017.
+ * 主线程和分线程的切换
  */
 
 public class RxUtils {

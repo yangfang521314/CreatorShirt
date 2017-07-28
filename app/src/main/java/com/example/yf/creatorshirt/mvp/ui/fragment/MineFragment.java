@@ -2,14 +2,20 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
+import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;
 
@@ -20,7 +26,7 @@ import butterknife.OnClick;
  * Created by panguso on 2017/5/11.
  */
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment<UserInfoPresenter> implements UserInfoContract.UserView {
 
     @BindView(R.id.user_avatar)
     ImageView mUserPicture;
@@ -36,6 +42,9 @@ public class MineFragment extends BaseFragment {
     TextView mOrderNumber;
     @BindView(R.id.address_number)
     TextView mAddressNumber;
+    @BindView(R.id.user_name)
+    TextView mUserName;
+
 
     @Inject
     Activity mActivity;
@@ -57,6 +66,8 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        //根据第一次登录的接口返回的Token去访问用户返回的信息
+        mPresenter.getUserInfo();
 
     }
 
@@ -65,22 +76,45 @@ public class MineFragment extends BaseFragment {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_avatar:
-                startCommonActivity(mActivity,null, UserCenterActivity.class);
+                startCommonActivity(mActivity, null, UserCenterActivity.class);
                 break;
             case R.id.choice_address_iv:
             case R.id.address_number:
-                startCommonActivity(mActivity,null, AddressActivity.class);
+                startCommonActivity(mActivity, null, AddressActivity.class);
                 break;
             case R.id.choice_order_iv:
             case R.id.order_number:
-                startCommonActivity(mActivity,null, AllOrderActivity.class);
+                startCommonActivity(mActivity, null, AllOrderActivity.class);
                 break;
             case R.id.design_number:
             case R.id.choice_design_iv:
                 Bundle bundle = new Bundle();
-                bundle.putString("title","我的设计");
-                startCommonActivity(mActivity,bundle,AllOrderActivity.class);
+                bundle.putString("title", "我的设计");
+                startCommonActivity(mActivity, bundle, AllOrderActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(mActivity, msg, 0);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showUserInfo(UserInfo userInfo) {
+        mUserName.setText(userInfo.getResult().getNickname());
+        Log.e("TAG","DDD"+userInfo.getResult().getNickname());
+        Glide.with(mActivity).
+                load(userInfo.getResult().getHeadImage()).into(mUserPicture);
     }
 }

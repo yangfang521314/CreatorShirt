@@ -32,7 +32,7 @@ public class DesignActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-        getActivityComponent().inject(this);
+//        getActivityComponent().inject(this);
     }
 
     @Override

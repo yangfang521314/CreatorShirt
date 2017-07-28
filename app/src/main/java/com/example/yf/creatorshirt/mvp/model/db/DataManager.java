@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.model.db;
 import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
 import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -50,5 +51,9 @@ public class DataManager implements HttpHelper {
      */
     public Observable<LoginBean> getVerifyCode(String phone) {
         return mHttpHelper.getVerifyCode(phone);
+    }
+
+    public Observable<UserInfo> getUserInfo() {
+        return mHttpHelper.getUserInfo();
     }
 }

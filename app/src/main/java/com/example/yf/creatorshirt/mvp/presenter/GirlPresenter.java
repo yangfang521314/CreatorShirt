@@ -22,7 +22,7 @@ import io.reactivex.functions.Function;
  * Created by yang on 27/05/2017.
  */
 
-public class GirlPresenter extends RxPresenter<GirlContract.GirlView> implements GirlContract.GirlPresenter {
+public class GirlPresenter extends RxPresenter<GirlContract.GirlView> implements GirlContract.Presenter {
     private DataManager mDataManager;
     public static final int NUM_OF_PAGE = 20;
 

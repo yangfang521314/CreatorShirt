@@ -8,8 +8,9 @@ import com.example.yf.creatorshirt.mvp.view.BaseView;
 
 public interface BasePresenter<T extends BaseView> {
     //关联
-    void attach(T view);
+    void attachView(T view);
 
     //释放
-    void detach(T view);
+    void detachView(T view);
+
 }

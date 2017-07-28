@@ -1,22 +1,22 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements LoginContract.LoginView {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.LoginView {
 
     @BindView(R.id.phone_number)
     EditText mEditPhone;
@@ -29,9 +29,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
     @BindView(R.id.send_code)
     Button btnSendCode;
 
-    @Inject
-    LoginPresenter mPresenter;
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -39,7 +36,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 
     @Override
     protected void initView() {
-        mPresenter.attach(this);
         mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));
         mPresenter.setPhoneCode(PhoneUtils.getTextString(mEditCode));
         //手机登录
@@ -71,18 +67,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
         ToastUtil.showToast(this, msg, 0);
     }
 
-    @Override
-    public void showLoading() {
-
-    }
 
     @Override
-    public void hideLoading() {
-
+    public void LoginSuccess(LoginBean loginBean) {
+        Log.e("TAG","LO"+loginBean.getStatus());
+        ToastUtil.showToast(this, "登录成功", 0);
     }
 
-    @Override
-    public void LoginSuccess() {
-
-    }
 }

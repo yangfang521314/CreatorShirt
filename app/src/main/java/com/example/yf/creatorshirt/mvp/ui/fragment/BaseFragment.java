@@ -9,11 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.DaggerFragmentComponent;
 import com.example.yf.creatorshirt.inject.component.FragmentComponent;
 import com.example.yf.creatorshirt.inject.module.FragmentModule;
+import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
+import com.example.yf.creatorshirt.mvp.view.BaseView;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
@@ -21,10 +26,13 @@ import butterknife.ButterKnife;
  * Created by yf on 2017/5/11.
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView{
 
     private View mView;
     protected Context mContext;
+
+    @Inject
+    T mPresenter;
 
     @Nullable
     @Override
@@ -35,6 +43,9 @@ public abstract class BaseFragment extends Fragment {
             ButterKnife.bind(this, mView);
         }
         initInject();
+        if(mPresenter != null){
+            mPresenter.attachView(this);
+        }
         initData();
         initViews(mView);
         return mView;
@@ -74,5 +85,28 @@ public abstract class BaseFragment extends Fragment {
 
     public FragmentModule getFragmentModule() {
         return new FragmentModule(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        if(mPresenter != null){
+            mPresenter.detachView(this);
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }

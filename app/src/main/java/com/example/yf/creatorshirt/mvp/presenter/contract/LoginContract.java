@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
+import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -8,13 +9,13 @@ import com.example.yf.creatorshirt.mvp.view.BaseView;
  * 微信登录和手机登陆的基类view和presenter
  */
 
-public interface LoginContract {
+public interface LoginContract{
     interface LoginView extends BaseView {
         //登录成功的返回
-        void LoginSuccess();
+        void LoginSuccess(LoginBean t);
     }
 
-    interface LoginPresenter extends BasePresenter<LoginView> {
+    interface Presenter extends BasePresenter<LoginView> {
         //手机登录
         void phoneLogin();
 
@@ -28,4 +29,5 @@ public interface LoginContract {
         //微信登录
         void wenxinLogin();
     }
+
 }
