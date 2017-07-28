@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity {
     private String showFragment;
     private String hideFragment;
 
+
     @Override
     protected void inject() {
 //        getActivityComponent().inject(this);

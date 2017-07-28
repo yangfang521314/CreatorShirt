@@ -112,4 +112,21 @@ public final class SharedPreferencesUtil {
     }
 
 
+    /**
+     * 设置app第一次启动
+     *
+     * @param flag
+     */
+    public static void setAppIsFirstLaunched(Boolean flag) {
+        setBoolean(PrefKey.APP_LAUNCH, PrefKey.APP_FIRST_LAUNCH_KEY, flag);
+    }
+
+    /**
+     * 读取app是否第一次启动
+     *
+     * @return
+     */
+    public static boolean getAppIsFirstLaunched() {
+        return getBoolean(PrefKey.APP_LAUNCH, PrefKey.APP_FIRST_LAUNCH_KEY, true);
+    }
 }

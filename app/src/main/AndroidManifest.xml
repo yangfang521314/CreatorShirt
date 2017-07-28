@@ -3,10 +3,12 @@
     package="com.example.yf.creatorshirt">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
 
     <application
         android:name=".app.App"
@@ -41,7 +43,8 @@
         <activity android:name=".mvp.ui.activity.SuccessPayActivity" />
         <activity android:name=".mvp.ui.activity.DetailOrderActivity" />
         <activity android:name=".mvp.ui.activity.UserCenterActivity" />
-        <activity android:name=".mvp.ui.activity.MyDesignActivity"></activity>
+        <activity android:name=".mvp.ui.activity.MyDesignActivity" />
+        <activity android:name=".mvp.ui.activity.PermissionActivity" />
     </application>
 
 </manifest>
