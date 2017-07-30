@@ -134,7 +134,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     @Override
     protected void initView() {
 //        ImageViewUtil.matchAll(this, mClothes);
-        DisplayUtil.calculateBGWidth(App.getInstance(),mContainerBackground);
+        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackground);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -171,8 +171,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             case R.id.btn_choice_finish:
                 generateBitmap();//生成衣服的图片
                 Bundle bundle = new Bundle();
-                bundle.putString("imageUrl",imagePath);
-                startCommonActivity(this,bundle,ChoiceSizeActivity.class);
+                bundle.putString("imageUrl", imagePath);
+                startCommonActivity(this, bundle, ChoiceSizeActivity.class);
                 break;
             case R.id.back:
                 finish();
@@ -239,7 +239,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         Canvas canvas = new Canvas(bitmap);
         mContainerBackground.draw(canvas);
         imagePath = FileUtils.saveBitmap(bitmap, this);
-        Log.e("TAG","DDDD"+imagePath);
+        Log.e("TAG", "DDDD" + imagePath);
     }
 
     /**

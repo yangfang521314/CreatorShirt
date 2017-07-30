@@ -56,7 +56,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     protected int getLayoutId() {
-        return R.layout.home_fragment;
+        return R.layout.fragment_home;
     }
 
     @Override

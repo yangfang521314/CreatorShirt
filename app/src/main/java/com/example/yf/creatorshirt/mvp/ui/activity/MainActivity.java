@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity {
         mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
+        //// TODO: 2017/7/30 默认选中的状态，设计点击返回后的地下图标的状态 
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})

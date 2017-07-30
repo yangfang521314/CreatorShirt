@@ -17,7 +17,7 @@ import dagger.Component;
 public interface FragmentComponent {
     Activity getActivity();
 
-    void inject(SquareFragment communityFragment);
+//    void inject(SquareFragment communityFragment);
 
     void inject(MineFragment mineFragment);
 }
