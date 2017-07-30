@@ -1,7 +1,11 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -28,15 +32,25 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.ImageViewUtil;
 import com.example.yf.creatorshirt.utils.LogUtil;
+import com.example.yf.creatorshirt.widget.CommonObserver;
 import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 衣服具体设计样式界面
@@ -119,6 +133,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
+//        ImageViewUtil.matchAll(this, mClothes);
         DisplayUtil.calculateBGWidth(App.getInstance(),mContainerBackground);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
@@ -171,7 +186,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                         break;
                     case COLOR:
                         //不选择默认是白色
-                        mContainerBackground.setBackgroundResource(R.color.white);
+                        mClothes.setBackgroundResource(R.color.white);
                         break;
                     case ORNAMENT:
                         mChoiceOrnament.setVisibility(View.GONE);
@@ -306,7 +321,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onItemClick(View currentView, int position) {
+    public void onItemClick(View currentView, final int position) {
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
@@ -320,7 +335,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 mClothes.setImageResource(Constants.shirt_container[position]);
                 break;
             case COLOR:
-                mContainerBackground.setBackgroundResource(Constants.choice_color[position]);
+                mClothes.setBackgroundResource(Constants.choice_color[position]);
                 break;
             case ORNAMENT:
                 mChoiceOrnament.setVisibility(View.VISIBLE);

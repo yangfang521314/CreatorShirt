@@ -16,8 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_below="@+id/app_bar"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:background="@null">
 
         <RelativeLayout
@@ -60,12 +58,13 @@
             android:textSize="14sp"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/clothes_container_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/man_t_shirt" />
+            <ImageView
+                android:id="@+id/clothes_container_background"
+                android:layout_width="wrap_content"
+                android:layout_height="325dp"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/man_t_shirt" />
 
         <ImageView
             android:id="@+id/choice_select_neck"
@@ -132,8 +131,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_choice_finish"
         android:layout_below="@id/choice_front_back"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="18dp"
+        android:layout_marginTop="15dp"
         android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
@@ -142,8 +141,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_choice_back"
         android:layout_below="@+id/choice_front_back"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="18dp"
+        android:layout_marginTop="15dp"
         android:visibility="gone" />
 
     <Button
