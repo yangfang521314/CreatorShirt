@@ -3,9 +3,9 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
-import com.example.yf.creatorshirt.mvp.model.bean.PhotoGirl;
-import com.example.yf.creatorshirt.mvp.model.db.DataManager;
+import com.example.yf.creatorshirt.mvp.model.GirlData;
+import com.example.yf.creatorshirt.mvp.model.PhotoGirl;
+import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.GirlContract;
 import com.example.yf.creatorshirt.utils.RxUtils;

@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.activity;
+package com.example.yf.creatorshirt.mvp.ui.activity.base;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected LinearLayout mAppBar;
 
     @Inject
-    T mPresenter;
+    public T mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

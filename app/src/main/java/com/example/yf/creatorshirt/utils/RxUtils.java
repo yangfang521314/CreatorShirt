@@ -1,12 +1,20 @@
 package com.example.yf.creatorshirt.utils;
 
+import com.example.yf.creatorshirt.http.HttpResponse;
+
+import org.reactivestreams.Publisher;
+
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -49,4 +57,48 @@ public class RxUtils {
         };
     }
 
+    /**
+     * 统一处理服务器数据
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> FlowableTransformer<HttpResponse<T>, T> handleResult() {
+        return new FlowableTransformer<HttpResponse<T>, T>() {
+            @Override
+            public Publisher<T> apply(@NonNull Flowable<HttpResponse<T>> flowable) {
+                return flowable.flatMap(new Function<HttpResponse<T>, Flowable<T>>() {
+                    @Override
+                    public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
+                        if (tHttpResponse.getStatus() == 1) {
+                            return createData(tHttpResponse.getResult());
+                        } else {
+                            return Flowable.error(new Throwable("服务器返回error"));
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+    /**
+     * 生成Flowable,数据量大的时候背压处理
+     *
+     * @param result
+     * @param <T>
+     * @return
+     */
+    private static <T> Flowable<T> createData(final T result) {
+        return Flowable.create(new FlowableOnSubscribe<T>() {
+            @Override
+            public void subscribe(@NonNull FlowableEmitter<T> emitter) throws Exception {
+                try {
+                    emitter.onNext(result);
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        }, BackpressureStrategy.BUFFER);
+    }
 }

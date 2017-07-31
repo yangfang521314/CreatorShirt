@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 

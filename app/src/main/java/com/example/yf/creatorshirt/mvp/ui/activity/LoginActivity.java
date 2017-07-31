@@ -8,12 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;

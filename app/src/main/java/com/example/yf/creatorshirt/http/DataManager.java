@@ -1,9 +1,13 @@
-package com.example.yf.creatorshirt.mvp.model.db;
+package com.example.yf.creatorshirt.http;
 
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.GirlData;
+import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.UserInfo;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -56,4 +60,15 @@ public class DataManager implements HttpHelper {
     public Observable<UserInfo> getUserInfo() {
         return mHttpHelper.getUserInfo();
     }
+
+    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData() {
+        return mHttpHelper.getBombData();
+    }
+
+    @Override
+    public Flowable<HotDesignsBean> getHotDesign() {
+        return mHttpHelper.getHotDesign();
+    }
+
+
 }

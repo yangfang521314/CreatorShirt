@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.bean.AllOrderBean;
-import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
+import com.example.yf.creatorshirt.mvp.model.AllOrderBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.OrderViewHolder;
 

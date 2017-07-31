@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.bean.AddressBean;
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AddressAdapter;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 

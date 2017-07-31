@@ -1,7 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.db.DataManager;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.RxUtils;

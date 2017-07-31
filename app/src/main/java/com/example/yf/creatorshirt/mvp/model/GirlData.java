@@ -1,4 +1,6 @@
-package com.example.yf.creatorshirt.mvp.model.bean;
+package com.example.yf.creatorshirt.mvp.model;
+
+import com.example.yf.creatorshirt.mvp.model.PhotoGirl;
 
 import java.util.List;
 

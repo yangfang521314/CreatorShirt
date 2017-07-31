@@ -1,8 +1,12 @@
-package com.example.yf.creatorshirt.mvp.model.db;
+package com.example.yf.creatorshirt.http;
 
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.GirlData;
+import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -74,6 +78,16 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Observable getUserInfo() {
         return mRequestApi.getUserInfo();
+    }
+
+    @Override
+    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData() {
+        return mRequestApi.getBombData();
+    }
+
+    @Override
+    public Flowable<HotDesignsBean> getHotDesign() {
+        return mRequestApi.getHotDesign();
     }
 
 }

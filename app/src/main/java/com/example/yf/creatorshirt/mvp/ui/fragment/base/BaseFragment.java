@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.fragment;
+package com.example.yf.creatorshirt.mvp.ui.fragment.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,7 +32,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     protected Context mContext;
 
     @Inject
-    T mPresenter;
+    public T mPresenter;
 
     @Nullable
     @Override

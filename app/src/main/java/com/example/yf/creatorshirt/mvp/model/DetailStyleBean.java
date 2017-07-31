@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.model.bean;
+package com.example.yf.creatorshirt.mvp.model;
 
 import java.util.List;
 

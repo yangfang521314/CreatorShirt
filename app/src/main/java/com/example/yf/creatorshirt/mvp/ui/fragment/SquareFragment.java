@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.adapter.SquarePagerAdapter;
+import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
 
@@ -39,8 +40,8 @@ public class SquareFragment extends BaseFragment {
         mFragmentList.clear();
         mHotDesignsFragment = new HotDesignsFragment();
         mBombStylesFragment = new BombStylesFragment();
-        mFragmentList.add(mHotDesignsFragment);
         mFragmentList.add(mBombStylesFragment);
+        mFragmentList.add(mHotDesignsFragment);
         ArrayList<String> tabName = new ArrayList<>();
         tabName.add("爆款推荐");
         tabName.add("设计师");

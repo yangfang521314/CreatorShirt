@@ -1,11 +1,9 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-
-import butterknife.BindView;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 
 public class DetailOrderActivity extends BaseActivity {
 

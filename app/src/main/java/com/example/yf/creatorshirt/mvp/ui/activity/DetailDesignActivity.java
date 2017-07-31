@@ -1,11 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -26,31 +22,22 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.bean.StyleBean;
+import com.example.yf.creatorshirt.mvp.model.StyleBean;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
-import com.example.yf.creatorshirt.utils.ImageViewUtil;
 import com.example.yf.creatorshirt.utils.LogUtil;
-import com.example.yf.creatorshirt.widget.CommonObserver;
 import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 衣服具体设计样式界面

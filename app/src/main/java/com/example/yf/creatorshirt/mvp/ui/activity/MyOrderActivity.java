@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

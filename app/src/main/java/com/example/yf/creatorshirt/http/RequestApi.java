@@ -1,9 +1,13 @@
-package com.example.yf.creatorshirt.mvp.model.db;
+package com.example.yf.creatorshirt.http;
 
-import com.example.yf.creatorshirt.mvp.model.bean.GirlData;
-import com.example.yf.creatorshirt.mvp.model.bean.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.bean.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.GirlData;
+import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.UserInfo;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -35,9 +39,17 @@ public interface RequestApi {
             @Path("password") String password);
 
     //获取验证码
-
     Observable<LoginBean> getCode(String phone);
 
+    //获取用户信息
     @GET("user/getInfo")
     Observable<UserInfo> getUserInfo();
+
+    //获取爆款数据
+    @GET("clothers/getBombStyles")
+    Flowable<HttpResponse<List<BombStyleBean>>> getBombData();
+
+    //获取所有的设计师
+    @GET("user/hotDesigns")
+    Flowable<HotDesignsBean> getHotDesign();
 }

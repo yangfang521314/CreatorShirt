@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.bean.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
+import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;

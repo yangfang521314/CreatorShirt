@@ -3,7 +3,7 @@ package com.example.yf.creatorshirt.inject.module;
 import android.support.compat.BuildConfig;
 
 import com.example.yf.creatorshirt.utils.FileUtils;
-import com.example.yf.creatorshirt.mvp.model.db.RequestApi;
+import com.example.yf.creatorshirt.http.RequestApi;
 import com.example.yf.creatorshirt.utils.NetworkUtils;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.model.bean;
+package com.example.yf.creatorshirt.mvp.model;
 
 /**
  * Created by yang on 2017/6/17.
