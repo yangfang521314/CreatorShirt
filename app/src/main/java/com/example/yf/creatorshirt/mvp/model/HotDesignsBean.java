@@ -1,14 +1,10 @@
 package com.example.yf.creatorshirt.mvp.model;
 
-import java.util.List;
-
 /**
  * Created by yang on 31/07/2017.
  */
 
 public class HotDesignsBean {
-    private int status;
-    private List<HotDesign> result;
 
     /**
      * "designNum": 90,
@@ -16,7 +12,7 @@ public class HotDesignsBean {
      * "nickname": "霍霍",
      * "userId": 10000
      */
-    public class HotDesign {
+
         private int designNum;
         private String headImage;
         private String nickname;
@@ -50,24 +46,4 @@ public class HotDesignsBean {
             return userId;
         }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public List<HotDesign> getResult() {
-        return result;
-    }
-
-    public void setResult(List<HotDesign> result) {
-        this.result = result;
-    }
 }

@@ -5,6 +5,7 @@ import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.UserInfo;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Observable getUserInfo() {
+    public Observable <HttpResponse<UserInfo>>getUserInfo() {
         return mRequestApi.getUserInfo();
     }
 
@@ -86,7 +87,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HotDesignsBean> getHotDesign() {
+    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign() {
         return mRequestApi.getHotDesign();
     }
 

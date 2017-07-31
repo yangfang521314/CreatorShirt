@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -29,7 +30,8 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.UserView> im
     @Override
     public void getUserInfo() {
         addSubscribe(manager.getUserInfo()
-                .compose(RxUtils.<UserInfo>rxObScheduleHelper())
+                .compose(RxUtils.<HttpResponse<UserInfo>>rxObScheduleHelper())
+                .compose(RxUtils.<UserInfo>handleObservableResult())
                 .subscribeWith(new CommonObserver<UserInfo>(mView, "请求失败") {
                     @Override
                     public void onNext(@NonNull UserInfo userInfo) {

@@ -10,6 +10,8 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -79,6 +81,44 @@ public class RxUtils {
                 });
             }
         };
+    }
+
+    /**
+     * 统一处理服务器数据
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> ObservableTransformer<HttpResponse<T>, T> handleObservableResult() {
+        return new ObservableTransformer<HttpResponse<T>, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<HttpResponse<T>> upstream) {
+                return upstream.flatMap(new Function<HttpResponse<T>, ObservableSource<T>>() {
+                    @Override
+                    public ObservableSource<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
+                        if (tHttpResponse.getStatus() == 1) {
+                            return createObservablData(tHttpResponse.getResult());
+                        } else {
+                            return Observable.error(new Throwable("服务器返回error"));
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+    private static <T> ObservableSource<T> createObservablData(final T result) {
+        return Observable.create(new ObservableOnSubscribe<T>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<T> emitter) throws Exception {
+                try {
+                    emitter.onNext(result);
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        });
     }
 
     /**

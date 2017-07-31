@@ -43,7 +43,7 @@ public interface RequestApi {
 
     //获取用户信息
     @GET("user/getInfo")
-    Observable<UserInfo> getUserInfo();
+    Observable<HttpResponse<UserInfo>> getUserInfo();
 
     //获取爆款数据
     @GET("clothers/getBombStyles")
@@ -51,5 +51,5 @@ public interface RequestApi {
 
     //获取所有的设计师
     @GET("user/hotDesigns")
-    Flowable<HotDesignsBean> getHotDesign();
+    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
 }

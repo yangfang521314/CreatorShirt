@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -30,17 +31,11 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
     @Override
     public void getHotDesign() {
         addSubscribe(dataManager.getHotDesign()
-        .compose(RxUtils.<HotDesignsBean>rxSchedulerHelper())
-                .map(new Function<HotDesignsBean, List<HotDesignsBean.HotDesign>>() {
-
+        .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<HotDesignsBean>> handleResult())
+                .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView, "请求失败") {
                     @Override
-                    public List<HotDesignsBean.HotDesign> apply(@NonNull HotDesignsBean hotDesignsBean) throws Exception {
-                        return hotDesignsBean.getResult();
-                    }
-                })
-                .subscribeWith(new CommonSubscriber<List<HotDesignsBean.HotDesign>>(mView, "请求失败") {
-                    @Override
-                    public void onNext(List<HotDesignsBean.HotDesign> hotDesigns) {
+                    public void onNext(List<HotDesignsBean> hotDesigns) {
                         mView.showSuccess(hotDesigns);
                     }
                 })

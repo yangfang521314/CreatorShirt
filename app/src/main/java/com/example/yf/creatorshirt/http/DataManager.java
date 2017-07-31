@@ -57,7 +57,7 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getVerifyCode(phone);
     }
 
-    public Observable<UserInfo> getUserInfo() {
+    public Observable<HttpResponse<UserInfo>> getUserInfo() {
         return mHttpHelper.getUserInfo();
     }
 
@@ -66,9 +66,7 @@ public class DataManager implements HttpHelper {
     }
 
     @Override
-    public Flowable<HotDesignsBean> getHotDesign() {
+    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign() {
         return mHttpHelper.getHotDesign();
     }
-
-
 }

@@ -125,7 +125,6 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction().show(showFragment).hide(hideFragment).commit();
     }
 
-
     private Fragment getShowFragment(String flag) {
         switch (flag) {
             case TYPE_SQUARE:

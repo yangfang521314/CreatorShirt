@@ -25,9 +25,9 @@ public interface HttpHelper {
 
     Observable<LoginBean> getVerifyCode(String phone);
 
-    Observable<UserInfo> getUserInfo();
+    Observable<HttpResponse<UserInfo>> getUserInfo();
 
     Flowable<HttpResponse<List<BombStyleBean>>> getBombData();
 
-    Flowable<HotDesignsBean> getHotDesign();
+    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
 }
