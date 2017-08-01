@@ -43,6 +43,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .statusBarDarkFont(true, 0.2f)
                 .init();
         ButterKnife.bind(this);
+        App.getInstance().addActivity(this);
         inject();
         if (mPresenter != null)
             mPresenter.attachView(this);

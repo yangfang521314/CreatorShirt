@@ -14,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -36,7 +37,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private PermissionChecker mPermissionsChecker; // 权限检测器
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
-            Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
@@ -86,5 +86,38 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ToastUtil.showToast(this, "登录成功", 0);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //设置到启动页面
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            String notice = "存储空间权限用于下载和软件更新,关闭权限将关闭应用，是否放弃权限允许？";
+            PermissionActivity.startActivityForResult(this, notice, REQUEST_CODE, PERMISSIONS);
+        } else {
+            startOtherActivity();
+        }
+    }
+
+    private void startOtherActivity() {
+        boolean isFirstLaunch = SharedPreferencesUtil.getAppIsFirstLaunched();
+        if (!isFirstLaunch) {
+            //// TODO: 28/07/2017 启动第一次直接进入MainAvtivity
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 拒绝时,缺少主要权限,
+        if (requestCode == REQUEST_CODE && resultCode == PermissionActivity.PERMISSIONS_DENIED) {
+            //checkPermission=true;
+            finish();
+        } else {
+            startOtherActivity();
+        }
+    }
 
 }

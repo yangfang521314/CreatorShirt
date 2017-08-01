@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
@@ -51,7 +50,6 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
 
     @Override
     public void showSuccess(List<BombStyleBean> bombStyles) {
-        Log.e("TAG","BOOO"+bombStyles.size());
         BombStyleAdapter adapter = new BombStyleAdapter(mActivity);
         adapter.setData(bombStyles);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,2));

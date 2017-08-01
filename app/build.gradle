@@ -57,6 +57,10 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["annotationProcessor"]
 
     compile rootProject.ext.dependencies["percent—support"]
+    //leakcanary
+    compile rootProject.ext.dependencies["debugCompile"]
+    compile rootProject.ext.dependencies["releaseCompile"]
+    compile rootProject.ext.dependencies["testCompile"]
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'

@@ -21,7 +21,7 @@ public class Constants {
     //袖子
     public final static int[] shirt_container = {R.mipmap.man_vest, R.mipmap.man_t_shirt, R.mipmap.man_long};
     //领子
-    public final static int[] shirt_neck = {R.mipmap.icon_circle_neck, R.mipmap.icon_tshirt_neck};
+    public final static int[] shirt_neck = {R.mipmap.icon_circle_neck, R.mipmap.icon_tshirt_neck, R.mipmap.icon_tshirt_neck};
     //颜色
     public final static int[] clothes_color = {R.drawable.shape_black, R.drawable.shape_blue, R.drawable.shape_white};
     public final static String[] color_name = {"黑色", "蓝色", "白色"};

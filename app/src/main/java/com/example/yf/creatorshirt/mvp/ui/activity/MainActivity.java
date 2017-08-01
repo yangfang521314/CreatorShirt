@@ -7,10 +7,13 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
@@ -36,6 +39,7 @@ public class MainActivity extends BaseActivity {
     private MineFragment mMineFragment;
     private String showFragment;
     private String hideFragment;
+    private long mExitTime = 0;
 
 
     @Override
@@ -57,7 +61,7 @@ public class MainActivity extends BaseActivity {
         mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
-        //// TODO: 2017/7/30 默认选中的状态，设计点击返回后的地下图标的状态 
+        choiceTabState(TYPE_SQUARE);
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
@@ -135,4 +139,18 @@ public class MainActivity extends BaseActivity {
         return mSquareFragment;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, getResources().getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                MainActivity.this.finish();
+                App.getInstance().exitApp();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
