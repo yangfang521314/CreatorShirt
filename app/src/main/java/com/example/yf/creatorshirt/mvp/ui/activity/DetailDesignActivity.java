@@ -120,8 +120,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
-//        ImageViewUtil.matchAll(this, mClothes);
-        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackground);
+        DisplayUtil.calculateBGWidth(App.getInstance(),mContainerBackground);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -158,8 +157,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             case R.id.btn_choice_finish:
                 generateBitmap();//生成衣服的图片
                 Bundle bundle = new Bundle();
-                bundle.putString("imageUrl", imagePath);
-                startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+                bundle.putString("imageUrl",imagePath);
+                startCommonActivity(this,bundle,ChoiceSizeActivity.class);
                 break;
             case R.id.back:
                 finish();
@@ -226,7 +225,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         Canvas canvas = new Canvas(bitmap);
         mContainerBackground.draw(canvas);
         imagePath = FileUtils.saveBitmap(bitmap, this);
-        Log.e("TAG", "DDDD" + imagePath);
+        Log.e("TAG","DDDD"+imagePath);
     }
 
     /**
@@ -246,6 +245,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                 switch (view.getId()) {
                     case R.id.choice_done:
                         mSignatureText = s;
+                        mClothesSignature.setVisibility(View.VISIBLE);
                         mClothesSignature.setText(mSignatureText);
                         dialog.dismiss();
                         break;
@@ -308,7 +308,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onItemClick(View currentView, final int position) {
+    public void onItemClick(View currentView, int position) {
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
@@ -337,6 +337,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                     mClothesSignature.setVisibility(View.GONE);
                     isEditSign = false;
                 } else if (position == 1) {
+                    Log.e("TAG","DDDDD");
                     mClothesSignature.setVisibility(View.VISIBLE);
                     isEditSign = true;
                 }
