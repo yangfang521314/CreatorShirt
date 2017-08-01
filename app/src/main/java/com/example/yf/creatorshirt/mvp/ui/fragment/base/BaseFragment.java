@@ -67,7 +67,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
     protected abstract void initViews(View mView);
 
-    protected abstract void initData();
+    protected void initData(){
+
+    }
 
 
     public void startCommonActivity(Activity formActivity, Bundle bundle, Class toActivity) {

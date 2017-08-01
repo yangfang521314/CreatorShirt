@@ -60,8 +60,10 @@
 
             <ImageView
                 android:id="@+id/clothes_container_background"
-                android:layout_width="wrap_content"
-                android:layout_height="325dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/man_t_shirt" />
