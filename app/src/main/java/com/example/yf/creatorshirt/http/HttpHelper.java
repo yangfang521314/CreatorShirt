@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.http;
 
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
@@ -30,4 +31,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<List<BombStyleBean>>> getBombData();
 
     Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
+
+    Flowable<HttpResponse<List<AddressBean>>> getAddressData();
 }

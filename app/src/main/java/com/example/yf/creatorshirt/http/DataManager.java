@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.http;
 
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
@@ -68,5 +69,10 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign() {
         return mHttpHelper.getHotDesign();
+    }
+
+    @Override
+    public Flowable<HttpResponse<List<AddressBean>>> getAddressData() {
+        return mHttpHelper.getAddressData();
     }
 }

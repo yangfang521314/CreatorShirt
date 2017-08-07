@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.AddressViewHolder;
  * Created by yang on 29/06/2017.
  */
 
-public class AddressAdapter extends BaseAdapter<AddressBean,AddressViewHolder>{
+public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> {
 
     public AddressAdapter(Context context) {
         super(context);
@@ -25,6 +25,8 @@ public class AddressAdapter extends BaseAdapter<AddressBean,AddressViewHolder>{
 
     @Override
     protected void bindCustomViewHolder(AddressViewHolder holder, int position) {
-
+        holder.mReceiverName.setText(mData.get(position).getName());
+        holder.mAddress.setText(mData.get(position).getAddress());
+        holder.mReceiverPhone.setText(mData.get(position).getMobile());
     }
 }

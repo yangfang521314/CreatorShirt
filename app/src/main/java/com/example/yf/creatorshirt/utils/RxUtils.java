@@ -21,11 +21,12 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yang on 02/06/2017.
- * 主线程和分线程的切换
+ * 主线程和分线程的切换,处理Rx跳转的结果
  */
 
 public class RxUtils {
 
+    private static final String TAG = RxUtils.class.getSimpleName();
 
     /**
      * 统一线程处理（Flowable）
@@ -72,9 +73,10 @@ public class RxUtils {
                 return flowable.flatMap(new Function<HttpResponse<T>, Flowable<T>>() {
                     @Override
                     public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
-                        if (tHttpResponse.getStatus() == 1) {
+                        if (tHttpResponse.getStatus() != 0) {//// TODO: 07/08/2017 需要修改 
                             return createData(tHttpResponse.getResult());
                         } else {
+                            LogUtil.e(TAG, "服务器返回error");
                             return Flowable.error(new Throwable("服务器返回error"));
                         }
                     }

@@ -13,9 +13,11 @@
         android:id="@+id/address_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/add_layout"
         android:layout_below="@+id/app_bar" />
 
     <LinearLayout
+        android:id="@+id/add_layout"
         android:background="@color/almond"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

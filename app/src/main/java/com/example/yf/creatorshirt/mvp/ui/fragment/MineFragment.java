@@ -114,8 +114,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     public void showUserInfo(UserInfo userInfo) {
         mUserName.setText(userInfo.getNickname());
-        Log.e("TAG","DDD"+userInfo.getNickname());
+        Log.e("TAG", "DDD" + userInfo.getNickname());
         Glide.with(mActivity).
                 load(userInfo.getHeadImage()).into(mUserPicture);
+
     }
 }

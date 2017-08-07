@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.http;
 
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
@@ -52,4 +53,9 @@ public interface RequestApi {
     //获取所有的设计师
     @GET("user/hotDesigns")
     Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
+
+    //获取我的地址
+    @GET("user/getAddress")
+    Flowable<HttpResponse<List<AddressBean>>> getAddress();
+
 }

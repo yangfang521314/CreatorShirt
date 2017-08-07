@@ -2,28 +2,28 @@ package com.example.yf.creatorshirt.mvp.model;
 
 /**
  * Created by yang on 29/06/2017.
+ * 地址字段
  */
 
 public class AddressBean {
-    private String name;
-    private String phone;
+    /**
+     * "address": "测试内容uz41",
+     * "city": "测试内容c80k",
+     * "id": 35676,
+     * "isDefault": false,
+     * "mobile": "测试内容xs56",
+     * "name": "测试内容t4a2",
+     * "province": "测试内容3b6t",
+     * "region": "测试内容8t4w"
+     */
     private String address;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    private String city;
+    private int id;
+    private boolean isDefault;
+    private String mobile;
+    private String name;
+    private String province;
+    private String region;
 
     public String getAddress() {
         return address;
@@ -33,12 +33,59 @@ public class AddressBean {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "AddressBean{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

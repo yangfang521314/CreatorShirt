@@ -13,37 +13,37 @@ public class HotDesignsBean {
      * "userId": 10000
      */
 
-        private int designNum;
-        private String headImage;
-        private String nickname;
-        private int userId;
+    private int designNum;
+    private String headImage;
+    private String nickname;
+    private int userId;
 
-        public int getDesignNum() {
-            return designNum;
-        }
+    public int getDesignNum() {
+        return designNum;
+    }
 
-        public void setDesignNum(int designNum) {
-            this.designNum = designNum;
-        }
+    public void setDesignNum(int designNum) {
+        this.designNum = designNum;
+    }
 
-        public String getHeadImage() {
-            return headImage;
-        }
+    public String getHeadImage() {
+        return headImage;
+    }
 
-        public void setHeadImage(String headImage) {
-            this.headImage = headImage;
-        }
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
 
-        public String getNickname() {
-            return nickname;
-        }
+    public String getNickname() {
+        return nickname;
+    }
 
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-        public int getUserId() {
-            return userId;
-        }
+    public int getUserId() {
+        return userId;
+    }
 
 }
