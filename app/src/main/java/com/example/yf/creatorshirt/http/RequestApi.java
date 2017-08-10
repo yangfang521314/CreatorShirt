@@ -22,7 +22,7 @@ import retrofit2.http.Path;
 
 public interface RequestApi {
     //主服务器的baseUrl
-    String HOST = "http://rapapi.org/mockjsdata/23280/";
+    String HOST = "http://style.man-kang.com/api/";
 
     //抓取数据
     Flowable<NewsSummary> getNewsSummary();
@@ -58,4 +58,6 @@ public interface RequestApi {
     @GET("user/getAddress")
     Flowable<HttpResponse<List<AddressBean>>> getAddress();
 
+    @GET("fDesigns/GetBaseInfo")
+    Flowable<HttpResponse<String>> getBaseDesignData();
 }

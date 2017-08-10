@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CreatorShirt</string>
+    <string name="app_name">衣舍</string>
     <string name="title_activity_detail_design">DetailDesign</string>
     <string name="double_click_input_text">双击输入文字</string>
     <string name="design">设计定制</string>

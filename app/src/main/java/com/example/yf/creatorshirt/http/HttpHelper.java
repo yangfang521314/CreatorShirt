@@ -33,4 +33,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
 
     Flowable<HttpResponse<List<AddressBean>>> getAddressData();
+
+    Flowable<HttpResponse<String>> getBaseDesign();
 }

@@ -7,7 +7,13 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.design.DesignBaseBean;
+import com.example.yf.creatorshirt.mvp.presenter.DesignPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -15,7 +21,7 @@ import butterknife.OnClick;
 /**
  * 选择衣服总体样式页面
  */
-public class DesignActivity extends BaseActivity {
+public class DesignActivity extends BaseActivity<DesignPresenter> implements DesignBaseContract.DesignBaseView {
     @BindView(R.id.choice_t_shirt)
     RelativeLayout mChoiceTShirt;
     @BindView(R.id.choice_shirts)
@@ -33,13 +39,19 @@ public class DesignActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        mPresenter.getBaseData();
     }
 
     @OnClick({R.id.btn_start, R.id.choice_man, R.id.choice_woman, R.id.back, R.id.choice_shirts, R.id.choice_t_shirt})
@@ -74,5 +86,10 @@ public class DesignActivity extends BaseActivity {
     @Override
     protected int getView() {
         return R.layout.activity_design;
+    }
+
+    @Override
+    public void showBaseDesignSuccess(Map<String, List<DesignBaseBean>> designBean) {
+
     }
 }

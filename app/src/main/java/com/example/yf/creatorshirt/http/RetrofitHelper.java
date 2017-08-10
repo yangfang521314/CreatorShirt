@@ -97,4 +97,9 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.getAddress();
     }
 
+    @Override
+    public Flowable<HttpResponse<String>> getBaseDesign() {
+        return mRequestApi.getBaseDesignData();
+    }
+
 }

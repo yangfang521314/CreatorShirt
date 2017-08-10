@@ -13,7 +13,7 @@ ext {
             retrofit   : "2.2.0",
             okhttp     : "3.6.0",
             dagger2    : "2.5",
-            butterknife: "8.5.1",
+            butterknife: "8.8.1",
             leakcanary : "1.5.1",
 
     ]

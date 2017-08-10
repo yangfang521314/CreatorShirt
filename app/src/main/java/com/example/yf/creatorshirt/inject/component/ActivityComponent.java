@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.inject.scope.AcitivityScope;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.DesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 
 import dagger.Component;
@@ -24,7 +25,7 @@ public interface ActivityComponent {
 
     void inject(AddressActivity addressActivity);
 
-//    void inject(DesignActivity designActivity);
+    void inject(DesignActivity designActivity);
 //
 //    void inject(DetailDesignActivity detailDesignActivity);
 //

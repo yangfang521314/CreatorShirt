@@ -75,4 +75,9 @@ public class DataManager implements HttpHelper {
     public Flowable<HttpResponse<List<AddressBean>>> getAddressData() {
         return mHttpHelper.getAddressData();
     }
+
+    @Override
+    public Flowable<HttpResponse<String>> getBaseDesign() {
+        return mHttpHelper.getBaseDesign();
+    }
 }
