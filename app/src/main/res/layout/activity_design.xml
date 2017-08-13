@@ -91,60 +91,10 @@
         android:text="STEP 2: 选款式"
         android:textSize="16sp" />
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/clothe_style"
-        android:orientation="horizontal"
-        android:padding="3dp">
-
-        <RelativeLayout
-            android:id="@+id/choice_t_shirt"
-            style="@style/sex_container_style">
-
-            <TextView
-                android:id="@+id/t_shirt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/icon_t_shirt"
-                android:gravity="center"
-                android:text="T恤"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/t_shirt"
-                android:layout_marginTop="2dp"
-                android:text="全棉材质"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/choice_shirts"
-            style="@style/sex_container_style">
-
-            <TextView
-                android:id="@+id/shirts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@mipmap/icon_shirts"
-                android:gravity="center"
-                android:text="衬衫"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/shirts"
-                android:layout_marginTop="2dp"
-                android:text="全棉材质"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:layout_below="@+id/clothe_style" />
 
     <Button
         android:id="@+id/btn_start"

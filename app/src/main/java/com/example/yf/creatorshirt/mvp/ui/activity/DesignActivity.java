@@ -1,6 +1,8 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import com.example.yf.creatorshirt.mvp.model.design.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.presenter.DesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.adapter.DesignAdapter;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,8 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
     RelativeLayout mChoiceWoman;
     @BindView(R.id.btn_start)
     Button mStartDesign;
+    @BindView(R.id.clothe_style)
+    RecyclerView mClotheRV;
 
 
     @BindView(R.id.tool_bar)
@@ -58,8 +63,8 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                if ((mChoiceWoman.isSelected() || mChoiceMan.isSelected()) && ((mChoiceTShirt.isSelected()) || mChoiceShirts.isSelected()))
-                    startActivity(new Intent(this, DetailDesignActivity.class));
+//                if ((mChoiceWoman.isSelected() || mChoiceMan.isSelected()) && ((mChoiceTShirt.isSelected()) || mChoiceShirts.isSelected()))
+//                    startActivity(new Intent(this, DetailDesignActivity.class));
                 break;
             case R.id.back:
                 finish();
@@ -71,14 +76,14 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
             case R.id.choice_woman:
                 mChoiceWoman.setSelected(true);
                 mChoiceMan.setSelected(false);
-                break;
-            case R.id.choice_shirts:
-                mChoiceShirts.setSelected(true);
-                mChoiceTShirt.setSelected(false);
-                break;
-            case R.id.choice_t_shirt:
-                mChoiceShirts.setSelected(false);
-                mChoiceTShirt.setSelected(true);
+//                break;
+//            case R.id.choice_shirts:
+//                mChoiceShirts.setSelected(true);
+//                mChoiceTShirt.setSelected(false);
+//                break;
+//            case R.id.choice_t_shirt:
+//                mChoiceShirts.setSelected(false);
+//                mChoiceTShirt.setSelected(true);
                 break;
         }
     }
@@ -90,6 +95,9 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
 
     @Override
     public void showBaseDesignSuccess(Map<String, List<DesignBaseBean>> designBean) {
+        mClotheRV.setLayoutManager(new GridLayoutManager(this, 2));
+        DesignAdapter adapter = new DesignAdapter(this);
+        mClotheRV.setAdapter(adapter);
 
     }
 }
