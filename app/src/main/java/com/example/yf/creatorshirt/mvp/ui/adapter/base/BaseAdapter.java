@@ -22,7 +22,7 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
             Log.e("TAG", "数据为空");
             return 0;
         }
-        return 4;
+        return mData.size();
     }
 
 
