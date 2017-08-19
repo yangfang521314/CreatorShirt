@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -120,7 +121,7 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
 
     @Override
     public void showBaseDesignSuccess(Map<String, List<DesignBaseBean>> designBean) {
-
+        Log.e("tga",",,,,,"+designBean.get("m").size());
     }
 
     @Override

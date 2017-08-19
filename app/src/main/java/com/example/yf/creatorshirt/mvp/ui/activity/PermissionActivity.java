@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
@@ -41,7 +42,7 @@ public class PermissionActivity extends AppCompatActivity {
             throw new RuntimeException("PermissionsActivity需要使用静态startActivityForResult方法启动!");
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_permission);
         mChecker = new PermissionChecker(this);
         isRequireCheck = true;

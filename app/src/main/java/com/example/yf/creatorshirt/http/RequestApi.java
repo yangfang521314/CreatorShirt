@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.DesignBase;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
@@ -58,6 +59,6 @@ public interface RequestApi {
     @GET("user/getAddress")
     Flowable<HttpResponse<List<AddressBean>>> getAddress();
 
-    @GET("fDesigns/GetBaseInfo")
-    Flowable<HttpResponse<String>> getBaseDesignData();
+    @POST("fDesigns/GetBaseInfo")
+    Flowable<HttpResponse<DesignBase>> getBaseDesignData();
 }

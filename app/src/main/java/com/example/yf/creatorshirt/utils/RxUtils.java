@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.utils;
 
+import android.util.Log;
+
 import com.example.yf.creatorshirt.http.HttpResponse;
 
 import org.reactivestreams.Publisher;
@@ -73,7 +75,9 @@ public class RxUtils {
                 return flowable.flatMap(new Function<HttpResponse<T>, Flowable<T>>() {
                     @Override
                     public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
-                        if (tHttpResponse.getStatus() != 0) {//// TODO: 07/08/2017 需要修改 
+                        if (tHttpResponse.getStatus() == 1) {
+                            Log.e(TAG,"status"+tHttpResponse.getStatus());
+                            Log.e(TAG,"status"+tHttpResponse.getResult());
                             return createData(tHttpResponse.getResult());
                         } else {
                             LogUtil.e(TAG, "服务器返回error");

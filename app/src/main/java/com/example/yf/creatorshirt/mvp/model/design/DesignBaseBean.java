@@ -35,4 +35,13 @@ public class DesignBaseBean {
     public void setGender(String gender) {
         Gender = gender;
     }
+
+    @Override
+    public String toString() {
+        return "DesignBaseBean{" +
+                "baseId='" + baseId + '\'' +
+                ", baseName='" + baseName + '\'' +
+                ", Gender='" + Gender + '\'' +
+                '}';
+    }
 }
