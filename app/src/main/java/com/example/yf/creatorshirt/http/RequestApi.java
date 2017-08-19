@@ -2,12 +2,13 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.DesignBase;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
 
@@ -60,5 +61,7 @@ public interface RequestApi {
     Flowable<HttpResponse<List<AddressBean>>> getAddress();
 
     @POST("fDesigns/GetBaseInfo")
-    Flowable<HttpResponse<DesignBase>> getBaseDesignData();
+    Flowable<HttpResponse<DesignBaseInfo>> getBaseDesignData();
+
+    Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(String gender, String type);
 }

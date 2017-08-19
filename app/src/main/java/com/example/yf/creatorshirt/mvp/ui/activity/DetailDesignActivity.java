@@ -23,6 +23,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.StyleBean;
+import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
@@ -42,7 +43,7 @@ import butterknife.OnClick;
 /**
  * 衣服具体设计样式界面
  */
-public class DetailDesignActivity extends BaseActivity implements ItemClickListener.OnItemClickListener,
+public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener {
 
     private static final String TAG = DetailDesignActivity.class.getSimpleName();
@@ -58,7 +59,6 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     RecyclerView mRecyclerDetailStyle;//具体设计的recyclerView
     @BindView(R.id.choice_style)
     RecyclerView mRecyclerStyle;//style的recyclerView
-
     @BindView(R.id.choice_select_neck)
     ImageView mChoiceNeck;
     @BindView(R.id.clothes_container_background)
@@ -108,9 +108,12 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
     //定制完成后图片的路径
     private String imagePath;
 
+    private String gender;
+    private String type;
+
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -120,7 +123,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     protected void initView() {
-        DisplayUtil.calculateBGWidth(App.getInstance(),mContainerBackground);
+        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackground);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -134,6 +137,11 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
 
     @Override
     public void initData() {
+        if (getIntent().getExtras() != null) {
+            gender = getIntent().getExtras().getString("gender");
+            type = getIntent().getExtras().getString("type");
+        }
+        mPresenter.getDetailDesign(gender,type);
         int[] image = Constants.styleImage;
         String[] styleTitle = Constants.styleTitle;
         StyleBean styleBean;
@@ -157,8 +165,8 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
             case R.id.btn_choice_finish:
                 generateBitmap();//生成衣服的图片
                 Bundle bundle = new Bundle();
-                bundle.putString("imageUrl",imagePath);
-                startCommonActivity(this,bundle,ChoiceSizeActivity.class);
+                bundle.putString("imageUrl", imagePath);
+                startCommonActivity(this, bundle, ChoiceSizeActivity.class);
                 break;
             case R.id.back:
                 finish();
@@ -225,7 +233,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
         Canvas canvas = new Canvas(bitmap);
         mContainerBackground.draw(canvas);
         imagePath = FileUtils.saveBitmap(bitmap, this);
-        Log.e("TAG","DDDD"+imagePath);
+        Log.e("TAG", "DDDD" + imagePath);
     }
 
     /**
@@ -337,7 +345,7 @@ public class DetailDesignActivity extends BaseActivity implements ItemClickListe
                     mClothesSignature.setVisibility(View.GONE);
                     isEditSign = false;
                 } else if (position == 1) {
-                    Log.e("TAG","DDDDD");
+                    Log.e("TAG", "DDDDD");
                     mClothesSignature.setVisibility(View.VISIBLE);
                     isEditSign = true;
                 }

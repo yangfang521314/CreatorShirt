@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.model.design;
+package com.example.yf.creatorshirt.mvp.model.basechoice;
 
 /**
  * Created by yang on 10/08/2017.

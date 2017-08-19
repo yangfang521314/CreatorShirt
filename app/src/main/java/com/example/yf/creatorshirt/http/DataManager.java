@@ -2,12 +2,13 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.DesignBase;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
 
@@ -77,8 +78,23 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getAddressData();
     }
 
+    /**
+     * 首页选择衣服或者裤子的数据
+     * @return
+     */
     @Override
-    public Flowable<HttpResponse<DesignBase>> getBaseDesign() {
+    public Flowable<HttpResponse<DesignBaseInfo>> getBaseDesign() {
         return mHttpHelper.getBaseDesign();
+    }
+
+    /**
+     * 具体设计样式的数据选择
+     * @param gender
+     * @param type
+     * @return
+     */
+    @Override
+    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(String gender, String type) {
+        return mHttpHelper.getDetailDesign(gender,type);
     }
 }

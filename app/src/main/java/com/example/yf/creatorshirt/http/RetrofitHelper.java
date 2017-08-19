@@ -2,12 +2,13 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.DesignBase;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
 
@@ -99,8 +100,13 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<DesignBase>> getBaseDesign() {
+    public Flowable<HttpResponse<DesignBaseInfo>> getBaseDesign() {
         return mRequestApi.getBaseDesignData();
+    }
+
+    @Override
+    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(String gender, String type) {
+        return mRequestApi.getDetailDesignStyle(gender,type);
     }
 
 }

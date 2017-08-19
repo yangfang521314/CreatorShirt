@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.design.DesignBaseBean;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
 
@@ -28,6 +28,8 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
 
     @Override
     protected void bindCustomViewHolder(DesignBaseHolder holder, final int position) {
+        holder.mClothesName.setText(mData.get(position).getBaseName());
+
         holder.llClothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

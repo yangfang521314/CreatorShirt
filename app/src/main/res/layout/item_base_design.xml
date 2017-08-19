@@ -10,7 +10,7 @@
         style="@style/sex_container_style">
 
         <TextView
-            android:id="@+id/t_shirt"
+            android:id="@+id/clothes_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/icon_t_shirt"
@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/t_shirt"
+            android:layout_below="@id/clothes_name"
             android:layout_marginTop="2dp"
             android:text="全棉材质"
             android:textSize="14sp" />
