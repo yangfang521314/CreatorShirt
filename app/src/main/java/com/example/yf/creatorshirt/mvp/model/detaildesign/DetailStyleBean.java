@@ -10,9 +10,33 @@ public class DetailStyleBean {
     private String Typeversion;
     private StyleData data;
 
-    private class StyleData {
+    public class StyleData {
         private DetailStyleFrontData A;
         private DetailStyleBackData B;
+
+        public DetailStyleFrontData getA() {
+            return A;
+        }
+
+        public void setA(DetailStyleFrontData a) {
+            A = a;
+        }
+
+        public DetailStyleBackData getB() {
+            return B;
+        }
+
+        public void setB(DetailStyleBackData b) {
+            B = b;
+        }
+
+        @Override
+        public String toString() {
+            return "StyleData{" +
+                    "A=" + A +
+                    ", B=" + B +
+                    '}';
+        }
     }
 
     public String getGender() {
@@ -37,5 +61,14 @@ public class DetailStyleBean {
 
     public void setData(StyleData data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "DetailStyleBean{" +
+                "Gender='" + Gender + '\'' +
+                ", Typeversion='" + Typeversion + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

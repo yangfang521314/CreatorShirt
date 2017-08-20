@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 
 /**
  * Created by yang on 17/05/2017.
@@ -105,8 +106,8 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(String gender, String type) {
-        return mRequestApi.getDetailDesignStyle(gender,type);
+    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody) {
+        return mRequestApi.getDetailDesignStyle(requestBody);
     }
 
 }

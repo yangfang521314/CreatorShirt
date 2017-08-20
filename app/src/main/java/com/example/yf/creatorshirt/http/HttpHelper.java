@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 
 /**
  * Created by yang on 17/05/2017.
@@ -38,5 +39,6 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<DesignBaseInfo>> getBaseDesign();
 
-    Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(String gender, String type);
+    Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody);
+
 }

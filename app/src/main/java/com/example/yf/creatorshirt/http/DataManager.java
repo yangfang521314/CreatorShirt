@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 
 /**
  * Created by yang on 27/05/2017.
@@ -89,12 +90,11 @@ public class DataManager implements HttpHelper {
 
     /**
      * 具体设计样式的数据选择
-     * @param gender
-     * @param type
+     * @param requestBody
      * @return
      */
     @Override
-    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(String gender, String type) {
-        return mHttpHelper.getDetailDesign(gender,type);
+    public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody) {
+        return mHttpHelper.getDetailDesign(requestBody);
     }
 }

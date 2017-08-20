@@ -1,5 +1,11 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.ArmData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.ColorData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.NeckData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.OrnamentData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.PatternData;
+
 import java.util.List;
 
 /**
@@ -16,29 +22,54 @@ public class DetailStyleBackData {
     private ColorData color;
     private PatternData pattern;
 
-    private class NeckData {
-        private String name;
-        private List<DetailStyle> fileList;
-
+    public NeckData getNeck() {
+        return neck;
     }
 
-    private class ArmData {
-        private String name;
-        private List<DetailStyle> fileList;
+    public void setNeck(NeckData neck) {
+        this.neck = neck;
     }
 
-    private class OrnamentData {
-        private String name;
-        private List<DetailStyle> fileList;
+    public ArmData getArm() {
+        return arm;
     }
 
-    private class ColorData {
-        private String name;
-        private List<DetailStyle> fileList;
+    public void setArm(ArmData arm) {
+        this.arm = arm;
     }
 
-    private class PatternData {
-        private String name;
-        private List<DetailStyle> fileList;
+    public OrnamentData getOrnament() {
+        return ornament;
+    }
+
+    public void setOrnament(OrnamentData ornament) {
+        this.ornament = ornament;
+    }
+
+    public ColorData getColor() {
+        return color;
+    }
+
+    public void setColor(ColorData color) {
+        this.color = color;
+    }
+
+    public PatternData getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(PatternData pattern) {
+        this.pattern = pattern;
+    }
+
+    @Override
+    public String toString() {
+        return "DetailStyleBackData{" +
+                "neck=" + neck +
+                ", arm=" + arm +
+                ", ornament=" + ornament +
+                ", color=" + color +
+                ", pattern=" + pattern +
+                '}';
     }
 }

@@ -1,10 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter.base;
 
-import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -26,7 +23,7 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
      *
      * @param disposable
      */
-    protected void addSubscribe(Flowable<HttpResponse<DetailStyleBean>> disposable) {
+    protected void addSubscribe(Disposable disposable) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }

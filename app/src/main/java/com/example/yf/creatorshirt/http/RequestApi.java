@@ -14,9 +14,14 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by yang on 17/05/2017.
@@ -60,8 +65,11 @@ public interface RequestApi {
     @GET("user/getAddress")
     Flowable<HttpResponse<List<AddressBean>>> getAddress();
 
+    //设计的基本数据
     @POST("fDesigns/GetBaseInfo")
     Flowable<HttpResponse<DesignBaseInfo>> getBaseDesignData();
 
-    Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(String gender, String type);
+    //具体设计的数据
+    @POST("fDesigns/GetTypeversionResources")
+    Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(@Body RequestBody requestBody);
 }

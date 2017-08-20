@@ -23,7 +23,13 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.StyleBean;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBackData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleFrontData;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
+import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
@@ -36,6 +42,7 @@ import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,16 +51,16 @@ import butterknife.OnClick;
  * 衣服具体设计样式界面
  */
 public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
-        ItemClickListener.OnClickListener {
+        ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView {
 
     private static final String TAG = DetailDesignActivity.class.getSimpleName();
     public static String CLOTHES_STYLE;
-    public static final String NECK = "衣领";
-    public static final String ARM = "衣袖";
-    public static final String COLOR = "颜色";
-    public static final String PATTERN = "图案";
+    public static final String NECK = "neck";
+    public static final String ARM = "arm";
+    public static final String COLOR = "color";
+    public static final String PATTERN = "pattern";
     public static final String SIGNATURE = "标签";
-    public static final String ORNAMENT = "配饰";
+    public static final String ORNAMENT = "ornament";
 
     @BindView(R.id.design_choice_style)
     RecyclerView mRecyclerDetailStyle;//具体设计的recyclerView
@@ -111,6 +118,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private String gender;
     private String type;
 
+    private DetailStyleFrontData mDetailStyleFrontData;//正面数据
+    private DetailStyleBackData mDetailStyleBackData;//正面数据
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -140,24 +150,56 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         if (getIntent().getExtras() != null) {
             gender = getIntent().getExtras().getString("gender");
             type = getIntent().getExtras().getString("type");
+            Log.e("Tag", "type" + type);
         }
-        mPresenter.getDetailDesign(gender,type);
+        mPresenter.getDetailDesign(gender, type);
+//        int[] image = Constants.styleImage;
+//        String[] styleTitle = Constants.styleTitle;
+//        StyleBean styleBean;
+//        for (int i = 0; i < image.length; i++) {
+//            styleBean = new StyleBean();
+//            styleBean.setImageId(image[i]);
+//            styleBean.setTitle(styleTitle[i]);
+//            list.add(styleBean);
+//        }
+
+//        addMap(styleTitle[0], Constants.neck, Constants.select_neck_title);
+//        addMap(styleTitle[1], Constants.longarm, Constants.select_neck_arm);
+//        addMap(styleTitle[2], Constants.clothes_color, Constants.color_name);
+//        addMap(styleTitle[3], Constants.select_ornament, Constants.ornament_name);
+//        addMap(styleTitle[4], Constants.clothes_pattern, Constants.pattern_title);
+//        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
+    }
+
+
+    @Override
+    public void showSuccessData(DetailStyleBean detailStyleBean) {
+        mDetailStyleBackData = detailStyleBean.getData().getB();
+        mDetailStyleFrontData = detailStyleBean.getData().getA();
+        getNameDeign(mDetailStyleFrontData);
+
+
+    }
+
+    private void getNameDeign(DetailStyleFrontData mData) {
+        String[] styleName = {mData.getNeck().getName(), mData.getArm().getName(),
+                mData.getOrnament().getName(), mData.getColor().getName(), mData.getPattern().getName()};
         int[] image = Constants.styleImage;
-        String[] styleTitle = Constants.styleTitle;
-        StyleBean styleBean;
-        for (int i = 0; i < image.length; i++) {
-            styleBean = new StyleBean();
+
+        for (int i =0;i<styleName.length;i++){
+            StyleBean styleBean = new StyleBean();
+            styleBean.setTitle(styleName[i]);
             styleBean.setImageId(image[i]);
-            styleBean.setTitle(styleTitle[i]);
             list.add(styleBean);
         }
-        addMap(styleTitle[0], Constants.neck, Constants.select_neck_title);
-        addMap(styleTitle[1], Constants.longarm, Constants.select_neck_arm);
-        addMap(styleTitle[2], Constants.clothes_color, Constants.color_name);
-        addMap(styleTitle[3], Constants.select_ornament, Constants.ornament_name);
-        addMap(styleTitle[4], Constants.clothes_pattern, Constants.pattern_title);
-        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
+        addMap(styleName[0], Constants.neck, Constants.select_neck_title);
+        addMap(styleName[1], Constants.longarm, Constants.select_neck_arm);
+        addMap(styleName[2], Constants.clothes_color, Constants.color_name);
+        addMap(styleName[3], Constants.select_ornament, Constants.ornament_name);
+        addMap(styleName[4], Constants.clothes_pattern, Constants.pattern_title);
+//        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
     }
+
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
     public void onClick(View view) {
