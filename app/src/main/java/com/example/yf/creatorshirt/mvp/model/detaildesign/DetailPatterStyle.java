@@ -1,16 +1,12 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
 /**
- * Created by yangfang on 2017/8/19.
- * 最小的style，example：
- * "name": "碎花",
- * "file": "pattern_2.png"
- *
+ * Created by yangfang on 2017/8/21.
  */
 
-public class DetailStyle {
-    private String name;
-    private String file;
+public class DetailPatterStyle {
+    protected String name;
+    protected String file;
 
     public String getName() {
         return name;
@@ -30,7 +26,7 @@ public class DetailStyle {
 
     @Override
     public String toString() {
-        return "DetailStyle{" +
+        return "DetailPatterStyle{" +
                 "name='" + name + '\'' +
                 ", file='" + file + '\'' +
                 '}';

@@ -1,14 +1,14 @@
-package com.example.yf.creatorshirt.mvp.ui.adapter;
+package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.StyleBean;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ItemViewHolder;
+import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by yang on 19/06/2017.
  */
 
-public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
+public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHolder> {
     public static int TWO_ITEM = 1;
     public static int ONE_ITEM = 2;
     private ItemClickListener.OnItemClickListener clickListener;
@@ -34,8 +34,8 @@ public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
-        holder.mStyleTextView.setText(mData.get(position).getTitle());
+//        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
+        holder.mStyleTextView.setText(mData.get(position).getName());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +45,7 @@ public class DetailStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
     }
 
     @Override
-    public void setData(List<StyleBean> data) {
+    public void setData(List<DetailOtherStyle> data) {
         super.setData(data);
         if (mData.size() > 2) {
             //// TODO: 20/06/2017 如size不同可能需要分类

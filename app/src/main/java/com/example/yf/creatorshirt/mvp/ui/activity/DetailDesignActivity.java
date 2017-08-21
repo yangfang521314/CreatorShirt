@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -19,20 +20,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.StyleBean;
-import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBackData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleFrontData;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
-import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.mvp.ui.adapter.DetailStyleAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.StyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.design.DetailStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
@@ -42,10 +46,13 @@ import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.media.CamcorderProfile.get;
+import static android.os.Build.VERSION_CODES.N;
+import static com.example.yf.creatorshirt.utils.Constants.ImageUrl;
 
 /**
  * 衣服具体设计样式界面
@@ -86,6 +93,11 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     RelativeLayout mPatternBounds;
     @BindView(R.id.clothes_signature)
     TextView mClothesSignature;
+    @BindView(R.id.clothes_back)
+    TextView mClothesBack;
+    @BindView(R.id.clothes_front)
+    TextView mClothesFront;
+
 
     //总的样式
     private View mBeforeView;
@@ -99,6 +111,12 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private List<StyleBean> list = new ArrayList<>();
     //总样式和每一个具体的样式列表形成ArrayMap;
     private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
+    private ArrayMap<String, List<DetailOtherStyle>> NewDetailData = new ArrayMap<>();
+    private ArrayMap<String, List<DetailPatterStyle>> mPatternData = new ArrayMap<>();
+    private ArrayMap<String, List<DetailColorStyle>> mColorData = new ArrayMap<>();
+
+    String[] styleName;
+    List<StyleBean> newList;
 
     //处于编辑的贴纸
     private StickerView mStickerView;
@@ -115,11 +133,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     //定制完成后图片的路径
     private String imagePath;
 
-    private String gender;
+    private String gender;//
     private String type;
+    private String mBackgroundUrl;
 
-    private DetailStyleFrontData mDetailStyleFrontData;//正面数据
-    private DetailStyleBackData mDetailStyleBackData;//正面数据
+    private DetailCommonData mDetailStyleFrontData;//正面数据
+    private DetailCommonData mDetailStyleBackData;//背面数据
+    private BaseStyleAdapter mBaseDesignAdapter;
 
     @Override
     protected void inject() {
@@ -134,15 +154,15 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @Override
     protected void initView() {
         DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackground);
+        //默认显示正面
+        String imageUrl = Constants.ImageUrl +gender+type+"A"+".png";
+        Glide.with(this).load(imageUrl).into(mClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.VISIBLE);
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        StyleAdapter adapter = new StyleAdapter(this);
-        adapter.setItemClickListener(this);
-        adapter.setData(list);
-        mRecyclerStyle.setAdapter(adapter);
+        mBaseDesignAdapter = new BaseStyleAdapter(this);
     }
 
     @Override
@@ -150,25 +170,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         if (getIntent().getExtras() != null) {
             gender = getIntent().getExtras().getString("gender");
             type = getIntent().getExtras().getString("type");
-            Log.e("Tag", "type" + type);
         }
         mPresenter.getDetailDesign(gender, type);
-//        int[] image = Constants.styleImage;
-//        String[] styleTitle = Constants.styleTitle;
-//        StyleBean styleBean;
-//        for (int i = 0; i < image.length; i++) {
-//            styleBean = new StyleBean();
-//            styleBean.setImageId(image[i]);
-//            styleBean.setTitle(styleTitle[i]);
-//            list.add(styleBean);
-//        }
 
-//        addMap(styleTitle[0], Constants.neck, Constants.select_neck_title);
-//        addMap(styleTitle[1], Constants.longarm, Constants.select_neck_arm);
-//        addMap(styleTitle[2], Constants.clothes_color, Constants.color_name);
-//        addMap(styleTitle[3], Constants.select_ornament, Constants.ornament_name);
-//        addMap(styleTitle[4], Constants.clothes_pattern, Constants.pattern_title);
-//        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
     }
 
 
@@ -176,32 +180,50 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     public void showSuccessData(DetailStyleBean detailStyleBean) {
         mDetailStyleBackData = detailStyleBean.getData().getB();
         mDetailStyleFrontData = detailStyleBean.getData().getA();
-        getNameDeign(mDetailStyleFrontData);
-
-
     }
 
-    private void getNameDeign(DetailStyleFrontData mData) {
-        String[] styleName = {mData.getNeck().getName(), mData.getArm().getName(),
+    private void getNameDeign(DetailCommonData mData) {
+        styleName = new String[]{mData.getNeck().getName(), mData.getArm().getName(),
                 mData.getOrnament().getName(), mData.getColor().getName(), mData.getPattern().getName()};
         int[] image = Constants.styleImage;
-
-        for (int i =0;i<styleName.length;i++){
+        newList = new ArrayList<>();
+        for (int i = 0; i < styleName.length; i++) {
             StyleBean styleBean = new StyleBean();
             styleBean.setTitle(styleName[i]);
             styleBean.setImageId(image[i]);
-            list.add(styleBean);
+            newList.add(styleBean);
         }
-        addMap(styleName[0], Constants.neck, Constants.select_neck_title);
-        addMap(styleName[1], Constants.longarm, Constants.select_neck_arm);
-        addMap(styleName[2], Constants.clothes_color, Constants.color_name);
-        addMap(styleName[3], Constants.select_ornament, Constants.ornament_name);
-        addMap(styleName[4], Constants.clothes_pattern, Constants.pattern_title);
-//        addMap(styleTitle[5], Constants.clothes_signature, Constants.signature_name);
+
+        addNewData(styleName[0], mData.getNeck().getFileList());
+        addNewData(styleName[1], mData.getArm().getFileList());
+        addNewData(styleName[2], mData.getOrnament().getFileList());
+        addPatternData(styleName[4], mData.getPattern().getFileList());
+        addColorData(styleName[3], mData.getColor().getFileList());
+
+        mBaseDesignAdapter.setItemClickListener(this);
+        mBaseDesignAdapter.setData(newList);
+        mRecyclerStyle.setAdapter(mBaseDesignAdapter);
+
+    }
+
+    private void addColorData(String s, List<DetailColorStyle> fileList) {
+        mColorData.put(s, fileList);
+    }
+
+    private void addPatternData(String title, List<DetailPatterStyle> fileList) {
+        mPatternData.put(title, fileList);
+    }
+
+    private void addNewData(String title, List<DetailOtherStyle> fileList) {
+        if (!NewDetailData.containsKey(title) && fileList != null) {
+            NewDetailData.put(title, fileList);
+            Log.e(TAG, "news detail" + NewDetailData.size());
+            Log.e(TAG, "news detail ooo " + NewDetailData.get(styleName[0]));
+        }
     }
 
 
-    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back})
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back,R.id.clothes_front,R.id.clothes_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
@@ -216,6 +238,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             case R.id.choice_back:
                 filter(mCurrentPosition);
                 switch (CLOTHES_STYLE) {
+                    case ARM:
                     case NECK:
                         //衣领样式，点击back，返回最初设置的样式
                         mChoiceNeck.setVisibility(View.GONE);
@@ -231,9 +254,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         mViews.remove(mStickerView);
                         mContainerBackground.removeView(mStickerView);
                         break;
-                    case SIGNATURE:
-                        mClothesSignature.setVisibility(View.GONE);
-                        break;
+//                    case SIGNATURE:
+//                        mClothesSignature.setVisibility(View.GONE);
+//                        break;
                 }
                 mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -241,28 +264,38 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceOrBack.setVisibility(View.GONE);
                 break;
-            case R.id.choice_done:
-                filter(mCurrentPosition);
-                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
-                    mRecyclerStyle.setVisibility(View.VISIBLE);
-                    mRecyclerDetailStyle.setVisibility(View.GONE);
-                    mBtnFinish.setVisibility(View.VISIBLE);
-                    mChoiceOrBack.setVisibility(View.GONE);
-                }
-                if (mStickerView != null) {
-                    mStickerView.setInEdit(false);
-                    mPatternBounds.setVisibility(View.GONE);
-                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
-                    mStickerView.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return true;
-                        }
-                    });
-                }
-                if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
-                    setSignatureText();//签名处理
-                }
+//            case R.id.choice_done:
+//                filter(mCurrentPosition);
+//                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
+//                    mRecyclerStyle.setVisibility(View.VISIBLE);
+//                    mRecyclerDetailStyle.setVisibility(View.GONE);
+//                    mBtnFinish.setVisibility(View.VISIBLE);
+//                    mChoiceOrBack.setVisibility(View.GONE);
+//                }
+//                if (mStickerView != null) {
+//                    mStickerView.setInEdit(false);
+//                    mPatternBounds.setVisibility(View.GONE);
+//                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
+//                    mStickerView.setOnTouchListener(new View.OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            return true;
+//                        }
+//                    });
+//                }
+//                if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
+//                    setSignatureText();//签名处理
+//                }
+//                break;
+            case R.id.clothes_front:
+                getNameDeign(mDetailStyleFrontData);
+                String imageUrl = Constants.ImageUrl +gender+type+"A"+".png";
+                Glide.with(this).load(imageUrl).into(mClothes);
+                break;
+            case R.id.clothes_back:
+                getNameDeign(mDetailStyleBackData);
+                String imageBackUrl = Constants.ImageUrl +gender+type+"B"+".png";
+                Glide.with(this).load(imageBackUrl).into(mClothes);
                 break;
 
         }
@@ -308,26 +341,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         });
     }
 
-    /**
-     * 每个style的具体设计数据
-     *
-     * @param key
-     * @param images
-     * @param designTitle
-     */
-    private void addMap(String key, int[] images, String[] designTitle) {
-
-        if (!detailData.containsKey(key)) {
-            detailData.put(key, new ArrayList<StyleBean>());
-        }
-        for (int i = 0; i < images.length; i++) {
-            StyleBean bean = new StyleBean();
-            bean.setTitle(designTitle[i]);
-            bean.setImageId(images[i]);
-            detailData.get(key).add(bean);
-        }
-
-    }
 
     /**
      * 点击total style
@@ -362,41 +375,65 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
+        String imageUrl = null;
         filter(mCurrentPosition);
         switch (CLOTHES_STYLE) {
             case NECK:
+                judge(mCurrentPosition, position);
+                imageUrl = Constants.ImageUrl +
+                        NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 mChoiceNeck.setVisibility(View.VISIBLE);
-                mChoiceNeck.setImageResource(Constants.shirt_neck[position]);
+                Glide.with(this).load(imageUrl).into(mChoiceNeck);
                 break;
             case ARM:
-                mClothes.setImageResource(Constants.shirt_container[position]);
-                break;
-            case COLOR:
-                mClothes.setBackgroundResource(Constants.choice_color[position]);
+                judge(mCurrentPosition, position);
+                imageUrl = Constants.ImageUrl +
+                        NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                mChoiceNeck.setVisibility(View.VISIBLE);
+                Glide.with(this).load(imageUrl).into(mChoiceNeck);
                 break;
             case ORNAMENT:
+                judge(mCurrentPosition, position);
+                imageUrl = Constants.ImageUrl +
+                        NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                mChoiceNeck.setVisibility(View.VISIBLE);
+                Glide.with(this).load(imageUrl).into(mChoiceNeck);
                 mChoiceOrnament.setVisibility(View.VISIBLE);
+                break;
+            case COLOR:
+                String color ="#"+mColorData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
+                Log.e("Tag","colo"+color);
+                int colorInt = Color.parseColor(color);
+                mClothes.setBackgroundColor(colorInt);
                 break;
             case PATTERN:
                 mStickerView = new StickerView(this);
                 mPatternBounds.setVisibility(View.VISIBLE);
+
                 addStickerView(Constants.clothes_pattern[position]);
                 break;
-            case SIGNATURE://签名处理
-                if (position == 0) {
-                    mClothesSignature.setVisibility(View.GONE);
-                    isEditSign = false;
-                } else if (position == 1) {
-                    Log.e("TAG", "DDDDD");
-                    mClothesSignature.setVisibility(View.VISIBLE);
-                    isEditSign = true;
-                }
-                break;
+//            case SIGNATURE://签名处理
+//                if (position == 0) {
+//                    mClothesSignature.setVisibility(View.GONE);
+//                    isEditSign = false;
+//                } else if (position == 1) {
+//                    Log.e("TAG", "DDDDD");
+//                    mClothesSignature.setVisibility(View.VISIBLE);
+//                    isEditSign = true;
+//                }
+//                break;
         }
         currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
 
+    }
+
+    private void judge(int currentPosition, int position) {
+        if (NewDetailData.get(newList.get(currentPosition).getTitle()).get(position).getFile() == null) {
+            Log.e(TAG, "image url");
+            return;
+        }
     }
 
     /**
@@ -454,18 +491,32 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param position
      */
     private void clickItem(int position) {
-        DetailStyleAdapter detailAdapter = new DetailStyleAdapter(this);
-        if (detailData.containsKey(list.get(position).getTitle())) {
-            mRecyclerStyle.setVisibility(View.GONE);
-            mRecyclerDetailStyle.setVisibility(View.VISIBLE);
-            mBtnFinish.setVisibility(View.GONE);
-            mChoiceOrBack.setVisibility(View.VISIBLE);
-            mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            detailAdapter.setData(detailData.get(list.get(position).getTitle()));
+        mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        if (NewDetailData.containsKey(newList.get(position).getTitle())) {
+            DetailStyleAdapter detailAdapter = new DetailStyleAdapter(this);
+            detailAdapter.setData(NewDetailData.get(newList.get(position).getTitle()));
             detailAdapter.setOnClickListener(this);
             mRecyclerDetailStyle.setAdapter(detailAdapter);
             detailAdapter.notifyDataSetChanged();
         }
+        if (mColorData.containsKey((newList.get(position).getTitle()))) {
+            ColorStyleAdapter adapter = new ColorStyleAdapter(this);
+            adapter.setData(mColorData.get(newList.get(position).getTitle()));
+            adapter.setOnClickListener(this);
+            mRecyclerDetailStyle.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+        if (mPatternData.containsKey(newList.get(position).getTitle())) {
+            PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
+            patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
+            patternStyleAdapter.setOnClickListener(this);
+            mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
+            patternStyleAdapter.notifyDataSetChanged();
+        }
+        mRecyclerStyle.setVisibility(View.GONE);
+        mRecyclerDetailStyle.setVisibility(View.VISIBLE);
+        mBtnFinish.setVisibility(View.GONE);
+        mChoiceOrBack.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -482,16 +533,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 CLOTHES_STYLE = ARM;
                 break;
             case 2:
-                CLOTHES_STYLE = COLOR;
+                CLOTHES_STYLE = ORNAMENT;
                 break;
             case 3:
-                CLOTHES_STYLE = ORNAMENT;
+                CLOTHES_STYLE = COLOR;
                 break;
             case 4:
                 CLOTHES_STYLE = PATTERN;
-                break;
-            case 5:
-                CLOTHES_STYLE = SIGNATURE;
                 break;
             default:
                 CLOTHES_STYLE = NECK;

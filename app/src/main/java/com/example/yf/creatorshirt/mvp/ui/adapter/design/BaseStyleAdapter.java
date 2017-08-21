@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.adapter;
+package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ItemViewHolder;
+import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.List;
  * Created by yang on 15/06/2017.
  */
 
-public class StyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
+public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     private ItemClickListener.OnClickListener onClickListener;
 
-    public StyleAdapter(Context context) {
+    public BaseStyleAdapter(Context context) {
         super(context);
     }
 
@@ -32,7 +32,7 @@ public class StyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
+//        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
         holder.mStyleTextView.setText(mData.get(position).getTitle());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override

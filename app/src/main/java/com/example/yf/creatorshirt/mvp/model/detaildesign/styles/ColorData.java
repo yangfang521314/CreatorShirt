@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign.styles;
 
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyle;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ColorData {
     private String name;
-    private List<DetailStyle> fileList;
+    private List<DetailColorStyle> fileList;
 
     public String getName() {
         return name;
@@ -21,11 +21,11 @@ public class ColorData {
         this.name = name;
     }
 
-    public List<DetailStyle> getFileList() {
+    public List<DetailColorStyle> getFileList() {
         return fileList;
     }
 
-    public void setFileList(List<DetailStyle> fileList) {
+    public void setFileList(List<DetailColorStyle> fileList) {
         this.fileList = fileList;
     }
 

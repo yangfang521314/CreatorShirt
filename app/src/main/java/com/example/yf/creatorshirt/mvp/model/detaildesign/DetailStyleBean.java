@@ -11,22 +11,22 @@ public class DetailStyleBean {
     private StyleData data;
 
     public class StyleData {
-        private DetailStyleFrontData A;
-        private DetailStyleBackData B;
+        private DetailCommonData A;
+        private DetailCommonData B;
 
-        public DetailStyleFrontData getA() {
+        public DetailCommonData getA() {
             return A;
         }
 
-        public void setA(DetailStyleFrontData a) {
+        public void setA(DetailCommonData a) {
             A = a;
         }
 
-        public DetailStyleBackData getB() {
+        public DetailCommonData getB() {
             return B;
         }
 
-        public void setB(DetailStyleBackData b) {
+        public void setB(DetailCommonData b) {
             B = b;
         }
 

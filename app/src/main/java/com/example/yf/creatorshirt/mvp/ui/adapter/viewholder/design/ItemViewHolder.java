@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.adapter.viewholder;
+package com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design;
 
 import android.support.annotation.LayoutRes;
 import android.view.ViewGroup;

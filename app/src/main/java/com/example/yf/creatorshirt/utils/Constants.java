@@ -43,4 +43,6 @@ public class Constants {
     //透明度
     public static final float NORMAL_ALPHA = 1.0f;
     public static final float CHANGE_ALPHA = 0.4f;
+
+    public static final String ImageUrl = "http://oub3nsjgh.bkt.clouddn.com/";
 }

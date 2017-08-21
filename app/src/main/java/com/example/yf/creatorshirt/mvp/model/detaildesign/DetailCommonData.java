@@ -6,12 +6,16 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.NeckData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.OrnamentData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.PatternData;
 
+import java.util.List;
+
 /**
  * Created by yangfang on 2017/8/19.
- * 正面样式bean
+ * 背面数据bean
+ *
  */
 
-public class DetailStyleFrontData {
+public class DetailCommonData {
+
     private NeckData neck;
     private ArmData arm;
     private OrnamentData ornament;
@@ -60,7 +64,7 @@ public class DetailStyleFrontData {
 
     @Override
     public String toString() {
-        return "DetailStyleFrontData{" +
+        return "DetailCommonData{" +
                 "neck=" + neck +
                 ", arm=" + arm +
                 ", ornament=" + ornament +
