@@ -1,7 +1,7 @@
 package com.example.yf.creatorshirt.app;
 
 import android.app.Activity;
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.example.yf.creatorshirt.inject.component.AppComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerAppComponent;
@@ -16,7 +16,7 @@ import java.util.Set;
  * Created by yf on 2017/5/11.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static App mInstance;
     private static AppComponent mAppComponent;

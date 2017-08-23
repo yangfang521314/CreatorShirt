@@ -14,10 +14,13 @@ android {
                 cppFlags ""
             }
         }
-        ndk {
-            abiFilters "armeabi-v7a", "armeabi","x86"
-        }
+//        ndk {
+//            abiFilters "armeabi-v7a", "armeabi","x86"
+//        }
+
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,6 +35,8 @@ android {
 }
 
 dependencies {
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //base
     compile rootProject.ext.dependencies["appcompat-v7"]
@@ -41,7 +46,7 @@ dependencies {
     compile rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     compile rootProject.ext.dependencies["dagger"]
-    provided rootProject.ext.dependencies["dagger-compiler"]
+    compile rootProject.ext.dependencies["dagger-compiler"]
     provided rootProject.ext.dependencies["annotation"]
     /*network */
     compile rootProject.ext.dependencies["retrofit"]
@@ -55,13 +60,13 @@ dependencies {
     //glide
     compile rootProject.ext.dependencies["glide"]
     annotationProcessor rootProject.ext.dependencies["annotationProcessor"]
-
     compile rootProject.ext.dependencies["percent—support"]
-    //leakcanary
-    compile rootProject.ext.dependencies["debugCompile"]
-    compile rootProject.ext.dependencies["releaseCompile"]
-    compile rootProject.ext.dependencies["testCompile"]
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    //leakcanary
+    debugCompile rootProject.ext.dependencies["debugCompile"]
+    releaseCompile rootProject.ext.dependencies["releaseCompile"]
+
+    compile 'com.android.support:multidex:1.0.1'
+
+
 }
