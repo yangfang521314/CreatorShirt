@@ -12,6 +12,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 
 /**
  * 衣服具体设计样式界面
@@ -59,7 +62,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView {
 
     private static final String TAG = DetailDesignActivity.class.getSimpleName();
-    public static String CLOTHES_STYLE;
     public static final String NECK = "neck";
     public static final String ARM = "arm";
     public static final String COLOR = "color";
@@ -298,29 +300,28 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceOrBack.setVisibility(View.GONE);
                 break;
-//            case R.id.choice_done:
-//                filter(mCurrentPosition);
-//                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
-//                    mRecyclerStyle.setVisibility(View.VISIBLE);
-//                    mRecyclerDetailStyle.setVisibility(View.GONE);
-//                    mBtnFinish.setVisibility(View.VISIBLE);
-//                    mChoiceOrBack.setVisibility(View.GONE);
-//                }
-//                if (mStickerView != null) {
-//                    mStickerView.setInEdit(false);
-//                    mPatternBounds.setVisibility(View.GONE);
-//                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
-//                    mStickerView.setOnTouchListener(new View.OnTouchListener() {
-//                        @Override
-//                        public boolean onTouch(View v, MotionEvent event) {
-//                            return true;
-//                        }
-//                    });
-//                }
+            case R.id.choice_done:
+                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
+                    mRecyclerStyle.setVisibility(View.VISIBLE);
+                    mRecyclerDetailStyle.setVisibility(View.GONE);
+                    mBtnFinish.setVisibility(View.VISIBLE);
+                    mChoiceOrBack.setVisibility(View.GONE);
+                }
+                if (mStickerView != null) {
+                    mStickerView.setInEdit(false);
+                    mPatternBounds.setVisibility(View.GONE);
+                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
+                    mStickerView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
+                }
 //                if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
 //                    setSignatureText();//签名处理
 //                }
-//                break;
+                break;
             case R.id.clothes_front:
                 getNameDeign(mDetailStyleFrontData);
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
@@ -409,7 +410,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
-        String imageUrl = null;
+        String imageUrl ;
         switch (clotheKey.get(mCurrentPosition)) {
             case NECK:
                 imageUrl = Constants.ImageUrl +
@@ -440,8 +441,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             case PATTERN:
                 mStickerView = new StickerView(this);
                 mPatternBounds.setVisibility(View.VISIBLE);
-
-                addStickerView(Constants.clothes_pattern[position]);
+                imageUrl = Constants.ImageUrl+ mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                addStickerView(imageUrl);
                 break;
 //            case SIGNATURE://签名处理
 //                if (position == 0) {
@@ -460,20 +461,14 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     }
 
-    private void judge(int currentPosition, int position) {
-        if (NewDetailData.get(newList.get(currentPosition).getTitle()).get(position).getFile() == null) {
-            Log.e(TAG, "image url");
-            return;
-        }
-    }
 
     /**
      * 添加贴纸效果
      *
      * @param imageId
      */
-    private void addStickerView(int imageId) {
-        mStickerView.setImageResource(imageId);
+    private void addStickerView(String imageId) {
+        Glide.with(this).load(imageId).into(mStickerView);
         mStickerView.setOperationListener(new StickerView.OperationListener() {
             @Override
             public void onDeleteClick() {
