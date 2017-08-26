@@ -8,6 +8,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -185,6 +187,11 @@ public class StickerView extends ImageView {
     @Override
     public void setImageResource(int resId) {
         setBitmap(BitmapFactory.decodeResource(getResources(), resId));
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        setBitmap(bm);
     }
 
     public void setBitmap(Bitmap bitmap) {
