@@ -40,6 +40,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.LogUtil;
@@ -99,7 +100,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @BindView(R.id.clothes_front)
     TextView mClothesFront;
     @BindView(R.id.rl_clothes_back_root)
-    RelativeLayout mContainerBackBackground;//背面背景
+    ClothesBackView mContainerBackBackground;//背面背景
 
     //总的样式
     private View mBeforeView;
@@ -164,7 +165,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @Override
     protected void initView() {
         DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
-        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackBackground);
         //默认显示正面
         mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
         Glide.with(this).load(mBackgroundUrl).into(mClothes);
@@ -301,6 +301,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             case R.id.choice_back:
                 switch (clotheKey.get(mCurrentPosition)) {
                     case ARM:
+                        if(mContainerBackBackground.getVisibility() == View.VISIBLE) {
+                            mContainerBackBackground.setArmVisibility(View.GONE);
+                        }
+                        mContainerFrontBackground.setVisibility(View.GONE);
                         break;
                     case NECK:
                         //衣领样式，点击back，返回最初设置的样式
@@ -413,7 +417,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mClothesFront.setSelected(false);
                 getNameDeign(mDetailStyleBackData);
                 String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
-                Glide.with(this).load(imageBackUrl).into(mClothes);
+                mContainerBackBackground.setImageUrl(imageBackUrl);
+//                Glide.with(this).load(imageBackUrl).into(mClothes);
                 break;
 
         }
