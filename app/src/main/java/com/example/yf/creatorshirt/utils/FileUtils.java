@@ -31,11 +31,12 @@ public class FileUtils {
      *
      * @param bitmap
      * @param context
+     * @param name
      * @return
      */
-    public static String saveBitmap(@NonNull Bitmap bitmap, @NonNull Context context) {
+    public static String saveBitmap(@NonNull Bitmap bitmap, @NonNull Context context, String name) {
         String path = null;
-        File file = getFile("Sticker");
+        File file = getFile("StickerView"+name);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);

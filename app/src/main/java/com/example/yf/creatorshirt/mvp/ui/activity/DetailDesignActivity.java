@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.Paint;
@@ -43,6 +44,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
@@ -60,7 +62,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView {
 
     private static final String TAG = DetailDesignActivity.class.getSimpleName();
-    public static String CLOTHES_STYLE;
     public static final String NECK = "neck";
     public static final String ARM = "arm";
     public static final String COLOR = "color";
@@ -78,7 +79,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @BindView(R.id.clothes_container_background)
     ImageView mClothes;
     @BindView(R.id.ll_choice_back)
-    LinearLayout mChoiceOrBack;
+    LinearLayout mChoiceReturn;
     @BindView(R.id.btn_choice_finish)
     Button mBtnFinish;
     @BindView(R.id.choice_back)
@@ -96,9 +97,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @BindView(R.id.clothes_signature)
     TextView mClothesSignature;
     @BindView(R.id.clothes_back)
-    TextView mClothesBack;
+    TextView mButtonBack;
     @BindView(R.id.clothes_front)
-    TextView mClothesFront;
+    TextView mButtonFront;
     @BindView(R.id.rl_clothes_back_root)
     ClothesBackView mContainerBackBackground;//背面背景
 
@@ -133,7 +134,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private String mSignatureText;
 
     //定制完成后图片的路径
-    private String imagePath;
+    private String imageFrontPath;
+    private String imageBackPath;
 
     private String gender;//gender
     private String type;//类型
@@ -144,6 +146,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private BaseStyleAdapter mBaseDesignAdapter;
     private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
     private CommonStyleData commonStyleData;//保存样式设计的url和颜色值
+    private CommonStyleData mBackStyleData;//保存样式设计的url和颜色值
+
     private ColorMatrix cm = new ColorMatrix();
     private Paint paint;
 
@@ -175,6 +179,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mBaseDesignAdapter = new BaseStyleAdapter(this);
         commonStyleData = new CommonStyleData();
+        mBackStyleData = new CommonStyleData();
+        String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
+        mContainerBackBackground.setImageUrl(imageBackUrl);
     }
 
     @Override
@@ -249,6 +256,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBaseDesignAdapter.setItemClickListener(this);
         mBaseDesignAdapter.setData(newList);
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
+        mBaseDesignAdapter.notifyDataSetChanged();
 
     }
 
@@ -290,10 +298,14 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                generateBitmap();//生成衣服的图片
-                Bundle bundle = new Bundle();
-                bundle.putString("imageUrl", imagePath);
-                startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+                //// TODO: 2017/8/27 没有图片时会报null 
+                    generateBitmap();//生成衣服的图片
+                if(imageBackPath != null && imageFrontPath != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("backUrl", imageBackPath);
+                    bundle.putString("frontUrl", imageFrontPath);
+                    startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+                }
                 break;
             case R.id.back:
                 finish();
@@ -304,17 +316,35 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         if(mContainerBackBackground.getVisibility() == View.VISIBLE) {
                             mContainerBackBackground.setArmVisibility(View.GONE);
                         }
-                        mContainerFrontBackground.setVisibility(View.GONE);
+                        if(mButtonFront.isSelected()) {
+                            mChoiceArm.setVisibility(View.GONE);
+                        }
                         break;
                     case NECK:
                         //衣领样式，点击back，返回最初设置的样式
-                        mChoiceNeck.setVisibility(View.GONE);
+                        if(mButtonFront.isSelected()) {
+                            mChoiceNeck.setVisibility(View.GONE);
+                        }
+                        if(mButtonBack.isSelected()){
+                            mContainerBackBackground.setNeckVisibility(View.GONE);
+                        }
                         break;
                     case COLOR:
                         //不选择默认是白色
-                        mClothes.setBackgroundResource(R.color.white);
+                        if(mButtonFront.isSelected()) {
+                            mClothes.setBackgroundResource(R.color.white);
+                        }
+                        if(mButtonBack.isSelected()){
+                            mContainerBackBackground.setColor(R.color.white);
+                        }
                         break;
                     case ORNAMENT:
+                        if(mButtonFront.isSelected()) {
+                            mChoiceOrnament.setVisibility(View.GONE);
+                        }
+                        if(mButtonBack.isSelected()){
+                            mContainerBackBackground.setOrnamentVisibility(View.GONE);
+                        }
                         mChoiceOrnament.setVisibility(View.GONE);
                         break;
                     case PATTERN:
@@ -339,24 +369,49 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
-                mChoiceOrBack.setVisibility(View.GONE);
+                mChoiceReturn.setVisibility(View.GONE);
                 break;
             case R.id.choice_done://点击每个样式的完成保存到数据
                 switch (clotheKey.get(mCurrentPosition)) {
                     case ARM:
-                        commonStyleData.setArmUrl(imageUrl);
+                        if(mButtonFront.isSelected()) {
+                            commonStyleData.setArmUrl(imageUrl);
+                        }
+                        if(mButtonBack.isSelected()) {
+                            mBackStyleData.setArmUrl(imageUrl);
+                        }
                         break;
                     case NECK:
-                        commonStyleData.setNeckUrl(imageUrl);
+                        if(mButtonFront.isSelected()) {
+                            commonStyleData.setNeckUrl(imageUrl);
+                        }
+                        if(mButtonBack.isSelected()){
+                            mBackStyleData.setNeckUrl(imageUrl);
+                        }
                         break;
                     case COLOR:
-                        commonStyleData.setColor(mImagecolor);
+                        if(mButtonFront.isSelected()) {
+                            commonStyleData.setColor(mImagecolor);
+                        }
+                        if(mButtonBack.isSelected()) {
+                            mBackStyleData.setColor(mImagecolor);
+                        }
                         break;
                     case ORNAMENT:
-                        commonStyleData.setOrnametUrl(imageUrl);
+                        if(mButtonFront.isSelected()) {
+                            commonStyleData.setOrnametUrl(imageUrl);
+                        }
+                        if(mButtonBack.isSelected()) {
+                            mBackStyleData.setOrnametUrl(imageUrl);
+                        }
                         break;
                     case PATTERN:
-                        commonStyleData.setPattern(imageUrl);
+                        if(mButtonFront.isSelected()) {
+                            commonStyleData.setPattern(imageUrl);
+                        }
+                        if(mButtonBack.isSelected()) {
+                            mBackStyleData.setPattern(imageUrl);
+                        }
                         break;
 //                    case SIGNATURE:
 //                        mClothesSignature.setVisibility(View.GONE);
@@ -366,14 +421,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     mRecyclerStyle.setVisibility(View.VISIBLE);
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mBtnFinish.setVisibility(View.VISIBLE);
-                    mChoiceOrBack.setVisibility(View.GONE);
+                    mChoiceReturn.setVisibility(View.GONE);
                 }
                 if (mCurrentStickerView != null) {
                     mCurrentStickerView.setInEdit(false);
                     mPatternBounds.setVisibility(View.GONE);
                     // TODO: 22/06/2017 完成后禁止StickerView的点击事件
                     mCurrentStickerView.setOnTouchListener(new View.OnTouchListener() {
-
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
                             return true;
@@ -387,8 +441,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             case R.id.clothes_front://点击正面
                 mContainerFrontBackground.setVisibility(View.VISIBLE);
                 mContainerBackBackground.setVisibility(View.GONE);
-                mClothesFront.setSelected(true);
-                mClothesBack.setSelected(false);
+                mButtonFront.setSelected(true);
+                mButtonBack.setSelected(false);
                 if (commonStyleData != null) {
                     if (commonStyleData.getNeckUrl() != null) {
                         setNeckImage(commonStyleData.getNeckUrl());
@@ -408,17 +462,31 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
                 getNameDeign(mDetailStyleFrontData);
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
+                Log.e(TAG,"front:"+imageUrl);
                 Glide.with(this).load(imageUrl).into(mClothes);
+                mPatternBounds.setVisibility(View.GONE);
+                mRecyclerStyle.setVisibility(View.VISIBLE);
+                mRecyclerDetailStyle.setVisibility(View.GONE);
+                mBtnFinish.setVisibility(View.VISIBLE);
+                mChoiceReturn.setVisibility(View.GONE);
                 break;
             case R.id.clothes_back://点击反面
                 mContainerFrontBackground.setVisibility(View.GONE);
                 mContainerBackBackground.setVisibility(View.VISIBLE);
-                mClothesBack.setSelected(true);
-                mClothesFront.setSelected(false);
+                mButtonBack.setSelected(true);
+                mButtonFront.setSelected(false);
                 getNameDeign(mDetailStyleBackData);
                 String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
                 mContainerBackBackground.setImageUrl(imageBackUrl);
-//                Glide.with(this).load(imageBackUrl).into(mClothes);
+                if(mBackStyleData != null){
+                   mContainerBackBackground.setBackData(mBackStyleData);
+                }
+                Log.e(TAG,"BACK:"+imageBackUrl);
+                mPatternBounds.setVisibility(View.GONE);
+                mRecyclerStyle.setVisibility(View.VISIBLE);
+                mRecyclerDetailStyle.setVisibility(View.GONE);
+                mBtnFinish.setVisibility(View.VISIBLE);
+                mChoiceReturn.setVisibility(View.GONE);
                 break;
 
         }
@@ -428,7 +496,12 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param color
      */
     private void setColorBg(int color) {
-        mClothes.setBackgroundColor(color);
+        if(mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            mClothes.setBackgroundColor(color);
+        }
+        if(mContainerBackBackground.getVisibility() == View.VISIBLE){
+            mContainerBackBackground.setColorResources(color);
+        }
     }
 
     /**
@@ -437,16 +510,26 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param ornametUrl
      */
     private void setOrnametUrl(String ornametUrl) {
-        Glide.with(this).load(ornametUrl).into(mChoiceNeck);
-        mChoiceOrnament.setVisibility(View.VISIBLE);
+        if(mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            Glide.with(this).load(ornametUrl).into(mChoiceNeck);
+            mChoiceOrnament.setVisibility(View.VISIBLE);
+        }
+        if(mContainerBackBackground.getVisibility() == View.VISIBLE){
+            mContainerBackBackground.setOrnameUrl(ornametUrl);
+        }
     }
 
     /**
      * @param armUrl
      */
     private void setArmImage(String armUrl) {
-        mChoiceArm.setVisibility(View.VISIBLE);
-        Glide.with(this).load(armUrl).into(mChoiceArm);
+        if(mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            mChoiceArm.setVisibility(View.VISIBLE);
+            Glide.with(this).load(armUrl).into(mChoiceArm);
+        }
+        if(mContainerBackBackground.getVisibility() == View.VISIBLE){
+            mContainerBackBackground.setArmUrl(armUrl);
+        }
     }
 
     /**
@@ -455,18 +538,30 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param neckUrl
      */
     private void setNeckImage(String neckUrl) {
-        mChoiceNeck.setVisibility(View.VISIBLE);
-        Glide.with(this).load(neckUrl).into(mChoiceNeck);
+        if(mContainerFrontBackground.getVisibility()==View.VISIBLE) {
+            mChoiceNeck.setVisibility(View.VISIBLE);
+            Glide.with(this).load(neckUrl).into(mChoiceNeck);
+        }
+        if(mContainerBackBackground.getVisibility() == View.VISIBLE){
+            Log.e("BACK","BA");
+            mContainerBackBackground.setNeckUrl(neckUrl);
+        }
     }
 
     private void generateBitmap() {
-//        Bitmap bitmap = Bitmap.createBitmap(mContainerBackground.getWidth(),
-//                mContainerBackground.getHeight()
-//                , Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        mContainerBackground.draw(canvas);
-//        imagePath = FileUtils.saveBitmap(bitmap, this);
-//        Log.e("TAG", "DDDD" + imagePath);
+        Bitmap bitmap = Bitmap.createBitmap(mContainerBackBackground.getWidth(),
+                mContainerBackBackground.getHeight()
+                , Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        mContainerBackBackground.draw(canvas);
+        imageBackPath = FileUtils.saveBitmap(bitmap, this,"back");
+
+        Bitmap bitmapFront = Bitmap.createBitmap(mContainerFrontBackground.getWidth(),
+                mContainerFrontBackground.getHeight()
+                , Bitmap.Config.ARGB_8888);
+        Canvas canvasFront = new Canvas(bitmapFront);
+        mContainerFrontBackground.draw(canvasFront);
+        imageFrontPath = FileUtils.saveBitmap(bitmapFront, this,"front");
     }
 
     /**
@@ -554,6 +649,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             case COLOR:
                 String color = "#" + mColorData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
                 mImagecolor = Color.parseColor(color);
+                Log.e(TAG,"COLOR:"+mImagecolor);
                 setColorBg(mImagecolor);
                 break;
             case PATTERN:
@@ -685,7 +781,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mRecyclerStyle.setVisibility(View.GONE);
         mRecyclerDetailStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.GONE);
-        mChoiceOrBack.setVisibility(View.VISIBLE);
+        mChoiceReturn.setVisibility(View.VISIBLE);
+
     }
 
 }

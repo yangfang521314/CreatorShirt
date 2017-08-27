@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,15 +32,22 @@ public class ChoiceSizeActivity extends BaseActivity {
     Button mCreateOrder;
     @BindView(R.id.share_weixin)
     TextView mShareWeixin;
+    @BindView(R.id.clothes_back)
+    TextView mButtonBack;
+    @BindView(R.id.clothes_front)
+    TextView mButtonFront;
 
-    private String imagePath;
+    private String mBackImage;
+    private String mFrontImage;
     private ChoiceSizePopupWindow mPopupWindow;
 
     @Override
     public void initData() {
         super.initData();
         if (getIntent().getExtras() != null) {
-            imagePath = getIntent().getExtras().getString("imageUrl");
+            mBackImage = getIntent().getExtras().getString("backUrl");
+            mFrontImage = getIntent().getExtras().getString("frontUrl");
+            Log.e("choiceSizeActivity","mB:"+mBackImage+"mF："+mFrontImage);
         } else {
 //            imagePath = getString(R.string.my_order);
         }
@@ -55,11 +63,10 @@ public class ChoiceSizeActivity extends BaseActivity {
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
-        mImageClothes.setImageURI(Uri.parse(imagePath));
-
+        mImageClothes.setImageURI(Uri.parse(mFrontImage));
     }
 
-    @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back})
+    @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back,R.id.clothes_back,R.id.clothes_front})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_order:
@@ -71,6 +78,16 @@ public class ChoiceSizeActivity extends BaseActivity {
                 break;
             case R.id.share_weixin:
                 //// TODO: 30/06/2017 微信分享
+                break;
+            case R.id.clothes_front:
+                mButtonBack.setSelected(false);
+                mButtonFront.setSelected(true);
+                mImageClothes.setImageURI(Uri.parse(mFrontImage));
+                break;
+            case R.id.clothes_back:
+                mButtonBack.setSelected(true);
+                mButtonFront.setSelected(false);
+                mImageClothes.setImageURI(Uri.parse(mBackImage));
                 break;
         }
     }
