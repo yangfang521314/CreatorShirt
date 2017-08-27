@@ -181,6 +181,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBackStyleData = new CommonStyleData();
         String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
         mContainerBackBackground.setImageUrl(imageBackUrl);
+        mContainerBackBackground.setContext(this);
     }
 
     @Override
@@ -196,10 +197,12 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     @Override
     public void showSuccessData(DetailStyleBean detailStyleBean) {
-        mDetailStyleBackData = detailStyleBean.getData().getB();
-        mDetailStyleFrontData = detailStyleBean.getData().getA();
-        getNameDeign(mDetailStyleFrontData);
-        mButtonFront.setSelected(true);
+        if (detailStyleBean != null) {
+            mDetailStyleBackData = detailStyleBean.getData().getB();
+            mDetailStyleFrontData = detailStyleBean.getData().getA();
+            getNameDeign(mDetailStyleFrontData);
+            mButtonFront.setSelected(true);
+        }
     }
 
     private void getNameDeign(DetailCommonData mData) {
@@ -353,17 +356,14 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         mChoiceOrnament.setVisibility(View.GONE);
                         break;
                     case PATTERN:
-                        if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+                        if (mButtonFront.isSelected()) {
                             if (mCurrentStickerView != null) {
                                 mViews.remove(mCurrentStickerView);
                                 mContainerFrontBackground.removeView(mCurrentStickerView);
                             }
                         }
-                        if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
-                            if (mCurrentStickerView != null) {
-                                mViews.remove(mCurrentStickerView);
-                                mContainerBackBackground.removeView(mCurrentStickerView);
-                            }
+                        if (mButtonBack.isSelected()) {
+                            mContainerBackBackground.removeStickerView();
                         }
                         break;
 //                    case SIGNATURE:
@@ -548,7 +548,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             Glide.with(this).load(neckUrl).into(mChoiceNeck);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
-            Log.e("BACK", "BA");
             mContainerBackBackground.setNeckUrl(neckUrl);
         }
     }
@@ -563,6 +562,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             addStickerView(patternUrl);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
+            Log.e("BACK", "BA");
             mContainerBackBackground.addStickerView(patternUrl);
         }
     }

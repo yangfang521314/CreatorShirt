@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +15,7 @@ import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.LogUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,7 +47,7 @@ public class ChoiceSizeActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             mBackImage = getIntent().getExtras().getString("backUrl");
             mFrontImage = getIntent().getExtras().getString("frontUrl");
-            Log.e("choiceSizeActivity","mB:"+mBackImage+"mF："+mFrontImage);
+            LogUtil.e("choiceSizeActivity","mB:"+mBackImage+"mF："+mFrontImage);
         } else {
 //            imagePath = getString(R.string.my_order);
         }

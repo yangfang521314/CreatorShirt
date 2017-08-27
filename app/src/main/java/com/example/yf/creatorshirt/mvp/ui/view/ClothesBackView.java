@@ -16,6 +16,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
+import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 import com.zhy.android.percent.support.PercentRelativeLayout;
 
@@ -40,8 +42,8 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackNeck;
     @BindView(R.id.clothes_container_background)
     ImageView mBackClothes;
-    @BindView(R.id.rl_back_root)
-    RelativeLayout mContainerBackBackground;
+    //    @BindView(R.id.rl_back_root)
+//    RelativeLayout mContainerBackBackground;
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
     //处于编辑的贴纸
@@ -50,7 +52,6 @@ public class ClothesBackView extends PercentRelativeLayout {
     public ClothesBackView(Context context) {
         super(context);
         initView(context);
-        mContext = context;
     }
 
     public ClothesBackView(Context context, AttributeSet attrs) {
@@ -145,7 +146,7 @@ public class ClothesBackView extends PercentRelativeLayout {
             @Override
             public void onDeleteClick() {
                 mViews.remove(stickerView);
-                mContainerBackBackground.removeView(stickerView);
+                ClothesBackView.this.removeView(stickerView);
             }
 
             @Override
@@ -166,8 +167,9 @@ public class ClothesBackView extends PercentRelativeLayout {
             }
         });
         //反面
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mContainerBackBackground.addView(stickerView, lp);
+        //// TODO: 2017/8/27 设计高度
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DisplayUtil.Dp2Px(mContext,320));
+        ClothesBackView.this.addView(stickerView, lp);
         mViews.add(stickerView);
         setStickerViewEdit(stickerView);
     }
@@ -178,5 +180,17 @@ public class ClothesBackView extends PercentRelativeLayout {
         }
         mCurrentStickerView = stickerView;
         stickerView.setInEdit(true);
+    }
+
+    public void setContext(DetailDesignActivity detailDesignActivity) {
+        mContext = detailDesignActivity;
+    }
+
+    public void removeStickerView() {
+        if (mCurrentStickerView != null) {
+            mViews.remove(mCurrentStickerView);
+            ClothesBackView.this.removeView(mCurrentStickerView);
+        }
+
     }
 }

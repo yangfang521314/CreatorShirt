@@ -31,8 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:visibility="gone"
-            android:baselineAligned="false">
+            android:visibility="gone">
         </com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView>
     </RelativeLayout>
 
