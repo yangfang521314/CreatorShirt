@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,10 +10,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
+import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 import com.zhy.android.percent.support.PercentRelativeLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +40,17 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackNeck;
     @BindView(R.id.clothes_container_background)
     ImageView mBackClothes;
+    @BindView(R.id.rl_back_root)
+    RelativeLayout mContainerBackBackground;
+    // 存储贴纸列表
+    private ArrayList<View> mViews = new ArrayList<>();
+    //处于编辑的贴纸
+    private StickerView mCurrentStickerView;
 
     public ClothesBackView(Context context) {
         super(context);
         initView(context);
+        mContext = context;
     }
 
     public ClothesBackView(Context context, AttributeSet attrs) {
@@ -63,6 +77,7 @@ public class ClothesBackView extends PercentRelativeLayout {
     public void setArmVisibility(int visibility) {
         mBackArm.setVisibility(visibility);
     }
+
     public void setNeckVisibility(int visibility) {
         mBackNeck.setVisibility(visibility);
     }
@@ -78,16 +93,16 @@ public class ClothesBackView extends PercentRelativeLayout {
 
     public void setOrnameUrl(String ornametUrl) {
         mBackOrnament.setVisibility(VISIBLE);
-        Glide.with(App.getInstance()).load(ornametUrl).into(mBackNeck);
+        Glide.with(App.getInstance()).load(ornametUrl).into(mBackOrnament);
     }
 
     public void setArmUrl(String armUrl) {
         mBackArm.setVisibility(VISIBLE);
-        Glide.with(App.getInstance()).load(armUrl).into(mBackNeck);
+        Glide.with(App.getInstance()).load(armUrl).into(mBackArm);
     }
 
     public void setColor(int color) {
-        Log.e("ClothesBackView","c"+color);
+        Log.e("ClothesBackView", "c" + color);
         mBackClothes.setBackgroundResource(color);
     }
 
@@ -101,9 +116,67 @@ public class ClothesBackView extends PercentRelativeLayout {
         if (mBackStyleData.getArmUrl() != null) {
             setArmUrl(mBackStyleData.getArmUrl());
         }
+        if (mBackStyleData.getPattern() != null) {
+            addStickerView(mBackStyleData.getPattern());
+        }
     }
 
     public void setColorResources(int color) {
         mBackClothes.setBackgroundColor(color);
+    }
+
+    /**
+     * add Pattern
+     *
+     * @param patternUrl
+     */
+    public void addStickerView(String patternUrl) {
+        final StickerView stickerView = new StickerView(mContext);
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        Glide.with(mContext).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                stickerView.setImageBitmap(resource);
+            }
+        });
+
+        stickerView.setOperationListener(new StickerView.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(stickerView);
+                mContainerBackBackground.removeView(stickerView);
+            }
+
+            @Override
+            public void onEdit(StickerView stickerView) {
+                mCurrentStickerView.setInEdit(false);
+                mCurrentStickerView = stickerView;
+                mCurrentStickerView.setInEdit(true);
+            }
+
+            @Override
+            public void onTop(StickerView stickerView) {
+                int position = mViews.indexOf(stickerView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                StickerView stickerTemp = (StickerView) mViews.remove(position);
+                mViews.add(mViews.size(), stickerTemp);
+            }
+        });
+        //反面
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContainerBackBackground.addView(stickerView, lp);
+        mViews.add(stickerView);
+        setStickerViewEdit(stickerView);
+    }
+
+    private void setStickerViewEdit(StickerView stickerView) {
+        if (mCurrentStickerView != null) {
+            mCurrentStickerView.setInEdit(false);
+        }
+        mCurrentStickerView = stickerView;
+        stickerView.setInEdit(true);
     }
 }
