@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+
 /**
  * dp与px单位间的相互转换
  */
@@ -78,5 +80,12 @@ public class DisplayUtil {
         ViewGroup.LayoutParams layoutParams = mContainerBackground.getLayoutParams();
         layoutParams.height = height / 2;
         mContainerBackground.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateRelative(Context context, RelativeLayout mRelative) {
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
+        layoutParams.height = height / 2;
+        mRelative.setLayoutParams(layoutParams);
     }
 }

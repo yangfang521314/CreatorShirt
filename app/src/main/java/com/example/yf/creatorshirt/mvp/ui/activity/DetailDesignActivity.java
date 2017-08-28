@@ -103,6 +103,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     TextView mButtonFront;
     @BindView(R.id.rl_clothes_back_root)
     ClothesBackView mContainerBackBackground;//背面背景
+    @BindView(R.id.rl_bg)
+    RelativeLayout mRelative;
 
     //总的样式
     private View mBeforeView;
@@ -167,6 +169,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     @Override
     protected void initView() {
+        DisplayUtil.calculateRelative(this,mRelative);
         DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
         //默认显示正面
         mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";

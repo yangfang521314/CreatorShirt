@@ -8,7 +8,6 @@ import android.os.Parcelable;
  */
 
 public class CommonStyleData implements Parcelable {
-    private static final long serialVersionUID = 2L;
     private String neckUrl;
     private String armUrl;
     private String ornametUrl;
