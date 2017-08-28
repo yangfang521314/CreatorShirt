@@ -110,4 +110,9 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.getDetailDesignStyle(requestBody);
     }
 
+    @Override
+    public Flowable<HttpResponse> saveOrderData(RequestBody jsonObject) {
+        return mRequestApi.saveOrderData(jsonObject);
+    }
+
 }

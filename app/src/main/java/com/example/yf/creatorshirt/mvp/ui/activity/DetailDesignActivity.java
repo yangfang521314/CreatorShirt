@@ -154,7 +154,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private Paint paint;
 
     private String imageUrl = null;//图片url
-    private int mImagecolor;//背景颜色
+    private String mImagecolor;//背景颜色
 
 
     @Override
@@ -169,7 +169,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     @Override
     protected void initView() {
-        DisplayUtil.calculateRelative(this,mRelative);
+        DisplayUtil.calculateRelative(this, mRelative);
         DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
         //默认显示正面
         mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
@@ -312,8 +312,12 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("backUrl", imageBackPath);
-                        bundle.putString("frontUrl", imageFrontPath);
+                        commonStyleData.setFrontUrl(imageFrontPath);
+                        mBackStyleData.setBackUrl(imageBackPath);
+                        commonStyleData.setGender(gender);
+                        commonStyleData.setType(type);
+                        mBackStyleData.setGender(gender);
+                        mBackStyleData.setType(type);
                         bundle.putParcelable("front", commonStyleData);
                         bundle.putParcelable("back", mBackStyleData);
                         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
@@ -466,7 +470,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     if (commonStyleData.getOrnametUrl() != null) {
                         setOrnametUrl(commonStyleData.getOrnametUrl());
                     }
-                    if (commonStyleData.getColor() != 0) {
+                    if (commonStyleData.getColor() != null) {
                         setColorBg(commonStyleData.getColor());
                     }
                 }
@@ -505,12 +509,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     /**
      * @param color
      */
-    private void setColorBg(int color) {
+    private void setColorBg(String color) {
+        int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
-            mClothes.setBackgroundColor(color);
+            mClothes.setBackgroundColor(colorN);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
-            mContainerBackBackground.setColorResources(color);
+            mContainerBackBackground.setColorResources(colorN);
         }
     }
 
@@ -673,8 +678,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 setOrnametUrl(imageUrl);
                 break;
             case COLOR:
-                String color = "#" + mColorData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                mImagecolor = Color.parseColor(color);
+                mImagecolor = "#" + mColorData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
                 Log.e(TAG, "COLOR:" + mImagecolor);
                 setColorBg(mImagecolor);
                 break;

@@ -11,9 +11,44 @@ public class CommonStyleData implements Parcelable {
     private String neckUrl;
     private String armUrl;
     private String ornametUrl;
-    private int color;
+    private String color;
     private String pattern;
+    private String backUrl;
+    private String frontUrl;
+    private String gender;
+    private String type;
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBackUrl() {
+        return backUrl;
+    }
+
+    public void setBackUrl(String backUrl) {
+        this.backUrl = backUrl;
+    }
+
+    public String getFrontUrl() {
+        return frontUrl;
+    }
+
+    public void setFrontUrl(String frontUrl) {
+        this.frontUrl = frontUrl;
+    }
 
     public String getNeckUrl() {
         return neckUrl;
@@ -39,11 +74,11 @@ public class CommonStyleData implements Parcelable {
         this.ornametUrl = ornametUrl;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -63,6 +98,10 @@ public class CommonStyleData implements Parcelable {
                 ", ornametUrl='" + ornametUrl + '\'' +
                 ", color=" + color +
                 ", pattern='" + pattern + '\'' +
+                ", backUrl='" + backUrl + '\'' +
+                ", frontUrl='" + frontUrl + '\'' +
+                ", gender='" + gender + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 
@@ -79,16 +118,25 @@ public class CommonStyleData implements Parcelable {
         dest.writeString(this.neckUrl);
         dest.writeString(this.armUrl);
         dest.writeString(this.ornametUrl);
-        dest.writeInt(this.color);
+        dest.writeString(this.color);
         dest.writeString(this.pattern);
+        dest.writeString(this.backUrl);
+        dest.writeString(this.frontUrl);
+        dest.writeString(this.gender);
+        dest.writeString(this.type);
     }
 
     protected CommonStyleData(Parcel in) {
         this.neckUrl = in.readString();
         this.armUrl = in.readString();
         this.ornametUrl = in.readString();
-        this.color = in.readInt();
+        this.color = in.readString();
         this.pattern = in.readString();
+        this.backUrl = in.readString();
+        this.frontUrl = in.readString();
+        this.gender = in.readString();
+        this.type = in.readString();
+
     }
 
     public static final Creator<CommonStyleData> CREATOR = new Creator<CommonStyleData>() {

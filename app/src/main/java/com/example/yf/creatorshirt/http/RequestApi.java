@@ -2,12 +2,12 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
@@ -17,11 +17,8 @@ import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by yang on 17/05/2017.
@@ -72,4 +69,8 @@ public interface RequestApi {
     //具体设计的数据
     @POST("fDesigns/GetTypeversionResources")
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(@Body RequestBody requestBody);
+
+    //上传数据
+    @POST("f-Users/saveOrders")
+    Flowable<HttpResponse> saveOrderData(@Body RequestBody jsonBody);
 }

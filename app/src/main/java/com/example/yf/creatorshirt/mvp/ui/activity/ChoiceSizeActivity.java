@@ -1,6 +1,9 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,7 +15,10 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
+import com.example.yf.creatorshirt.mvp.model.OrderData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
+import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -24,7 +30,7 @@ import butterknife.OnClick;
 /**
  * 选择设计尺寸大小页面
  */
-public class ChoiceSizeActivity extends BaseActivity {
+public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> implements SizeOrShareContract.SizeOrShareView {
     @BindView(R.id.clothes_image)
     ImageView mImageClothes;
     @BindView(R.id.rl_choice_size)
@@ -37,9 +43,10 @@ public class ChoiceSizeActivity extends BaseActivity {
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
     TextView mButtonFront;
-
-    private String mBackImage;
-    private String mFrontImage;
+    private String baseId;
+    private String gender;
+    private String mBackImageUrl;
+    private String mFrontImageUrl;
     private CommonStyleData mFrontData;
     private CommonStyleData mBackData;
     private ChoiceSizePopupWindow mPopupWindow;
@@ -48,32 +55,33 @@ public class ChoiceSizeActivity extends BaseActivity {
     public void initData() {
         super.initData();
         if (getIntent().getExtras() != null) {
-            mBackImage = getIntent().getExtras().getString("backUrl");
-            mFrontImage = getIntent().getExtras().getString("frontUrl");
-            mFrontData =  getIntent().getExtras().getParcelable("front");
-            mBackData =  getIntent().getExtras().getParcelable("back");
-            LogUtil.e("choiceSizeActivity","mBack:"+mFrontData+"：mFront："+mBackData);
-
-        } else {
-//            imagePath = getString(R.string.my_order);
+            mFrontData = getIntent().getExtras().getParcelable("front");
+            mBackData = getIntent().getExtras().getParcelable("back");
+            if (!TextUtils.isEmpty(mBackData.getBackUrl())) {
+                mBackImageUrl = mBackData.getBackUrl();
+            }
+            if (!TextUtils.isEmpty(mFrontData.getFrontUrl())) {
+                mFrontImageUrl = mFrontData.getFrontUrl();
+            }
+            LogUtil.e("choiceSizeActivity", "mBack:" + mFrontData + "：mFront：" + mBackData);
         }
-
 
     }
 
+
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
-        mImageClothes.setImageURI(Uri.parse(mFrontImage));
+        mImageClothes.setImageURI(Uri.parse(mFrontImageUrl));
     }
 
-    @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back,R.id.clothes_back,R.id.clothes_front})
+    @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back, R.id.clothes_back, R.id.clothes_front})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_order:
@@ -89,12 +97,12 @@ public class ChoiceSizeActivity extends BaseActivity {
             case R.id.clothes_front:
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
-                mImageClothes.setImageURI(Uri.parse(mFrontImage));
+                mImageClothes.setImageURI(Uri.parse(mFrontImageUrl));
                 break;
             case R.id.clothes_back:
                 mButtonBack.setSelected(true);
                 mButtonFront.setSelected(false);
-                mImageClothes.setImageURI(Uri.parse(mBackImage));
+                mImageClothes.setImageURI(Uri.parse(mBackImageUrl));
                 break;
         }
     }
@@ -114,13 +122,31 @@ public class ChoiceSizeActivity extends BaseActivity {
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-//                Intent intent = new Intent();
-//                intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
-//                startActivity(intent);
-                startCommonActivity(ChoiceSizeActivity.this,null,MyOrderActivity.class);
+                startNewActivity();
             }
         });
         return mPopupWindow;
+    }
+
+    private void startNewActivity() {
+        saveOrderData();
+        Intent intent = new Intent();
+        intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
+        startActivity(intent);
+        startCommonActivity(ChoiceSizeActivity.this, null, MyOrderActivity.class);
+    }
+
+    /**
+     * 保存数据到服务器
+     */
+    private void saveOrderData() {
+        OrderData orderData = new OrderData();
+        orderData.setBackData(mBackData);
+        orderData.setFrontData(mFrontData);
+        orderData.setHeight("170");
+        orderData.setOrderType("check");
+        Log.e("TSG", "ORDER DATA" + orderData.getJsonObject());
+        mPresenter.sendOrderData(orderData.getJsonObject());
     }
 
     private void setWindowBgAlpha(float f) {

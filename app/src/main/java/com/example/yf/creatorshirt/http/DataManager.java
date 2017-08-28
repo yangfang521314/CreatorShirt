@@ -81,6 +81,7 @@ public class DataManager implements HttpHelper {
 
     /**
      * 首页选择衣服或者裤子的数据
+     *
      * @return
      */
     @Override
@@ -90,11 +91,16 @@ public class DataManager implements HttpHelper {
 
     /**
      * 具体设计样式的数据选择
+     *
      * @param requestBody
      * @return
      */
     @Override
     public Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody) {
         return mHttpHelper.getDetailDesign(requestBody);
+    }
+
+    public Flowable<HttpResponse> saveOrderData(RequestBody jsonObject) {
+        return mHttpHelper.saveOrderData(jsonObject);
     }
 }
