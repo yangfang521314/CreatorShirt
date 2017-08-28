@@ -302,17 +302,19 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                //// TODO: 2017/8/27 没有图片时会报null
-                if (mContainerBackBackground != null && mContainerFrontBackground != null) {
+                if (mContainerBackBackground.getWidth() <= 0) {
+                    ToastUtil.showToast(this, "没有定制背面,请先定制背面", 0);
+                } else {
+                    //// TODO: 2017/8/27 没有图片时会报null
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
                         Bundle bundle = new Bundle();
                         bundle.putString("backUrl", imageBackPath);
                         bundle.putString("frontUrl", imageFrontPath);
+                        bundle.putParcelable("front",commonStyleData);
+                        bundle.putParcelable("back",mBackStyleData);
                         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
                     }
-                } else {
-                    ToastUtil.showToast(this, "没有定制,无法生成图片", 0);
                 }
                 break;
             case R.id.back:

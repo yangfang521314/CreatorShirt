@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -39,6 +40,8 @@ public class ChoiceSizeActivity extends BaseActivity {
 
     private String mBackImage;
     private String mFrontImage;
+    private CommonStyleData mFrontData;
+    private CommonStyleData mBackData;
     private ChoiceSizePopupWindow mPopupWindow;
 
     @Override
@@ -47,10 +50,14 @@ public class ChoiceSizeActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             mBackImage = getIntent().getExtras().getString("backUrl");
             mFrontImage = getIntent().getExtras().getString("frontUrl");
-            LogUtil.e("choiceSizeActivity","mB:"+mBackImage+"mF："+mFrontImage);
+            mFrontData =  getIntent().getExtras().getParcelable("front");
+            mBackData =  getIntent().getExtras().getParcelable("back");
+            LogUtil.e("choiceSizeActivity","mBack:"+mFrontData+"：mFront："+mBackData);
+
         } else {
 //            imagePath = getString(R.string.my_order);
         }
+
 
     }
 

@@ -12,17 +12,19 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <RelativeLayout
+    <com.zhy.android.percent.support.PercentRelativeLayout
         android:id="@+id/rl_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar">
+        android:layout_height="0dp"
+        android:layout_below="@+id/app_bar"
+        app:layout_heightPercent="50%h">
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:id="@+id/rl_clothes_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null">
+
             <include layout="@layout/clothes_front_layout" />
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
@@ -31,9 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:visibility="gone">
-        </com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView>
-    </RelativeLayout>
+            android:visibility="gone" />
+    </com.zhy.android.percent.support.PercentRelativeLayout>
 
 
     <LinearLayout
