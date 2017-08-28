@@ -17,6 +17,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 import com.zhy.android.percent.support.PercentRelativeLayout;
@@ -109,16 +110,16 @@ public class ClothesBackView extends PercentRelativeLayout {
 
     public void setBackData(CommonStyleData mBackStyleData) {
         if (mBackStyleData.getNeckUrl() != null) {
-            setNeckUrl(mBackStyleData.getNeckUrl());
+            setNeckUrl(Constants.ImageUrl+mBackStyleData.getNeckUrl());
         }
         if (mBackStyleData.getOrnametUrl() != null) {
-            setOrnameUrl(mBackStyleData.getOrnametUrl());
+            setOrnameUrl(Constants.ImageUrl+mBackStyleData.getOrnametUrl());
         }
         if (mBackStyleData.getArmUrl() != null) {
-            setArmUrl(mBackStyleData.getArmUrl());
+            setArmUrl(Constants.ImageUrl+mBackStyleData.getArmUrl());
         }
         if (mBackStyleData.getPattern() != null) {
-            addStickerView(mBackStyleData.getPattern());
+            addStickerView(Constants.ImageUrl+mBackStyleData.getPattern());
         }
     }
 

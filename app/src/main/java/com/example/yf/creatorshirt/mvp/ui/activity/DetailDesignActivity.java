@@ -311,8 +311,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         Bundle bundle = new Bundle();
                         bundle.putString("backUrl", imageBackPath);
                         bundle.putString("frontUrl", imageFrontPath);
-                        bundle.putParcelable("front",commonStyleData);
-                        bundle.putParcelable("back",mBackStyleData);
+                        bundle.putParcelable("front", commonStyleData);
+                        bundle.putParcelable("back", mBackStyleData);
                         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
                     }
                 }
@@ -517,6 +517,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param ornametUrl
      */
     private void setOrnametUrl(String ornametUrl) {
+        ornametUrl = Constants.ImageUrl + ornametUrl;
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             Glide.with(this).load(ornametUrl).into(mChoiceOrnament);
             mChoiceOrnament.setVisibility(View.VISIBLE);
@@ -530,6 +531,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param armUrl
      */
     private void setArmImage(String armUrl) {
+        armUrl = Constants.ImageUrl + armUrl;
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             mChoiceArm.setVisibility(View.VISIBLE);
             Glide.with(this).load(armUrl).into(mChoiceArm);
@@ -545,6 +547,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param neckUrl
      */
     private void setNeckImage(String neckUrl) {
+        neckUrl = Constants.ImageUrl + neckUrl;
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             mChoiceNeck.setVisibility(View.VISIBLE);
             Glide.with(this).load(neckUrl).into(mChoiceNeck);
@@ -560,6 +563,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
      * @param patternUrl
      */
     private void setPatternUrl(String patternUrl) {
+        patternUrl = Constants.ImageUrl + patternUrl;
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             addStickerView(patternUrl);
         }
@@ -653,19 +657,16 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         switch (clotheKey.get(mCurrentPosition)) {
             case NECK:
                 String neck = newList.get(mCurrentPosition).getTitle();
-                imageUrl = Constants.ImageUrl +
-                        NewDetailData.get(neck).get(position).getFile();
+                imageUrl = NewDetailData.get(neck).get(position).getFile();
                 Log.e(TAG, "image" + imageUrl);
                 setNeckImage(imageUrl);
                 break;
             case ARM:
-                imageUrl = Constants.ImageUrl +
-                        NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                imageUrl = NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setArmImage(imageUrl);
                 break;
             case ORNAMENT:
-                imageUrl = Constants.ImageUrl +
-                        NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                imageUrl = NewDetailData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setOrnametUrl(imageUrl);
                 break;
             case COLOR:
@@ -676,7 +677,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 break;
             case PATTERN:
                 mPatternBounds.setVisibility(View.VISIBLE);
-                imageUrl = Constants.ImageUrl + mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                imageUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setPatternUrl(imageUrl);
                 break;
 //            case SIGNATURE://签名处理
