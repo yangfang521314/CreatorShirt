@@ -12,12 +12,11 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <com.zhy.android.percent.support.PercentRelativeLayout
+    <RelativeLayout
         android:id="@+id/rl_bg"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@+id/app_bar"
-        app:layout_heightPercent="50%h">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar">
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:id="@+id/rl_clothes_root"
@@ -34,7 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:visibility="gone" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
+    </RelativeLayout>
 
 
     <LinearLayout
