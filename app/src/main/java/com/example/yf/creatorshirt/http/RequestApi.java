@@ -17,6 +17,7 @@ import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -73,4 +74,8 @@ public interface RequestApi {
     //上传数据
     @POST("f-Users/saveOrders")
     Flowable<HttpResponse> saveOrderData(@Body RequestBody jsonBody);
+
+    //请求token
+    @POST("f-Users/GetQinniuToken")
+    Flowable<HttpResponse<String>> getQiToken(@Header("Token") String token);
 }

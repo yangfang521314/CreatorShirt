@@ -42,4 +42,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody);
 
     Flowable<HttpResponse> saveOrderData(RequestBody jsonObject);
+
+    Flowable<HttpResponse<String>> getQiToken(String userToken);
 }

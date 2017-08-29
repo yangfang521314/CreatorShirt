@@ -11,7 +11,6 @@ ext {
     def dependVersion = [
             support    : "25.2.0",
             retrofit   : "2.2.0",
-            okhttp     : "3.6.0",
             dagger2    : "2.5",
             butterknife: "8.8.1",
             leakcanary : "1.5.2",
@@ -36,7 +35,6 @@ ext {
             "retrofit"                  : "com.squareup.retrofit2:retrofit:${dependVersion.retrofit}",
             "retrofit-converter-gson"   : "com.squareup.retrofit2:converter-gson:${dependVersion.retrofit}",
             "retrofit-adapter-rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${dependVersion.retrofit}",
-            "okhttp"                    : "com.squareup.okhttp3:okhttp:${dependVersion.okhttp}",
             "okhttp-logging-interceptor": "com.squareup.okhttp3:logging-interceptor:${dependVersion.okhttp}",
 
             //rxJava

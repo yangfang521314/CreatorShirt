@@ -103,4 +103,9 @@ public class DataManager implements HttpHelper {
     public Flowable<HttpResponse> saveOrderData(RequestBody jsonObject) {
         return mHttpHelper.saveOrderData(jsonObject);
     }
+
+    @Override
+    public Flowable<HttpResponse<String>> getQiToken(String userToken) {
+        return mHttpHelper.getQiToken(userToken);
+    }
 }

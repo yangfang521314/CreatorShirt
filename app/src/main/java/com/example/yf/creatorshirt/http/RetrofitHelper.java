@@ -115,4 +115,9 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.saveOrderData(jsonObject);
     }
 
+    @Override
+    public Flowable<HttpResponse<String>> getQiToken(String userToken) {
+        return mRequestApi.getQiToken(userToken);
+    }
+
 }
