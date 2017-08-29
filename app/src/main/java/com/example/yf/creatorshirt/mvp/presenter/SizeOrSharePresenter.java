@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
@@ -16,6 +17,9 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by yangfang on 2017/8/28.
@@ -35,15 +39,16 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         this.manager = manager;
     }
 
-    @Override
-    public void sendOrderData(String jsonString) {
-//        RequestBody body =
-//                RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonString);
-//        addSubscribe(manager.saveOrderData(body)
-//        .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
-//        .compose(RxUtils.<String>handleResult())
-//        .subscribeWith());
-    }
+//    @Override
+//    public void sendOrderData(String jsonString) {
+//
+//        //构建body
+
+////        addSubscribe(manager.saveOrderData(body)
+////        .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+////        .compose(RxUtils.<String>handleResult())
+////        .subscribeWith());
+//    }
 
     public void saveImage(String mFrontImageUrl) {
         String key = UserId + Utils.getTime();
@@ -75,5 +80,17 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     }
                 })
         );
+    }
+
+
+    @Override
+    public void sendOrderData(CommonStyleData mFrontData, CommonStyleData mBackData, String jsonObject) {
+        RequestBody body=
+                RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), "");
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("gender", mBackData.getGender())
+                .addFormDataPart("baseId", mBackData.getType())
+                .addFormDataPart("styleContext","")
+                .build();
     }
 }

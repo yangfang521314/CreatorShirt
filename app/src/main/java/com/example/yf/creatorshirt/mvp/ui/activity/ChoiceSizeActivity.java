@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -141,10 +142,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         OrderData orderData = new OrderData();
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
-        orderData.setHeight("170");
-        orderData.setOrderType("check");
         mPresenter.saveImage(mFrontImageUrl);
-        mPresenter.sendOrderData(orderData.getJsonObject());
+        Log.e("TAGJSON","JSON"+orderData.getJsonObject());
+        mPresenter.sendOrderData(mFrontData,mBackData,orderData.getJsonObject());
     }
 
     private void setWindowBgAlpha(float f) {

@@ -20,8 +20,6 @@ public class OrderData {
     //处理背面数据，形成json上传
     public void setBackData(CommonStyleData mBackData) {
         try {
-            jsonObject.put("gender", mBackData.getGender());
-            jsonObject.put("baseId", mBackData.getType());
             if (!TextUtils.isEmpty(mBackData.getArmUrl())) {
                 backObject.put("arm", mBackData.getArmUrl());
             }
@@ -69,27 +67,6 @@ public class OrderData {
             e.printStackTrace();
         }
 
-    }
-
-    /**
-     * clothes size
-     *
-     * @param height
-     */
-    public void setHeight(String height) {
-        try {
-            jsonObject.put("height", height);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setOrderType(String check) {
-        try {
-            jsonObject.put("orderType", check);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getJsonObject() {
