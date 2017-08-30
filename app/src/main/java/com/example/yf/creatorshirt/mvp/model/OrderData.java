@@ -70,6 +70,12 @@ public class OrderData {
     }
 
     public String getJsonObject() {
-        return jsonObject.toString();
+        String json = null;
+        try {
+            json = jsonObject.getJSONObject("styleContext").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }

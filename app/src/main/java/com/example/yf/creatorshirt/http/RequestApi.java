@@ -6,6 +6,7 @@ import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.SaveOrderBean;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -18,6 +19,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -72,8 +74,9 @@ public interface RequestApi {
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(@Body RequestBody requestBody);
 
     //上传数据
+    @Multipart
     @POST("f-Users/saveOrders")
-    Flowable<HttpResponse> saveOrderData(@Body RequestBody jsonBody);
+    Flowable<HttpResponse<SaveOrderBean>> saveOrderData(@Body RequestBody jsonBody);
 
     //请求token
     @POST("f-Users/GetQinniuToken")

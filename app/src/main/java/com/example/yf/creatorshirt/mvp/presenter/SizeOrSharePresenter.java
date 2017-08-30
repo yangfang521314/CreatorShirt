@@ -14,11 +14,12 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-import okhttp3.MultipartBody;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
@@ -82,15 +83,36 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         );
     }
 
-
+    /**
+     * {"gender":"","baseId":"","styleContext":"",
+     * "height":170,"color":"#FFFFFF",
+     * "orderType":"Check/Share",
+     * "size":"","address":"","zipCode":"","finishImage":""}
+     *
+     * @param mFrontData
+     * @param mBackData
+     * @param styleContext
+     */
     @Override
-    public void sendOrderData(CommonStyleData mFrontData, CommonStyleData mBackData, String jsonObject) {
-        RequestBody body=
-                RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), "");
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("gender", mBackData.getGender())
-                .addFormDataPart("baseId", mBackData.getType())
-                .addFormDataPart("styleContext","")
-                .build();
+    public void sendOrderData(CommonStyleData mFrontData, CommonStyleData mBackData, String styleContext) {
+        JSONObject request = new JSONObject();
+        try {
+            request.put("gender", mBackData.getGender());
+            request.put("baseId", Integer.getInteger(mBackData.getType()));
+            request.put("styleContext", styleContext);
+            request.put("height", 170);
+            request.put("color", "#FFFFFF");
+            request.put("orderType", "Check");
+            request.put("size", "170cm");
+            request.put("address", "");
+            request.put("zioCode", "");
+            request.put("finishImage", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), request.toString());
+        addSubscribe(manager.saveOrderData(requestBody)
+                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+                .subscribeWith();
     }
 }

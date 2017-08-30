@@ -22,7 +22,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.LogUtil;
+import com.example.yf.creatorshirt.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,10 +64,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             if (!TextUtils.isEmpty(mFrontData.getFrontUrl())) {
                 mFrontImageUrl = mFrontData.getFrontUrl();
             }
-            LogUtil.e("choiceSizeActivity", "mBack:" + mFrontData + "：mFront：" + mBackData);
         }
 
     }
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -143,8 +143,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
         mPresenter.saveImage(mFrontImageUrl);
-        Log.e("TAGJSON","JSON"+orderData.getJsonObject());
-        mPresenter.sendOrderData(mFrontData,mBackData,orderData.getJsonObject());
+        String styleContext = Utils.string2json(orderData.getJsonObject());
+        Log.e("TAGJSON", "JSON" + styleContext);
+        mPresenter.sendOrderData(mFrontData, mBackData, styleContext);
     }
 
     private void setWindowBgAlpha(float f) {

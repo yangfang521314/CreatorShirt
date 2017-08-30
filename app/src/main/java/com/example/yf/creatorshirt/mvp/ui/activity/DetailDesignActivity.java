@@ -475,7 +475,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     }
                 }
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
-                Log.e(TAG, "front:" + imageUrl);
                 Glide.with(this).load(imageUrl).into(mClothes);
                 getNameDeign(mDetailStyleFrontData);
                 mPatternBounds.setVisibility(View.GONE);
@@ -495,7 +494,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 if (mBackStyleData != null) {
                     mContainerBackBackground.setBackData(mBackStyleData);
                 }
-                Log.e(TAG, "BACK:" + imageBackUrl);
                 mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
@@ -576,7 +574,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             addStickerView(patternUrl);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
-            Log.e("BACK", "BA");
             mContainerBackBackground.addStickerView(patternUrl);
         }
     }
