@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * 应用设置帮助类，SharedPreference存储
- *
+ * <p>
  * Created by yang on 17/05/2017.
  */
 public final class SharedPreferencesUtil {
@@ -128,5 +128,30 @@ public final class SharedPreferencesUtil {
      */
     public static boolean getAppIsFirstLaunched() {
         return getBoolean(PrefKey.APP_LAUNCH, PrefKey.APP_FIRST_LAUNCH_KEY, true);
+    }
+
+    public static void saveUserId(int userid) {
+        setInteger(Constants.USER_INFO, Constants.USER_ID, userid);
+    }
+
+    public static void saveUserToken(String token) {
+        setString(Constants.USER_INFO, Constants.USER_TOKEN, token);
+    }
+
+
+    public static void saveUserPhone(String mobile) {
+        setString(Constants.USER_INFO, Constants.USER_MOBILE, mobile);
+    }
+
+    public static String getUserToken() {
+        return getString(Constants.USER_INFO, Constants.USER_TOKEN, "");
+    }
+
+    public static int getUserId() {
+        return getInteger(Constants.USER_INFO, Constants.USER_ID, 0);
+    }
+
+    public static String getUserPhone() {
+        return getString(Constants.USER_INFO, Constants.USER_MOBILE, "");
     }
 }

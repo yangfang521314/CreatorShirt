@@ -2,12 +2,13 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
@@ -60,13 +61,12 @@ public class RetrofitHelper implements HttpHelper {
     /**
      * phone login
      *
-     * @param phone
-     * @param password
      * @return
+     * @param body
      */
     @Override
-    public Observable<LoginBean> login(String phone, String password) {
-        return mRequestApi.loginPhone(phone, password);
+    public Flowable<HttpResponse<LoginBean>> login(RequestBody body) {
+        return mRequestApi.loginPhone(body);
     }
 
     /**
@@ -76,12 +76,12 @@ public class RetrofitHelper implements HttpHelper {
      * @return
      */
     @Override
-    public Observable<LoginBean> getVerifyCode(String phone) {
+    public Flowable<HttpResponse<String>> getVerifyCode(RequestBody phone) {
         return mRequestApi.getCode(phone);
     }
 
     @Override
-    public Observable <HttpResponse<UserInfo>>getUserInfo() {
+    public Observable<HttpResponse<UserInfo>> getUserInfo() {
         return mRequestApi.getUserInfo();
     }
 
@@ -103,6 +103,7 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<HttpResponse<DesignBaseInfo>> getBaseDesign() {
         return mRequestApi.getBaseDesignData();
+
     }
 
     @Override
@@ -111,13 +112,14 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse> saveOrderData(RequestBody jsonObject) {
-        return mRequestApi.saveOrderData(jsonObject);
-    }
-
-    @Override
     public Flowable<HttpResponse<String>> getQiToken(String userToken) {
         return mRequestApi.getQiToken(userToken);
     }
+
+    @Override
+    public Flowable<HttpResponse<OrderStyleBean>> saveOrderData(String userToken, RequestBody body) {
+        return mRequestApi.saveOrderData(userToken,body);
+    }
+
 
 }

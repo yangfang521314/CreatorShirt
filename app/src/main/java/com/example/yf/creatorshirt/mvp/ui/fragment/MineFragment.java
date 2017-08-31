@@ -2,12 +2,10 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
@@ -68,7 +66,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //根据第一次登录的接口返回的Token去访问用户返回的信息
-        mPresenter.getUserInfo();
+//        mPresenter.getUserInfo();
 
     }
 
@@ -113,10 +111,10 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     public void showUserInfo(UserInfo userInfo) {
-        mUserName.setText(userInfo.getNickname());
-        Log.e("TAG", "DDD" + userInfo.getNickname());
-        Glide.with(mActivity).
-                load(userInfo.getHeadImage()).into(mUserPicture);
+//        mUserName.setText(userInfo.getNickname());
+//        Log.e("TAG", "DDD" + userInfo.getNickname());
+//        Glide.with(mActivity).
+//                load(userInfo.getHeadImage()).into(mUserPicture);
 
     }
 }

@@ -6,7 +6,7 @@ import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.SaveOrderBean;
+import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -19,7 +19,6 @@ import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -41,13 +40,12 @@ public interface RequestApi {
             @Path("page") int page);
 
     //登录
-    @POST("user/login")
-    Observable<LoginBean> loginPhone(
-            @Path("mobile") String mobile,
-            @Path("password") String password);
+    @POST("f-Users/userLogin")
+    Flowable<HttpResponse<LoginBean>> loginPhone(@Body RequestBody body);
 
     //获取验证码
-    Observable<LoginBean> getCode(String phone);
+    @POST("f-Users/sendRegCode")
+    Flowable<HttpResponse<String>> getCode(@Body RequestBody body);
 
     //获取用户信息
     @GET("user/getInfo")
@@ -69,14 +67,23 @@ public interface RequestApi {
     @POST("fDesigns/GetBaseInfo")
     Flowable<HttpResponse<DesignBaseInfo>> getBaseDesignData();
 
+    /**
+     * {"gender":"","baseId":"","styleContext":"",
+     * "height":170,"color":"#FFFFFF",
+     * "orderType":"Check/Share",
+     * "size":"","address":"","zipCode":"","finishImage":""}
+     *
+     * @param requestBody
+     * @return
+     */
     //具体设计的数据
     @POST("fDesigns/GetTypeversionResources")
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(@Body RequestBody requestBody);
 
     //上传数据
-    @Multipart
     @POST("f-Users/saveOrders")
-    Flowable<HttpResponse<SaveOrderBean>> saveOrderData(@Body RequestBody jsonBody);
+    Flowable<HttpResponse<OrderStyleBean>> saveOrderData(@Header("Token") String token, @Body RequestBody body);
+
 
     //请求token
     @POST("f-Users/GetQinniuToken")

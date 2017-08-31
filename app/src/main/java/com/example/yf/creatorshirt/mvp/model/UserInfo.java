@@ -6,16 +6,21 @@ package com.example.yf.creatorshirt.mvp.model;
  */
 
 public class UserInfo {
-    private String headImage;
-    private String mobile;
-    private String nickname;
 
-    public String getHeadImage() {
-        return headImage;
+    private int userid;
+    private String mobile;
+    private String name;
+    private String lastLogintime;
+    private String password;
+    private String headImage;
+    private Boolean isNew;
+
+    public int getUserid() {
+        return userid;
     }
 
-    public void setHeadImage(String headImage) {
-        this.headImage = headImage;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     public String getMobile() {
@@ -26,20 +31,56 @@ public class UserInfo {
         this.mobile = mobile;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastLogintime() {
+        return lastLogintime;
+    }
+
+    public void setLastLogintime(String lastLogintime) {
+        this.lastLogintime = lastLogintime;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "headImage='" + headImage + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", nickname='" + nickname + '\'' +
+        return "UserInfo{" +
+                "userid=" + userid +
+                ", mobile=" + mobile +
+                ", name='" + name + '\'' +
+                ", lastLogintime='" + lastLogintime + '\'' +
+                ", password='" + password + '\'' +
+                ", headImage='" + headImage + '\'' +
+                ", isNew=" + isNew +
                 '}';
     }
 }

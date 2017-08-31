@@ -17,7 +17,7 @@ public interface LoginContract{
 
     interface Presenter extends BasePresenter<LoginView> {
         //手机登录
-        void phoneLogin();
+        void phoneLogin(String textString, String string);
 
         void setPhoneNumber(String textString);
 

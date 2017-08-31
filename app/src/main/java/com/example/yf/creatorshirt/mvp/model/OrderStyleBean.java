@@ -23,8 +23,10 @@ package com.example.yf.creatorshirt.mvp.model;
  * userId = 1111;
  * zipcode = "";
  */
-public class SaveOrderBean {
+public class OrderStyleBean {
+    private String Context;
     private String Gender;
+    private String UserName;
     private String addDate;
     private String address;
     private int baseId;
@@ -32,6 +34,7 @@ public class SaveOrderBean {
     private int color;
     private int fee;
     private String finishimage;
+    private String headerImage;
     private int height;
     private int id;
     private String orderType;
@@ -41,6 +44,23 @@ public class SaveOrderBean {
     private String title;
     private int userId;
     private String zipcode;
+    private String orderId;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getContext() {
+        return Context;
+    }
+
+    public void setContext(String context) {
+        Context = context;
+    }
 
     public String getGender() {
         return Gender;
@@ -48,6 +68,14 @@ public class SaveOrderBean {
 
     public void setGender(String gender) {
         Gender = gender;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
     public String getAddDate() {
@@ -104,6 +132,14 @@ public class SaveOrderBean {
 
     public void setFinishimage(String finishimage) {
         this.finishimage = finishimage;
+    }
+
+    public String getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(String headerImage) {
+        this.headerImage = headerImage;
     }
 
     public int getHeight() {
@@ -180,8 +216,10 @@ public class SaveOrderBean {
 
     @Override
     public String toString() {
-        return "SaveOrderBean{" +
-                "Gender='" + Gender + '\'' +
+        return "OrderStyleBean{" +
+                "Context='" + Context + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", UserName='" + UserName + '\'' +
                 ", addDate='" + addDate + '\'' +
                 ", address='" + address + '\'' +
                 ", baseId=" + baseId +
@@ -189,6 +227,7 @@ public class SaveOrderBean {
                 ", color=" + color +
                 ", fee=" + fee +
                 ", finishimage='" + finishimage + '\'' +
+                ", headerImage='" + headerImage + '\'' +
                 ", height=" + height +
                 ", id=" + id +
                 ", orderType='" + orderType + '\'' +
@@ -198,6 +237,7 @@ public class SaveOrderBean {
                 ", title='" + title + '\'' +
                 ", userId=" + userId +
                 ", zipcode='" + zipcode + '\'' +
+                ", orderId='" + orderId + '\'' +
                 '}';
     }
 }

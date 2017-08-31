@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +21,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -142,10 +140,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         OrderData orderData = new OrderData();
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
-        mPresenter.saveImage(mFrontImageUrl);
-        String styleContext = Utils.string2json(orderData.getJsonObject());
-        Log.e("TAGJSON", "JSON" + styleContext);
-        mPresenter.sendOrderData(mFrontData, mBackData, styleContext);
+        String styleContext = orderData.getJsonObject();
+        mPresenter.setClothesData(mFrontData,mBackData);
+        mPresenter.saveImage(mFrontImageUrl,styleContext);
     }
 
     private void setWindowBgAlpha(float f) {

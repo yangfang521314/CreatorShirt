@@ -26,5 +26,11 @@ public class HttpResponse<T> {
         this.result = result;
     }
 
-
+    @Override
+    public String toString() {
+        return "HttpResponse{" +
+                "status=" + status +
+                ", result=" + result +
+                '}';
+    }
 }

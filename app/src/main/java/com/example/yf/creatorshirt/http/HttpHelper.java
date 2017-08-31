@@ -2,13 +2,14 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
+import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 
 import java.util.List;
 
@@ -25,9 +26,9 @@ public interface HttpHelper {
 
     Flowable<GirlData> getPhotoList(int size, int page);
 
-    Observable<LoginBean> login(String phone, String password);
+    Flowable<HttpResponse<LoginBean>> login(RequestBody body);
 
-    Observable<LoginBean> getVerifyCode(String phone);
+    Flowable<HttpResponse<String>> getVerifyCode(RequestBody phone);
 
     Observable<HttpResponse<UserInfo>> getUserInfo();
 
@@ -41,7 +42,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesign(RequestBody requestBody);
 
-    Flowable<HttpResponse> saveOrderData(RequestBody jsonObject);
-
     Flowable<HttpResponse<String>> getQiToken(String userToken);
+
+    Flowable<HttpResponse<OrderStyleBean>> saveOrderData(String userToken, RequestBody body);
 }
