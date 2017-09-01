@@ -5,61 +5,64 @@ package com.example.yf.creatorshirt.mvp.model;
  */
 
 /**
- * Gender = A;
- * addDate = "2017-08-27T18:10:10.000Z";
- * address = "";
- * baseId = 02;
- * baseName = "\U77ed\U6b3e\U76f4\U7b52\U88e4";
- * color = ffffff;
- * fee = 100;
- * finishimage = "http://oub3nsjgh.bkt.clouddn.com/0_1503828492.620139.png";
- * height = 170cm;
- * id = 51;
- * orderType = Check;
- * praise = 0;
- * size = 170cm;
- * styleContext = "{\n  \"A\" : {\n    \"arm\" : \"A02A020002.png\",\n    \"neck\" : \"A02A010002.png\",\n    \"ornament\" : \"A02A030002.png\"\n  },\n  \"B\" : {\n    \"arm\" : \"A02B020001.png\"\n  },\n  \"color\" : \"ffffff\"\n}";
- * title = "\U6731\U54e51\U8bbe\U8ba1\U7684\U77ed\U6b3e\U76f4\U7b52\U88e4(2017-08-27)";
- * userId = 1111;
- * zipcode = "";
+ * {id=95.0,
+ * userId=1143,
+ * Gender=A,
+ * baseId=02,
+ * Context=eyJBIjp7ImFybSI6IkEwMkIwMjAwMDIucG5nIiwibmVjayI6IkEwMkIwMTAwMDEucG5nIiwiY29sb3IiOiIjZmZmZjMzIn0sIkIiOnsiYXJtIjoiQTAyQTAyMDAwMi5wbmcifX0=,
+ * addDate=2017-09-01T10:02:21.000Z,
+ * baseName=短款直筒裤,
+ * title=null设计的短款直筒裤(2017-09-01),
+ * praise=0.0,
+ * height=170,
+ * color=FFFFFF,
+ * orderType=Check,
+ * size=170,
+ * address=,
+ * zipcode=,
+ * finishimage=http://oub3nsjgh.bkt.clouddn.com/1143_20170901_100218,
+ * fee=100.0,
+ * styleContext={"A":{"arm":"A02B020002.png","neck":"A02B010001.png","color":"#ffff33"},
+ * "B":{"arm":"A02A020002.png"}},
+ * UserName=null,
+ * headerImage=null}
  */
 public class OrderStyleBean {
-    private String Context;
-    private String Gender;
-    private String UserName;
-    private String addDate;
-    private String address;
-    private int baseId;
-    private String baseName;
-    private int color;
-    private int fee;
-    private String finishimage;
-    private String headerImage;
-    private int height;
     private int id;
-    private String orderType;
-    private int praise;
-    private int size;
-    private String styleContext;
+    private String userId;
+    private String Gender;
+    private String baseId;
+    private String Context;
+    private String addDate;
+    private String baseName;
     private String title;
-    private int userId;
+    private int praise;
+    private String height;
+    private String color;
+    private String orderType;
+    private String size;
+    private String address;
     private String zipcode;
-    private String orderId;
+    private String finishimage;
+    private double fee;
+    private String styleContext;
+    private String UserName;
+    private String headerImage;
 
-    public String getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getContext() {
-        return Context;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setContext(String context) {
-        Context = context;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getGender() {
@@ -70,12 +73,20 @@ public class OrderStyleBean {
         Gender = gender;
     }
 
-    public String getUserName() {
-        return UserName;
+    public String getBaseId() {
+        return baseId;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setBaseId(String baseId) {
+        this.baseId = baseId;
+    }
+
+    public String getContext() {
+        return Context;
+    }
+
+    public void setContext(String context) {
+        Context = context;
     }
 
     public String getAddDate() {
@@ -86,108 +97,12 @@ public class OrderStyleBean {
         this.addDate = addDate;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getBaseId() {
-        return baseId;
-    }
-
-    public void setBaseId(int baseId) {
-        this.baseId = baseId;
-    }
-
     public String getBaseName() {
         return baseName;
     }
 
     public void setBaseName(String baseName) {
         this.baseName = baseName;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public int getFee() {
-        return fee;
-    }
-
-    public void setFee(int fee) {
-        this.fee = fee;
-    }
-
-    public String getFinishimage() {
-        return finishimage;
-    }
-
-    public void setFinishimage(String finishimage) {
-        this.finishimage = finishimage;
-    }
-
-    public String getHeaderImage() {
-        return headerImage;
-    }
-
-    public void setHeaderImage(String headerImage) {
-        this.headerImage = headerImage;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public int getPraise() {
-        return praise;
-    }
-
-    public void setPraise(int praise) {
-        this.praise = praise;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public String getStyleContext() {
-        return styleContext;
-    }
-
-    public void setStyleContext(String styleContext) {
-        this.styleContext = styleContext;
     }
 
     public String getTitle() {
@@ -198,12 +113,52 @@ public class OrderStyleBean {
         this.title = title;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getPraise() {
+        return praise;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPraise(int praise) {
+        this.praise = praise;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getZipcode() {
@@ -214,30 +169,68 @@ public class OrderStyleBean {
         this.zipcode = zipcode;
     }
 
+    public String getFinishimage() {
+        return finishimage;
+    }
+
+    public void setFinishimage(String finishimage) {
+        this.finishimage = finishimage;
+    }
+
+    public double getFee() {
+        return fee;
+    }
+
+    public void setFee(double fee) {
+        this.fee = fee;
+    }
+
+    public String getStyleContext() {
+        return styleContext;
+    }
+
+    public void setStyleContext(String styleContext) {
+        this.styleContext = styleContext;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(String headerImage) {
+        this.headerImage = headerImage;
+    }
+
     @Override
     public String toString() {
         return "OrderStyleBean{" +
-                "Context='" + Context + '\'' +
-                ", Gender='" + Gender + '\'' +
-                ", UserName='" + UserName + '\'' +
-                ", addDate='" + addDate + '\'' +
-                ", address='" + address + '\'' +
-                ", baseId=" + baseId +
-                ", baseName='" + baseName + '\'' +
-                ", color=" + color +
-                ", fee=" + fee +
-                ", finishimage='" + finishimage + '\'' +
-                ", headerImage='" + headerImage + '\'' +
-                ", height=" + height +
-                ", id=" + id +
-                ", orderType='" + orderType + '\'' +
-                ", praise=" + praise +
-                ", size=" + size +
-                ", styleContext='" + styleContext + '\'' +
-                ", title='" + title + '\'' +
+                "id=" + id +
                 ", userId=" + userId +
+                ", Gender='" + Gender + '\'' +
+                ", baseId='" + baseId + '\'' +
+                ", Context='" + Context + '\'' +
+                ", baseName='" + baseName + '\'' +
+                ", title='" + title + '\'' +
+                ", praise=" + praise +
+                ", height=" + height +
+                ", color='" + color + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", size=" + size +
+                ", address='" + address + '\'' +
                 ", zipcode='" + zipcode + '\'' +
-                ", orderId='" + orderId + '\'' +
+                ", finishimage='" + finishimage + '\'' +
+                ", fee=" + fee +
+                ", styleContext=" + styleContext +
+                ", UserName='" + UserName + '\'' +
+                ", headerImage='" + headerImage + '\'' +
                 '}';
     }
 }

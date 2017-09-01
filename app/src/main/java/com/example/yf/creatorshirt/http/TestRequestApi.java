@@ -19,5 +19,7 @@ public interface TestRequestApi{
     @POST("f-Users/saveOrders")
     Call<HttpResponse> saveOrderData(@Header("Token") String token, @Body RequestBody body);
 
+    @POST("f-Users/requestOrdersFromOrderId")
+    Call<HttpResponse> getOrderId(@Header("Token") String token, @Body RequestBody body);
 
 }

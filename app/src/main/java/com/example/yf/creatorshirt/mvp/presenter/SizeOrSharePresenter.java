@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.http.TestRequestServer;
+import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.model.SaveStyleEntity;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -25,9 +25,6 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/8/28.
@@ -88,7 +85,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void sendOrderData(String styleContext) {
-        int userID = Integer.valueOf(SharedPreferencesUtil.getUserId());
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
         saveStyleEntity.setGender(mBackData.getGender());
         saveStyleEntity.setBaseId(mBackData.getType());
@@ -101,46 +97,20 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         saveStyleEntity.setAddress("");
         saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
         saveStyleEntity.setStyleContext(styleContext);
-//        ArrayMap<String,String> map = new ArrayMap<>();
-//        map.put("gender",mBackData.getGender());
-//        map.put("baseId",mBackData.getType());
-//        map.put("styleContext",styleContext);
-//        map.put("color","FFFFFF");
-//        map.put("hieght","170");
-//        map.put("orderType","Check");
-//        map.put("size","170");
-//        map.put("address","");
-//        map.put("zipCode","");
-//        map.put("finishImage",imageUrl);
-//        map.put("userId",String.valueOf(SharedPreferencesUtil.getUserId()));
         Gson gson = new Gson();
         String postEntity = gson.toJson(saveStyleEntity);
-        Log.e("tag", "positt" + postEntity);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
-//        addSubscribe(manager.saveOrderData(userToken, body)
-//                .compose(RxUtils.<HttpResponse<OrderStyleBean>>rxSchedulerHelper())
-//                .compose(RxUtils.<OrderStyleBean>handleResult())
-//                .subscribeWith(new CommonSubscriber<OrderStyleBean>(mView) {
-//                    @Override
-//                    public void onNext(OrderStyleBean s) {
-//                        Log.e("tag","s"+s.toString());
-//                    }
-//                }));
+        addSubscribe(manager.saveOrderData(userToken, body)
+                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+                .compose(RxUtils.<OrderType>handleResult())
+                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                    @Override
+                    public void onNext(OrderType s) {
+                        mView.showSuccessData(s);
 
-        TestRequestServer.getInstance().saveOrderData(userToken, body).enqueue(new Callback<HttpResponse>() {
+                    }
+                }));
 
-
-            @Override
-            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("TGA", "DDDD" + response.body().getResult());
-            }
-
-
-            @Override
-            public void onFailure(Call<HttpResponse> call, Throwable t) {
-
-            }
-        });
     }
 
     public void setClothesData(CommonStyleData mFrontData, CommonStyleData mBackData) {

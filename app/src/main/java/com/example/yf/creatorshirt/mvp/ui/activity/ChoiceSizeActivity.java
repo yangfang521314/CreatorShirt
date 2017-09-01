@@ -1,7 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.OrderData;
+import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
@@ -41,8 +42,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
     TextView mButtonFront;
-    private String baseId;
-    private String gender;
     private String mBackImageUrl;
     private String mFrontImageUrl;
     private CommonStyleData mFrontData;
@@ -127,10 +126,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
 
     private void startNewActivity() {
         saveOrderData();
-        Intent intent = new Intent();
-        intent.setClass(ChoiceSizeActivity.this, MyOrderActivity.class);
-        startActivity(intent);
-        startCommonActivity(ChoiceSizeActivity.this, null, MyOrderActivity.class);
     }
 
     /**
@@ -141,8 +136,8 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
         String styleContext = orderData.getJsonObject();
-        mPresenter.setClothesData(mFrontData,mBackData);
-        mPresenter.saveImage(mFrontImageUrl,styleContext);
+        mPresenter.setClothesData(mFrontData, mBackData);
+        mPresenter.saveImage(mFrontImageUrl, styleContext);
     }
 
     private void setWindowBgAlpha(float f) {
@@ -159,4 +154,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         return R.layout.activity_choice;
     }
 
+    @Override
+    public void showSuccessData(OrderType data) {
+        Bundle bundle = new Bundle();
+        bundle.putString("orderId",data.getOrderId());
+        startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+    }
 }

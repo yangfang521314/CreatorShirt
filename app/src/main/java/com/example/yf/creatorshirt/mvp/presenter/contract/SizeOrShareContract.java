@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
+import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -11,6 +12,7 @@ public interface SizeOrShareContract {
 
     interface SizeOrShareView extends BaseView {
 
+        void showSuccessData(OrderType s);
     }
 
     interface Presenter extends BasePresenter<SizeOrShareView> {

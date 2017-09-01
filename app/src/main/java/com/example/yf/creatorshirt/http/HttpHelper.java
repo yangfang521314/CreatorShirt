@@ -7,6 +7,7 @@ import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -44,5 +45,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<String>> getQiToken(String userToken);
 
-    Flowable<HttpResponse<OrderStyleBean>> saveOrderData(String userToken, RequestBody body);
+    Flowable<HttpResponse<OrderType>> saveOrderData(String userToken, RequestBody body);
+
+    Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId);
 }

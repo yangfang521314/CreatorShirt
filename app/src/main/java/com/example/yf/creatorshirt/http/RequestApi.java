@@ -7,6 +7,7 @@ import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.NewsSummary;
 import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -82,10 +83,14 @@ public interface RequestApi {
 
     //上传数据
     @POST("f-Users/saveOrders")
-    Flowable<HttpResponse<OrderStyleBean>> saveOrderData(@Header("Token") String token, @Body RequestBody body);
+    Flowable<HttpResponse<OrderType>> saveOrderData(@Header("Token") String token, @Body RequestBody body);
 
 
-    //请求token
+    //请求七牛token
     @POST("f-Users/GetQinniuToken")
     Flowable<HttpResponse<String>> getQiToken(@Header("Token") String token);
+
+    //根据订单查找订单信息
+    @POST("f-Users/requestOrdersFromOrderId")
+    Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(@Header("Token")String userToken,@Body RequestBody orderId);
 }
