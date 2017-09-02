@@ -14,14 +14,15 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
-import com.example.yf.creatorshirt.mvp.model.OrderData;
-import com.example.yf.creatorshirt.mvp.model.OrderType;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -105,7 +106,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
 
     //初始化PopupWindow
     private PopupWindow initPopupWindow() {
-        mPopupWindow = new ChoiceSizePopupWindow();
+        mPopupWindow = new ChoiceSizePopupWindow(this);
         mPopupWindow.showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -115,10 +116,16 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 }
             }
         });
+        mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-                startNewActivity();
+                if(mPopupWindow.getBeforeView()!=null){
+                    startNewActivity();
+                }else {
+                    ToastUtil.showToast(ChoiceSizeActivity.this,"请选择尺寸",0);
+                }
             }
         });
         return mPopupWindow;
@@ -136,7 +143,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
         String styleContext = orderData.getJsonObject();
-        mPresenter.setClothesData(mFrontData, mBackData);
+        mPresenter.setClothesData(mFrontData, mBackData,mPopupWindow.getSize());
         mPresenter.saveImage(mFrontImageUrl, styleContext);
     }
 
@@ -157,7 +164,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     @Override
     public void showSuccessData(OrderType data) {
         Bundle bundle = new Bundle();
-        bundle.putString("orderId",data.getOrderId());
+        bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
     }
 }

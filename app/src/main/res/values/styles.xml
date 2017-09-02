@@ -48,15 +48,6 @@
 
     //choice clothes size
 
-    <style name="ll_choice_style">
-        <item name="android:padding">10dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/choice_size_background</item>
-        <item name="android:orientation">vertical</item>
-    </style>
 
     <style name="choice_size_style">
         <item name="android:layout_height">wrap_content</item>

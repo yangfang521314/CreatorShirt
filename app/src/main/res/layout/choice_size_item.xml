@@ -21,87 +21,87 @@
         android:layout_marginTop="10dp"
         android:background="@color/lightgray" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_size"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="30dp" />
 
-        <LinearLayout style="@style/ll_choice_style">
+    <!--<LinearLayout style="@style/ll_choice_style">-->
 
-            <TextView
-                style="@style/choice_size_style"
-                android:text="XS" />
+    <!--<TextView-->
+    <!--style="@style/choice_size_style"-->
+    <!--android:text="XS" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150CM"
-                android:textSize="13.33sp" />
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="160CM"-->
+    <!--android:textSize="13.33sp" />-->
+    <!--</LinearLayout>-->
 
-        <LinearLayout style="@style/ll_choice_style">
+    <!--<LinearLayout style="@style/ll_choice_style">-->
 
-            <TextView
-                style="@style/choice_size_style"
-                android:text="XS" />
+    <!--<TextView-->
+    <!--style="@style/choice_size_style"-->
+    <!--android:text="XS" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150CM"
-                android:textSize="13.33sp" />
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="165CM"-->
+    <!--android:textSize="13.33sp" />-->
+    <!--</LinearLayout>-->
 
-        <LinearLayout style="@style/ll_choice_style">
+    <!--<LinearLayout style="@style/ll_choice_style">-->
 
-            <TextView
-                style="@style/choice_size_style"
-                android:text="XS" />
+    <!--<TextView-->
+    <!--style="@style/choice_size_style"-->
+    <!--android:text="XS" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150CM"
-                android:textSize="13.33sp" />
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="170CM"-->
+    <!--android:textSize="13.33sp" />-->
+    <!--</LinearLayout>-->
 
-        <LinearLayout style="@style/ll_choice_style">
+    <!--<LinearLayout style="@style/ll_choice_style">-->
 
-            <TextView
-                style="@style/choice_size_style"
-                android:text="XS" />
+    <!--<TextView-->
+    <!--style="@style/choice_size_style"-->
+    <!--android:text="XS" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150CM"
-                android:textSize="13.33sp" />
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="175CM"-->
+    <!--android:textSize="13.33sp" />-->
+    <!--</LinearLayout>-->
 
-        <LinearLayout style="@style/ll_choice_style">
+    <!--<LinearLayout style="@style/ll_choice_style">-->
 
-            <TextView
-                style="@style/choice_size_style"
-                android:text="XS" />
+    <!--<TextView-->
+    <!--style="@style/choice_size_style"-->
+    <!--android:text="XS" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150CM"
-                android:textSize="13.33sp" />
-        </LinearLayout>
-    </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="180CM"-->
+    <!--android:textSize="13.33sp" />-->
+    <!--</LinearLayout>-->
 
     <Button
         android:id="@+id/btn_make_order"
         style="@style/common_start_btn"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
         android:text="确定" />
 
 </LinearLayout>

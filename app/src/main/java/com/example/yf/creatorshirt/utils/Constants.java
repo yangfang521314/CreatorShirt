@@ -5,7 +5,7 @@ package com.example.yf.creatorshirt.utils;
  */
 
 public class Constants {
-    
+
 
     //透明度
     public static final float NORMAL_ALPHA = 1.0f;
@@ -18,4 +18,7 @@ public class Constants {
     public static final String USER_ID = "user_id";
     public static final String USER_TOKEN = "user_token";
     public static final String USER_MOBILE = "user_mobile";
+
+    public static final String[] size = {"160", "165", "170", "175", "180", "185"};
+    public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
 }

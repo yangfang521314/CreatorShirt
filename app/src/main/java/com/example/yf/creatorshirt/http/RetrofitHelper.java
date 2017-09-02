@@ -2,12 +2,10 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.model.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -36,27 +34,6 @@ public class RetrofitHelper implements HttpHelper {
     @Inject
     public RetrofitHelper(RequestApi requestApiService) {
         mRequestApi = requestApiService;
-    }
-
-    /**
-     * RxJava2抓取数据
-     *
-     * @return
-     */
-    @Override
-    public Flowable<NewsSummary> getDataNewsSummary() {
-        return mRequestApi.getNewsSummary();
-    }
-
-    /**
-     * 获取照片
-     *
-     * @param size
-     * @param page
-     * @return
-     */
-    public Flowable<GirlData> getPhotoList(int size, int page) {
-        return mRequestApi.getPhotoList(size, page);
     }
 
     /**

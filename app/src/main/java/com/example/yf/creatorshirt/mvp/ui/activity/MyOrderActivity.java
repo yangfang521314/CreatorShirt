@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -22,9 +23,17 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
 
     private static final String TAG = MyOrderActivity.class.getSimpleName();
     @BindView(R.id.order_receiver_address)
-    TextView mChoiceAddress;
+    TextView mOrderAddress;
+    @BindView(R.id.order_receiver_email)
+    TextView mOrderEmail;
+    @BindView(R.id.order_receiver_name)
+    TextView mOrderName;
     @BindView(R.id.pay_for_money)
     Button mPayfor;
+    @BindView(R.id.pay_alipay)
+    RadioButton mPayAlipay;
+    @BindView(R.id.pay_weixin)
+    RadioButton mPayWeixin;
     private String orderId;
 
     @Override

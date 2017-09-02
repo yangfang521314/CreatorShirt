@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.OrderType;
-import com.example.yf.creatorshirt.mvp.model.SaveStyleEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveStyleEntity;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
@@ -40,6 +40,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private String imageUrl;
     private CommonStyleData mFrontData;
     private CommonStyleData mBackData;
+    private String size;
 
     @Inject
     public SizeOrSharePresenter(DataManager manager) {
@@ -88,10 +89,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
         saveStyleEntity.setGender(mBackData.getGender());
         saveStyleEntity.setBaseId(mBackData.getType());
-        saveStyleEntity.setColor("FFFFFF");
-        saveStyleEntity.setHeight(170);
+        saveStyleEntity.setColor(mFrontData.getColor());
+        saveStyleEntity.setHeight(Integer.parseInt(size));
         saveStyleEntity.setOrderType("Check");
-        saveStyleEntity.setSize(170);
+        saveStyleEntity.setSize(Integer.parseInt(size));
         saveStyleEntity.setFinishImage(imageUrl);
         saveStyleEntity.setZipCode("");
         saveStyleEntity.setAddress("");
@@ -113,8 +114,9 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     }
 
-    public void setClothesData(CommonStyleData mFrontData, CommonStyleData mBackData) {
+    public void setClothesData(CommonStyleData mFrontData, CommonStyleData mBackData, String size) {
         this.mFrontData = mFrontData;
         this.mBackData = mBackData;
+        this.size = size;
     }
 }

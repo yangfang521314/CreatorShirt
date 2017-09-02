@@ -27,7 +27,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.StyleBean;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
@@ -115,7 +115,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private int mCurrentPosition = 0;
 
     //总样式和每一个具体的样式列表形成ArrayMap;
-    private ArrayMap<String, List<StyleBean>> detailData = new ArrayMap<>();
     private ArrayMap<String, List<DetailOtherStyle>> NewDetailData = new ArrayMap<>();
     private ArrayMap<String, List<DetailPatterStyle>> mPatternData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mColorData = new ArrayMap<>();

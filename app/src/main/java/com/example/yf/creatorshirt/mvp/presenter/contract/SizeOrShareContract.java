@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
-import com.example.yf.creatorshirt.mvp.model.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 

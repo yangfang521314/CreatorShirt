@@ -2,12 +2,10 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.model.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -23,9 +21,6 @@ import okhttp3.RequestBody;
  */
 
 public interface HttpHelper {
-    Flowable<NewsSummary> getDataNewsSummary();
-
-    Flowable<GirlData> getPhotoList(int size, int page);
 
     Flowable<HttpResponse<LoginBean>> login(RequestBody body);
 

@@ -2,12 +2,10 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.GirlData;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.NewsSummary;
-import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.model.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -29,16 +27,6 @@ public class DataManager implements HttpHelper {
 
     public DataManager(HttpHelper mHttpHelper) {
         this.mHttpHelper = mHttpHelper;
-    }
-
-    @Override
-    public Flowable<NewsSummary> getDataNewsSummary() {
-        return null;
-    }
-
-    @Override
-    public Flowable<GirlData> getPhotoList(int size, int page) {
-        return mHttpHelper.getPhotoList(size, page);
     }
 
     /**
@@ -101,6 +89,12 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getDetailDesign(requestBody);
     }
 
+    /**
+     * 保存数据
+     * @param userToken
+     * @param body
+     * @return
+     */
     public Flowable<HttpResponse<OrderType>> saveOrderData(String userToken, RequestBody body) {
         return mHttpHelper.saveOrderData(userToken, body);
     }

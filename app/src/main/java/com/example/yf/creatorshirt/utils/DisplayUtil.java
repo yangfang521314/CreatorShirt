@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
-
 /**
  * dp与px单位间的相互转换
  */
@@ -87,5 +85,12 @@ public class DisplayUtil {
         ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
         layoutParams.height = height / 2;
         mRelative.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateItemSizeWidth(Context context, LinearLayout mll) {
+        int width = getScreenW(context);
+        ViewGroup.LayoutParams layoutParams = mll.getLayoutParams();
+        layoutParams.width = (int) (width /6.5);
+        mll.setLayoutParams(layoutParams);
     }
 }

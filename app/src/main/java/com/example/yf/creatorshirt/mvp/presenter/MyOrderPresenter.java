@@ -2,7 +2,7 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.utils.RxUtils;

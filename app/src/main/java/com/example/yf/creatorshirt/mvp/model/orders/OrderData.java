@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.model;
+package com.example.yf.creatorshirt.mvp.model.orders;
 
 import android.text.TextUtils;
 
