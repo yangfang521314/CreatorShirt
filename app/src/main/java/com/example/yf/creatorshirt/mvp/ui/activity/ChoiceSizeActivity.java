@@ -146,7 +146,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         mPresenter.setClothesData(mFrontData, mBackData, mPopupWindow.getSize());
         mPresenter.setStyleContext(styleContext);
         mPresenter.setIM(mBackImageUrl);
-        mPresenter.request("A",mFrontImageUrl);
+        mPresenter.request("A", mFrontImageUrl);
     }
 
     private void setWindowBgAlpha(float f) {
@@ -168,10 +168,5 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         Bundle bundle = new Bundle();
         bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
-    }
-
-    @Override
-    public void showSaveImage() {
-//        mPresenter.sendOrderData(mapObj);
     }
 }

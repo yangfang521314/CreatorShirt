@@ -14,8 +14,6 @@ public interface SizeOrShareContract {
 
         void showSuccessData(OrderType s);
 
-        //保存图片成功
-        void showSaveImage();
     }
 
     interface Presenter extends BasePresenter<SizeOrShareView> {

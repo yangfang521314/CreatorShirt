@@ -75,7 +75,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     }
 
     public void getList(final String kewWord, final String imageUrl) {
-
         String key = UserId + Utils.getTime() + kewWord;
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
