@@ -29,6 +29,7 @@ public class SaveStyleEntity implements Parcelable {
     private String zipCode;
     private String finishImage;
     private int userId;
+    private String allImage;
 
     public static final Creator<SaveStyleEntity> CREATOR = new Creator<SaveStyleEntity>() {
         @Override
@@ -62,7 +63,7 @@ public class SaveStyleEntity implements Parcelable {
         return baseId;
     }
 
-    public void setBaseId(String  baseId) {
+    public void setBaseId(String baseId) {
         this.baseId = baseId;
     }
 
@@ -145,6 +146,7 @@ public class SaveStyleEntity implements Parcelable {
         this.zipCode = in.readString();
         this.finishImage = in.readString();
         this.userId = in.readInt();
+        this.allImage = in.readString();
 
     }
 
@@ -166,6 +168,7 @@ public class SaveStyleEntity implements Parcelable {
         dest.writeString(zipCode);
         dest.writeString(finishImage);
         dest.writeInt(userId);
+        dest.writeString(allImage);
     }
 
     @Override
@@ -181,6 +184,15 @@ public class SaveStyleEntity implements Parcelable {
                 ", address='" + address + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", finishImage='" + finishImage + '\'' +
+                ", allImage='" + finishImage + '\'' +
                 '}';
+    }
+
+    public String getAllImage() {
+        return allImage;
+    }
+
+    public void setAllImage(String allImage) {
+        this.allImage = allImage;
     }
 }

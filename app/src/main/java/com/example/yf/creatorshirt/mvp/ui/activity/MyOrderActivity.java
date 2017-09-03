@@ -19,7 +19,7 @@ import butterknife.OnClick;
  * 订单详情页面
  */
 
-public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements MyOrderContract.MyOrderView{
+public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements MyOrderContract.MyOrderView {
 
     private static final String TAG = MyOrderActivity.class.getSimpleName();
     @BindView(R.id.order_receiver_address)
@@ -48,7 +48,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         mAppBarBack.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.order_receiver_address, R.id.pay_for_money})
+    @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -60,6 +60,10 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
                 startCommonActivity(this, null, SuccessPayActivity.class);
                 break;
+            case R.id.pay_alipay:
+                break;
+            case R.id.pay_weixin:
+                break;
         }
     }
 
@@ -69,7 +73,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         super.initData();
         if (getIntent().getExtras() != null) {
             orderId = getIntent().getExtras().getString("orderId");
-            Log.e(TAG,"orderID"+orderId);
+            Log.e(TAG, "orderID" + orderId);
         }
         mPresenter.setOrderId(orderId);
         mPresenter.getOrdersData();

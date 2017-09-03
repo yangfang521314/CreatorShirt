@@ -27,13 +27,13 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -67,7 +67,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     public static final String ARM = "arm";
     public static final String COLOR = "color";
     public static final String PATTERN = "pattern";
-    public static final String SIGNATURE = "标签";
     public static final String ORNAMENT = "ornament";
 
 
@@ -171,12 +170,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         DisplayUtil.calculateRelative(this, mRelative);
         DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
         //默认显示正面
-        mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
-        Glide.with(this).load(mBackgroundUrl).into(mClothes);
-        mAppBarTitle.setText(R.string.design);
-        mAppBarBack.setVisibility(View.VISIBLE);
-        mRecyclerStyle.setVisibility(View.VISIBLE);
-        mBtnFinish.setVisibility(View.VISIBLE);
+        initFrontBg();
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mBaseDesignAdapter = new BaseStyleAdapter(this);
         commonStyleData = new CommonStyleData();
@@ -184,6 +178,15 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
         mContainerBackBackground.setImageUrl(imageBackUrl);
         mContainerBackBackground.setContext(this);
+    }
+
+    private void initFrontBg() {
+        mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
+        Glide.with(this).load(mBackgroundUrl).into(mClothes);
+        mAppBarTitle.setText(R.string.design);
+        mAppBarBack.setVisibility(View.VISIBLE);
+        mRecyclerStyle.setVisibility(View.VISIBLE);
+        mBtnFinish.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -205,8 +208,14 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             getNameDeign(mDetailStyleFrontData);
             mButtonFront.setSelected(true);
         }
+
     }
 
+    /**
+     * 形成数组
+     *
+     * @param mData
+     */
     private void getNameDeign(DetailCommonData mData) {
         StyleBean styleBean;
         String name;
@@ -226,6 +235,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             newList.add(styleBean);
             clotheKey.add(NECK);
             addNewData(name, mData.getNeck().getFileList());
+            setNeckImage(mData.getNeck().getFileList().get(0).getFile());//初始化显示
+            commonStyleData.setNeckUrl(mData.getNeck().getFileList().get(0).getFile());
+            mBackStyleData.setNeckUrl(mData.getNeck().getFileList().get(0).getFile());
         }
         if (mData.getArm().getFileList().size() != 0 && mData.getArm().getFileList() != null) {
             styleBean = new StyleBean();
@@ -234,6 +246,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             newList.add(styleBean);
             clotheKey.add(ARM);
             addNewData(name, mData.getArm().getFileList());
+            setArmImage(mData.getArm().getFileList().get(0).getFile());//初始化显示
+            commonStyleData.setArmUrl(mData.getArm().getFileList().get(0).getFile());
+            mBackStyleData.setArmUrl(mData.getArm().getFileList().get(0).getFile());
         }
         if (mData.getOrnament().getFileList() != null && mData.getOrnament().getFileList().size() != 0) {
             styleBean = new StyleBean();
@@ -242,6 +257,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             newList.add(styleBean);
             clotheKey.add(ORNAMENT);
             addNewData(name, mData.getOrnament().getFileList());
+            setOrnametUrl(mData.getOrnament().getFileList().get(0).getFile());//初始化显示
+            commonStyleData.setOrnametUrl(mData.getOrnament().getFileList().get(0).getFile());
+            mBackStyleData.setOrnametUrl(mData.getOrnament().getFileList().get(0).getFile());
         }
         if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
             styleBean = new StyleBean();
@@ -298,7 +316,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             Log.e(TAG, "news detail" + NewDetailData.size());
         }
     }
-
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back})
     public void onClick(View view) {
@@ -655,9 +672,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onItemClick(View currentView, int position) {
-        if (mDesBeforeView != null) {
-            mDesBeforeView.setSelected(false);
-        }
+//        if (mDesBeforeView != null) {
+//            mDesBeforeView.setSelected(false);
+//        }
         switch (clotheKey.get(mCurrentPosition)) {
             case NECK:
                 String neck = newList.get(mCurrentPosition).getTitle();
@@ -694,7 +711,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 //                }
 //                break;
         }
-        currentView.setSelected(true);
+//        currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
 
@@ -773,6 +790,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             detailAdapter.setData(NewDetailData.get(newList.get(position).getTitle()));
             detailAdapter.setOnClickListener(this);
             mRecyclerDetailStyle.setAdapter(detailAdapter);
+            if(commonStyleData.getArmUrl()!=null)
             detailAdapter.notifyDataSetChanged();
         }
         if (mColorData.containsKey((newList.get(position).getTitle()))) {
@@ -793,7 +811,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mRecyclerDetailStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.GONE);
         mChoiceReturn.setVisibility(View.VISIBLE);
-
     }
 
 }

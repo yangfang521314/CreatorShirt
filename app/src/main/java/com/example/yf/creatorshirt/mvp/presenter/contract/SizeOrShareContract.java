@@ -13,10 +13,15 @@ public interface SizeOrShareContract {
     interface SizeOrShareView extends BaseView {
 
         void showSuccessData(OrderType s);
+
+        //保存图片成功
+        void showSaveImage();
     }
 
     interface Presenter extends BasePresenter<SizeOrShareView> {
-        void saveImage(String mFrontImageUrl, final String styleContext);
+
+        //设置styleContex
+        void setStyleContext(String s);
     }
 
 }

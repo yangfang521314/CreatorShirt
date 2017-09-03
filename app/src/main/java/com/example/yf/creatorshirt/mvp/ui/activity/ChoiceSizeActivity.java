@@ -121,10 +121,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-                if(mPopupWindow.getBeforeView()!=null){
+                if (mPopupWindow.getBeforeView() != null) {
                     startNewActivity();
-                }else {
-                    ToastUtil.showToast(ChoiceSizeActivity.this,"请选择尺寸",0);
+                } else {
+                    ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
                 }
             }
         });
@@ -143,8 +143,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         orderData.setBackData(mBackData);
         orderData.setFrontData(mFrontData);
         String styleContext = orderData.getJsonObject();
-        mPresenter.setClothesData(mFrontData, mBackData,mPopupWindow.getSize());
-        mPresenter.saveImage(mFrontImageUrl, styleContext);
+        mPresenter.setClothesData(mFrontData, mBackData, mPopupWindow.getSize());
+        mPresenter.setStyleContext(styleContext);
+        mPresenter.setIM(mBackImageUrl);
+        mPresenter.request("A",mFrontImageUrl);
     }
 
     private void setWindowBgAlpha(float f) {
@@ -166,5 +168,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         Bundle bundle = new Bundle();
         bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+    }
+
+    @Override
+    public void showSaveImage() {
+//        mPresenter.sendOrderData(mapObj);
     }
 }

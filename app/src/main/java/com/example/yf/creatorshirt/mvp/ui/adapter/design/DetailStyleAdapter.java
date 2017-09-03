@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
+import com.example.yf.creatorshirt.utils.Constants;
 
 import java.util.List;
 
@@ -17,9 +19,9 @@ import java.util.List;
  */
 
 public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHolder> {
-    public static int TWO_ITEM = 1;
-    public static int ONE_ITEM = 2;
     private ItemClickListener.OnItemClickListener clickListener;
+    private View mBeforeView;
+
 
     public DetailStyleAdapter(Context context) {
         super(context);
@@ -40,8 +42,16 @@ public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHo
             @Override
             public void onClick(View v) {
                 clickListener.onItemClick(holder.mCommonStyle, position);
+                v.setSelected(true);
+                mBeforeView.setSelected(false);
+                mBeforeView = v;
             }
         });
+        Glide.with(mContext).load(Constants.ImageUrl + mData.get(position).getIcon()).into(holder.mStyleImageView);
+        if (position == 0) {
+            mBeforeView = holder.mCommonStyle;
+            mBeforeView.setSelected(true);
+        }
     }
 
     @Override
