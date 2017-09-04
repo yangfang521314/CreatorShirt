@@ -52,10 +52,8 @@
             android:layout_weight="1"
             android:background="@drawable/shape_clothe_button"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
             android:text="正面"
             android:textSize="15sp" />
 
@@ -65,12 +63,10 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/clothes_front"
             android:layout_weight="1"
-            android:background="@drawable/shape_clothe_button"
+            android:background="@drawable/shape_clothe_back_button"
             android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
             android:text="反面"
             android:textSize="15sp" />
 

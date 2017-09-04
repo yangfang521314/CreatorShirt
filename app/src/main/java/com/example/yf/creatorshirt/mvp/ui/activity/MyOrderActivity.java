@@ -1,16 +1,17 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +36,8 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @BindView(R.id.pay_weixin)
     RadioButton mPayWeixin;
     private String orderId;
+    private String payType;
+    private OrderStyleBean orderData;
 
     @Override
     protected void inject() {
@@ -58,11 +61,31 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 break;
             case R.id.pay_for_money:
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
-                startCommonActivity(this, null, SuccessPayActivity.class);
+//                startCommonActivity(this, null, SuccessPayActivity.class)
+                if (payType != null) {
+                    if (orderData != null) {
+                        mPresenter.payMomentOrders(orderData.getId(), orderData.getAddress(),
+                                orderData.getZipcode(), payType, orderData.getFee());
+                    } else {
+                        ToastUtil.showToast(this, "订单出错", 0);
+                    }
+                } else {
+                    ToastUtil.showToast(this, "请选择支付方式", 0);
+                }
                 break;
             case R.id.pay_alipay:
+                mPayWeixin.setChecked(false);
+                mPayAlipay.setChecked(true);
+                if(mPayAlipay.isChecked()) {
+                    payType = "aliPay";
+                }
                 break;
             case R.id.pay_weixin:
+                mPayWeixin.setChecked(true);
+                mPayAlipay.setChecked(false);
+                if(mPayWeixin.isChecked()) {
+                    payType = "wxPay";
+                }
                 break;
         }
     }
@@ -73,7 +96,6 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         super.initData();
         if (getIntent().getExtras() != null) {
             orderId = getIntent().getExtras().getString("orderId");
-            Log.e(TAG, "orderID" + orderId);
         }
         mPresenter.setOrderId(orderId);
         mPresenter.getOrdersData();
@@ -82,5 +104,11 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @Override
     protected int getView() {
         return R.layout.activity_my_order;
+    }
+
+    //根据订单号查询到的订单详细信息
+    @Override
+    public void showSuccessOrderData(OrderStyleBean orderStyleBean) {
+        this.orderData = orderStyleBean;
     }
 }

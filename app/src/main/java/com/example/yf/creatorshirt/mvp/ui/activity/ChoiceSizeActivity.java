@@ -169,4 +169,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
     }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(this, msg, 0);
+    }
 }

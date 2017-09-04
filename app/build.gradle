@@ -99,6 +99,8 @@ dependencies {
     releaseCompile rootProject.ext.dependencies["releaseCompile"]
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
+    //微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
     testCompile 'junit:junit:4.12'
 }

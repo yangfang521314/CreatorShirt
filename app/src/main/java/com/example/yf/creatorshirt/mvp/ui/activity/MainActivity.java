@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
+import com.example.yf.creatorshirt.utils.PackageUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -62,6 +64,8 @@ public class MainActivity extends BaseActivity {
         mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
+        String key = PackageUtil.getSignature(App.getInstance());
+        Log.e("TAG","qianming:"+key);
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})

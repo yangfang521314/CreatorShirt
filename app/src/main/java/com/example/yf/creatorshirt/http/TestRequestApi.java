@@ -22,4 +22,6 @@ public interface TestRequestApi{
     @POST("f-Users/requestOrdersFromOrderId")
     Call<HttpResponse> getOrderId(@Header("Token") String token, @Body RequestBody body);
 
+    @POST("f-Users/paymentOrders")
+    Call<HttpResponse> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
 }

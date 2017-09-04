@@ -9,16 +9,18 @@
         android:id="@+id/rl_clothes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:gravity="center"
+        android:layout_gravity="center"
         android:layout_margin="4dp"
         android:background="@drawable/sex_clothes_background"
+        android:gravity="center"
+        android:paddingBottom="20dp"
         android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/clothes_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:drawableTop="@mipmap/icon_t_shirt"
             android:gravity="center"
             android:text="T恤"
@@ -29,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/clothes_name"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
             android:gravity="center"
             android:text="全棉材质"
