@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
+    signingConfigs {
+        release {
+            keyAlias 'yixiu2017'
+            keyPassword 'yixiu2017'
+            storeFile file('../yixiu.jks')
+            storePassword 'yixiu2017'
+        }
+        debug {
+            keyAlias 'yixiu2017'
+            keyPassword 'yixiu2017'
+            storeFile file('../yixiu.jks')
+            storePassword 'yixiu2017'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
@@ -20,10 +34,9 @@ android {
 
         multiDexEnabled true
     }
-
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -45,6 +58,9 @@ android {
 
         }
 
+    }
+    productFlavors {
+        "yixiu" {}
     }
     externalNativeBuild {
         cmake {
@@ -78,12 +94,9 @@ dependencies {
     compile rootProject.ext.dependencies["glide"]
     annotationProcessor rootProject.ext.dependencies["annotationProcessor"]
     compile rootProject.ext.dependencies["percent—support"]
-
     //leakcanary
     debugCompile rootProject.ext.dependencies["debugCompile"]
     releaseCompile rootProject.ext.dependencies["releaseCompile"]
-
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
