@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -30,7 +31,7 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EditUserActivity extends BaseActivity {
+public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
 
 
     private static final int REQUEST_CODE_ALBUM = 0;
@@ -54,7 +55,7 @@ public class EditUserActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -109,6 +110,7 @@ public class EditUserActivity extends BaseActivity {
     private View.OnClickListener itemsOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            mPopupWindow.dismiss();
             switch (v.getId()) {
                 case R.id.take_photo:
                     if (PermissionUtil.hasCameraPermission(EditUserActivity.this)) {

@@ -7,7 +7,6 @@ import com.example.yf.creatorshirt.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by yangfang on 2017/9/4.
@@ -15,7 +14,6 @@ import butterknife.OnClick;
  */
 
 public class EditUserPopupWindow extends BasePopupWindow {
-    private View.OnClickListener clickListener;
 
     @BindView(R.id.take_gallery)
     TextView mTakeGallery;
@@ -31,22 +29,10 @@ public class EditUserPopupWindow extends BasePopupWindow {
         return view;
     }
 
-    @OnClick({R.id.take_cancel,R.id.take_photo,R.id.take_gallery})
-    void Onclick(View view){
-        switch (view.getId()){
-            case R.id.take_gallery:
-                mTakeGallery.setOnClickListener(clickListener);
-                break;
-            case R.id.take_cancel:
-                mTakeCancel.setOnClickListener(clickListener);
-                break;
-            case R.id.take_photo:
-                mTakePhoto.setOnClickListener(clickListener);
-                break;
-        }
-    }
 
     public void setOnclickListener(View.OnClickListener itemsOnClickListener) {
-        clickListener = itemsOnClickListener;
+        mTakeGallery.setOnClickListener(itemsOnClickListener);
+        mTakePhoto.setOnClickListener(itemsOnClickListener);
+        mTakeCancel.setOnClickListener(itemsOnClickListener);
     }
 }
