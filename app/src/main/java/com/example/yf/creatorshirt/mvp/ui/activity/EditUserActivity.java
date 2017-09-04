@@ -40,16 +40,17 @@ public class EditUserActivity extends BaseActivity {
     @BindView(R.id.user_edit_avatar)
     ImageView mEditUser;
     @BindView(R.id.user_edit_name)
-    TextView mEditName;
+    EditText mEditName;
     @BindView(R.id.save_user)
     Button mSaveUser;
     @BindView(R.id.user_tv_filter)
-    EditText mTextFilter;
-    private EditUserPopupWindow mPopupWindow;
+    TextView mTextFilter;
     @BindView(R.id.ll_edit_user)
     RelativeLayout mllUser;
+
     private Uri uri;
     private File file;
+    private EditUserPopupWindow mPopupWindow;
 
     @Override
     protected void inject() {

@@ -7,6 +7,7 @@ import com.example.yf.creatorshirt.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by yangfang on 2017/9/4.
@@ -27,14 +28,22 @@ public class EditUserPopupWindow extends BasePopupWindow {
     public View getView() {
         View view = layoutInflater.inflate(R.layout.item_edit_user, null);
         ButterKnife.bind(this, view);
-        initView();
         return view;
     }
 
-    private void initView() {
-        mTakeCancel.setOnClickListener(clickListener);
-        mTakePhoto.setOnClickListener(clickListener);
-        mTakeGallery.setOnClickListener(clickListener);
+    @OnClick({R.id.take_cancel,R.id.take_photo,R.id.take_gallery})
+    void Onclick(View view){
+        switch (view.getId()){
+            case R.id.take_gallery:
+                mTakeGallery.setOnClickListener(clickListener);
+                break;
+            case R.id.take_cancel:
+                mTakeCancel.setOnClickListener(clickListener);
+                break;
+            case R.id.take_photo:
+                mTakePhoto.setOnClickListener(clickListener);
+                break;
+        }
     }
 
     public void setOnclickListener(View.OnClickListener itemsOnClickListener) {
