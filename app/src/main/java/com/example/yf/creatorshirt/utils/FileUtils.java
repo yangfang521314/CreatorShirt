@@ -2,9 +2,11 @@ package com.example.yf.creatorshirt.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.yf.creatorshirt.app.App;
 
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -86,4 +89,92 @@ public class FileUtils {
     private static boolean isSDAvailable() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
+
+    /**
+     * 获取缓存路径
+     *
+     * @param context
+     * @return
+     */
+    public static String getCachePath(Context context) {
+        String cachePath = null;
+
+        if (Environment.MEDIA_MOUNTED.equals(Environment
+                .getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            if (context.getExternalCacheDir() == null) {
+                cachePath = context.getCacheDir().getPath();
+            } else {
+                cachePath = context.getExternalCacheDir().getPath();
+            }
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return cachePath;
+    }
+
+    /**
+     * 压缩图片工具
+     *
+     * @param context
+     * @param fileSrc
+     * @return
+     */
+    public static File getSmallBitmap(Context context, String fileSrc) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(fileSrc, options);
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+        Log.i("COMPRESS", "options.inSampleSize-->" + options.inSampleSize);
+        options.inJustDecodeBounds = false;
+        Bitmap img = BitmapFactory.decodeFile(fileSrc, options);
+        Log.i("COMPRESS", "file size after compress-->" + img.getByteCount() / 256);
+        String filename = context.getFilesDir()+ File.separator + "video-" + img.hashCode() + ".jpg";
+        saveBitmap2File(img, filename);
+        return new File(filename);
+
+    }
+
+    /**
+     * 设置压缩的图片的大小设置的参数
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            int heightRatio = Math.round(height) / reqHeight;
+            int widthRatio = Math.round(width) / reqWidth;
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
+    }
+
+    /**
+     * 保存bitmap到文件
+     *
+     * @param bmp
+     * @param filename
+     * @return
+     */
+    public static boolean saveBitmap2File(Bitmap bmp, String filename) {
+        Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
+        int quality = 50;
+        OutputStream stream = null;
+        try {
+            stream = new FileOutputStream(filename);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return bmp.compress(format, quality, stream);
+    }
+
+
 }

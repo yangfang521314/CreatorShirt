@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.next:
                 //手机登录
                 //// TODO: 2017/8/31 要删处 
-                startActivity(new Intent(this, MainActivity.class));//
+                startActivity(new Intent(this, EditUserActivity.class));//
                 if (!TextUtils.isEmpty(PhoneUtils.getTextString(mEditCode)) && !TextUtils.isEmpty(PhoneUtils.getTextString(mEditPhone))) {
                     mPresenter.phoneLogin(PhoneUtils.getTextString(mEditPhone), PhoneUtils.getTextString(mEditCode));
                 } else {

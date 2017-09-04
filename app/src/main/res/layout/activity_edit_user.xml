@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_edit_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,23 +12,26 @@
         layout="@layout/app_bar" />
 
     <ImageView
-        android:id="@+id/user_avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/user_edit_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/shape_user" />
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/user_add" />
 
     <TextView
         android:id="@+id/tv_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_avatar"
+        android:layout_below="@+id/user_edit_avatar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:text="上传头像" />
+        android:text="上传头像"
+        android:textSize="15sp" />
 
-    <TextView
+    <EditText
+        android:id="@+id/user_edit_name"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/tv_send"
@@ -42,22 +46,24 @@
 
 
     <Button
-        android:id="@+id/btn_start"
+        android:id="@+id/save_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_filter"
+        android:layout_above="@+id/user_tv_filter"
         android:layout_margin="15dp"
         android:background="@color/black"
         android:text="完成"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/tv_filter"
+        android:id="@+id/user_tv_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="跳过，稍后补全" />
+        android:text="跳过，稍后补全"
+        android:textSize="16sp" />
 </RelativeLayout>

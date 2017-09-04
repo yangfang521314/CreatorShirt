@@ -21,4 +21,5 @@ public class Constants {
 
     public static final String[] size = {"160", "165", "170", "175", "180", "185"};
     public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
+    public static final int USER_AVATAR_MAX_SIZE = 100 ;
 }

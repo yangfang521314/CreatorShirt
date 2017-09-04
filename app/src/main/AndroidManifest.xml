@@ -46,7 +46,17 @@
         <activity
             android:name=".mvp.ui.activity.PermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".mvp.ui.activity.EditUserActivity"></activity>
+        <activity android:name=".mvp.ui.activity.EditUserActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${file_authorities}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
 
 </manifest>
