@@ -2,26 +2,29 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.util.Log;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
+import com.example.yf.creatorshirt.pay.weixin.WXPay;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/91.
@@ -64,7 +67,8 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
 
 
     /**
-     * 选择支付
+     * 选择支付获取到支付订单的详细信息
+     *
      * @param id
      * @param address
      * @param zipcode
@@ -76,25 +80,71 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         map.put("orderId", orderId);
         map.put("address", address);
         map.put("zipCode", zipcode);
-        map.put("payType",payType);
-        map.put("fee",String.valueOf(fee));
+        map.put("payType", payType);
+        map.put("fee", String.valueOf(fee));
         Gson gson = new Gson();
         String payEntity = gson.toJson(map);
         final RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), payEntity);
-//        addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(),requestBody));
-        Log.e("my fff","re"+payEntity.toString());
-        TestRequestServer.getInstance().payMentOrders(SharedPreferencesUtil.getUserToken(),requestBody)
-        .enqueue(new Callback<HttpResponse>() {
+        Log.e("my fff", "re" + payEntity.toString());
+        addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), requestBody)
+                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+                .map(new Function<HttpResponse, String>() {
+                    @Override
+                    public String apply(@NonNull HttpResponse httpResponse) throws Exception {
+
+                        return httpResponse.getResult().toString();
+                    }
+                })
+                .subscribeWith(new CommonSubscriber<String>(mView) {
+                    @Override
+                    public void onNext(String s) {
+                        mView.showPayOrder(s);
+                    }
+                })
+        );
+    }
+
+    //微信支付
+    public void payForWeiChat(String value) {
+        JSONObject jsonObject = null;
+        String wx_appid = null;
+        try {
+            jsonObject = new JSONObject(value);
+            wx_appid = jsonObject.getString("appId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //替换为自己的appid
+        WXPay.init(App.getInstance(), wx_appid);      //要在支付前调用
+        WXPay.getInstance().doPay(value, new WXPay.WXPayResultCallBack() {
             @Override
-            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("tga","fuck you"+response.body().getResult());
+            public void onSuccess() {
+                mView.showErrorMsg("支付成功");
             }
 
             @Override
-            public void onFailure(Call<HttpResponse> call, Throwable t) {
-                Log.e("tag","on failure");
+            public void onError(int error_code) {
+                switch (error_code) {
+                    case WXPay.NO_OR_LOW_WX:
+                        mView.showErrorMsg("未安装微信或微信版本过低");
+                        break;
+
+                    case WXPay.ERROR_PAY_PARAM:
+                        mView.showErrorMsg("参数错误");
+                        break;
+
+                    case WXPay.ERROR_PAY:
+                        mView.showErrorMsg("支付失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                mView.showErrorMsg("支付取消");
             }
         });
     }
+
 
 }

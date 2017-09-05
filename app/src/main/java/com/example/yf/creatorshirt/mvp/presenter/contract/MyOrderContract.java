@@ -13,6 +13,8 @@ public interface MyOrderContract {
 
 
         void showSuccessOrderData(OrderStyleBean orderStyleBean);
+
+        void showPayOrder(String value);
     }
 
     interface Presenter extends BasePresenter<MyOrderView>{

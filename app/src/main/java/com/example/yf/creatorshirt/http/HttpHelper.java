@@ -44,5 +44,5 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId);
 
-//    Flowable<HttpResponse<String>> payMentOrders(String userToken, RequestBody requestBody);
+    Flowable<HttpResponse> payMentOrders(String userToken, RequestBody requestBody);
 }

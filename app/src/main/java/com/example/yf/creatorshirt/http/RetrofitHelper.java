@@ -104,5 +104,10 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.getOrdersFromOrderId(userToken,orderId);
     }
 
+    @Override
+    public Flowable<HttpResponse> payMentOrders(String userToken, RequestBody requestBody) {
+        return mRequestApi.payMentOrders(userToken,requestBody);
+    }
+
 
 }

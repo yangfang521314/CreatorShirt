@@ -76,6 +76,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mImageClothes.setImageURI(Uri.parse(mFrontImageUrl));
+        mButtonFront.setSelected(true);
     }
 
     @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back, R.id.clothes_back, R.id.clothes_front})

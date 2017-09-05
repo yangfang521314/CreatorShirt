@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**
@@ -106,5 +107,10 @@ public class DataManager implements HttpHelper {
 
     public Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId) {
         return mHttpHelper.getOrdersFromOrderId(userToken,orderId);
+    }
+
+
+    public Flowable<HttpResponse> payMentOrders(String userToken, RequestBody requestBody) {
+        return mHttpHelper.payMentOrders(userToken,requestBody);
     }
 }

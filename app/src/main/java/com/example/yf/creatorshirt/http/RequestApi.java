@@ -4,11 +4,11 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 
 import java.util.List;
 
@@ -72,4 +72,7 @@ public interface RequestApi {
     //根据订单查找订单信息
     @POST("f-Users/requestOrdersFromOrderId")
     Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(@Header("Token") String userToken, @Body RequestBody orderId);
+
+    @POST("f-Users/paymentOrders")
+    Flowable<HttpResponse> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
 }

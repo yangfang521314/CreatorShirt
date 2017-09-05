@@ -76,14 +76,14 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
             case R.id.pay_alipay:
                 mPayWeixin.setChecked(false);
                 mPayAlipay.setChecked(true);
-                if(mPayAlipay.isChecked()) {
+                if (mPayAlipay.isChecked()) {
                     payType = "aliPay";
                 }
                 break;
             case R.id.pay_weixin:
                 mPayWeixin.setChecked(true);
                 mPayAlipay.setChecked(false);
-                if(mPayWeixin.isChecked()) {
+                if (mPayWeixin.isChecked()) {
                     payType = "wxPay";
                 }
                 break;
@@ -110,5 +110,19 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @Override
     public void showSuccessOrderData(OrderStyleBean orderStyleBean) {
         this.orderData = orderStyleBean;
+    }
+
+    @Override
+    public void showPayOrder(String value) {
+        if (value == null) {
+            ToastUtil.showToast(this, "生成订单出错", 0);
+        } else {
+            mPresenter.payForWeiChat(value);
+        }
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(this, msg, 0);
     }
 }
