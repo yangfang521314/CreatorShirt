@@ -14,6 +14,9 @@ import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,8 +101,9 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
     public void payForWeiChat(PayOrderEntity value) {
         Log.e("TAG", "VALUE" + value);
         String wx_appid = value.getAppId();
-        WXPay.init(App.getInstance(), wx_appid);      //要在支付前调用
-        WXPay.getInstance().doPay(value.toString(), new WXPay.WXPayResultCallBack() {
+        WXPay.init(App.getInstance(), wx_appid);
+        //要在支付前调用
+        WXPay.getInstance().doPay(value, new WXPay.WXPayResultCallBack() {
             @Override
             public void onSuccess() {
                 mView.showErrorMsg("支付成功");
@@ -128,5 +132,6 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
             }
         });
     }
+
 
 }
