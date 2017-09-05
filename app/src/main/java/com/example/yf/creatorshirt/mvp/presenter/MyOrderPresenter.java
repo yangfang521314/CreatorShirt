@@ -14,16 +14,11 @@ import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import okhttp3.RequestBody;
 
 /**
@@ -103,7 +98,6 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
     public void payForWeiChat(PayOrderEntity value) {
         Log.e("TAG", "VALUE" + value);
         String wx_appid = value.getAppId();
-        Log.e("TAG fuck you", "DDDDD" + wx_appid);
         WXPay.init(App.getInstance(), wx_appid);      //要在支付前调用
         WXPay.getInstance().doPay(value.toString(), new WXPay.WXPayResultCallBack() {
             @Override
