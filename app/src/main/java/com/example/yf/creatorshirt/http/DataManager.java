@@ -9,6 +9,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
+import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class DataManager implements HttpHelper {
     }
 
 
-    public Flowable<HttpResponse> payMentOrders(String userToken, RequestBody requestBody) {
+    public Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody) {
         return mHttpHelper.payMentOrders(userToken,requestBody);
     }
 }

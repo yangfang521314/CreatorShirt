@@ -85,38 +85,27 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         Gson gson = new Gson();
         String payEntity = gson.toJson(map);
         final RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), payEntity);
-        Log.e("my fff", "re" + payEntity.toString());
         addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), requestBody)
-                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
-                .map(new Function<HttpResponse, String>() {
+                .compose(RxUtils.<HttpResponse<PayOrderEntity>>rxSchedulerHelper())
+                .compose(RxUtils.<PayOrderEntity>handleResult())
+                .subscribeWith(new CommonSubscriber<PayOrderEntity>(mView) {
                     @Override
-                    public String apply(@NonNull HttpResponse httpResponse) throws Exception {
+                    public void onNext(PayOrderEntity payOrderEntity) {
+                        Log.e("TAG", "GGGGGGGGGGGGGGGG" + payOrderEntity.toString());
+                        mView.showPayOrder(payOrderEntity);
+                    }
+                })
 
-                        return httpResponse.getResult().toString();
-                    }
-                })
-                .subscribeWith(new CommonSubscriber<String>(mView) {
-                    @Override
-                    public void onNext(String s) {
-                        mView.showPayOrder(s);
-                    }
-                })
         );
     }
 
     //微信支付
-    public void payForWeiChat(String value) {
-        JSONObject jsonObject = null;
-        String wx_appid = null;
-        try {
-            jsonObject = new JSONObject(value);
-            wx_appid = jsonObject.getString("appId");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        //替换为自己的appid
+    public void payForWeiChat(PayOrderEntity value) {
+        Log.e("TAG", "VALUE" + value);
+        String wx_appid = value.getAppId();
+        Log.e("TAG fuck you", "DDDDD" + wx_appid);
         WXPay.init(App.getInstance(), wx_appid);      //要在支付前调用
-        WXPay.getInstance().doPay(value, new WXPay.WXPayResultCallBack() {
+        WXPay.getInstance().doPay(value.toString(), new WXPay.WXPayResultCallBack() {
             @Override
             public void onSuccess() {
                 mView.showErrorMsg("支付成功");
@@ -145,6 +134,5 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
             }
         });
     }
-
 
 }

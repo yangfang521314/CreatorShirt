@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -113,7 +114,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     }
 
     @Override
-    public void showPayOrder(String value) {
+    public void showPayOrder(PayOrderEntity value) {
         if (value == null) {
             ToastUtil.showToast(this, "生成订单出错", 0);
         } else {
