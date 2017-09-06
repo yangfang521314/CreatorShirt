@@ -12,7 +12,7 @@ import okhttp3.RequestBody;
  */
 
 public class GsonUtils {
-    private static GsonUtils instance;
+    private volatile static GsonUtils instance;
 
     public RequestBody getGson(Map<String, String> data) {
         Gson gson = new Gson();
@@ -27,8 +27,10 @@ public class GsonUtils {
 
     public static GsonUtils getInstance() {
         if (instance == null) {
-            synchronized (instance) {
-                instance = new GsonUtils();
+            synchronized (GsonUtils.class) {
+                if (instance == null) {
+                    instance = new GsonUtils();
+                }
             }
         }
         return instance;
