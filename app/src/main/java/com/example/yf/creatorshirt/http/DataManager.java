@@ -4,18 +4,17 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**
@@ -113,5 +112,10 @@ public class DataManager implements HttpHelper {
 
     public Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody) {
         return mHttpHelper.payMentOrders(userToken,requestBody);
+    }
+
+    @Override
+    public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
+        return mHttpHelper.saveUserInfo(userToken,requestBody);
     }
 }

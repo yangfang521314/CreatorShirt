@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,15 +16,21 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
+import com.example.yf.creatorshirt.utils.CircleAvatar;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.CropUtils;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.PermissionUtil;
+import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.io.File;
@@ -31,7 +38,7 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
+public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implements EditUserInfoContract.EditUserInfoView {
 
 
     private static final int REQUEST_CODE_ALBUM = 0;
@@ -47,11 +54,12 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
     @BindView(R.id.user_tv_filter)
     TextView mTextFilter;
     @BindView(R.id.ll_edit_user)
-    RelativeLayout mllUser;
+    RelativeLayout mRLUser;
 
     private Uri uri;
     private File file;
     private EditUserPopupWindow mPopupWindow;
+    private String mAvatarUrl;
 
     @Override
     protected void inject() {
@@ -66,6 +74,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
     @Override
     public void initData() {
         super.initData();
+        mPresenter.getToken();
         file = new File(FileUtils.getCachePath(this), "user-avatar.jpg");
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             uri = Uri.fromFile(file);
@@ -75,7 +84,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
         }
     }
 
-    @OnClick({R.id.user_edit_avatar, R.id.user_edit_name, R.id.user_tv_filter, R.id.save_user})
+    @OnClick({R.id.user_edit_avatar, R.id.user_tv_filter, R.id.save_user})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_tv_filter:
@@ -83,14 +92,28 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
                 break;
             case R.id.user_edit_avatar:
                 initPopupWindow();
-                mPopupWindow.showAtLocation(mllUser, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+                mPopupWindow.showAtLocation(mRLUser, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
                 setParams(Constants.CHANGE_ALPHA);
                 break;
-            case R.id.user_edit_name:
-                break;
             case R.id.save_user:
+                if (isCheck()) {
+                    mPresenter.setUserName(PhoneUtils.getTextString(mEditName));
+                    mPresenter.saveUserInfo();
+                }
                 break;
         }
+    }
+
+    private boolean isCheck() {
+        if (TextUtils.isEmpty(PhoneUtils.getTextString(mEditName))) {
+            ToastUtil.showToast(this, "用户名为空", 0);
+            return false;
+        }
+        if (TextUtils.isEmpty(mAvatarUrl)) {
+            ToastUtil.showToast(this, "没有选择头像", 0);
+            return false;
+        }
+        return true;
     }
 
     private void initPopupWindow() {
@@ -173,6 +196,8 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
     //设置头像和上传服务器
     private void compressAndUploadAvatar(String fileSrc) {
         final File cover = FileUtils.getSmallBitmap(this, fileSrc);
+        mPresenter.setImageFile(cover);
+        mPresenter.saveUserAvatar();
     }
 
     /**
@@ -205,4 +230,16 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> {
     protected int getView() {
         return R.layout.activity_edit_user;
     }
+
+    @Override
+    public void showSuccessImage(String userAvatar) {
+        mAvatarUrl = userAvatar;
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.mm)
+                .transform(new CircleAvatar(this))
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+        Glide.with(this).load(userAvatar).apply(options).into(mEditUser);
+    }
+
 }

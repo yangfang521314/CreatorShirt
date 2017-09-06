@@ -74,6 +74,11 @@ public interface RequestApi {
     @POST("f-Users/requestOrdersFromOrderId")
     Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(@Header("Token") String userToken, @Body RequestBody orderId);
 
+    //查找支付订单信息
     @POST("f-Users/paymentOrders")
     Flowable<HttpResponse<PayOrderEntity>> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //保存用户信息
+    @POST("f-Users/userModify")
+    Flowable<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
 }

@@ -110,5 +110,10 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.payMentOrders(userToken,requestBody);
     }
 
+    @Override
+    public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
+        return mRequestApi.saveUserInfo(userToken,requestBody);
+    }
+
 
 }
