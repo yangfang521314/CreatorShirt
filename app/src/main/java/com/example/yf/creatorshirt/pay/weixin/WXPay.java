@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -20,7 +21,7 @@ public class WXPay {
 
     private static WXPay mWXPay;
     private IWXAPI mWXApi;
-    private String mPayParam;
+    private PayOrderEntity mPayParam;
     private WXPayResultCallBack mCallback;
 
     public static final int NO_OR_LOW_WX = 1;   //未安装微信或微信版本过低
@@ -29,7 +30,9 @@ public class WXPay {
 
     public interface WXPayResultCallBack {
         void onSuccess(); //支付成功
+
         void onError(int error_code);   //支付失败
+
         void onCancel();    //支付取消
     }
 
@@ -39,77 +42,65 @@ public class WXPay {
     }
 
     public static void init(Context context, String wx_appid) {
-        if(mWXPay == null) {
+        if (mWXPay == null) {
             mWXPay = new WXPay(context, wx_appid);
         }
     }
-    public static WXPay getInstance(){
+
+    public static WXPay getInstance() {
         return mWXPay;
     }
 
     public IWXAPI getWXApi() {
         return mWXApi;
     }
+
     /**
      * 发起微信支付
      */
-    public void doPay(String pay_param, WXPayResultCallBack callback) {
+    public void doPay(PayOrderEntity pay_param, WXPayResultCallBack callback) {
         mPayParam = pay_param;
         mCallback = callback;
 
-        if(!check()) {
-            if(mCallback != null) {
+        if (!check()) {
+            if (mCallback != null) {
                 mCallback.onError(NO_OR_LOW_WX);
             }
             return;
         }
 
-        JSONObject param = null;
-        try {
-            param = new JSONObject(mPayParam);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            if(mCallback != null) {
+        if (TextUtils.isEmpty(mPayParam.getAppId()) ||
+                TextUtils.isEmpty(mPayParam.getMch_id()) || TextUtils.isEmpty(mPayParam.getPrepay_id()) ||
+                TextUtils.isEmpty(mPayParam.getTimeStamp()) || TextUtils.isEmpty(mPayParam.getNonceStr()) ||
+                TextUtils.isEmpty(mPayParam.getPaySign())) {
+            if (mCallback != null) {
                 mCallback.onError(ERROR_PAY_PARAM);
             }
-            return;
-        }
-        if(TextUtils.isEmpty(param.optString("appId")) ||
-                TextUtils.isEmpty(param.optString("mch_id"))
-                || TextUtils.isEmpty(param.optString("prepay_id"))
-                || TextUtils.isEmpty(param.optString("nonceStr")) ||
-                TextUtils.isEmpty(param.optString("timeStamp")) ||
-                TextUtils.isEmpty(param.optString("paySign"))) {
-            if(mCallback != null) {
-                mCallback.onError(ERROR_PAY_PARAM);
-            }
-            return;
         }
 
         PayReq req = new PayReq();
-        req.appId = param.optString("appId");
-        req.partnerId = param.optString("mch_id");
-        Log.e("fuck you","mm"+param.optString("mch_id"));
-        req.prepayId = param.optString("prepay_id");
+        req.appId = mPayParam.getAppId();
+        req.partnerId = mPayParam.getMch_id();
+        req.prepayId = mPayParam.getPrepay_id();
         req.packageValue = "Sign=WXPay";
-        req.nonceStr = param.optString("nonceStr");
-        req.timeStamp = param.optString("timeStamp");
-        req.sign = param.optString("paySign");
+        req.nonceStr = mPayParam.getNonceStr();
+        req.timeStamp = mPayParam.getTimeStamp();
+        req.sign = mPayParam.getPaySign();
 
         mWXApi.sendReq(req);
     }
 
     //支付回调响应
     public void onResp(int error_code) {
-        if(mCallback == null) {
+        if (mCallback == null) {
             return;
         }
 
-        if(error_code == 0) {   //成功
+        if (error_code == 0) {   //成功
             mCallback.onSuccess();
-        } else if(error_code == -1) {   //错误
+        } else if (error_code == -1) {   //错误
             mCallback.onError(ERROR_PAY);
-        } else if(error_code == -2) {   //取消
+        } else if (error_code == -2) {   //取消
             mCallback.onCancel();
         }
 
