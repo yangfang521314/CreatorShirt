@@ -24,4 +24,7 @@ public interface TestRequestApi{
 
     @POST("f-Users/paymentOrders")
     Call<HttpResponse> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
+    //保存用户信息
+    @POST("f-Users/userModify")
+    Call<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
 }

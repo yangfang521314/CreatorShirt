@@ -41,6 +41,7 @@
         android:background="@drawable/choice_size_normal"
         android:gravity="center_vertical"
         android:hint="昵称"
+        android:maxLines="1"
         android:padding="10dp"
         android:textSize="18sp" />
 

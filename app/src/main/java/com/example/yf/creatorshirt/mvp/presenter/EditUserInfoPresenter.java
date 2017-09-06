@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -30,9 +31,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/9/4.
@@ -80,20 +81,31 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
         map.put("mobile", SharedPreferencesUtil.getUserPhone());
         map.put("headimage", userAvatar);
         map.put("name", mUserName);
-        addSubscribe(manager.saveUserInfo(SharedPreferencesUtil.getUserToken(), GsonUtils.getInstance().getGson(map))
-                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
-                .map(new Function<HttpResponse, Object>() {
-                    @Override
-                    public Object apply(@NonNull HttpResponse httpResponse) throws Exception {
-                        return httpResponse.getResult();
-                    }
-                })
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        Log.e("...", "FUCK YOU" + o);
-                    }
-                }));
+//        addSubscribe(manager.saveUserInfo(SharedPreferencesUtil.getUserToken(), GsonUtils.getInstance().getGson(map))
+//                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+//                .map(new Function<HttpResponse, Object>() {
+//                    @Override
+//                    public Object apply(@NonNull HttpResponse httpResponse) throws Exception {
+//                        return httpResponse.getResult();
+//                    }
+//                })
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(@NonNull Object o) throws Exception {
+//                        Log.e("...", "FUCK YOU" + o);
+//                    }
+//                }));
+        TestRequestServer.getInstance().saveUserInfo(SharedPreferencesUtil.getUserToken(), GsonUtils.getInstance().getGson(map)).enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                Log.e("tag",""+response.body().getResult());
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+
+            }
+        });
 
     }
 
