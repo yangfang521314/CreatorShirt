@@ -8,6 +8,8 @@ import com.example.yf.creatorshirt.inject.component.DaggerAppComponent;
 import com.example.yf.creatorshirt.inject.module.AppModule;
 import com.example.yf.creatorshirt.inject.module.HttpModule;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,6 +42,13 @@ public class App extends MultiDexApplication {
         super.onCreate();
         mInstance = this;
         SharedPreferencesUtil.init(this);
+        UMShareAPI.get(this);
+        initShareConfig();
+    }
+
+    private void initShareConfig() {
+//        59b105c7717c19193f00057f
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
     }
 
     public void addActivity(Activity activity) {

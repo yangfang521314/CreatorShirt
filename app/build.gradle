@@ -104,4 +104,10 @@ dependencies {
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
     testCompile 'junit:junit:4.12'
     compile files('libs/alipaySdk-20170725.jar')
+    //微信登录
+    compile files('libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('libs/umeng_social_net.jar')
+    compile files('libs/umeng_social_tool.jar')
+    compile files('libs/umeng_social_api.jar')
+    compile files('libs/umeng_social_shareboard.jar')
 }

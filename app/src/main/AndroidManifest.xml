@@ -84,6 +84,19 @@
             android:exported="false"
             android:screenOrientation="behind" />
 
+        <!--友盟登录-->
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5126ff896c738f2bfa000438" />
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
     </application>
 
 </manifest>

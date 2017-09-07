@@ -41,6 +41,7 @@ import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.PermissionUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesMark;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.io.File;
@@ -188,12 +189,14 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     @Override
     public void showSuccessSaveInfo(Integer status) {
         if (status == 1) {
+            SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
             ToastUtil.showToast(this, "设置信息成功", 0);
+            startCommonActivity(this, null, MainActivity.class);
         }
     }
 
     /**
-     * photo
+     * camera
      */
     private void uploadAvatarFromPhotoRequest() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -154,4 +154,13 @@ public final class SharedPreferencesUtil {
     public static String getUserPhone() {
         return getString(Constants.USER_INFO, Constants.USER_MOBILE, "");
     }
+
+    public static String getUserName() {
+        return getString(Constants.USER_INFO, Constants.USER_NAME, "");
+    }
+
+    //保存用户名
+    public static void setUserName(String userName) {
+        setString(Constants.USER_INFO, Constants.USER_NAME, userName);
+    }
 }

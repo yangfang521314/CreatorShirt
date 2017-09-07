@@ -103,9 +103,10 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
 
     /**
      * 微信登录
+     * @param openId
      */
     @Override
-    public void wenxinLogin() {
+    public void wenxinLogin(String openId) {
 
     }
 }

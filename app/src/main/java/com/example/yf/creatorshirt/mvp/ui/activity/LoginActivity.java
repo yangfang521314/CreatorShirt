@@ -9,18 +9,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.utils.PackageUtil;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +44,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.send_code)
     Button btnSendCode;
     private static final int REQUEST_CODE = 9;
+    private UMShareAPI mShareAPI = null;
+    private SHARE_MEDIA platform = null;
 
     private PermissionChecker mPermissionsChecker; // 权限检测器
     // 所需的全部权限
@@ -52,6 +60,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initView() {
+        mShareAPI = UMShareAPI.get(this);
         mPermissionsChecker = new PermissionChecker(this);
         mPresenter.setPhoneCode(PhoneUtils.getTextString(mEditCode));
 
@@ -72,7 +81,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 }
                 break;
             case R.id.weixin_login://微信login
-                mPresenter.wenxinLogin();
+//                mPresenter.wenxinLogin();
+                if (mShareAPI.isInstall(LoginActivity.this, SHARE_MEDIA.WEIXIN)) {
+                    platform = SHARE_MEDIA.WEIXIN;
+                    mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
+                } else {
+                    //Umeng有提醒是否安装的Toast，不需要设置Toast。
+                }
                 break;
             case R.id.send_code:
                 if (TextUtils.isEmpty(mEditPhone.getText().toString())) {
@@ -135,5 +150,94 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             startOtherActivity();
         }
     }
+
+    /**
+     * auth callback interface
+     **/
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+
+            mShareAPI.getPlatformInfo(LoginActivity.this, platform, umGetInfoListener);
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText(getApplicationContext(), "授权 失败", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(getApplicationContext(), "授权 取消", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private String nickName;
+    private String userId;
+    private String imgUrl;
+    private String openId;
+    /**
+     * getUserInfo
+     **/
+    private UMAuthListener umGetInfoListener = new UMAuthListener() {
+
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+
+            if (data != null) {
+
+                if (platform == SHARE_MEDIA.WEIXIN) {
+                    Set<String> keys = data.keySet();
+                    for (String key : keys) {
+                        if (key == "name") {
+                            nickName = data.get(key);
+                            Log.e("TAG", "NICK" + nickName);
+                        }
+                        if (key == "uid") {
+                            userId = data.get(key);
+                            Log.e("TAG", "uid" + userId);
+                        }
+                        if (key == "iconurl") {
+                            imgUrl = data.get(key);
+                        }
+                        if (key== "openid"){
+                            openId = data.get(key);
+                        }
+                    }
+
+                    loginByThirdpart(openId);
+                }
+
+                LogUtil.d("auth callbacl", "getting data");
+                //  Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private void loginByThirdpart(String openId) {
+        mPresenter.wenxinLogin(openId);
+    }
+
 
 }
