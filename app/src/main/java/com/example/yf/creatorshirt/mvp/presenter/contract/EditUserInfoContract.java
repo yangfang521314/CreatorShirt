@@ -14,6 +14,8 @@ public interface EditUserInfoContract {
     interface EditUserInfoView extends BaseView {
 
         void showSuccessImage(String userAvatar);
+
+        void showSuccessSaveInfo(Integer status);
     }
 
     interface Presenter extends BasePresenter<EditUserInfoView> {

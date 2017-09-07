@@ -242,4 +242,11 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         Glide.with(this).load(userAvatar).apply(options).into(mEditUser);
     }
 
+    @Override
+    public void showSuccessSaveInfo(Integer status) {
+        if(status ==1){
+            ToastUtil.showToast(this,"设置信息成功",0);
+        }
+    }
+
 }

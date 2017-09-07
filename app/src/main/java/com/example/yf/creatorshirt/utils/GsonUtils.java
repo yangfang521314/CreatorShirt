@@ -1,8 +1,8 @@
 package com.example.yf.creatorshirt.utils;
 
-import com.google.gson.Gson;
+import android.util.Log;
 
-import java.util.Map;
+import com.google.gson.Gson;
 
 import okhttp3.RequestBody;
 
@@ -12,28 +12,25 @@ import okhttp3.RequestBody;
  */
 
 public class GsonUtils {
-    private volatile static GsonUtils instance;
+//    private volatile static GsonUtils instance;
 
-    public RequestBody getGson(Map<String, String> data) {
+    public static RequestBody getGson(Object data) {
         Gson gson = new Gson();
         String entity = gson.toJson(data);
+        LogUtil.e("GsonUtils", "ENTITY" + entity);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), entity);
         return body;
     }
 
-    public GsonUtils() {
-
-    }
-
-    public static GsonUtils getInstance() {
-        if (instance == null) {
-            synchronized (GsonUtils.class) {
-                if (instance == null) {
-                    instance = new GsonUtils();
-                }
-            }
-        }
-        return instance;
-    }
+//    public static GsonUtils getInstance() {
+//        if (instance == null) {
+//            synchronized (GsonUtils.class) {
+//                if (instance == null) {
+//                    instance = new GsonUtils();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
 
 }
