@@ -27,4 +27,8 @@ public interface TestRequestApi{
     //保存用户信息
     @POST("f-Users/userModify")
     Call<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //地址
+    @POST("f-Users/requestUserAddress")
+    Call<HttpResponse> getAddressData(@Header("Token") String userToken);
 }

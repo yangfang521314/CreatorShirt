@@ -1,20 +1,25 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,6 +29,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.view.DialogPermission;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.utils.CircleAvatar;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -31,6 +37,7 @@ import com.example.yf.creatorshirt.utils.CropUtils;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.PermissionUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
+import com.example.yf.creatorshirt.utils.SharedPreferencesMark;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.io.File;
@@ -246,6 +253,45 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     public void showSuccessSaveInfo(Integer status) {
         if(status ==1){
             ToastUtil.showToast(this,"设置信息成功",0);
+        }
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (null != this.getCurrentFocus()) {
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+
+            case PermissionUtil.REQUEST_SHOWCAMERA:
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    uploadAvatarFromCamera();
+
+                } else {
+                    if (!SharedPreferencesMark.getHasShowCamera()) {
+                        SharedPreferencesMark.setHasShowCamera(true);
+                        new DialogPermission(this, "关闭摄像头权限影响扫描功能");
+
+                    } else {
+                        Toast.makeText(this, "未获取摄像头权限", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

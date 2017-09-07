@@ -114,32 +114,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         }, null);
     }
 
-//    private void saveImageClient(final String key, final String value) {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//                handler.sendEmptyMessage(WHAT_SUCCESS);
-//            }
-//        }.start();
-
-//        Observable.create(new ObservableOnSubscribe<List<String>>() {
-//            @Override
-//            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
-//                getList(key, imageUrl);
-//                e.onNext(list);
-//            }
-//        })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<List<String>>() {
-//                    @Override
-//                    public void accept(@NonNull List<String> strings) throws Exception {
-//                            Log.e("tga","ddddd"+strings.size());
-//                    }
-//                });
-//    }
-
 
     /**
      * 获取七牛token

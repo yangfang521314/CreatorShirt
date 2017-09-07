@@ -1,9 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +10,6 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.presenter.AddressPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.mvp.ui.adapter.AddressAdapter;
 
 import java.util.List;
 
@@ -61,10 +58,10 @@ public class AddressActivity extends BaseActivity<AddressPresenter> implements A
 
     @Override
     public void showSuccess(List<AddressBean> addressBean) {
-        Log.e("TAG", "ADDRESS" + addressBean.get(1).getAddress());
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AddressAdapter addressAdapter = new AddressAdapter(this);
-        addressAdapter.setData(addressBean);
-        mRecyclerView.setAdapter(addressAdapter);
+//        Log.e("TAG", "ADDRESS" + addressBean.get(1).getAddress());
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        AddressAdapter addressAdapter = new AddressAdapter(this);
+//        addressAdapter.setData(addressBean);
+//        mRecyclerView.setAdapter(addressAdapter);
     }
 }
