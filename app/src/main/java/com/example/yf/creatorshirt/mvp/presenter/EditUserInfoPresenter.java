@@ -104,6 +104,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
      */
     public void saveUserAvatar() {
         String key = "avatar_" + SharedPreferencesUtil.getUserId() + Utils.getTime();
+        Log.e("TAG","EditUSER"+QiniuToken);
         uploadManager.put(file, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -147,7 +148,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
         addSubscribe(manager.getQiToken(SharedPreferencesUtil.getUserToken())
                 .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
                 .compose(RxUtils.<String>handleResult())
-                .subscribeWith(new CommonSubscriber<String>(mView) {
+                .subscribeWith(new CommonSubscriber<String>(mView,"没有TOKEN") {
                     @Override
                     public void onNext(String s) {
                         QiniuToken = s;
