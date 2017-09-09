@@ -175,4 +175,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     public void showErrorMsg(String msg) {
         ToastUtil.showToast(this, msg, 0);
     }
+
+    @Override
+    public void stateError() {
+
+    }
 }

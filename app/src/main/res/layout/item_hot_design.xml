@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_designer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/designer_bg"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/designer_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center" />
 
     <TextView
@@ -15,12 +17,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="3dp"
         android:text="张芷溪" />
 
     <TextView
-        android:layout_gravity="center"
         android:id="@+id/designer_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="3dp"
         android:text="185个原创设计" />
 </LinearLayout>

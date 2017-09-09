@@ -5,12 +5,17 @@ import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.BombStylesContract;
+import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+
+import okhttp3.RequestBody;
 
 /**
  * Created by yang on 31/07/2017.
@@ -19,6 +24,7 @@ import javax.inject.Inject;
 public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView> implements BombStylesContract.Presenter {
 
     private DataManager dataManager;
+    private int pageIndex = 0;
 
     @Inject
     public BombStylePresenter(DataManager manager) {
@@ -26,16 +32,46 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
     }
 
     @Override
-    public void getBombData(int pagerNumber) {
-        addSubscribe(dataManager.getBombData()
+    public void getBombData() {
+        pageIndex = 0;
+        Map<String, Integer> map = new HashMap<>();
+        map.put("pageIndex", 0);
+        RequestBody body = GsonUtils.getGson(map);
+        addSubscribe(dataManager.getBombData(body)
                 .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<BombStyleBean>>handleResult())
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "数据获取失败") {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
-                            mView.showSuccess(bombStyleBeen);
+                        mView.showSuccess(bombStyleBeen);
                     }
                 }));
 
+//        TestRequestServer.getInstance().getBomData(body).enqueue(new Callback<HttpResponse>() {
+//            @Override
+//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//                Log.e("tag", ".....fuck you" + response.body().getResult());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<HttpResponse> call, Throwable t) {
+//
+//            }
+//        });
+    }
+
+    public void getMoreBombData() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("pageIndex", ++pageIndex);
+        RequestBody body = GsonUtils.getGson(map);
+        addSubscribe(dataManager.getBombData(body)
+                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "加载更多失败",false) {
+                    @Override
+                    public void onNext(List<BombStyleBean> bombStyleBeen) {
+                        mView.showMoreSuccessData(bombStyleBeen);
+                    }
+                }));
     }
 }

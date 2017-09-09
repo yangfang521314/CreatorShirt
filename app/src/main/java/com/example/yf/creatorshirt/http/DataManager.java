@@ -55,13 +55,13 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getUserInfo();
     }
 
-    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData() {
-        return mHttpHelper.getBombData();
+    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody requestBody) {
+        return mHttpHelper.getBombData(requestBody);
     }
 
     @Override
-    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign() {
-        return mHttpHelper.getHotDesign();
+    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(String userToken, RequestBody body) {
+        return mHttpHelper.getHotDesign(userToken, body);
     }
 
     @Override

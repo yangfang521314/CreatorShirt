@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.HotDesignViewHolder;
+import com.example.yf.creatorshirt.utils.CircleAvatar;
 
 /**
  * Created by yang on 31/07/2017.
@@ -28,9 +31,15 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
 
     @Override
     protected void bindCustomViewHolder(HotDesignViewHolder holder, int position) {
+
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.mm)
+                .transform(new CircleAvatar(mContext))
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
         Glide.with(mContext)
-                .load(mData.get(position).getHeadImage()).into(holder.mDesignerIV);
-        holder.mDesignerNum.setText(String.valueOf(mData.get(position).getDesignNum()));
-        holder.mDesignerName.setText(mData.get(position).getNickname());
+                .load(mData.get(position).getHeadimage()).apply(options).into(holder.mDesignerIV);
+        holder.mDesignerNum.setText(String.valueOf(mData.get(position).getCounts()));
+        holder.mDesignerName.setText(mData.get(position).getName());
     }
 }

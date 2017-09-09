@@ -68,6 +68,37 @@ public class DisplayUtil {
     }
 
     /**
+     * 设置定制布局的宽和高
+     *
+     * @param context
+     * @param linearLayout
+     */
+    public static void calculateItem2Width(Context context, LinearLayout linearLayout) {
+        int width = getScreenW(context);
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+        layoutParams.width = width / 3;
+        linearLayout.setLayoutParams(layoutParams);
+
+    }
+
+    /**
+     * 设置定制布局的宽和高
+     *
+     * @param context
+     * @param linearLayout
+     */
+    public static void calculateDesignerClothesWidth(Context context, LinearLayout linearLayout) {
+        int width = getScreenW(context);
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+        layoutParams.width = width / 2;
+        layoutParams.height = height / 3;
+        linearLayout.setLayoutParams(layoutParams);
+
+    }
+
+    /**
      * 设置衣服背景的高度
      *
      * @param context
@@ -90,7 +121,7 @@ public class DisplayUtil {
     public static void calculateItemSizeWidth(Context context, LinearLayout mll) {
         int width = getScreenW(context);
         ViewGroup.LayoutParams layoutParams = mll.getLayoutParams();
-        layoutParams.width = (int) (width /6.5);
+        layoutParams.width = (int) (width / 6.5);
         mll.setLayoutParams(layoutParams);
     }
 }

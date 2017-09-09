@@ -115,4 +115,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void hideLoading() {
 
     }
+
+    @Override
+    public void stateError() {
+
+    }
 }

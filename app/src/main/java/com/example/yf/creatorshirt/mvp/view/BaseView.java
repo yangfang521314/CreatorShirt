@@ -6,7 +6,7 @@ package com.example.yf.creatorshirt.mvp.view;
  * MVP模式的View；
  */
 
-public interface BaseView{
+public interface BaseView {
 
     //请求数据失败
     void showErrorMsg(String msg);
@@ -16,4 +16,6 @@ public interface BaseView{
 
     void hideLoading();
 
+    //加载出错
+    void stateError();
 }

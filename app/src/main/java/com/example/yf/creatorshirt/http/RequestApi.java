@@ -42,12 +42,12 @@ public interface RequestApi {
     Observable<HttpResponse<UserInfo>> getUserInfo();
 
     //获取爆款数据
-    @GET("clothers/getBombStyles")
-    Flowable<HttpResponse<List<BombStyleBean>>> getBombData();
+    @POST("f-Users/requestOrdersFromsquare")
+    Flowable<HttpResponse<List<BombStyleBean>>> getBombData(@Body RequestBody requestBody);
 
     //获取所有的设计师
-    @GET("user/hotDesigns")
-    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
+    @POST("f-Users/requestSquareDesign")
+    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(@Header("Token") String userToken, @Body RequestBody body);
 
     //获取我的地址
     @GET("user/getAddress")

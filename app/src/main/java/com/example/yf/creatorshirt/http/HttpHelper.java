@@ -29,9 +29,9 @@ public interface HttpHelper {
 
     Observable<HttpResponse<UserInfo>> getUserInfo();
 
-    Flowable<HttpResponse<List<BombStyleBean>>> getBombData();
+    Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody userToken);
 
-    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign();
+    Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(String userToken, RequestBody body);
 
     Flowable<HttpResponse<List<AddressBean>>> getAddressData();
 

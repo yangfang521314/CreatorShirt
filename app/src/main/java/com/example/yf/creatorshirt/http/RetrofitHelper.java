@@ -65,13 +65,13 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData() {
-        return mRequestApi.getBombData();
+    public Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody requestBody) {
+        return mRequestApi.getBombData(requestBody);
     }
 
     @Override
-    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign() {
-        return mRequestApi.getHotDesign();
+    public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(String userToken, RequestBody body) {
+        return mRequestApi.getHotDesign(userToken,body);
     }
 
     @Override

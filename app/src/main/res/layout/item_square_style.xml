@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_designer_clothes"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/clothes_image"
-        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_heightPercent="100%w"
+        />
 
     <TextView
         android:id="@+id/creator_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="张芷溪的原创定制" />
+        android:layout_marginTop="2dp"
+        android:text="张芷溪的原创定制"
+        android:textColor="@color/black_1"
+        android:textSize="16sp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp">
+        android:layout_marginTop="3dp"
+        app:layout_widthPercent="100%w">
 
         <TextView
             android:id="@+id/clothes_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥49.99" />
+            android:text="￥49.99"
+            android:textColor="@color/black_1"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/clothes_priseNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="11111" />
+            android:text="11111"
+            android:textColor="@color/black_1"
+            android:textSize="14sp" />
     </RelativeLayout>
-</LinearLayout>
+</com.zhy.android.percent.support.PercentLinearLayout>

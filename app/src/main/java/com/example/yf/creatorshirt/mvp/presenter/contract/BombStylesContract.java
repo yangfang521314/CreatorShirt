@@ -13,10 +13,12 @@ import java.util.List;
 public interface BombStylesContract {
     interface BombView extends BaseView {
         void showSuccess(List<BombStyleBean> bombStyles);
+
+        void showMoreSuccessData(List<BombStyleBean> bombStyleBeen);
     }
 
     interface Presenter extends BasePresenter<BombView> {
-        void getBombData(int pagerNumber);
+        void getBombData();
     }
 
 }

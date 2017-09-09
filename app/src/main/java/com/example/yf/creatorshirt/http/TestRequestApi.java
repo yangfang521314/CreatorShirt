@@ -8,12 +8,11 @@ import retrofit2.http.POST;
 
 /**
  * Created by yangfang on 2017/8/31
- *
- *  //测试response ，为了查找数据格式
- *
+ * <p>
+ * //测试response ，为了查找数据格式
  */
 
-public interface TestRequestApi{
+public interface TestRequestApi {
 
     //上传数据
     @POST("f-Users/saveOrders")
@@ -24,6 +23,7 @@ public interface TestRequestApi{
 
     @POST("f-Users/paymentOrders")
     Call<HttpResponse> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
+
     //保存用户信息
     @POST("f-Users/userModify")
     Call<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
@@ -31,4 +31,10 @@ public interface TestRequestApi{
     //地址
     @POST("f-Users/requestUserAddress")
     Call<HttpResponse> getAddressData(@Header("Token") String userToken);
+
+    @POST("f-Users/requestSquareDesign")
+    Call<HttpResponse> getHotDesign(@Header("Token") String userToken, @Body RequestBody body);
+
+    @POST("f-Users/requestOrdersFromsquare")
+    Call<HttpResponse> getBomData(@Body RequestBody body);
 }

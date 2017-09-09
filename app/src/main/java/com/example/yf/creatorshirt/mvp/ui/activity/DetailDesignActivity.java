@@ -813,4 +813,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mChoiceReturn.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void stateError() {
+
+    }
 }

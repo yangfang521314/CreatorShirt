@@ -13,6 +13,8 @@ public interface LoginContract{
     interface LoginView extends BaseView {
         //登录成功的返回
         void LoginSuccess(LoginBean t);
+
+        void showSuccessCode();
     }
 
     interface Presenter extends BasePresenter<LoginView> {

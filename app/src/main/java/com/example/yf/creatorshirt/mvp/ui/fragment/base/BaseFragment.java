@@ -111,4 +111,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public void hideLoading() {
 
     }
+
+    @Override
+    public void stateError() {
+
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -17,9 +16,7 @@ import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.LogUtil;
-import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -43,15 +40,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     Button mWeiXin;
     @BindView(R.id.send_code)
     Button btnSendCode;
-    private static final int REQUEST_CODE = 9;
     private UMShareAPI mShareAPI = null;
     private SHARE_MEDIA platform = null;
-
-    private PermissionChecker mPermissionsChecker; // 权限检测器
-    // 所需的全部权限
-    static final String[] PERMISSIONS = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-    };
 
     @Override
     protected void inject() {
@@ -61,7 +51,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void initView() {
         mShareAPI = UMShareAPI.get(this);
-        mPermissionsChecker = new PermissionChecker(this);
         mPresenter.setPhoneCode(PhoneUtils.getTextString(mEditCode));
 
     }
@@ -74,14 +63,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 //手机登录
                 //// TODO: 2017/8/31 要删处 
                 startActivity(new Intent(this, EditUserActivity.class));//
-                if (!TextUtils.isEmpty(PhoneUtils.getTextString(mEditCode)) && !TextUtils.isEmpty(PhoneUtils.getTextString(mEditPhone))) {
+                if (emptyCheck()) {
                     mPresenter.phoneLogin(PhoneUtils.getTextString(mEditPhone), PhoneUtils.getTextString(mEditCode));
                 } else {
                     ToastUtil.showToast(this, "登录请输入验证码", 0);
                 }
                 break;
             case R.id.weixin_login://微信login
-//                mPresenter.wenxinLogin();
+                platform = SHARE_MEDIA.WEIXIN;
+
                 if (mShareAPI.isInstall(LoginActivity.this, SHARE_MEDIA.WEIXIN)) {
                     platform = SHARE_MEDIA.WEIXIN;
                     mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
@@ -100,6 +90,24 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
+
+    public boolean emptyCheck() {
+        if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
+            ToastUtil.showToast(this, "请输入正确的手机号", 0);
+            return false;
+        }
+        if (!PhoneUtils.notEmpty(mEditCode)) {
+            ToastUtil.showToast(this, "请输入验证码", 0);
+            return false;
+        }
+
+//        if (!PhoneUtils.match(PhoneUtils.getTextString(mEditCode), code)) {
+//            ToastUtil.showToast(this, "验证码输入错误", 0);
+//            return false;
+//        }
+        return true;
+    }
+
     @Override
     protected int getView() {
         return R.layout.activity_login;
@@ -110,6 +118,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ToastUtil.showToast(this, msg, 0);
     }
 
+    @Override
+    public void stateError() {
+
+    }
+
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
@@ -117,39 +130,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ToastUtil.showToast(this, "登录成功", 0);
     }
 
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        //设置到启动页面
-        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
-            String notice = "存储空间权限用于下载和软件更新,关闭权限将关闭应用，是否放弃权限允许？";
-            PermissionActivity.startActivityForResult(this, notice, REQUEST_CODE, PERMISSIONS);
-        } else {
-            startOtherActivity();
-        }
-    }
-
-    private void startOtherActivity() {
-        boolean isFirstLaunch = SharedPreferencesUtil.getAppIsFirstLaunched();
-        if (!isFirstLaunch) {
-            //// TODO: 28/07/2017 启动第一次直接进入MainAvtivity
-            startActivity(new Intent(this, MainActivity.class));
-        }
+    public void showSuccessCode() {
+        ToastUtil.showToast(this,"验证码已经发送",0);
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 拒绝时,缺少主要权限,
-        if (requestCode == REQUEST_CODE && resultCode == PermissionActivity.PERMISSIONS_DENIED) {
-            //checkPermission=true;
-            finish();
-        } else {
-            startOtherActivity();
-        }
-    }
 
     /**
      * auth callback interface
