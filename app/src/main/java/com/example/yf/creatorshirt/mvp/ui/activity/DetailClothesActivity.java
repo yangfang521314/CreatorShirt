@@ -14,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class DetailClothesActivity extends BaseActivity {
     @BindView(R.id.user_avatar)
@@ -61,6 +62,11 @@ public class DetailClothesActivity extends BaseActivity {
         mClothesColor.setOutColor(colorN);
         mClothesPrice.setText("¥ " + mBombStyleBean.getFee());
         mClothesSize.setText("尺寸 :  " + mBombStyleBean.getSize());
+
+    }
+
+    @OnClick({R.id.btn_start,R.id.user_avatar})
+    void onClick(View view){
 
     }
 

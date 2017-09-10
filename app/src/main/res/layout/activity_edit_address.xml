@@ -29,15 +29,15 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:padding="10dp"
-                android:text="收货人"
+                android:text="收货人    "
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/edit_name"
+                android:id="@+id/address_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/tv_name"
                 android:background="@null"
                 android:gravity="end|center"
@@ -58,12 +58,13 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:padding="10dp"
                 android:text="联系电话"
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/edit_phone"
+                android:id="@+id/address_edit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_phone"
@@ -85,21 +86,22 @@
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:padding="10dp"
                 android:text="所在地区"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/edit_address"
+                android:id="@+id/address_edit_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_address"
                 android:background="@null"
                 android:drawableRight="@mipmap/address_forward"
                 android:gravity="end|center"
+                android:hint="请选择"
                 android:padding="5dp"
-                android:text="请选择"
-                android:textColor="#c2c3cb"
+                android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -116,11 +118,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="邮编"
+                android:text="邮编          "
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/edit_email"
+                android:id="@+id/address_edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_detail_email"
@@ -145,18 +147,21 @@
                 android:id="@+id/tv_detail_road"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="详细地址"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_show_road"
+                android:id="@+id/address_edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_detail_road"
                 android:background="@null"
                 android:gravity="end|center"
                 android:hint="请输入"
+                android:maxLines="2"
                 android:padding="10dp"
                 android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
