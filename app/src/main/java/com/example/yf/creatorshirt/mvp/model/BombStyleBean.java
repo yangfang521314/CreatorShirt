@@ -1,5 +1,8 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by yang on 31/07/2017.
  * 爆款数据
@@ -35,7 +38,7 @@ package com.example.yf.creatorshirt.mvp.model;
  * UserName=葛岭????????,
  * headerImage=https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJHM7RJLsPVYe2icSUNOJ1guH5q11B9TTsuN6MmRV9lGOkHLJ5e7pZYtg0LiaLvqF0emH9omI8lnLcA/0},
  */
-public class BombStyleBean {
+public class BombStyleBean implements Parcelable{
     private int id;
     private int userId;
     private String Gender;
@@ -57,6 +60,42 @@ public class BombStyleBean {
     private String styleContext;
     private String UserName;
     private String headerImage;
+
+    protected BombStyleBean(Parcel in) {
+        id = in.readInt();
+        userId = in.readInt();
+        Gender = in.readString();
+        baseId = in.readString();
+        Context = in.readString();
+        addDate = in.readString();
+        baseName = in.readString();
+        title = in.readString();
+        praise = in.readInt();
+        height = in.readString();
+        color = in.readString();
+        orderType = in.readString();
+        size = in.readString();
+        address = in.readString();
+        zipcode = in.readString();
+        finishimage = in.readString();
+        allImage = in.readString();
+        fee = in.readInt();
+        styleContext = in.readString();
+        UserName = in.readString();
+        headerImage = in.readString();
+    }
+
+    public static final Creator<BombStyleBean> CREATOR = new Creator<BombStyleBean>() {
+        @Override
+        public BombStyleBean createFromParcel(Parcel in) {
+            return new BombStyleBean(in);
+        }
+
+        @Override
+        public BombStyleBean[] newArray(int size) {
+            return new BombStyleBean[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -252,4 +291,36 @@ public class BombStyleBean {
                 ", headerImage='" + headerImage + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(userId);
+        dest.writeString(Gender);
+        dest.writeString(baseId);
+        dest.writeString(Context);
+        dest.writeString(addDate);
+        dest.writeString(baseName);
+        dest.writeString(title);
+        dest.writeInt(praise);
+        dest.writeString(height);
+        dest.writeString(color);
+        dest.writeString(orderType);
+        dest.writeString(size);
+        dest.writeString(address);
+        dest.writeString(zipcode);
+        dest.writeString(finishimage);
+        dest.writeString(allImage);
+        dest.writeInt(fee);
+        dest.writeString(styleContext);
+        dest.writeString(UserName);
+        dest.writeString(headerImage);
+    }
+
+
 }

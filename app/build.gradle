@@ -97,12 +97,7 @@ dependencies {
     //leakcanary
     debugCompile rootProject.ext.dependencies["debugCompile"]
     releaseCompile rootProject.ext.dependencies["releaseCompile"]
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:multidex:1.0.1'
     //微信支付
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
-    testCompile 'junit:junit:4.12'
     compile files('libs/alipaySdk-20170725.jar')
     //微信登录
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
@@ -110,4 +105,9 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_social_shareboard.jar')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    testCompile 'junit:junit:4.12'
 }

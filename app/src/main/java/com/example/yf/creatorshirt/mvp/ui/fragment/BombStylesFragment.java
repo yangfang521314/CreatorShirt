@@ -1,15 +1,18 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.BombStylePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.BombStylesContract;
+import com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.BombStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
@@ -26,7 +29,8 @@ import butterknife.BindView;
  * Created by Administrator on 2017/7/30.
  */
 
-public class BombStylesFragment extends BaseFragment<BombStylePresenter> implements BombStylesContract.BombView {
+public class BombStylesFragment extends BaseFragment<BombStylePresenter> implements BombStylesContract.BombView
+,ItemClickListener.OnItemClickListener{
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @Inject
@@ -66,7 +70,7 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
         gridLayoutManager = new GridLinearLayoutManager(mActivity, 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new BombStyleAdapter(mActivity);
-
+        adapter.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -114,5 +118,12 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
         if (mSwipeRefresh.isRefreshing()) {
             mSwipeRefresh.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("detail",bombStyles.get(position));
+        startCommonActivity(getActivity(),bundle, DetailClothesActivity.class);
     }
 }

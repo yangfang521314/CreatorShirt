@@ -4,18 +4,15 @@
     android:id="@+id/ll_designer_clothes"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
+    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/clothes_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
-        app:layout_heightPercent="100%w"
-        />
+        android:scaleType="centerCrop"
+        app:layout_heightPercent="100%w" />
 
     <TextView
         android:id="@+id/creator_name"

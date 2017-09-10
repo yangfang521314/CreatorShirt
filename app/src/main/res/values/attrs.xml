@@ -14,4 +14,16 @@
         <attr name="radius" format="float" />
 
     </declare-styleable>
+    <declare-styleable name="StockManage">
+
+        <attr name="width" format="dimension" /><!-- 宽度 -->
+        <attr name="height" format="dimension" /><!-- 高度 -->
+        <attr name="inColor" format="color" /><!-- 圈内颜色 -->
+        <attr name="outColor" format="color" /><!-- 圈外颜色 -->
+        <attr name="textColor" format="color" /><!-- 颜色-->
+        <attr name="stroke" format="dimension" /><!-- 圆圈的宽度 -->
+        <attr name="textSize" format="dimension" /><!-- 字体大小 -->
+        <attr name="text" format="string" /><!-- 字 -->
+        <attr name="icon" format="reference" /><!-- 图片 -->
+    </declare-styleable>
 </resources>

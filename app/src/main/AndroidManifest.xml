@@ -71,7 +71,6 @@
             android:exported="true"
             android:targetActivity=".pay.weixin.WXPayCallbackActivity" />
 
-
         <!-- 支付宝支付 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -84,7 +83,7 @@
             android:exported="false"
             android:screenOrientation="behind" />
 
-        <!--友盟登录-->
+        <!-- 友盟登录 -->
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -96,7 +95,8 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+        <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
+        <activity android:name=".mvp.ui.activity.UserDesignActivity"></activity>
     </application>
 
 </manifest>
