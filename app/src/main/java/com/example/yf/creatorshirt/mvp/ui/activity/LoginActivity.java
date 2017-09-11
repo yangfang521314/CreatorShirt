@@ -60,9 +60,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next:
-                //手机登录
-                //// TODO: 2017/8/31 要删处 
-                startActivity(new Intent(this, EditUserActivity.class));//
                 if (emptyCheck()) {
                     mPresenter.phoneLogin(PhoneUtils.getTextString(mEditPhone), PhoneUtils.getTextString(mEditCode));
                 } else {
@@ -126,7 +123,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, EditUserActivity.class));
+        this.finish();
         ToastUtil.showToast(this, "登录成功", 0);
     }
 

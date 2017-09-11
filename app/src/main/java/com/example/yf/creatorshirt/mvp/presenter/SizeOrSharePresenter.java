@@ -5,11 +5,12 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveStyleEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -47,9 +48,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private UploadManager uploadManager = new UploadManager();
     private String userToken = SharedPreferencesUtil.getUserToken();
     private String UserId = SharedPreferencesUtil.getUserId() + "_";
-
-    private CommonStyleData mFrontData;
-    private CommonStyleData mBackData;
+    private OrderBaseInfo mOrderBaseInfo;
     private String imageFrontUrl;
     private String imageBackUrl;
     private String mBack;
@@ -75,6 +74,9 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     }
 
     public void getList(final String kewWord, final String imageUrl) {
+        if (TextUtils.isEmpty(QiniuToken)) {
+            Log.e("TAG", "没有取到token");
+        }
         String key = UserId + Utils.getTime() + kewWord;
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -131,13 +133,14 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         );
     }
 
+    //生成订单
     public void sendOrderData() {
         imageBackUrl = map.get("B");
         imageFrontUrl = map.get("A");
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
-        saveStyleEntity.setGender(mBackData.getGender());
-        saveStyleEntity.setBaseId(mBackData.getType());
-        saveStyleEntity.setColor(mFrontData.getColor());
+        saveStyleEntity.setGender(mOrderBaseInfo.getGender());
+        saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
+        saveStyleEntity.setColor(mOrderBaseInfo.getColor());
         saveStyleEntity.setHeight(Integer.parseInt(size));
         saveStyleEntity.setOrderType("Check");
         saveStyleEntity.setSize(Integer.parseInt(size));
@@ -166,11 +169,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     }
 
-    public void setClothesData(CommonStyleData mFrontData, CommonStyleData mBackData, String size) {
-        this.mFrontData = mFrontData;
-        this.mBackData = mBackData;
-        this.size = size;
-    }
 
     /**
      * 设置数据的String格式
@@ -206,5 +204,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     public void setIM(String mBackImageUrl) {
         mBack = mBackImageUrl;
+    }
+
+    public void setClothesData(OrderBaseInfo mOrderBaseInfo, String size) {
+        this.mOrderBaseInfo = mOrderBaseInfo;
+        this.size = size;
     }
 }

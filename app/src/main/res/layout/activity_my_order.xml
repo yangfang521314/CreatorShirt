@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,10 +13,10 @@
         layout="@layout/app_bar" />
 
     <ScrollView
-        android:layout_above="@+id/pay_for_money"
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/pay_for_money"
         android:layout_below="@+id/app_bar"
         android:scrollbars="none">
 
@@ -171,7 +172,7 @@
                 android:layout_marginTop="8dp">
 
                 <ImageView
-                    android:id="@+id/clothes_picture"
+                    android:id="@+id/pay_clothes_picture"
                     android:layout_width="90dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
@@ -183,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
                     android:layout_toRightOf="@+id/clothes_picture">
 
                     <TextView
@@ -195,7 +196,7 @@
                         android:textSize="@dimen/order_text_size" />
 
                     <TextView
-                        android:id="@+id/order_clothes_prices"
+                        android:id="@+id/pay_clothes_prices"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -212,11 +213,11 @@
                     android:layout_below="@+id/ll_clothes_order"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture">
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture">
 
                     <TextView
-                        android:id="@+id/clothes_sex_style"
+                        android:id="@+id/pay_clothes_sex_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -234,7 +235,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/order_clothes_minus"
+                            android:id="@+id/pay_clothes_minus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleX="0.9"
@@ -242,15 +243,15 @@
                             android:src="@mipmap/minus" />
 
                         <TextView
-                            android:id="@+id/order_clothes_numbers"
+                            android:id="@+id/pay_order_clothes_numbers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="99"
+                            android:text="1"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <ImageView
-                            android:id="@+id/order_clothes_add"
+                            android:id="@+id/pay_clothes_add"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleX="0.8"
@@ -260,56 +261,75 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/clothes_id"
+                    android:id="@+id/pay_clothes_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_number"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture"
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture"
                     android:text="商品ID: 10892473"
                     android:textColor="@color/black"
                     android:textSize="15.5sp" />
 
                 <TextView
-                    android:id="@+id/order_clothes_size"
+                    android:id="@+id/pay_clothes_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/clothes_id"
+                    android:layout_below="@+id/pay_clothes_id"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="4dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture"
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture"
                     android:text="尺寸：XL"
                     android:textColor="@color/black"
                     android:textSize="15.5sp" />
 
-                <TextView
-                    android:id="@+id/clothes_color"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/rl_color_clothes"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_clothes_size"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture"
-                    android:text="颜色"
-                    android:textColor="@color/black"
-                    android:textSize="15.5sp" />
+                    android:layout_below="@+id/pay_clothes_size"
+                    android:layout_marginTop="6dp"
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture">
+
+                    <TextView
+                        android:id="@+id/clothes_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:text="颜色 : "
+                        android:textColor="@color/black"
+                        android:textSize="15.5sp" />
+
+
+                    <com.example.yf.creatorshirt.mvp.ui.view.CircleView
+                        android:id="@+id/pay_clothes_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/clothes_color"
+                        app:height="20dp"
+                        app:inColor="@color/black"
+                        app:outColor="@color/gainsboro"
+                        app:stroke="2dp"
+                        app:width="20dp" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_freight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/clothes_color"
+                    android:layout_below="@+id/rl_color_clothes"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture">
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture">
 
                     <TextView
                         android:id="@+id/tv_freight"
@@ -319,6 +339,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/pay_freight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -330,12 +351,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_freight"
+                    android:layout_marginBottom="4dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="18dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_toEndOf="@+id/clothes_picture"
-                    android:layout_toRightOf="@+id/clothes_picture">
+                    android:layout_toEndOf="@+id/pay_clothes_picture"
+                    android:layout_toRightOf="@+id/pay_clothes_picture">
 
                     <TextView
                         android:id="@+id/tv_clothes_total"
@@ -346,6 +367,7 @@
                         android:textSize="@dimen/order_text_size" />
 
                     <TextView
+                        android:id="@+id/pay_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"

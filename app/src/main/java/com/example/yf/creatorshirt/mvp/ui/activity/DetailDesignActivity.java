@@ -34,6 +34,8 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -148,6 +150,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private CommonStyleData commonStyleData;//保存样式设计的url和颜色值
     private CommonStyleData mBackStyleData;//保存样式设计的url和颜色值
 
+    private OrderBaseInfo mOrderBaseInfo;//保存正面和反面图片
+
     private ColorMatrix cm = new ColorMatrix();
     private Paint paint;
 
@@ -175,6 +179,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBaseDesignAdapter = new BaseStyleAdapter(this);
         commonStyleData = new CommonStyleData();
         mBackStyleData = new CommonStyleData();
+        mOrderBaseInfo = new OrderBaseInfo();
         String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
         mContainerBackBackground.setImageUrl(imageBackUrl);
         mContainerBackBackground.setContext(this);
@@ -327,16 +332,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     //// TODO: 2017/8/27 没有图片时会报null
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
-                        Bundle bundle = new Bundle();
-                        commonStyleData.setFrontUrl(imageFrontPath);
-                        mBackStyleData.setBackUrl(imageBackPath);
-                        commonStyleData.setGender(gender);
-                        commonStyleData.setType(type);
-                        mBackStyleData.setGender(gender);
-                        mBackStyleData.setType(type);
-                        bundle.putParcelable("front", commonStyleData);
-                        bundle.putParcelable("back", mBackStyleData);
-                        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+                        startNewActivity();
                     }
                 }
                 break;
@@ -518,6 +514,30 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 break;
 
         }
+    }
+
+    private void startNewActivity() {
+        Bundle bundle = new Bundle();
+//                        commonStyleData.setFrontUrl(imageFrontPath);
+//                        mBackStyleData.setBackUrl(imageBackPath);
+//                        commonStyleData.setGender(gender);
+//                        commonStyleData.setType(type);
+//                        mBackStyleData.setGender(gender);
+//                        mBackStyleData.setType(type);
+        mOrderBaseInfo.setBackUrl(imageBackPath);
+        mOrderBaseInfo.setFrontUrl(imageFrontPath);
+        mOrderBaseInfo.setGender(gender);
+        mOrderBaseInfo.setType(type);
+        mOrderBaseInfo.setColor(commonStyleData.getColor());
+        bundle.putParcelable("allImage", mOrderBaseInfo);
+        OrderData orderData = new OrderData();
+        orderData.setBackData(mBackStyleData);
+        orderData.setFrontData(commonStyleData);
+        String styleContext = orderData.getJsonObject();
+        bundle.putString("styleContext", styleContext);
+//                        bundle.putParcelable("front", commonStyleData);
+//                        bundle.putParcelable("back", mBackStyleData);
+        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
     }
 
     /**
@@ -790,8 +810,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             detailAdapter.setData(NewDetailData.get(newList.get(position).getTitle()));
             detailAdapter.setOnClickListener(this);
             mRecyclerDetailStyle.setAdapter(detailAdapter);
-            if(commonStyleData.getArmUrl()!=null)
-            detailAdapter.notifyDataSetChanged();
+            if (commonStyleData.getArmUrl() != null)
+                detailAdapter.notifyDataSetChanged();
         }
         if (mColorData.containsKey((newList.get(position).getTitle()))) {
             ColorStyleAdapter adapter = new ColorStyleAdapter(this);

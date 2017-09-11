@@ -163,4 +163,22 @@ public final class SharedPreferencesUtil {
     public static void setUserName(String userName) {
         setString(Constants.USER_INFO, Constants.USER_NAME, userName);
     }
+
+    /**
+     * 设置app是否已登录
+     *
+     * @param flag
+     */
+    public static void setIsLogin(boolean flag) {
+        SharedPreferencesUtil.setBoolean(Constants.USER_INFO, PrefKey.APP_USER_IS_LOGIN_KEY, flag);
+    }
+
+    /**
+     * 读取app是否登录
+     *
+     * @return
+     */
+    public static boolean getIsLogin() {
+        return SharedPreferencesUtil.getBoolean(Constants.USER_INFO, PrefKey.APP_USER_IS_LOGIN_KEY, false);
+    }
 }

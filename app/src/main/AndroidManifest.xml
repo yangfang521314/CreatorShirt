@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activity.LoginActivity" />
+        <activity
+            android:name=".mvp.ui.activity.LoginActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".mvp.ui.activity.DesignActivity"
             android:theme="@style/AppTheme" />

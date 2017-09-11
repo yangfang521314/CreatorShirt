@@ -1,17 +1,21 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -36,9 +40,34 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     RadioButton mPayAlipay;
     @BindView(R.id.pay_weixin)
     RadioButton mPayWeixin;
+    @BindView(R.id.pay_clothes_id)
+    TextView mPayClothesId;
+    @BindView(R.id.pay_clothes_prices)
+    TextView mPayClothesPrices;
+    @BindView(R.id.pay_clothes_size)
+    TextView mPayClothesSize;
+    @BindView(R.id.pay_order_clothes_numbers)
+    TextView mPayClothesNumbers;
+    @BindView(R.id.pay_clothes_color)
+    CircleView mPayClothesColor;
+    @BindView(R.id.pay_clothes_add)
+    ImageView mPayClothesAdd;
+    @BindView(R.id.pay_clothes_minus)
+    ImageView mPayClothesMinus;
+    @BindView(R.id.pay_clothes_sex_style)
+    TextView mPayClothesSex;
+    @BindView(R.id.pay_freight)
+    TextView mPayClothesFreight;
+    @BindView(R.id.pay_total)
+    TextView mPayClothesTotal;
+    @BindView(R.id.pay_clothes_picture)
+    ImageView mPayClothesImage;
+
+
     private String orderId;
     private String payType;
     private OrderStyleBean orderData;
+    private int number = 1;
 
     @Override
     protected void inject() {
@@ -50,9 +79,19 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     protected void initView() {
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
+        if (orderData.getGender() != null) {
+            if (orderData.getGender().equals("A")) {
+                mPayClothesSex.setText("女-" + orderData.getBaseName());
+            }
+        }
+        mPayClothesColor.setOutColor(Color.parseColor("#" + orderData.getColor()));
+        mPayClothesPrices.setText("¥" + orderData.getFee());
+        Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
+        mPayClothesNumbers.setText(String.valueOf(number));
     }
 
-    @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay})
+    @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
+            R.id.pay_clothes_add, R.id.pay_clothes_minus})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -88,6 +127,17 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                     payType = "wxPay";
                 }
                 break;
+            case R.id.pay_clothes_add:
+                ++number;
+                mPayClothesNumbers.setText(String.valueOf(number));
+                break;
+            case R.id.pay_clothes_minus:
+                --number;
+                if (number == 1) {
+                    number = 1;
+                }
+                mPayClothesNumbers.setText(String.valueOf(number));
+                break;
         }
     }
 
@@ -100,6 +150,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         }
         mPresenter.setOrderId(orderId);
         mPresenter.getOrdersData();
+
     }
 
     @Override

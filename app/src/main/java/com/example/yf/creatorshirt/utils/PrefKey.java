@@ -10,4 +10,5 @@ public final class PrefKey {
     public static final String APP_FIRST_LAUNCH_KEY ="first_launch_key" ;
     public static final String APP_SETTING = "app_setting";
     public static final String APP_CAMERA_PERMISSION = "camera_permission";
+    public static final String APP_USER_IS_LOGIN_KEY = "APP_USER_IS_LOGIN_KEY";
 }

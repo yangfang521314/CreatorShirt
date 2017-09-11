@@ -14,14 +14,14 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -45,22 +45,25 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     TextView mButtonFront;
     private String mBackImageUrl;
     private String mFrontImageUrl;
-    private CommonStyleData mFrontData;
-    private CommonStyleData mBackData;
+
     private ChoiceSizePopupWindow mPopupWindow;
+    private OrderBaseInfo mOrderBaseInfo;
+    private String styleContext;//正面背面json数据
 
     @Override
     public void initData() {
         super.initData();
         mPresenter.getToken();
         if (getIntent().getExtras() != null) {
-            mFrontData = getIntent().getExtras().getParcelable("front");
-            mBackData = getIntent().getExtras().getParcelable("back");
-            if (!TextUtils.isEmpty(mBackData.getBackUrl())) {
-                mBackImageUrl = mBackData.getBackUrl();
+//            mFrontData = getIntent().getExtras().getParcelable("front");
+//            mBackData = getIntent().getExtras().getParcelable("back");
+            mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
+            styleContext = getIntent().getExtras().getString("styleContext");
+            if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
+                mBackImageUrl = mOrderBaseInfo.getBackUrl();
             }
-            if (!TextUtils.isEmpty(mFrontData.getFrontUrl())) {
-                mFrontImageUrl = mFrontData.getFrontUrl();
+            if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
+                mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
         }
 
@@ -83,8 +86,13 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_order:
-                initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-                setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken()) || SharedPreferencesUtil.getUserId() == 0
+                        || (TextUtils.isEmpty(SharedPreferencesUtil.getUserName()))) {
+                    startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
+                } else {
+                    initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+                    setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                }
                 break;
             case R.id.back:
                 finish();
@@ -140,11 +148,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
      * 保存数据到服务器
      */
     private void saveOrderData() {
-        OrderData orderData = new OrderData();
-        orderData.setBackData(mBackData);
-        orderData.setFrontData(mFrontData);
-        String styleContext = orderData.getJsonObject();
-        mPresenter.setClothesData(mFrontData, mBackData, mPopupWindow.getSize());
+        mPresenter.setClothesData(mOrderBaseInfo, mPopupWindow.getSize());
         mPresenter.setStyleContext(styleContext);
         mPresenter.setIM(mBackImageUrl);
         mPresenter.request("A", mFrontImageUrl);
