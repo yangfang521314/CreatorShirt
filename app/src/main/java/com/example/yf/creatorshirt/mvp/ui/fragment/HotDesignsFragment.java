@@ -10,6 +10,7 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.presenter.HotDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
+import com.example.yf.creatorshirt.mvp.ui.activity.UserDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 
@@ -63,6 +64,6 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
 
     @Override
     public void onItemClick(View view, int position) {
-        startCommonActivity(this,null,);
+        startCommonActivity(getActivity(),null, UserDesignActivity.class);
     }
 }
