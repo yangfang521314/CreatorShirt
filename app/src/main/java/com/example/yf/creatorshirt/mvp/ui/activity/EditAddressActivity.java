@@ -6,8 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.ui.activity.address.AddressCheckActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.address.City;
+import com.example.yf.creatorshirt.mvp.model.address.City;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 
@@ -17,6 +16,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class EditAddressActivity extends BaseActivity {
+    private static final int RETURN_CITY = 23;
     @BindView(R.id.address_edit_address)
     EditText mEditAddress;
     @BindView(R.id.address_edit_name)
@@ -47,7 +47,7 @@ public class EditAddressActivity extends BaseActivity {
         switch (view.getId()){
             case R.id.address_edit_city:
                 Intent intent = new Intent(this, AddressCheckActivity.class);
-                startActivityForResult(intent, 666);
+                startActivityForResult(intent, RETURN_CITY);
                 break;
         }
     }
@@ -56,7 +56,7 @@ public class EditAddressActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
-            case 666: {
+            case RETURN_CITY: {
                 parseAddress(data);
                 break;
             }
