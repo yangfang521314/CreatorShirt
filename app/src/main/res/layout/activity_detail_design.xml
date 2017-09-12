@@ -22,10 +22,7 @@
             android:id="@+id/rl_clothes_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:background="@null">
 
             <include layout="@layout/clothes_front_layout" />
         </com.zhy.android.percent.support.PercentRelativeLayout>

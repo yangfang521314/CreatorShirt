@@ -54,7 +54,7 @@
                 android:background="@null"
                 android:gravity="end|center"
                 android:hint="请输入"
-                android:textColor="#c2c3cb"
+                android:textColor="@color/black_1"
                 android:padding="10dp"
                 android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
@@ -93,8 +93,8 @@
                 android:layout_toRightOf="@id/tv_phone"
                 android:background="@null"
                 android:gravity="end|center"
-                android:textColor="#c2c3cb"
                 android:hint="请输入"
+                android:textColor="@color/black_1"
                 android:padding="10dp"
                 android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
@@ -136,6 +136,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="20dp"
                 android:padding="10dp"
+                android:textColor="@color/black_1"
                 android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
             <ImageView
@@ -175,7 +176,8 @@
                 android:gravity="end|center"
                 android:padding="10dp"
                 android:hint="请输入"
-                android:textColor="#c2c3cb"
+                android:textColorHint="#c2c3cb"
+                android:textColor="@color/black_1"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -208,6 +210,7 @@
                 android:hint="请输入"
                 android:maxLines="2"
                 android:padding="10dp"
+                android:textColor="@color/black_1"
                 android:textColorHint="#c2c3cb"
                 android:textSize="16sp" />
         </RelativeLayout>

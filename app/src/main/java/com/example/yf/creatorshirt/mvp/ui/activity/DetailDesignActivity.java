@@ -333,7 +333,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
                         startNewActivity();
-                        Log.e("TAG"," fuck you ");
                     }
                 }
                 break;

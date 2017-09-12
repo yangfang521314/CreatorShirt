@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -21,8 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.text.TextUtils.isEmpty;
 
 public class AddressEditActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     private static final int RETURN_CITY = 23;
@@ -51,7 +50,7 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
         mSaveAddress.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.address_edit_city,R.id.address_choice,R.id.save})
+    @OnClick({R.id.address_edit_city, R.id.address_choice, R.id.save})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.address_choice:
@@ -66,7 +65,7 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
                 String receiverCity = mReceiverCity.getText().toString();
                 String receiverAddress = mEditAddress.getText().toString();
                 if (!isCheck()) {
-                    mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail,receiverCity,receiverAddress);
+                    mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress);
                     mPresenter.getAddressData();
                     mPresenter.saveAddressData();
                 }
@@ -75,16 +74,16 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     }
 
     private boolean isCheck() {
-        if (PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
-            ToastUtil.showToast(this, "请输入有效的电话号码", 0);
-            return true;
-        } else if (isEmpty(PhoneUtils.getTextString(mReceiverName))) {
+        if (TextUtils.isEmpty(PhoneUtils.getTextString(mReceiverName))) {
             ToastUtil.showToast(this, "请输入收件人姓名", 0);
             return true;
-        } else if (isEmpty(mReceiverCity.getText().toString())) {
+        } else if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
+            ToastUtil.showToast(this, "请输入有效的电话号码", 0);
+            return true;
+        } else if (TextUtils.isEmpty(mReceiverCity.getText().toString())) {
             ToastUtil.showToast(this, "请输入收件人地区", 0);
             return true;
-        } else if (isEmpty(PhoneUtils.getTextString(mEditAddress))) {
+        } else if (TextUtils.isEmpty(PhoneUtils.getTextString(mEditAddress))) {
             ToastUtil.showToast(this, "请输入完整地址", 0);
             return true;
         }

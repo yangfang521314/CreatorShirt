@@ -191,7 +191,6 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         if (status == 1) {
             SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
             ToastUtil.showToast(this, "设置信息成功", 0);
-//            startCommonActivity(this, null, MainActivity.class);
             this.finish();
         }
     }

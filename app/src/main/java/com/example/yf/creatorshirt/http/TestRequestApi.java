@@ -29,7 +29,7 @@ public interface TestRequestApi {
     Call<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
 
     //地址
-    @POST("f-Users/requestUserAddress")
+    @POST("f-Users/addUseraddress")
     Call<HttpResponse> getAddressData(@Header("Token") String userToken, RequestBody requestBody);
 
     @POST("f-Users/requestSquareDesign")
