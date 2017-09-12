@@ -1,105 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/mm" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="145dp"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="手机登录"
-        android:textColor="@color/sand"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/black_1"
+        android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/phone_number"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:hint="请输入11位手机号码"
-        android:inputType="textPhonetic"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_below="@+id/textView"
+        android:layout_margin="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_bg"
+        android:divider="@drawable/mysetting_divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
 
-    <EditText
-        android:id="@+id/phone_code"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:textSize="15sp"
-        android:ems="10"
-        android:hint="请输入6位验证码"
-        android:singleLine="false"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+        <EditText
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入11位手机号码"
+            android:inputType="textPhonetic"
+            android:padding="13dp"
+            android:textColor="@color/black_1"
+            android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/send_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
-        android:background="@color/munsell"
-        android:scaleX="0.85"
-        android:scaleY="0.8"
-        android:text="发送验证码"
-        android:textColor="@color/manatee"
-        android:textSize="14sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp">
+
+            <EditText
+                android:id="@+id/phone_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/send_code"
+                android:background="@null"
+                android:gravity="start"
+                android:hint="请输入6位验证码"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColor="@color/black_1"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/send_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/shape_clothe_button"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="发送验证码"
+                android:textColor="@color/manatee"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/next"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/ll_login"
+        android:layout_margin="15dp"
+        android:background="@color/black"
         android:text="下一步"
         android:textColor="@color/white"
-        android:background="@color/black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_code"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/weixin_login"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/sand"
+        android:layout_below="@+id/next"
+        android:layout_margin="15dp"
+        android:background="@drawable/login_clothes_background"
         android:elevation="0dp"
         android:text="微信登录"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next" />
-</android.support.constraint.ConstraintLayout>
+        android:textColor="@color/sand"
+        android:textSize="16sp" />
+</RelativeLayout>

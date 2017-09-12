@@ -10,4 +10,6 @@
     <string name="square">广场</string>
     <string name="mine">我的</string>
     <string name="exit_app">再按一次，退出App</string>
+    <string name="time_text">s后重新发送</string>
+    <string name="register_get_pwd">获取验证码</string>
 </resources>

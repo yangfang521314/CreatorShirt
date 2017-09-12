@@ -2,6 +2,8 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.example.yf.creatorshirt.utils.WeakReferenceHandler;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -27,6 +30,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.LoginView {
 
@@ -42,6 +46,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     Button btnSendCode;
     private UMShareAPI mShareAPI = null;
     private SHARE_MEDIA platform = null;
+    private int countTime;
+    private Handler mHandler;
 
     @Override
     protected void inject() {
@@ -52,8 +58,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void initView() {
         mShareAPI = UMShareAPI.get(this);
         mPresenter.setPhoneCode(PhoneUtils.getTextString(mEditCode));
-
+        mHandler = new RegisterHandler(this);
     }
+
+    @OnTextChanged({R.id.phone_number})
+    void afterTextChanged() {
+        if (!TextUtils.isEmpty(PhoneUtils.getTextString(mEditPhone))) {
+            mBtnNext.setSelected(true);
+        } else {
+            mBtnNext.setEnabled(false);
+            mHandler.removeCallbacks(runnable);
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @OnClick({R.id.next, R.id.send_code, R.id.weixin_login})
@@ -81,6 +98,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (TextUtils.isEmpty(mEditPhone.getText().toString())) {
                     ToastUtil.showToast(this, "请输入手机号码", 0);
                 } else {
+                    countTime = 60;
                     mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));
                     mPresenter.getVerifyCode();
                 }
@@ -91,7 +109,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     public boolean emptyCheck() {
         if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
-            ToastUtil.showToast(this, "请输入正确的手机号", 0);
+            ToastUtil.showToast(this, "请输入13位正确的手机号", 0);
             return false;
         }
         if (!PhoneUtils.notEmpty(mEditCode)) {
@@ -129,10 +147,40 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ToastUtil.showToast(this, "登录成功", 0);
     }
 
+    private class RegisterHandler extends WeakReferenceHandler<LoginActivity> {
+
+        public RegisterHandler(LoginActivity reference) {
+            super(reference);
+        }
+
+        @Override
+        protected void handleMessage(LoginActivity reference, Message msg) {
+
+        }
+    }
+
     @Override
     public void showSuccessCode() {
+        //验证码的返回处理
+        if (runnable != null) {
+            mHandler.removeCallbacks(runnable);
+        }
+        mHandler.postDelayed(runnable, 1000);
         ToastUtil.showToast(this,"验证码已经发送",0);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            btnSendCode.setText(countTime-- + getString(R.string.time_text));
+            if (countTime > 0) {
+                mHandler.postDelayed(this, 1000);
+            } else {
+                btnSendCode.setText(getString(R.string.register_get_pwd));
+                btnSendCode.setClickable(true);
+            }
+        }
+    };
 
 
 
@@ -142,7 +190,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-            Log.e("ff","kkkkkkkkkkkkk");
+            Log.e("ff", "kkkkkkkkkkkkk");
         }
 
         @Override
