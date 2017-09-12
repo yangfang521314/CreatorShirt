@@ -10,7 +10,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
@@ -79,7 +79,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 break;
             case R.id.choice_address_iv:
             case R.id.address_number:
-                startCommonActivity(mActivity, null, AddressActivity.class);
+                startCommonActivity(mActivity, null, AddressShowActivity.class);
                 break;
             case R.id.choice_order_iv:
             case R.id.order_number:

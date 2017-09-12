@@ -49,5 +49,5 @@ public interface HttpHelper {
 
     Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody gson);
 
-    Flowable<HttpResponse> saveAddress(String userToken, RequestBody body);
+//    Flowable<HttpResponse> saveAddress(String userToken, RequestBody body);
 }

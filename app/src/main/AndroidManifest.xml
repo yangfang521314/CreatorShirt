@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.ui.activity.AddressCheckActivity">
+        <activity android:name=".mvp.ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +39,8 @@
             android:name=".mvp.ui.activity.MyOrderActivity"
             android:label="@string/title_activity_my_order"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.AddressActivity" />
-        <activity android:name=".mvp.ui.activity.EditAddressActivity" />
+        <activity android:name=".mvp.ui.activity.AddressShowActivity" />
+        <activity android:name=".mvp.ui.activity.AddressEditActivity" />
         <activity android:name=".mvp.ui.activity.AllOrderActivity" />
         <activity android:name=".mvp.ui.activity.SuccessPayActivity" />
         <activity android:name=".mvp.ui.activity.DetailOrderActivity" />
@@ -101,7 +101,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
         <activity android:name=".mvp.ui.activity.UserDesignActivity" />
-        <!--<activity android:name=".mvp.ui.activity.AddressCheckActivity"/>-->
+        <activity android:name=".mvp.ui.activity.AddressCheckActivity"/>
     </application>
 
 </manifest>

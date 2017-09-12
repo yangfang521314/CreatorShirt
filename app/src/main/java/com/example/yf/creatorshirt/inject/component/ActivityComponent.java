@@ -4,11 +4,11 @@ import android.app.Activity;
 
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.inject.scope.AcitivityScope;
-import com.example.yf.creatorshirt.mvp.ui.activity.AddressActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.ChoiceSizeActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.EditAddressActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.AddressEditActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity;
@@ -28,7 +28,7 @@ public interface ActivityComponent {
 
     void inject(LoginActivity loginActivity);
 
-    void inject(AddressActivity addressActivity);
+    void inject(AddressShowActivity addressActivity);
 
     void inject(DesignActivity designActivity);
 
@@ -40,5 +40,5 @@ public interface ActivityComponent {
 
     void inject(EditUserActivity editUserActivity);
 
-    void inject(EditAddressActivity editAddressActivity);
+    void inject(AddressEditActivity editAddressActivity);
 }

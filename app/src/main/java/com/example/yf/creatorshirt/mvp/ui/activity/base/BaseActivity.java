@@ -30,6 +30,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected TextView mAppBarTitle;
     protected ImageView mAppBarBack;
     protected LinearLayout mAppBar;
+    protected TextView mSaveAddress;
 
     @Inject
     public T mPresenter;
@@ -57,6 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
         mAppBarBack = (ImageView) findViewById(R.id.back);
         mAppBar = (LinearLayout) findViewById(R.id.app_bar);
+        mSaveAddress = (TextView) findViewById(R.id.save);
     }
 
     public void initData() {

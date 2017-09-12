@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -23,7 +24,7 @@ import butterknife.OnClick;
 
 import static android.text.TextUtils.isEmpty;
 
-public class EditAddressActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
+public class AddressEditActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     private static final int RETURN_CITY = 23;
     @BindView(R.id.address_edit_address)
     EditText mEditAddress;
@@ -35,6 +36,8 @@ public class EditAddressActivity extends BaseActivity<AddressPresenter> implemen
     EditText mReceiverEmail;
     @BindView(R.id.address_edit_city)
     TextView mReceiverCity;
+    @BindView(R.id.address_choice)
+    ImageView mAddressChoice;
 
     @Override
     protected void inject() {
@@ -45,11 +48,13 @@ public class EditAddressActivity extends BaseActivity<AddressPresenter> implemen
     protected void initView() {
         mAppBarTitle.setText("地址编辑");
         mAppBarBack.setVisibility(View.VISIBLE);
+        mSaveAddress.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.address_edit_city})
+    @OnClick({R.id.address_edit_city,R.id.address_choice,R.id.save})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.address_choice:
             case R.id.address_edit_city:
                 Intent intent = new Intent(this, AddressCheckActivity.class);
                 startActivityForResult(intent, RETURN_CITY);

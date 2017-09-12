@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddressActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
+public class AddressShowActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     @BindView(R.id.address_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.add_address)
@@ -38,7 +38,7 @@ public class AddressActivity extends BaseActivity<AddressPresenter> implements A
         switch (view.getId()) {
             case R.id.add_address:
                 Intent intent = new Intent();
-                intent.setClass(this, EditAddressActivity.class);
+                intent.setClass(this, AddressEditActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -48,6 +48,7 @@ public class AddressActivity extends BaseActivity<AddressPresenter> implements A
     protected void initView() {
         mAppBarTitle.setText(R.string.receiver_address);
         mAppBarBack.setVisibility(View.VISIBLE);
+
     }
 
 

@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/back"
+                android:layout_centerVertical="true"
                 android:visibility="gone" />
 
             <TextView
@@ -34,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_centerVertical="true"
                 android:text="广场"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -50,10 +52,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
+                android:layout_centerVertical="true"
                 android:text="保存"
-                android:textColor="@color/slategray"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/sand"
                 android:textSize="17sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

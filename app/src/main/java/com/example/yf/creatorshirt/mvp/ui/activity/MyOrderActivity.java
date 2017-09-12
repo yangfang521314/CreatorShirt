@@ -90,7 +90,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         switch (view.getId()) {
             case R.id.order_receiver_address:
                 Intent intent = new Intent();
-                intent.setClass(this, AddressActivity.class);
+                intent.setClass(this, AddressShowActivity.class);
                 startActivity(intent);
                 break;
             case R.id.pay_for_money:
