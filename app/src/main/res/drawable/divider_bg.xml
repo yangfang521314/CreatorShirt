@@ -7,6 +7,6 @@
         android:endColor="@color/gainsboro"
         android:startColor="@color/gainsboro"
         android:type="linear" />
-    <size android:height="10dp" />
+    <size android:height="1dp" />
 
 </shape>

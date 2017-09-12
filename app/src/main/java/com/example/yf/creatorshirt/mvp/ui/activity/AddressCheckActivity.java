@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,14 +73,17 @@ public class AddressCheckActivity extends AppCompatActivity {
         recyclerViewList.add(threeView);
 
         oneView.setLayoutManager(new LinearLayoutManager(this));
+        oneView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         mOneListAdapter = new AddressListAdapter(getLayoutInflater(), mProvinceItemClickListener);
         oneView.setAdapter(mOneListAdapter);
 
         twoView.setLayoutManager(new LinearLayoutManager(this));
+        twoView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         mTwoListAdapter = new AddressListAdapter(getLayoutInflater(), mCityItemClickListener);
         twoView.setAdapter(mTwoListAdapter);
 
         threeView.setLayoutManager(new LinearLayoutManager(this));
+        threeView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         mThreeListAdapter = new AddressListAdapter(getLayoutInflater(), mDistrictItemClickListener);
         threeView.setAdapter(mThreeListAdapter);
 

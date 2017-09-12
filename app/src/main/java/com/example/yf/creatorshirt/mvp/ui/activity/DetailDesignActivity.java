@@ -156,7 +156,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private Paint paint;
 
     private String imageUrl = null;//图片url
-    private String mImagecolor;//背景颜色
+    private String mImagecolor="#FFFFFF";//背景颜色 默认白色
 
 
     @Override
@@ -360,6 +360,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         break;
                     case COLOR:
                         //不选择默认是白色
+                        commonStyleData.setColor("ffffff");
+                        mBackStyleData.setColor("ffffff");
                         if (mButtonFront.isSelected()) {
                             mClothes.setBackgroundResource(R.color.white);
                         }
@@ -528,7 +530,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mOrderBaseInfo.setFrontUrl(imageFrontPath);
         mOrderBaseInfo.setGender(gender);
         mOrderBaseInfo.setType(type);
-        mOrderBaseInfo.setColor(commonStyleData.getColor());
+        mOrderBaseInfo.setColor(mImagecolor);
         bundle.putParcelable("allImage", mOrderBaseInfo);
         OrderData orderData = new OrderData();
         orderData.setBackData(mBackStyleData);
@@ -692,9 +694,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onItemClick(View currentView, int position) {
-//        if (mDesBeforeView != null) {
-//            mDesBeforeView.setSelected(false);
-//        }
+        if (mDesBeforeView != null) {
+            mDesBeforeView.setSelected(false);
+        }
         switch (clotheKey.get(mCurrentPosition)) {
             case NECK:
                 String neck = newList.get(mCurrentPosition).getTitle();
@@ -731,7 +733,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 //                }
 //                break;
         }
-//        currentView.setSelected(true);
+        currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
 

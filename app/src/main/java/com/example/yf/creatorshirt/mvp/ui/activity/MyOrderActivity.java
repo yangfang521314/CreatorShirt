@@ -2,6 +2,8 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -79,15 +81,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     protected void initView() {
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
-        if (orderData.getGender() != null) {
-            if (orderData.getGender().equals("A")) {
-                mPayClothesSex.setText("女-" + orderData.getBaseName());
-            }
-        }
-        mPayClothesColor.setOutColor(Color.parseColor("#" + orderData.getColor()));
-        mPayClothesPrices.setText("¥" + orderData.getFee());
-        Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
-        mPayClothesNumbers.setText(String.valueOf(number));
+
     }
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
@@ -132,8 +126,9 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 mPayClothesNumbers.setText(String.valueOf(number));
                 break;
             case R.id.pay_clothes_minus:
-                --number;
-                if (number == 1) {
+                if(number>1) {
+                    --number;
+                }else {
                     number = 1;
                 }
                 mPayClothesNumbers.setText(String.valueOf(number));
@@ -161,7 +156,31 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     //根据订单号查询到的订单详细信息
     @Override
     public void showSuccessOrderData(OrderStyleBean orderStyleBean) {
-        this.orderData = orderStyleBean;
+        if (isCheck())
+            this.orderData = orderStyleBean;
+        if (orderData.getGender() != null) {
+            if (orderData.getGender().equals("A")) {
+                mPayClothesSex.setText("女-" + orderData.getBaseName());
+            }
+        }
+        mPayClothesColor.setOutColor(Color.parseColor(orderData.getColor()));
+        mPayClothesPrices.setText("¥" + orderData.getFee());
+        Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
+        mPayClothesNumbers.setText(String.valueOf(number));
+    }
+
+    private boolean isCheck() {
+        if (TextUtils.isEmpty(orderData.getColor())) {
+            Log.e(TAG, "没有颜色值");
+            return true;
+        } else if (TextUtils.isEmpty(orderData.getBaseName())) {
+            Log.e(TAG, "没有衣服名字");
+        } else if (TextUtils.isEmpty(orderData.getHeaderImage())) {
+            Log.e(TAG, "头像缺少");
+        } else if (TextUtils.isEmpty(orderData.getTitle())) {
+            Log.e(TAG, "没有TITLE");
+        }
+        return false;
     }
 
     @Override

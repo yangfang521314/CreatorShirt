@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.ui.activity.MainActivity">
+        <activity android:name=".mvp.ui.activity.AddressCheckActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +49,9 @@
         <activity
             android:name=".mvp.ui.activity.PermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".mvp.ui.activity.EditUserActivity" />
+        <activity android:name=".mvp.ui.activity.EditUserActivity"
+            android:launchMode="singleTask"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -98,7 +100,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
-        <activity android:name=".mvp.ui.activity.UserDesignActivity"></activity>
+        <activity android:name=".mvp.ui.activity.UserDesignActivity" />
+        <!--<activity android:name=".mvp.ui.activity.AddressCheckActivity"/>-->
     </application>
 
 </manifest>

@@ -24,7 +24,7 @@ public class EditAddressActivity extends BaseActivity {
     @BindView(R.id.address_edit_phone)
     EditText mReceiverPhone;
     @BindView(R.id.address_edit_email)
-    TextView mReceiverEmail;
+    EditText mReceiverEmail;
     @BindView(R.id.address_edit_city)
     TextView mReceiverCity;
 
