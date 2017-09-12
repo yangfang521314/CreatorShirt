@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,8 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
+import com.example.yf.creatorshirt.utils.PermissionChecker;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +45,13 @@ public class MainActivity extends BaseActivity {
     private String showFragment;
     private String hideFragment;
     private long mExitTime = 0;
+    private static final int REQUEST_CODE = 9;
+
+    private PermissionChecker mPermissionsChecker; // 权限检测器
+    // 所需的全部权限
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
 
 
     @Override
@@ -56,6 +66,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mPermissionsChecker = new PermissionChecker(this);
         mSquareFragment = new SquareFragment();
         mMineFragment = new MineFragment();
         showFragment = TYPE_SQUARE;
@@ -156,5 +167,38 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //设置到启动页面
+        if (mPermissionsChecker.lacksPermissions(PERMISSIONS)) {
+            String notice = "存储空间权限用于下载和软件更新,关闭权限将关闭应用，是否放弃权限允许？";
+            PermissionActivity.startActivityForResult(this, notice, REQUEST_CODE, PERMISSIONS);
+        } else {
+            startOtherActivity();
+        }
+    }
+
+    private void startOtherActivity() {
+        boolean isFirstLaunch = SharedPreferencesUtil.getAppIsFirstLaunched();
+        if (!isFirstLaunch) {
+            //// TODO: 28/07/2017 启动第一次直接进入MainAvtivity
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 拒绝时,缺少主要权限,
+        if (requestCode == REQUEST_CODE && resultCode == PermissionActivity.PERMISSIONS_DENIED) {
+            //checkPermission=true;
+            finish();
+        } else {
+            startOtherActivity();
+        }
     }
 }
