@@ -16,9 +16,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,17 +24,21 @@ import android.view.View;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.ui.adapter.AddressListAdapter;
 import com.example.yf.creatorshirt.mvp.model.address.City;
 import com.example.yf.creatorshirt.mvp.model.address.RequestCityListTask;
+import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.adapter.AddressListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * <p>选择地址的页面。</p>
  */
-public class AddressCheckActivity extends AppCompatActivity {
+public class AddressCheckActivity extends BaseActivity {
 
     private static final String KEY_OUTPUT_PROVINCE_CITY_DISTRICT = "KEY_OUTPUT_PROVINCE_CITY_DISTRICT";
 
@@ -55,40 +56,71 @@ public class AddressCheckActivity extends AppCompatActivity {
 
     AddressListAdapter mThreeListAdapter;
     List<City> mThreeList = new ArrayList<>();
+    @BindView(R.id.one_recyclerView)
     RecyclerView oneView;
+    @BindView(R.id.two_recyclerView)
     RecyclerView twoView;
+    @BindView(R.id.three_recyclerView)
     RecyclerView threeView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_address_select);
+    protected void inject() {
 
-        oneView = (RecyclerView) findViewById(R.id.one_recyclerView);
-        twoView = (RecyclerView) findViewById(R.id.two_recyclerView);
-        threeView = (RecyclerView) findViewById(R.id.three_recyclerView);
+    }
+
+    @Override
+    protected void initView() {
+        mAppBarTitle.setText("地址选择");
+        mAppBarBack.setVisibility(View.VISIBLE);
         List<RecyclerView> recyclerViewList = new ArrayList<>();
         recyclerViewList.add(oneView);
         recyclerViewList.add(twoView);
         recyclerViewList.add(threeView);
 
         oneView.setLayoutManager(new LinearLayoutManager(this));
-        oneView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        oneView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mOneListAdapter = new AddressListAdapter(getLayoutInflater(), mProvinceItemClickListener);
         oneView.setAdapter(mOneListAdapter);
 
         twoView.setLayoutManager(new LinearLayoutManager(this));
-        twoView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        twoView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mTwoListAdapter = new AddressListAdapter(getLayoutInflater(), mCityItemClickListener);
         twoView.setAdapter(mTwoListAdapter);
 
         threeView.setLayoutManager(new LinearLayoutManager(this));
-        threeView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        threeView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mThreeListAdapter = new AddressListAdapter(getLayoutInflater(), mDistrictItemClickListener);
         threeView.setAdapter(mThreeListAdapter);
 
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
         RequestCityListTask requestCityTask = new RequestCityListTask(this, callback);
         requestCityTask.execute();
+    }
+
+    @Override
+    protected int getView() {
+        return R.layout.activity_address_select;
+    }
+
+    @OnClick({R.id.back})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                if (oneView.getVisibility() == View.VISIBLE) {
+                    this.finish();
+                } else if (twoView.getVisibility() == View.VISIBLE) {
+                    oneView.setVisibility(View.VISIBLE);
+                    twoView.setVisibility(View.GONE);
+                } else if (threeView.getVisibility() == View.VISIBLE) {
+                    threeView.setVisibility(View.GONE);
+                    twoView.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
     }
 
 
@@ -98,7 +130,6 @@ public class AddressCheckActivity extends AppCompatActivity {
     private RequestCityListTask.Callback callback = new RequestCityListTask.Callback() {
         @Override
         public void callback(List<City> cities) {
-            Log.e("TGA", "DDDD" + cities);
             mOneList = cities;
             mOneListAdapter.notifyDataSetChanged(mOneList);
         }
@@ -123,19 +154,16 @@ public class AddressCheckActivity extends AppCompatActivity {
             mOneListAdapter.notifyItemChanged(mCurrentOneSelect);
 
             City one = mOneList.get(mCurrentOneSelect);
-            Log.e("TAG", "dddd" + one);
             mTwoList = one.getCityList();
             Log.e("TAG", "" + mOneList.size() + ":" + mCurrentOneSelect + "：：");
 
             if (mTwoList == null || mTwoList.size() == 0) { // 选定一级。
                 setResultFinish(one, null, null);
-                Log.e("TSG", "DDDF CU K YOU ");
             } else {
                 // 更新二级的content和title。
                 mTwoListAdapter.notifyDataSetChanged(mTwoList);
                 twoView.setVisibility(View.VISIBLE);
                 oneView.setVisibility(View.GONE);
-                Log.e("TAG", "DDDDD");
                 // 三级置空。
                 mThreeList = null;
                 mCurrentTwoSelect = -1;

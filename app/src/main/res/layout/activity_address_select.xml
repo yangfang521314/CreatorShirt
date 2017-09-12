@@ -6,20 +6,27 @@
     android:orientation="vertical"
     tools:context=".mvp.ui.activity.AddressCheckActivity">
 
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/one_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/two_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
         android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/three_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
         android:visibility="gone" />
 </RelativeLayout>

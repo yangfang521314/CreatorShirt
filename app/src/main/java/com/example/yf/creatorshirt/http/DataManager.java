@@ -118,4 +118,6 @@ public class DataManager implements HttpHelper {
     public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
         return mHttpHelper.saveUserInfo(userToken,requestBody);
     }
+
+
 }

@@ -48,4 +48,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody);
 
     Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody gson);
+
+    Flowable<HttpResponse> saveAddress(String userToken, RequestBody body);
 }

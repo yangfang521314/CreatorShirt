@@ -1,21 +1,29 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.address.City;
+import com.example.yf.creatorshirt.mvp.presenter.AddressPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EditAddressActivity extends BaseActivity {
+import static android.text.TextUtils.isEmpty;
+
+public class EditAddressActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     private static final int RETURN_CITY = 23;
     @BindView(R.id.address_edit_address)
     EditText mEditAddress;
@@ -30,27 +38,54 @@ public class EditAddressActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void initView() {
-        String receiverName = PhoneUtils.getTextString(mReceiverName);
-        String receiverPhone = PhoneUtils.getTextString(mReceiverPhone);
-        String receiverEmail = mReceiverEmail.getText().toString();
-        String receiverCity = mReceiverCity.getText().toString();
-
+        mAppBarTitle.setText("地址编辑");
+        mAppBarBack.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.address_edit_city})
-    void onClick(View view){
-        switch (view.getId()){
+    void onClick(View view) {
+        switch (view.getId()) {
             case R.id.address_edit_city:
                 Intent intent = new Intent(this, AddressCheckActivity.class);
                 startActivityForResult(intent, RETURN_CITY);
                 break;
+            case R.id.save:
+                String receiverName = PhoneUtils.getTextString(mReceiverName);
+                String receiverPhone = PhoneUtils.getTextString(mReceiverPhone);
+                String receiverEmail = mReceiverEmail.getText().toString();
+                String receiverCity = mReceiverCity.getText().toString();
+                String receiverAddress = mEditAddress.getText().toString();
+                if (!isCheck()) {
+                    mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail,receiverCity,receiverAddress);
+                    mPresenter.getAddressData();
+                    mPresenter.saveAddressData();
+                }
+                break;
         }
     }
+
+    private boolean isCheck() {
+        if (PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
+            ToastUtil.showToast(this, "请输入有效的电话号码", 0);
+            return true;
+        } else if (isEmpty(PhoneUtils.getTextString(mReceiverName))) {
+            ToastUtil.showToast(this, "请输入收件人姓名", 0);
+            return true;
+        } else if (isEmpty(mReceiverCity.getText().toString())) {
+            ToastUtil.showToast(this, "请输入收件人地区", 0);
+            return true;
+        } else if (isEmpty(PhoneUtils.getTextString(mEditAddress))) {
+            ToastUtil.showToast(this, "请输入完整地址", 0);
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -65,6 +100,7 @@ public class EditAddressActivity extends BaseActivity {
 
     /**
      * 解析地址
+     *
      * @param data
      */
     private void parseAddress(Intent data) {
@@ -75,15 +111,21 @@ public class EditAddressActivity extends BaseActivity {
             for (int i = 0; i < cityList.size(); i++) {
                 City city = cityList.get(i);
                 lastId = city.getId();
+                Log.e("TAG", "last" + lastId);
                 tvAddress += city.getName();
             }
         }
-        mReceiverCity.setText(tvAddress + "\n提交到服务器的id是：" + lastId);
+        mReceiverCity.setText(tvAddress);
     }
 
 
     @Override
     protected int getView() {
         return R.layout.activity_edit_address;
+    }
+
+    @Override
+    public void showSuccess(List<AddressBean> addressBean) {
+
     }
 }
