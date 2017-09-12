@@ -57,7 +57,7 @@
                 android:layout_marginRight="5dp"
                 android:textColor="@color/sand"
                 android:textSize="17sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

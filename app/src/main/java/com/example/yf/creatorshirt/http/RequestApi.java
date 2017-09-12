@@ -26,8 +26,10 @@ import retrofit2.http.POST;
  */
 
 public interface RequestApi {
+
+
     //主服务器的baseUrl
-    String HOST = "http://style.man-kang.com/api/";
+    String HOST = "https://style.man-kang.com:3600/api/";
 
     //mobile登录
     @POST("f-Users/userLogin")

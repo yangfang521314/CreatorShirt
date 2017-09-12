@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TestRequestServer {
     static TestRequestApi instance;
     //主服务器的baseUrl
-    static String host = "http://style.man-kang.com/api/";
+    static String host = "https://style.man-kang.com:3600/api/";
 
     static public TestRequestApi getInstance() {
         if (instance != null)
