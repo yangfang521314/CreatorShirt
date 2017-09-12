@@ -333,6 +333,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
                         startNewActivity();
+                        Log.e("TAG"," fuck you ");
                     }
                 }
                 break;
@@ -537,8 +538,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         orderData.setFrontData(commonStyleData);
         String styleContext = orderData.getJsonObject();
         bundle.putString("styleContext", styleContext);
-//                        bundle.putParcelable("front", commonStyleData);
-//                        bundle.putParcelable("back", mBackStyleData);
         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
     }
 

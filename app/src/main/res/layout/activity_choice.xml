@@ -15,10 +15,9 @@
         android:id="@+id/clothes_image"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="270dp"
         android:layout_centerVertical="true"
-        android:layout_below="@+id/app_bar"
-        android:scaleType="centerCrop" />
+        android:layout_below="@+id/app_bar" />
 
     <LinearLayout
         android:id="@+id/choice_front_back"

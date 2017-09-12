@@ -26,8 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.ui.activity.LoginActivity"
-            android:launchMode="singleTask" />
+            android:name=".mvp.ui.activity.LoginActivity" />
         <activity
             android:name=".mvp.ui.activity.DesignActivity"
             android:theme="@style/AppTheme" />
@@ -49,7 +48,8 @@
         <activity
             android:name=".mvp.ui.activity.PermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".mvp.ui.activity.EditUserActivity" />
+        <activity android:name=".mvp.ui.activity.EditUserActivity"
+            />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -99,7 +99,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
         <activity android:name=".mvp.ui.activity.UserDesignActivity" />
-        <activity android:name=".mvp.ui.activity.AddressCheckActivity" />
+        <activity android:name=".mvp.ui.activity.AddressCheckActivity"/>
     </application>
 
 </manifest>

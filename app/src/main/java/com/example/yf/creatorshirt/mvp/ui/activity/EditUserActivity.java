@@ -104,7 +104,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_tv_filter:
-                startCommonActivity(this, null, MainActivity.class);
+                this.finish();
                 break;
             case R.id.user_edit_avatar:
                 initPopupWindow();

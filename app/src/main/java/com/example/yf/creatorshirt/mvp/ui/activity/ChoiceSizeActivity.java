@@ -12,6 +12,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
@@ -55,8 +58,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         super.initData();
         mPresenter.getToken();
         if (getIntent().getExtras() != null) {
-//            mFrontData = getIntent().getExtras().getParcelable("front");
-//            mBackData = getIntent().getExtras().getParcelable("back");
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
             styleContext = getIntent().getExtras().getString("styleContext");
             if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
@@ -76,14 +77,20 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
 
     @Override
     protected void initView() {
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.ic_launcher)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(this).load(mBackImageUrl).apply(options).into(mImageClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
-        mImageClothes.setImageURI(Uri.parse(mFrontImageUrl));
         mButtonFront.setSelected(true);
     }
 
     @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back, R.id.clothes_back, R.id.clothes_front})
     public void onClick(View view) {
+        RequestOptions options = new RequestOptions()
+                .error(R.mipmap.ic_launcher)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken()) || SharedPreferencesUtil.getUserId() == 0
@@ -103,12 +110,12 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             case R.id.clothes_front:
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
-                mImageClothes.setImageURI(Uri.parse(mFrontImageUrl));
+                Glide.with(this).load(mFrontImageUrl).apply(options).into(mImageClothes);
                 break;
             case R.id.clothes_back:
                 mButtonBack.setSelected(true);
                 mButtonFront.setSelected(false);
-                mImageClothes.setImageURI(Uri.parse(mBackImageUrl));
+                Glide.with(this).load(mBackImageUrl).apply(options).into(mImageClothes);
                 break;
         }
     }
