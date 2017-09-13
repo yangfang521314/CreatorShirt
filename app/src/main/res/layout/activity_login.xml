@@ -60,6 +60,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/send_code"
                 android:background="@null"
+                android:inputType="number"
                 android:gravity="start"
                 android:hint="请输入6位验证码"
                 android:maxLines="1"

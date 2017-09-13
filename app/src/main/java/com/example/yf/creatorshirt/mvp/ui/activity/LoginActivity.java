@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
@@ -43,7 +44,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.weixin_login)
     Button mWeiXin;
     @BindView(R.id.send_code)
-    Button btnSendCode;
+    TextView btnSendCode;
     private UMShareAPI mShareAPI = null;
     private SHARE_MEDIA platform = null;
     private int countTime;
@@ -65,7 +66,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     void afterTextChanged() {
         if (!TextUtils.isEmpty(PhoneUtils.getTextString(mEditPhone))) {
             mBtnNext.setSelected(true);
+            btnSendCode.setEnabled(false);
         } else {
+            btnSendCode.setEnabled(true);
             mBtnNext.setEnabled(false);
             mHandler.removeCallbacks(runnable);
         }
@@ -79,8 +82,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.next:
                 if (emptyCheck()) {
                     mPresenter.phoneLogin(PhoneUtils.getTextString(mEditPhone), PhoneUtils.getTextString(mEditCode));
-                } else {
-                    ToastUtil.showToast(this, "登录请输入验证码", 0);
                 }
                 break;
             case R.id.weixin_login://微信login
@@ -95,8 +96,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 }
                 break;
             case R.id.send_code:
-                if (TextUtils.isEmpty(mEditPhone.getText().toString())) {
-                    ToastUtil.showToast(this, "请输入手机号码", 0);
+                if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
+                    ToastUtil.showToast(this, "请输入正确的手机号码", 0);
                 } else {
                     countTime = 60;
                     mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));

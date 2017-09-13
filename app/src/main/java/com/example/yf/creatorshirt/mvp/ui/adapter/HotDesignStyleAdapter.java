@@ -42,7 +42,7 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
 
         Glide.with(mContext)
                 .load(mData.get(position).getHeadimage()).apply(options).into(holder.mDesignerIV);
-        holder.mDesignerNum.setText(String.valueOf(mData.get(position).getCounts()));
+        holder.mDesignerNum.setText(mData.get(position).getCounts()+"个原创设计");
         holder.mDesignerName.setText(mData.get(position).getName());
         holder.mDesigner.setOnClickListener(new View.OnClickListener() {
             @Override
