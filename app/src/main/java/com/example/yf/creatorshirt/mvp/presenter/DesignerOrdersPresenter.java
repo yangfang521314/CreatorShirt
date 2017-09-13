@@ -1,7 +1,10 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.util.Log;
+
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignerOrdersContract;
@@ -33,15 +36,16 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
 
     @Override
     public void getTotalDesigner() {
+        pageIndex = 0;
         Map<String, Integer> map = new HashMap<>();
         map.put("desginUserId", userID);
         map.put("pageIndex", pageIndex);
         addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<OrderStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<OrderStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<OrderStyleBean>>(mView, "请求失败，请检查网络", false) {
+                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
                     @Override
-                    public void onNext(List<OrderStyleBean> orderStyleBeen) {
+                    public void onNext(List<BombStyleBean> orderStyleBeen) {
                         mView.showSuccessData(orderStyleBeen);
                     }
                 })
@@ -51,5 +55,21 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
 
     public void setUserId(int userId) {
         this.userID = userId;
+    }
+
+    public void getMoreDesignOrders() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("desginUserId", userID);
+        map.put("pageIndex", ++pageIndex);
+        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
+                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
+                    @Override
+                    public void onNext(List<BombStyleBean> orderStyleBeen) {
+                        mView.showMoreData(orderStyleBeen);
+                    }
+                })
+        );
     }
 }

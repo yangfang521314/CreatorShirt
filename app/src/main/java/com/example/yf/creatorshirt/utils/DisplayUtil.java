@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -84,10 +85,10 @@ public class DisplayUtil {
 
     /**
      * 设置定制布局的宽和高
-     *  @param context
+     * @param context
      * @param linearLayout
      */
-    public static void calculateDesignerClothesWidth(Context context, LinearLayout linearLayout) {
+    public static void calculateDesignerClothesWidth(Context context, ImageView linearLayout) {
         int width = getScreenW(context);
         int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();

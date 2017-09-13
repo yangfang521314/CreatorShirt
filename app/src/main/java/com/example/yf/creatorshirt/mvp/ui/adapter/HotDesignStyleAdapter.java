@@ -37,7 +37,7 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
 
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.mm)
-                .transform(new CircleAvatar(mContext))
+                .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
 
         Glide.with(mContext)

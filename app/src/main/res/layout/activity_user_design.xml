@@ -26,29 +26,35 @@
 
             <ImageView
                 android:id="@+id/designer_avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
-            <TextView
-                android:id="@+id/designer_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_toRightOf="@+id/designer_avatar"
-                android:text="张芷溪"
-                android:textColor="@color/riflegreen"
-                android:textSize="15sp" />
+                android:layout_toRightOf="@id/designer_avatar"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/designer_design_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/designer_name"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@+id/designer_avatar"
-                android:text="185个原创设计"
-                android:textColor="@color/darkgray" />
+                <TextView
+                    android:id="@+id/designer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="张芷溪"
+                    android:textColor="@color/riflegreen"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/designer_design_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/designer_name"
+                    android:text="185个原创设计"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/darkgray"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
 
             <android.support.v7.widget.RecyclerView

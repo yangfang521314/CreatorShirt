@@ -30,7 +30,7 @@ public interface TestRequestApi {
 
     //地址
     @POST("f-Users/addUseraddress")
-    Call<HttpResponse> getAddressData(@Header("Token") String userToken, RequestBody requestBody);
+    Call<HttpResponse> getAddressData(@Header("Token") String userToken,@Body RequestBody requestBody);
 
     @POST("f-Users/requestSquareDesign")
     Call<HttpResponse> getHotDesign(@Header("Token") String userToken, @Body RequestBody body);

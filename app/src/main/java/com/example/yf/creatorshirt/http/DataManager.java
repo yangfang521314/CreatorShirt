@@ -120,7 +120,7 @@ public class DataManager implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<List<OrderStyleBean>>> getDesignOrders(RequestBody requestbody) {
+    public Flowable<HttpResponse<List<BombStyleBean>>> getDesignOrders(RequestBody requestbody) {
         return mHttpHelper.getDesignOrders(requestbody);
     }
 

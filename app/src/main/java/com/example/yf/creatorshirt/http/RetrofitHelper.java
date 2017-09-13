@@ -116,7 +116,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<List<OrderStyleBean>>> getDesignOrders(RequestBody requestbody) {
+    public Flowable<HttpResponse<List<BombStyleBean>>> getDesignOrders(RequestBody requestbody) {
         return mRequestApi.getDesignOrders(requestbody);
     }
 

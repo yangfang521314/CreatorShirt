@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
+import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
@@ -15,7 +16,9 @@ public interface DesignerOrdersContract {
     interface DesignerDesignView extends BaseView {
 
 
-        void showSuccessData(List<OrderStyleBean> orderStyleBeen);
+        void showSuccessData(List<BombStyleBean> orderStyleBeen);
+
+        void showMoreData(List<BombStyleBean> orderStyleBeen);
     }
 
     interface Presenter extends BasePresenter<DesignerDesignView> {

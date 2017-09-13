@@ -30,7 +30,7 @@ import butterknife.BindView;
  */
 
 public class BombStylesFragment extends BaseFragment<BombStylePresenter> implements BombStylesContract.BombView
-,ItemClickListener.OnItemClickListener{
+        , ItemClickListener.OnItemClickListener {
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @Inject
@@ -102,7 +102,7 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
 
     @Override
     public void showMoreSuccessData(List<BombStyleBean> bombStyleBeen) {
-        if (bombStyleBeen == null && bombStyleBeen.size() == 0) {
+        if (bombStyleBeen.size() == 0) {
             ToastUtil.showToast(getActivity(), "没有更多数据", 0);
         } else {
             isLoadingMore = false;
@@ -123,7 +123,7 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
     @Override
     public void onItemClick(View view, int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("detail",bombStyles.get(position));
-        startCommonActivity(getActivity(),bundle, DetailClothesActivity.class);
+        bundle.putParcelable("detail", bombStyles.get(position));
+        startCommonActivity(getActivity(), bundle, DetailClothesActivity.class);
     }
 }

@@ -86,7 +86,7 @@ public interface RequestApi {
 
     //查询设计师的订单数
     @POST("f-Users/requestDesignOrders")
-    Flowable<HttpResponse<List<OrderStyleBean>>> getDesignOrders(@Body RequestBody requestbody);
+    Flowable<HttpResponse<List<BombStyleBean>>> getDesignOrders(@Body RequestBody requestbody);
 
     @POST("f-Users/addUseraddress")
     Flowable<HttpResponse> saveAddress(@Header("Token") String userToken, @Body RequestBody requestBody);

@@ -47,17 +47,6 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
                     }
                 }));
 
-//        TestRequestServer.getInstance().getBomData(body).enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                Log.e("tag", ".....fuck you" + response.body().getResult());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     public void getMoreBombData() {

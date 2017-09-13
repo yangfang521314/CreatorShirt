@@ -25,6 +25,6 @@ public class DesignerOrdersViewHolder extends BaseViewHolder {
         mDesignerName = getView(R.id.designer_clothes_name);
         mDesignerPraise = getView(R.id.designer_clothes_praise);
         mLinearDesigner = getView(R.id.ll_designer_item);
-        DisplayUtil.calculateDesignerClothesWidth(getContext(),mLinearDesigner);
+        DisplayUtil.calculateDesignerClothesWidth(getContext(),mDesignerIv);
     }
 }

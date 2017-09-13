@@ -49,7 +49,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody gson);
 
-    Flowable<HttpResponse<List<OrderStyleBean>>> getDesignOrders(RequestBody requestbody);
+    Flowable<HttpResponse<List<BombStyleBean>>> getDesignOrders(RequestBody requestbody);
 
     Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody);
 }
