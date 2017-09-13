@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,16 +32,18 @@ public class BombStyleAdapter extends BaseAdapter<BombStyleBean, StyleViewHolder
 
     @Override
     protected void bindCustomViewHolder(StyleViewHolder holder, final int position) {
-        holder.mClothePrice.setText("¥" + String.valueOf(mData.get(position).getFee()));
-        holder.mCreatorName.setText(mData.get(position).getUserName() + " 的原创定制");
-        Glide.with(mContext).load(mData.get(position).getFinishimage()).into(holder.mImageView);
-        holder.mClothePriseNum.setText(String.valueOf(mData.get(position).getPraise()) + "人赞");
-        holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(v, position);
-            }
-        });
+        if(!TextUtils.isEmpty(mData.get(position).getFinishimage())) {
+            holder.mClothePrice.setText("¥" + String.valueOf(mData.get(position).getFee()));
+            holder.mCreatorName.setText(mData.get(position).getUserName() + " 的原创定制");
+            Glide.with(mContext).load(mData.get(position).getFinishimage()).into(holder.mImageView);
+            holder.mClothePriseNum.setText(String.valueOf(mData.get(position).getPraise()) + "人赞");
+            holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(v, position);
+                }
+            });
+        }
 
     }
 

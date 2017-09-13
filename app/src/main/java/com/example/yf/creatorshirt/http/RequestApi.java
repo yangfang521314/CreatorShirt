@@ -16,7 +16,6 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -87,7 +86,7 @@ public interface RequestApi {
 
     //查询设计师的订单数
     @POST("f-Users/requestDesignOrders")
-    Flowable<HttpResponse<OrderStyleBean>> getDesignOrders(@Body RequestBody requestbody);
+    Flowable<HttpResponse<List<OrderStyleBean>>> getDesignOrders(@Body RequestBody requestbody);
 
     @POST("f-Users/addUseraddress")
     Flowable<HttpResponse> saveAddress(@Header("Token") String userToken, @Body RequestBody requestBody);

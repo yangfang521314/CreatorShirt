@@ -84,16 +84,14 @@ public class DisplayUtil {
 
     /**
      * 设置定制布局的宽和高
-     *
-     * @param context
+     *  @param context
      * @param linearLayout
      */
     public static void calculateDesignerClothesWidth(Context context, LinearLayout linearLayout) {
         int width = getScreenW(context);
         int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
-        layoutParams.width = width / 2;
-        layoutParams.height = height / 3;
+        layoutParams.height = width / 3;
         linearLayout.setLayoutParams(layoutParams);
 
     }

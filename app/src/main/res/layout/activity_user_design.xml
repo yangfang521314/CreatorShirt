@@ -36,6 +36,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_toRightOf="@+id/designer_avatar"
                 android:text="张芷溪"
+                android:textColor="@color/riflegreen"
                 android:textSize="15sp" />
 
             <TextView
@@ -46,7 +47,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@+id/designer_avatar"
-                android:text="185个原创设计" />
+                android:text="185个原创设计"
+                android:textColor="@color/darkgray" />
 
 
             <android.support.v7.widget.RecyclerView

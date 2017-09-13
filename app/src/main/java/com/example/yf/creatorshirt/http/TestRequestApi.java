@@ -37,4 +37,7 @@ public interface TestRequestApi {
 
     @POST("f-Users/requestOrdersFromsquare")
     Call<HttpResponse> getBomData(@Body RequestBody body);
+
+    @POST("f-Users/requestDesignOrders")
+    Call<HttpResponse> getDesignOrders(@Body RequestBody body);
 }

@@ -20,6 +20,7 @@ import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -178,8 +179,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void startOtherActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+   private void startOtherActivity() {
+        if(SharedPreferencesUtil.getAppIsFirstLaunched()) {
+//            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
 

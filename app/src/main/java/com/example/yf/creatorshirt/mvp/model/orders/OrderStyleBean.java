@@ -28,6 +28,8 @@ package com.example.yf.creatorshirt.mvp.model.orders;
  * headerImage=null}
  */
 public class OrderStyleBean {
+
+
     private int id;
     private String userId;
     private String Gender;
