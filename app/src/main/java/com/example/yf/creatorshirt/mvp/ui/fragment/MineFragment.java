@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;
@@ -66,7 +68,10 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //根据第一次登录的接口返回的Token去访问用户返回的信息
-        mPresenter.getUserInfo();
+        if (!TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
+
+            mPresenter.getUserInfo();
+        }
 
     }
 

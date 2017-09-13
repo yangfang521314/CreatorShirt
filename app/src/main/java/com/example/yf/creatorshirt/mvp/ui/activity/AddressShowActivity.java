@@ -68,4 +68,9 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
 //        addressAdapter.setData(addressBean);
 //        mRecyclerView.setAdapter(addressAdapter);
     }
+
+    @Override
+    public void SuccessSaveAddress() {
+
+    }
 }
