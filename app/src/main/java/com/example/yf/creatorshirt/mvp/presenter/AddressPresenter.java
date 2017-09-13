@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.http.TestRequestServer;
-import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.address.AddressEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
@@ -13,8 +12,6 @@ import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,6 +36,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
         this.mDataManager = mDataManager;
     }
 
+    //获取地址
     @Override
     public void getAddressData() {
 //        addSubscribe(mDataManager.getAddressData()
@@ -52,17 +50,17 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
 //                })
 //        );
 
-//        TestRequestServer.getInstance().getAddressData(SharedPreferencesUtil.getUserToken(),GsonUtils.getGson(saveEntity)).enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                Log.e("Address", "dddd" + response.body().getResult());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//                Log.e("ADDRESS", "FAILURE");
-//            }
-//        });
+        TestRequestServer.getInstance().getAddressData(SharedPreferencesUtil.getUserToken()).enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                Log.e("Address", "dddd" + response.body().getResult());
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.e("ADDRESS", "FAILURE");
+            }
+        });
     }
 
     public void setAddressInfo(String receiverName, String receiverPhone, String receiverEmail, String reciverCity, String receiverAddress) {
@@ -87,14 +85,23 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                         return httpResponse.getStatus();
                     }
                 })
-                .subscribeWith(new CommonSubscriber<Integer>(mView,"地址保存失败") {
+                .subscribeWith(new CommonSubscriber<Integer>(mView, "地址保存失败") {
                     @Override
                     public void onNext(Integer integer) {
-                        if(integer.equals(1)){
-                            mView.SuccessSaveAddress();
-                        }
+                        mView.SuccessSaveAddress();
                     }
                 })
         );
+        TestRequestServer.getInstance().saveAddress(SharedPreferencesUtil.getUserToken(),body).enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                Log.e("复仇天","resss"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+                Log.e("Tagfff","fialuer");
+            }
+        });
     }
 }

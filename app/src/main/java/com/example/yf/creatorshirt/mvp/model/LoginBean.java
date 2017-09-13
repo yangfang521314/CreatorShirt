@@ -1,5 +1,8 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -7,7 +10,8 @@ import java.util.List;
  * 用户信息
  */
 
-public class LoginBean {
+public class LoginBean implements Parcelable {
+    private static final long serialVersionUID = 1L;
     /**
      * "result": {
      * "UserInfo": {
@@ -27,6 +31,26 @@ public class LoginBean {
     private UserInfo UserInfo;
     private List<String> address;
     private String token;
+
+    protected LoginBean(Parcel in) {
+        address = in.createStringArrayList();
+        token = in.readString();
+    }
+
+    public LoginBean() {
+    }
+
+    public static final Creator<LoginBean> CREATOR = new Creator<LoginBean>() {
+        @Override
+        public LoginBean createFromParcel(Parcel in) {
+            return new LoginBean(in);
+        }
+
+        @Override
+        public LoginBean[] newArray(int size) {
+            return new LoginBean[size];
+        }
+    };
 
     public UserInfo getUserInfo() {
         return UserInfo;
@@ -59,5 +83,16 @@ public class LoginBean {
                 ", address=" + address +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(address);
+        dest.writeString(token);
     }
 }

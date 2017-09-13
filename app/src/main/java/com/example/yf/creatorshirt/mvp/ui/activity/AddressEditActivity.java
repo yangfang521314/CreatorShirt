@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,7 +68,6 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
                 String receiverAddress = mEditAddress.getText().toString();
                 if (!isCheck()) {
                     mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress);
-                    mPresenter.getAddressData();
                     mPresenter.saveAddressData();
                 }
                 break;
@@ -138,5 +136,6 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     @Override
     public void SuccessSaveAddress() {
         ToastUtil.showToast(this,"地址保存成功",0);
+        finish();
     }
 }

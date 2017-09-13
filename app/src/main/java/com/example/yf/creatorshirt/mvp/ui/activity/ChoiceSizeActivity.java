@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -80,7 +79,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         RequestOptions options = new RequestOptions()
                 .error(R.mipmap.ic_launcher)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(this).load(mBackImageUrl).apply(options).into(mImageClothes);
+        Glide.with(this).load(mFrontImageUrl).apply(options).into(mImageClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mButtonFront.setSelected(true);
@@ -93,8 +92,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         switch (view.getId()) {
             case R.id.btn_choice_order:
-                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken()) || SharedPreferencesUtil.getUserId() == 0
-                        || (TextUtils.isEmpty(SharedPreferencesUtil.getUserName()))) {
+                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 } else {
                     initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);

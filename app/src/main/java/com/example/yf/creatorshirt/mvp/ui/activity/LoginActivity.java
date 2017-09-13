@@ -144,8 +144,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        this.finish();
-        ToastUtil.showToast(this, "登录成功", 0);
+        if(getIntent().getExtras() != null) {
+            startCommonActivity(this, getIntent().getExtras(), EditUserActivity.class);
+            this.finish();
+            ToastUtil.showToast(this, "登录成功", 0);
+        }
     }
 
     private class RegisterHandler extends WeakReferenceHandler<LoginActivity> {

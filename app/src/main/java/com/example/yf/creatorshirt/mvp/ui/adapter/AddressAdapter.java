@@ -25,7 +25,7 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
 
     @Override
     protected void bindCustomViewHolder(AddressViewHolder holder, int position) {
-        holder.mReceiverName.setText(mData.get(position).getName());
+        holder.mReceiverName.setText(mData.get(position).getUserName());
         holder.mAddress.setText(mData.get(position).getAddress());
         holder.mReceiverPhone.setText(mData.get(position).getMobile());
     }

@@ -7,23 +7,32 @@ package com.example.yf.creatorshirt.mvp.model;
 
 public class AddressBean {
     /**
-     * "address": "测试内容uz41",
-     * "city": "测试内容c80k",
-     * "id": 35676,
-     * "isDefault": false,
-     * "mobile": "测试内容xs56",
-     * "name": "测试内容t4a2",
-     * "province": "测试内容3b6t",
-     * "region": "测试内容8t4w"
+     * address = cangyihdahdask; //
+     * city = "\U6d59\U6c5f\U7701\U676d\U5dde\U5e02\U6c5f\U5e72\U533a"; //    id = 13;
+     * id = 13;
+     * isDefault = 0; //
+     * mobile = 15868177542;
+     * userId = 1119;
+     * userName = Brad;
+     * zipcode = 310000;
      */
     private String address;
+    private String id;
     private String city;
-    private int id;
-    private boolean isDefault;
+    private int isDefault;
     private String mobile;
-    private String name;
-    private String province;
-    private String region;
+    private String userId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private String userName;
+    private String zipcode;
 
     public String getAddress() {
         return address;
@@ -31,6 +40,14 @@ public class AddressBean {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCity() {
@@ -41,20 +58,12 @@ public class AddressBean {
         this.city = city;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isDefault() {
+    public int getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setIsDefault(int isDefault) {
+        this.isDefault = isDefault;
     }
 
     public String getMobile() {
@@ -65,27 +74,32 @@ public class AddressBean {
         this.mobile = mobile;
     }
 
-    public String getName() {
-        return name;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getProvince() {
-        return province;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
+    @Override
+    public String toString() {
+        return "AddressBean{" +
+                "address='" + address + '\'' +
+                ", id='" + id + '\'' +
+                ", city='" + city + '\'' +
+                ", isDefault=" + isDefault +
+                ", mobile='" + mobile + '\'' +
+                ", userId='" + userId + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
     }
 }

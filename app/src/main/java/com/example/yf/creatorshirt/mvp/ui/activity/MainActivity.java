@@ -5,9 +5,12 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -15,15 +18,22 @@ import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.LoginEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
+import com.example.yf.creatorshirt.utils.RxBus;
+import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class MainActivity extends BaseActivity {
@@ -75,6 +85,32 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
         String key = PackageUtil.getSignature(App.getInstance());
+        Log.e("TGA", "dddddddd"+"fuck you ");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RxBus.getDefault().toFlowable(LoginEvent.class)
+                .compose(RxUtils.<LoginEvent>rxSchedulerHelper())
+                .map(new Function<LoginEvent, String>() {
+                    @Override
+                    public String apply(@NonNull LoginEvent loginEvent) throws Exception {
+                        return loginEvent.getIsMine();
+                    }
+                }).subscribeWith(new CommonSubscriber<String>(null) {
+            @Override
+            public void onNext(String s) {
+                Log.e("TGA", "dddddddd"+s);
+//                changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+
+            }
+        });
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
@@ -89,9 +125,17 @@ public class MainActivity extends BaseActivity {
                 choiceTabState(TYPE_DESIGN);
                 break;
             case R.id.mine_text:
-                showFragment = TYPE_MINE;
-                choiceTabState(TYPE_MINE);
-                mAppBar.setVisibility(View.GONE);
+                //没有Token进行登录
+                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("login", Constants.LOGIN);
+                    startCommonActivity(this, bundle, LoginActivity.class);
+                    choiceTabState(TYPE_MINE);
+                } else {
+                    showFragment = TYPE_MINE;
+                    choiceTabState(TYPE_MINE);
+                    mAppBar.setVisibility(View.GONE);
+                }
                 break;
         }
         changeFragment(getShowFragment(showFragment), getShowFragment(hideFragment));
@@ -179,8 +223,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-   private void startOtherActivity() {
-        if(SharedPreferencesUtil.getAppIsFirstLaunched()) {
+    private void startOtherActivity() {
+        if (SharedPreferencesUtil.getAppIsFirstLaunched()) {
 //            startActivity(new Intent(this, MainActivity.class));
         }
     }

@@ -5,9 +5,11 @@ import android.support.annotation.RequiresApi;
 import android.util.ArrayMap;
 import android.util.Log;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.UserInfoCache;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
@@ -74,6 +76,9 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
                             SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());
                             SharedPreferencesUtil.saveUserToken(loginBean.getToken());
                             SharedPreferencesUtil.saveUserPhone(loginBean.getUserInfo().getMobile());
+                            //保存用户信息 // TODO: 2017/9/14 程序。。。。。 
+                            UserInfoCache userInfoCache = new UserInfoCache(App.getInstance());
+                            userInfoCache.saveUserInfo(loginBean);
                             mView.LoginSuccess(loginBean);
                         }
                     }));
@@ -95,7 +100,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(@NonNull String s) {
-                        Log.e("TAG", "请求成功"+s.toString());
+                        Log.e("TAG", "请求成功" + s.toString());
                         mView.showSuccessCode();
                     }
                 }));
