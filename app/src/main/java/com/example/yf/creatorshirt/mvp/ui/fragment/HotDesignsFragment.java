@@ -15,6 +15,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.mvp.ui.view.GridViewItemDivider;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,9 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     public void showSuccess(List<HotDesignsBean> hotDesigns) {
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
-        mRecyclerView.addItemDecoration(new GridViewItemDivider(getActivity()));
+        GridViewItemDivider divider = new GridViewItemDivider.Builder(getContext()).size(12).color(R.color.gainsboro)
+                .margin(1,1).verSize(DisplayUtil.Dp2Px(getActivity(),1.0f)).horSize(DisplayUtil.Dp2Px(getActivity(),1.0f)).isExistHead(true).build();
+        mRecyclerView.addItemDecoration(divider);
         HotDesignStyleAdapter adapter = new HotDesignStyleAdapter(mActivity);
         adapter.setOnclicklistener(this);
         adapter.setData(hotDesigns);
