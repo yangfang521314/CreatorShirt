@@ -66,7 +66,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //根据第一次登录的接口返回的Token去访问用户返回的信息
-//        mPresenter.getUserInfo();
+        mPresenter.getUserInfo();
 
     }
 

@@ -16,6 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 地址显示页面
+ */
 public class AddressShowActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     @BindView(R.id.address_recyclerview)
     RecyclerView mRecyclerView;

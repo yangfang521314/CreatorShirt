@@ -40,8 +40,8 @@ public interface RequestApi {
     Flowable<HttpResponse<String>> getCode(@Body RequestBody body);
 
     //获取用户信息
-    @GET("user/getInfo")
-    Observable<HttpResponse<UserInfo>> getUserInfo();
+    @POST("f-Users/GetUserInfo")
+    Observable<HttpResponse<UserInfo>> getUserInfo(@Header("Token") String userToken);
 
     //获取爆款数据
     @POST("f-Users/requestOrdersFromsquare")
@@ -83,4 +83,8 @@ public interface RequestApi {
     //保存用户信息
     @POST("f-Users/userModify")
     Flowable<HttpResponse> saveUserInfo(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //查询设计师的订单数
+    @POST("f-Users/requestDesignOrders")
+    Flowable<HttpResponse<OrderStyleBean>> getDesignOrders(@Body RequestBody requestbody);
 }

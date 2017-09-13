@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,10 +11,11 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.presenter.HotDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.UserDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +34,8 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     RecyclerView mRecyclerView;
     @Inject
     Activity mActivity;
+    private List<HotDesignsBean> hotDesignsBeen;
+
     @Override
     protected void initInject() {
         getFragmentComponent().inject(this);
@@ -44,7 +48,7 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
 
     @Override
     protected void initViews(View mView) {
-
+        hotDesignsBeen = new ArrayList<>();
     }
 
     @Override
@@ -60,10 +64,13 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         adapter.setOnclicklistener(this);
         adapter.setData(hotDesigns);
         mRecyclerView.setAdapter(adapter);
+        this.hotDesignsBeen = hotDesigns;
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        startCommonActivity(getActivity(),null, UserDesignActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("hotDesigner",hotDesignsBeen.get(position));
+        startCommonActivity(getActivity(),bundle, DesignerOrdersActivity.class);
     }
 }

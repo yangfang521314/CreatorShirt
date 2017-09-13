@@ -60,8 +60,8 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Observable<HttpResponse<UserInfo>> getUserInfo() {
-        return mRequestApi.getUserInfo();
+    public Observable<HttpResponse<UserInfo>> getUserInfo(String userToken) {
+        return mRequestApi.getUserInfo(userToken);
     }
 
     @Override
@@ -113,6 +113,11 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
         return mRequestApi.saveUserInfo(userToken,requestBody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<OrderStyleBean>> getDesignOrders(RequestBody requestbody) {
+        return mRequestApi.getDesignOrders(requestbody);
     }
 
 

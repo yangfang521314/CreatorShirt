@@ -4,12 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.UserDesignActivity">
+    android:orientation="vertical"
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/designer_swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp">
 
+        <RelativeLayout
+            android:id="@+id/rl_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/designer_avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/designer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/designer_avatar"
+                android:text="张芷溪"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/designer_design_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/designer_name"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/designer_avatar"
+                android:text="185个原创设计" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/designer_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/designer_avatar"
+                android:layout_marginTop="5dp" />
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

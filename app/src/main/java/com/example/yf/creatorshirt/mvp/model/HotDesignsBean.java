@@ -1,12 +1,15 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
- * Created by yang on 31/07/2017.
+ * Created by yang n 31/07/2017.
  *
  *
  */
 
-public class HotDesignsBean {
+public class HotDesignsBean implements Parcelable{
 
     /**
      "userid": 1111,
@@ -21,6 +24,27 @@ public class HotDesignsBean {
     private String name;
     private int userid;
     private int counts;
+
+    protected HotDesignsBean(Parcel in) {
+        headimage = in.readString();
+        mobile = in.readString();
+        name = in.readString();
+        userid = in.readInt();
+        counts = in.readInt();
+    }
+
+    public static final Creator<HotDesignsBean> CREATOR = new Creator<HotDesignsBean>() {
+        @Override
+        public HotDesignsBean createFromParcel(Parcel in) {
+            return new HotDesignsBean(in);
+        }
+
+        @Override
+        public HotDesignsBean[] newArray(int size) {
+            return new HotDesignsBean[size];
+        }
+    };
+
     public String getHeadimage() {
         return headimage;
     }
@@ -70,5 +94,19 @@ public class HotDesignsBean {
                 ", userid=" + userid +
                 ", counts=" + counts +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(headimage);
+        dest.writeString(mobile);
+        dest.writeString(name);
+        dest.writeInt(userid);
+        dest.writeInt(counts);
     }
 }

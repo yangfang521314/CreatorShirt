@@ -32,6 +32,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 点击广场热款的详情页面
+ */
 public class DetailClothesActivity extends BaseActivity {
     private static final String TAG = DetailClothesActivity.class.getSimpleName();
     @BindView(R.id.user_avatar)

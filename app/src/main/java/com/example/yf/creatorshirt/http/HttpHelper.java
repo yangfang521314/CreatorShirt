@@ -27,7 +27,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<String>> getVerifyCode(RequestBody phone);
 
-    Observable<HttpResponse<UserInfo>> getUserInfo();
+    Observable<HttpResponse<UserInfo>> getUserInfo(String userToken);
 
     Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody userToken);
 
@@ -48,6 +48,8 @@ public interface HttpHelper {
     Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody);
 
     Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody gson);
+
+    Flowable<HttpResponse<OrderStyleBean>> getDesignOrders(RequestBody requestbody);
 
 //    Flowable<HttpResponse> saveAddress(String , RequestBody );
 }

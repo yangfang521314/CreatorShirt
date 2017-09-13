@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -76,7 +74,6 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
         String key = PackageUtil.getSignature(App.getInstance());
-        Log.e("TAG","qianming:"+key);
     }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
@@ -182,11 +179,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startOtherActivity() {
-        boolean isFirstLaunch = SharedPreferencesUtil.getAppIsFirstLaunched();
-        if (!isFirstLaunch) {
-            //// TODO: 28/07/2017 启动第一次直接进入MainAvtivity
-            startActivity(new Intent(this, MainActivity.class));
-        }
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 

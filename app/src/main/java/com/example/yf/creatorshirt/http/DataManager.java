@@ -51,8 +51,8 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getVerifyCode(phone);
     }
 
-    public Observable<HttpResponse<UserInfo>> getUserInfo() {
-        return mHttpHelper.getUserInfo();
+    public Observable<HttpResponse<UserInfo>> getUserInfo(String userToken) {
+        return mHttpHelper.getUserInfo(userToken);
     }
 
     public Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody requestBody) {
@@ -117,6 +117,11 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
         return mHttpHelper.saveUserInfo(userToken,requestBody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<OrderStyleBean>> getDesignOrders(RequestBody requestbody) {
+        return mHttpHelper.getDesignOrders(requestbody);
     }
 
 

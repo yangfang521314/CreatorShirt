@@ -23,6 +23,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 编辑地址页面
+ */
 public class AddressEditActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
     private static final int RETURN_CITY = 23;
     @BindView(R.id.address_edit_address)
