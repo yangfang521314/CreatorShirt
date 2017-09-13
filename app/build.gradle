@@ -111,4 +111,5 @@ dependencies {
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
     testCompile 'junit:junit:4.12'
     compile 'com.alibaba:fastjson:1.1.63.android'
+    compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
 }

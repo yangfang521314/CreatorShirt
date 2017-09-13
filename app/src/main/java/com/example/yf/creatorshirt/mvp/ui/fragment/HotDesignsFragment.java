@@ -1,6 +1,8 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +16,9 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
-import com.example.yf.creatorshirt.mvp.ui.view.GridViewItemDivider;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.yanyusong.y_divideritemdecoration.Y_Divider;
+import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
+import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,15 +64,51 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     public void showSuccess(List<HotDesignsBean> hotDesigns) {
         mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
-        GridViewItemDivider divider = new GridViewItemDivider.Builder(getContext()).size(12).color(R.color.gainsboro)
-                .margin(1,1).verSize(DisplayUtil.Dp2Px(getActivity(),1.0f)).horSize(DisplayUtil.Dp2Px(getActivity(),1.0f)).isExistHead(true).build();
-        mRecyclerView.addItemDecoration(divider);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         HotDesignStyleAdapter adapter = new HotDesignStyleAdapter(mActivity);
         adapter.setOnclicklistener(this);
         adapter.setData(hotDesigns);
         mRecyclerView.setAdapter(adapter);
         this.hotDesignsBeen = hotDesigns;
     }
+
+    private class DividerItemDecoration extends Y_DividerItemDecoration {
+
+        private DividerItemDecoration(Context context) {
+            super(context);
+        }
+
+        @Override
+        public Y_Divider getDivider(int itemPosition) {
+            Y_Divider divider = null;
+            switch (itemPosition % 2) {
+                case 0:
+                    //每一行第一个显示rignt和bottom
+                    divider = new Y_DividerBuilder()
+                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+                            .create();
+                    break;
+                case 1:
+                    //每一行第一个显示rignt和bottom
+                    divider = new Y_DividerBuilder()
+                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+                            .create();
+                    break;
+                case 2:
+                    //第二个显示Left和bottom
+                    divider = new Y_DividerBuilder()
+                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+                            .create();
+                    break;
+                default:
+                    break;
+            }
+            return divider;
+        }
+    }
+
 
     @Override
     public void onItemClick(View view, int position) {
