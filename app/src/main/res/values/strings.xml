@@ -12,4 +12,15 @@
     <string name="exit_app">再按一次，退出App</string>
     <string name="time_text">s后重新发送</string>
     <string name="register_get_pwd">获取验证码</string>
+
+    <!--下拉刷新上拉加载Recy-->
+    <string name="listview_header_hint_normal">下拉刷新...</string>
+    <string name="listview_header_hint_release">释放刷新...</string>
+    <string name="listview_loading">努力加载中...</string>
+    <string name="no_more_loading">没有更多内容了</string>
+    <string name="refresh_done">刷新完成...</string>
+    <string name="title_activity_skin">SkinActivity</string>
+    <string name="no_url">没有地址</string>
+    <string name="loading">加载中</string>
+    <string name="refreshing">正在刷新...</string>
 </resources>

@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.mvp.ui.view.GridViewItemDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,7 @@ import butterknife.BindView;
  */
 
 public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> implements HotDesignContract.HotDesignView
-,ItemClickListener.OnItemClickListener
-{
+        , ItemClickListener.OnItemClickListener {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -60,7 +59,8 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
 
     @Override
     public void showSuccess(List<HotDesignsBean> hotDesigns) {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
+        mRecyclerView.addItemDecoration(new GridViewItemDivider(getActivity()));
         HotDesignStyleAdapter adapter = new HotDesignStyleAdapter(mActivity);
         adapter.setOnclicklistener(this);
         adapter.setData(hotDesigns);
@@ -71,7 +71,7 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     public void onItemClick(View view, int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("hotDesigner",hotDesignsBeen.get(position));
-        startCommonActivity(getActivity(),bundle, DesignerOrdersActivity.class);
+        bundle.putParcelable("hotDesigner", hotDesignsBeen.get(position));
+        startCommonActivity(getActivity(), bundle, DesignerOrdersActivity.class);
     }
 }
