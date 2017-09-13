@@ -4,7 +4,6 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -27,7 +26,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<String>> getVerifyCode(RequestBody phone);
 
-    Observable<HttpResponse<UserInfo>> getUserInfo(String userToken);
+    Observable<HttpResponse<LoginBean>> getUserInfo(String userToken);
 
     Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody userToken);
 

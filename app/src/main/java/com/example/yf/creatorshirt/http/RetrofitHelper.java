@@ -60,7 +60,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Observable<HttpResponse<UserInfo>> getUserInfo(String userToken) {
+    public Observable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
         return mRequestApi.getUserInfo(userToken);
     }
 

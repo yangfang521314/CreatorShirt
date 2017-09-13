@@ -4,7 +4,6 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -41,7 +40,7 @@ public interface RequestApi {
 
     //获取用户信息
     @POST("f-Users/GetUserInfo")
-    Observable<HttpResponse<UserInfo>> getUserInfo(@Header("Token") String userToken);
+    Observable<HttpResponse<LoginBean>> getUserInfo(@Header("Token") String userToken);
 
     //获取爆款数据
     @POST("f-Users/requestOrdersFromsquare")

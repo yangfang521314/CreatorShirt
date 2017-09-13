@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
-import com.example.yf.creatorshirt.mvp.model.UserInfo;
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -12,7 +12,7 @@ public interface UserInfoContract {
 
     interface UserView extends BaseView {
 
-        void showUserInfo(UserInfo userInfo);
+        void showUserInfo(LoginBean userInfo);
     }
 
     interface Presenter extends BasePresenter<UserView> {

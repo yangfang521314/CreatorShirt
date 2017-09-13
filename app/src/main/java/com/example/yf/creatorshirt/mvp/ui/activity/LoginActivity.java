@@ -1,13 +1,14 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private SHARE_MEDIA platform = null;
     private int countTime;
     private Handler mHandler;
+    private boolean flag;
 
     @Override
     protected void inject() {
@@ -66,14 +68,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     void afterTextChanged() {
         if (!TextUtils.isEmpty(PhoneUtils.getTextString(mEditPhone))) {
             mBtnNext.setSelected(true);
-            btnSendCode.setEnabled(false);
+            btnSendCode.setSelected(true);
         } else {
-            btnSendCode.setEnabled(true);
+            btnSendCode.setSelected(false);
             mBtnNext.setEnabled(false);
             mHandler.removeCallbacks(runnable);
         }
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @OnClick({R.id.next, R.id.send_code, R.id.weixin_login})
@@ -92,7 +93,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
                 } else {
                     //Umeng有提醒是否安装的Toast，不需要设置Toast。
-                    Log.e("TAG","dfuc you");
+                    Log.e("TAG", "dfuc you");
                 }
                 break;
             case R.id.send_code:
@@ -143,7 +144,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        startActivity(new Intent(this, EditUserActivity.class));
         this.finish();
         ToastUtil.showToast(this, "登录成功", 0);
     }
@@ -167,7 +167,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             mHandler.removeCallbacks(runnable);
         }
         mHandler.postDelayed(runnable, 1000);
-        ToastUtil.showToast(this,"验证码已经发送",0);
+        ToastUtil.showToast(this, "验证码已经发送", 0);
     }
 
     Runnable runnable = new Runnable() {
@@ -183,7 +183,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     };
 
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (null != this.getCurrentFocus()) {
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.onTouchEvent(event);
+    }
 
     /**
      * auth callback interface
@@ -245,7 +255,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                         if (key == "iconurl") {
                             imgUrl = data.get(key);
                         }
-                        if (key== "openid"){
+                        if (key == "openid") {
                             openId = data.get(key);
                         }
                     }

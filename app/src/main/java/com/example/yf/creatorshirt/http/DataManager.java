@@ -51,7 +51,7 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getVerifyCode(phone);
     }
 
-    public Observable<HttpResponse<UserInfo>> getUserInfo(String userToken) {
+    public Observable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
         return mHttpHelper.getUserInfo(userToken);
     }
 

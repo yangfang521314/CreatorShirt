@@ -23,4 +23,5 @@ public class Constants {
     public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
     public static final int USER_AVATAR_MAX_SIZE = 150 ;
     public static final String USER_NAME = "username";
+    public static final boolean LOGIN = true;
 }
