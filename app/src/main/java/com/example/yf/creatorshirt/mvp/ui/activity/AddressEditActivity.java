@@ -118,7 +118,6 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
             for (int i = 0; i < cityList.size(); i++) {
                 City city = cityList.get(i);
                 lastId = city.getId();
-                Log.e("TAG", "last" + lastId);
                 tvAddress += city.getName();
             }
         }
@@ -134,5 +133,10 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     @Override
     public void showSuccess(List<AddressBean> addressBean) {
 
+    }
+
+    @Override
+    public void SuccessSaveAddress() {
+        ToastUtil.showToast(this,"地址保存成功",0);
     }
 }

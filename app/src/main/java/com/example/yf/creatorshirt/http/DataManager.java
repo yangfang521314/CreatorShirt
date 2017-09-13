@@ -124,5 +124,10 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getDesignOrders(requestbody);
     }
 
+    @Override
+    public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
+        return mHttpHelper.saveAddress(userToKen,requestbody);
+    }
+
 
 }

@@ -120,5 +120,10 @@ public class RetrofitHelper implements HttpHelper {
         return mRequestApi.getDesignOrders(requestbody);
     }
 
+    @Override
+    public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
+        return mRequestApi.saveAddress(userToKen,requestbody);
+    }
+
 
 }
