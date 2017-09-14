@@ -14,4 +14,8 @@ public class MainEvent {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public MainEvent(String value) {
+        this.value = value;
+    }
 }

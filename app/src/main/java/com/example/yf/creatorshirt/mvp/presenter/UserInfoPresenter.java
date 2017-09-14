@@ -6,7 +6,6 @@ import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonObserver;
 
 import javax.inject.Inject;
@@ -27,21 +26,22 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.UserView> im
 
     /**
      * 获取用户信息
+     * @param token
      */
     @Override
-    public void getUserInfo() {
-            addSubscribe(manager.getUserInfo(SharedPreferencesUtil.getUserToken())
-                    .compose(RxUtils.<HttpResponse<LoginBean>>rxObScheduleHelper())
-                    .compose(RxUtils.<LoginBean>handleObservableResult())
-                    .subscribeWith(new CommonObserver<LoginBean>(mView, "请求失败") {
-                        @Override
-                        public void onNext(@NonNull LoginBean userInfo) {
-                            if (userInfo == null) {
-                                return;
-                            }
-                            mView.showUserInfo(userInfo);
+    public void getUserInfo(String token) {
+        addSubscribe(manager.getUserInfo(token)
+                .compose(RxUtils.<HttpResponse<LoginBean>>rxObScheduleHelper())
+                .compose(RxUtils.<LoginBean>handleObservableResult())
+                .subscribeWith(new CommonObserver<LoginBean>(mView, "请求失败") {
+                    @Override
+                    public void onNext(@NonNull LoginBean userInfo) {
+                        if (userInfo == null) {
+                            return;
                         }
-                    }));
+                        mView.showUserInfo(userInfo);
+                    }
+                }));
 
     }
 }

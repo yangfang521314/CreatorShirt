@@ -50,7 +50,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private SHARE_MEDIA platform = null;
     private int countTime;
     private Handler mHandler;
-    private boolean flag;
 
     @Override
     protected void inject() {
@@ -144,11 +143,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        if(getIntent().getExtras() != null) {
-            startCommonActivity(this, getIntent().getExtras(), EditUserActivity.class);
-            this.finish();
-            ToastUtil.showToast(this, "登录成功", 0);
-        }
+        startCommonActivity(this, null, EditUserActivity.class);
+        ToastUtil.showToast(this, "登录成功", 0);
+        this.finish();
     }
 
     private class RegisterHandler extends WeakReferenceHandler<LoginActivity> {

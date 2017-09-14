@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.app;
 import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.inject.component.AppComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerAppComponent;
 import com.example.yf.creatorshirt.inject.module.AppModule;
@@ -43,6 +44,7 @@ public class App extends MultiDexApplication {
         mInstance = this;
         SharedPreferencesUtil.init(this);
         UMShareAPI.get(this);
+        UserInfoManager.getInstance().init(this);
         initShareConfig();
     }
 

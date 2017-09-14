@@ -17,7 +17,7 @@ public interface UserInfoContract {
 
     interface Presenter extends BasePresenter<UserView> {
         //获取用户信息
-        void getUserInfo();
+        void getUserInfo(String token);
     }
 
 }

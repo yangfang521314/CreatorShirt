@@ -2,13 +2,15 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
@@ -16,7 +18,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;
@@ -47,6 +48,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @BindView(R.id.user_name)
     TextView mUserName;
 
+    private LoginBean mUserInfo;
 
     @Inject
     Activity mActivity;
@@ -69,9 +71,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //根据第一次登录的接口返回的Token去访问用户返回的信息
-        if (!TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
-
-            mPresenter.getUserInfo();
+        if (UserInfoManager.getInstance().getLoginResponse() != null) {
+            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
         }
 
     }
@@ -117,8 +118,18 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     public void showUserInfo(LoginBean userInfo) {
-        mUserName.setText(userInfo.getUserInfo().getName());
+        mUserInfo = userInfo;
+        updateUserView();
+    }
+
+    //更新视图
+    public void updateUserView() {
+        mUserName.setText(mUserInfo.getUserInfo().getName());
+        RequestOptions options = new RequestOptions()
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.mipmap.mm);
         Glide.with(mActivity).
-                load(userInfo.getUserInfo().getHeadImage()).into(mUserPicture);
+                load(mUserInfo.getUserInfo().getHeadImage()).apply(options).into(mUserPicture);
     }
 }

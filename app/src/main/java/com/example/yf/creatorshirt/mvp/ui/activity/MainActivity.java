@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -18,22 +18,15 @@ import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.common.LoginEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
-import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
-import com.example.yf.creatorshirt.utils.RxBus;
-import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
-import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class MainActivity extends BaseActivity {
@@ -65,7 +58,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -85,33 +82,8 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
         String key = PackageUtil.getSignature(App.getInstance());
-        Log.e("TGA", "dddddddd"+"fuck you ");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        RxBus.getDefault().toFlowable(LoginEvent.class)
-                .compose(RxUtils.<LoginEvent>rxSchedulerHelper())
-                .map(new Function<LoginEvent, String>() {
-                    @Override
-                    public String apply(@NonNull LoginEvent loginEvent) throws Exception {
-                        return loginEvent.getIsMine();
-                    }
-                }).subscribeWith(new CommonSubscriber<String>(null) {
-            @Override
-            public void onNext(String s) {
-                Log.e("TGA", "dddddddd"+s);
-//                changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-
-            }
-        });
-    }
 
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
     public void onClick(View view) {
@@ -127,10 +99,10 @@ public class MainActivity extends BaseActivity {
             case R.id.mine_text:
                 //没有Token进行登录
                 if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("login", Constants.LOGIN);
-                    startCommonActivity(this, bundle, LoginActivity.class);
+                    startCommonActivity(this, null, LoginActivity.class);
                     choiceTabState(TYPE_MINE);
+                    changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
+                    hideFragment = showFragment;
                 } else {
                     showFragment = TYPE_MINE;
                     choiceTabState(TYPE_MINE);
@@ -240,5 +212,10 @@ public class MainActivity extends BaseActivity {
         } else {
             startOtherActivity();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

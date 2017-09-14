@@ -5,11 +5,10 @@ import android.support.annotation.RequiresApi;
 import android.util.ArrayMap;
 import android.util.Log;
 
-import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.UserInfoCache;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
@@ -69,17 +68,17 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
             addSubscribe(mDataManager.login(body)
                     .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
                     .compose(RxUtils.<LoginBean>handleResult())
-                    .subscribeWith(new CommonSubscriber<LoginBean>(mView) {
+                    .subscribeWith(new CommonSubscriber<LoginBean>(mView,"登录失败，请重试") {
 
                         @Override
                         public void onNext(LoginBean loginBean) {
                             SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());
                             SharedPreferencesUtil.saveUserToken(loginBean.getToken());
                             SharedPreferencesUtil.saveUserPhone(loginBean.getUserInfo().getMobile());
-                            //保存用户信息 // TODO: 2017/9/14 程序。。。。。 
-                            UserInfoCache userInfoCache = new UserInfoCache(App.getInstance());
-                            userInfoCache.saveUserInfo(loginBean);
+                            UserInfoManager.getInstance().setLoginSuccess(loginBean, loginBean.getUserInfo().getName(),
+                                    loginBean.getToken(), loginBean.getUserInfo().getMobile());
                             mView.LoginSuccess(loginBean);
+
                         }
                     }));
         }

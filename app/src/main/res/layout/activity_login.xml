@@ -75,9 +75,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/shape_clothe_button"
+                android:background="@drawable/sex_clothes_background"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
                 android:text="发送验证码"
                 android:textColor="@color/manatee"
                 android:textSize="15sp" />

@@ -29,7 +29,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.common.LoginEvent;
 import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -41,7 +40,6 @@ import com.example.yf.creatorshirt.utils.CropUtils;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.PermissionUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
-import com.example.yf.creatorshirt.utils.RxBus;
 import com.example.yf.creatorshirt.utils.SharedPreferencesMark;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -73,7 +71,6 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     private File file;
     private EditUserPopupWindow mPopupWindow;
     private String mAvatarUrl;
-    private String filter;
 
     @Override
     protected void inject() {
@@ -85,13 +82,6 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
 
     }
 
-    @Override
-    public void initData() {
-        super.initData();
-        if (getIntent().getExtras() != null) {
-            filter = getIntent().getExtras().getString("login");
-        }
-    }
 
     @Override
     protected int getView() {
@@ -115,14 +105,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_tv_filter:
-                if(filter.equals(Constants.LOGIN)) {
-                    LoginEvent loginEvent = new LoginEvent();
-                    loginEvent.setIsMine(Constants.LOGIN);
-                    RxBus.getDefault().post(loginEvent);
-                    this.finish();
-                }else {
-
-                }
+                this.finish();
                 break;
             case R.id.user_edit_avatar:
                 initPopupWindow();
@@ -326,4 +309,8 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         return super.onTouchEvent(event);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

@@ -6,14 +6,9 @@ package com.example.yf.creatorshirt.common;
 
 public class LoginEvent {
     private boolean isMinefragment;
-    private String isMine;
 
-    public String getIsMine() {
-        return isMine;
-    }
-
-    public void setIsMine(String isMine) {
-        this.isMine = isMine;
+    public LoginEvent(boolean isMinefragment) {
+        this.isMinefragment = isMinefragment;
     }
 
     public boolean isMinefragment() {
