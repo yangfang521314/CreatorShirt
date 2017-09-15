@@ -4,6 +4,7 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -89,4 +90,12 @@ public interface RequestApi {
 
     @POST("f-Users/addUseraddress")
     Flowable<HttpResponse> saveAddress(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //查询点赞
+    @POST("f-Users/requestOrderPraise")
+    Flowable<HttpResponse<Integer>> requestPraise(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //订单点赞
+    @POST("f-Users/OrderPraise")
+    Flowable<HttpResponse<PraiseEntity>> OrderPraise(@Header("Token") String userToken, @Body RequestBody requestBody);
 }

@@ -13,6 +13,8 @@ import java.util.List;
 public interface HotDesignContract {
     interface HotDesignView extends BaseView {
         void showSuccess(List<HotDesignsBean> hotDesigns);
+
+        void showMoreSuccess(List<HotDesignsBean> hotDesigns);
     }
 
     interface Presenter extends BasePresenter<HotDesignView> {

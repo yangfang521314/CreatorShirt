@@ -126,4 +126,5 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
         bundle.putParcelable("detail", bombStyles.get(position));
         startCommonActivity(getActivity(), bundle, DetailClothesActivity.class);
     }
+
 }

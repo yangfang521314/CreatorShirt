@@ -4,6 +4,7 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**
@@ -51,4 +53,8 @@ public interface HttpHelper {
     Flowable<HttpResponse<List<BombStyleBean>>> getDesignOrders(RequestBody requestbody);
 
     Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody);
+
+    Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody);
+
+    Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson);
 }

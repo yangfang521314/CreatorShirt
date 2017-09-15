@@ -57,23 +57,18 @@ public class UserInfoManager {
      * 登录下,更新本地存储的用户信息,需要同时更新视图
      */
     public void updateLocalLoginResponse() {
-
         userInfoCache.saveUserInfo(mLoginResponse);
     }
 
-//    /**
-//     * 登录下,注销登录,需要同时更新视图
-//     */
-//    public void logOut() {
-//        if (!isLogin()) {
-//            return;
-//        }
-//        SoAPP.setIsLogin(false);
-//        //注销时暂时不清楚用户名密码
-//        //SharedPreferencesUtil.setUserName("");
-//        //SharedPreferencesUtil.setUserPassword("");
-//        mLoginResponse = new LoginResponse();
-//        userInfoCache.saveUserInfo(mLoginResponse);
-//    }
+    /**
+     * 登录下,注销登录,需要同时更新视图
+     */
+    public void logOut() {
+        //注销时暂时不清楚用户名密码
+        //SharedPreferencesUtil.setUserName("");
+        //SharedPreferencesUtil.setUserPassword("");
+        mLoginResponse = new LoginBean();
+        userInfoCache.saveUserInfo(mLoginResponse);
+    }
 
 }

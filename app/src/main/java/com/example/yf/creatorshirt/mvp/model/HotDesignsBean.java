@@ -33,6 +33,9 @@ public class HotDesignsBean implements Parcelable{
         counts = in.readInt();
     }
 
+    public HotDesignsBean() {
+    }
+
     public static final Creator<HotDesignsBean> CREATOR = new Creator<HotDesignsBean>() {
         @Override
         public HotDesignsBean createFromParcel(Parcel in) {

@@ -4,6 +4,7 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -127,6 +128,16 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
         return mHttpHelper.saveAddress(userToKen,requestbody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody) {
+        return mHttpHelper.requestOrdersPraise(userToKen,requestbody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson) {
+        return mHttpHelper.OrderPraise(token,gson);
     }
 
 

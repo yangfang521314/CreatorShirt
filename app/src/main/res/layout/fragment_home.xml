@@ -30,7 +30,7 @@
             android:layout_marginTop="10dp"
             android:text="张芷溪"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </com.zhy.android.percent.support.PercentRelativeLayout>
 
     <LinearLayout
@@ -46,6 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:padding="7dp"
             android:layout_marginRight="5dp">
 
             <TextView
@@ -54,7 +56,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:gravity="center"
-                android:padding="6dp"
                 android:text="收货地址"
                 android:textSize="16sp" />
 
@@ -87,9 +88,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+
                 android:gravity="center"
-                android:padding="6dp"
                 android:text="我的设计"
                 android:textSize="16sp" />
 
@@ -122,9 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:padding="6dp"
                 android:text="我的订单"
                 android:textSize="16sp" />
 
@@ -133,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="50dp"
                 android:gravity="center"

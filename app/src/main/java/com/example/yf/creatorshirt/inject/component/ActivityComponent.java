@@ -8,6 +8,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.ChoiceSizeActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressEditActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
@@ -44,4 +45,6 @@ public interface ActivityComponent {
     void inject(AddressEditActivity editAddressActivity);
 
     void inject(DesignerOrdersActivity designerOrdersActivity);
+
+    void inject(DetailClothesActivity detailClothesActivity);
 }

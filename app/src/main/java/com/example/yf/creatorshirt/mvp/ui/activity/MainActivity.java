@@ -24,6 +24,7 @@ import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -95,14 +96,16 @@ public class MainActivity extends BaseActivity {
             case R.id.design_text:
                 startActivity(new Intent(this, DesignActivity.class));
                 choiceTabState(TYPE_DESIGN);
+                showFragment = TYPE_SQUARE;
                 break;
             case R.id.mine_text:
                 //没有Token进行登录
                 if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
                     startCommonActivity(this, null, LoginActivity.class);
                     choiceTabState(TYPE_MINE);
-                    changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
                     mAppBar.setVisibility(View.GONE);
+                    changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
+                    showFragment = TYPE_MINE;
                 } else {
                     showFragment = TYPE_MINE;
                     choiceTabState(TYPE_MINE);
@@ -169,18 +172,14 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Toast.makeText(this, getResources().getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
-                mExitTime = System.currentTimeMillis();
-            } else {
-                MainActivity.this.finish();
-                App.getInstance().exitApp();
-            }
-            return true;
+    public void onBackPressed() {
+        if((System.currentTimeMillis() -mExitTime)>2000){
+            ToastUtil.showToast(this,getString(R.string.exit_app),Toast.LENGTH_LONG);
+            mExitTime = System.currentTimeMillis();
+        }else {
+            System.exit(0);
         }
-        return super.onKeyDown(keyCode, event);
+
     }
 
     @Override

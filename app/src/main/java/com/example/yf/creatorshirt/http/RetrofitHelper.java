@@ -4,6 +4,7 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.UserInfo;
@@ -123,6 +124,16 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
         return mRequestApi.saveAddress(userToKen,requestbody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody) {
+        return mRequestApi.requestPraise(userToKen,requestbody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson) {
+        return mRequestApi.OrderPraise(token,gson);
     }
 
 

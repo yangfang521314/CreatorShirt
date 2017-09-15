@@ -1,5 +1,8 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,8 +11,7 @@ import java.util.List;
  * 用户信息
  */
 
-public class LoginBean implements Serializable {
-    private static final long serialVersionUID = 2L;
+public class LoginBean implements Parcelable,Serializable {
     /**
      * "result": {
      * "UserInfo": {
@@ -30,6 +32,27 @@ public class LoginBean implements Serializable {
     private List<String> address;
     private String token;
 
+
+    protected LoginBean(Parcel in) {
+        UserInfo = in.readParcelable(com.example.yf.creatorshirt.mvp.model.UserInfo.class.getClassLoader());
+        address = in.createStringArrayList();
+        token = in.readString();
+    }
+
+    public LoginBean() {
+    }
+
+    public static final Creator<LoginBean> CREATOR = new Creator<LoginBean>() {
+        @Override
+        public LoginBean createFromParcel(Parcel in) {
+            return new LoginBean(in);
+        }
+
+        @Override
+        public LoginBean[] newArray(int size) {
+            return new LoginBean[size];
+        }
+    };
 
     public UserInfo getUserInfo() {
         return UserInfo;
@@ -62,5 +85,17 @@ public class LoginBean implements Serializable {
                 ", address=" + address +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(UserInfo, i);
+        parcel.writeStringList(address);
+        parcel.writeString(token);
     }
 }

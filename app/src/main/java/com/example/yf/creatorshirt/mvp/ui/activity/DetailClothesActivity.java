@@ -18,13 +18,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
+import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +40,7 @@ import butterknife.OnClick;
 /**
  * 点击广场热款的详情页面
  */
-public class DetailClothesActivity extends BaseActivity {
+public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> implements DetailClothesContract.DetailClothesView {
     private static final String TAG = DetailClothesActivity.class.getSimpleName();
     @BindView(R.id.user_avatar)
     ImageView mUserAavtar;
@@ -43,6 +48,8 @@ public class DetailClothesActivity extends BaseActivity {
     TextView mUserName;
     @BindView(R.id.clothes_design_name)
     TextView mClothesName;
+    @BindView(R.id.praise)
+    ImageView mPraise;
     @BindView(R.id.praise_num)
     TextView mClothesPraiseNum;
     @BindView(R.id.detail_clothes_time)
@@ -70,7 +77,7 @@ public class DetailClothesActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -157,7 +164,7 @@ public class DetailClothesActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_start, R.id.user_avatar})
+    @OnClick({R.id.btn_start, R.id.user_avatar, R.id.praise})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
@@ -169,6 +176,13 @@ public class DetailClothesActivity extends BaseActivity {
                     startChoiceActivity();
                 }
             case R.id.user_avatar:
+                break;
+            case R.id.praise:
+                if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                    if (!TextUtils.isEmpty(UserInfoManager.getInstance().getLoginResponse().getToken())) {
+                        mPresenter.OrderPraise(mBombStyleBean.getId());
+                    }
+                }
                 break;
         }
 
@@ -198,6 +212,37 @@ public class DetailClothesActivity extends BaseActivity {
         super.initData();
         if (getIntent().getExtras() != null) {
             mBombStyleBean = getIntent().getExtras().getParcelable("detail");
+            if (UserInfoManager.getInstance().getLoginResponse().getToken() != null) {
+                mPresenter.requestOrdersPraise(mBombStyleBean.getId());
+            }
         }
     }
+
+    @Override
+    public void showPraise(Integer integer) {
+        if (integer == 1) {
+            mPraise.setBackgroundResource(R.drawable.designer_parise_press_bg);
+            mClothesPraiseNum.setBackgroundResource(R.drawable.designer_parise_press_bg);
+            mPraise.setEnabled(false);
+//            mClothesPraiseNum.setEnabled(false);
+        } else {
+            mPraise.setEnabled(true);
+//            mClothesPraiseNum.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void addPraiseNum(PraiseEntity integer) {
+        mPraise.setEnabled(false);
+        mPraise.setBackgroundResource(R.drawable.designer_parise_press_bg);
+        mClothesPraiseNum.setBackgroundResource(R.drawable.designer_parise_press_bg);
+        mClothesPraiseNum.setText(integer.getPraise() + "人赞");
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        ToastUtil.showToast(this, msg, 0);
+    }
+
 }

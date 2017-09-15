@@ -60,15 +60,4 @@ public class App extends MultiDexApplication {
         allActivities.add(activity);
     }
 
-    public void exitApp() {
-        if (allActivities != null) {
-            synchronized (allActivities) {
-                for (Activity act : allActivities) {
-                    act.finish();
-                }
-            }
-        }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
-    }
 }

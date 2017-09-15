@@ -123,4 +123,10 @@ public class DesignActivity extends BaseActivity<DesignPresenter> implements Des
         currentView.setSelected(true);
         beforeView = currentView;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 }

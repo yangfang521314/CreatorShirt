@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
@@ -16,6 +18,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
@@ -36,9 +39,14 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefresh;
     @Inject
     Activity mActivity;
     private List<HotDesignsBean> hotDesignsBeen;
+    private GridLayoutManager mGridManager;
+    private HotDesignStyleAdapter adapter;
+    private boolean isLoadMore = false;
 
     @Override
     protected void initInject() {
@@ -53,6 +61,35 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     protected void initViews(View mView) {
         hotDesignsBeen = new ArrayList<>();
+        mGridManager = new GridLayoutManager(mActivity, 3);
+        mRecyclerView.setLayoutManager(mGridManager);
+        adapter = new HotDesignStyleAdapter(mActivity);
+        adapter.setOnclicklistener(this);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getHotDesign();
+            }
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = mGridManager.findLastVisibleItemPosition();
+                if (lastVisibleItemPosition >= mRecyclerView.getLayoutManager().getItemCount() - 2 && dy > 0) {
+                    if (!isLoadMore) {
+                        mPresenter.loadMore();
+                        isLoadMore = true;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -63,13 +100,26 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
 
     @Override
     public void showSuccess(List<HotDesignsBean> hotDesigns) {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
-        HotDesignStyleAdapter adapter = new HotDesignStyleAdapter(mActivity);
-        adapter.setOnclicklistener(this);
-        adapter.setData(hotDesigns);
+        if (mSwipeRefresh.isRefreshing()) {
+            mSwipeRefresh.setRefreshing(false);
+        }
+        hotDesignsBeen.clear();
+        hotDesignsBeen.addAll(hotDesigns);
+        adapter.setData(hotDesignsBeen);
         mRecyclerView.setAdapter(adapter);
-        this.hotDesignsBeen = hotDesigns;
+    }
+
+    @Override
+    public void showMoreSuccess(List<HotDesignsBean> hotDesigns) {
+        if (hotDesigns == null) {
+            ToastUtil.showToast(getActivity(), "没有更多数据", 0);
+        } else {
+            isLoadMore = false;
+            hotDesignsBeen.addAll(hotDesigns);
+            for (int i = hotDesignsBeen.size() - 10; i < hotDesignsBeen.size(); i++) {
+                adapter.notifyItemInserted(i);
+            }
+        }
     }
 
     private class DividerItemDecoration extends Y_DividerItemDecoration {

@@ -36,8 +36,28 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
 
     @Override
     public void getHotDesign() {
+        pageIndex = 0;
         Map<String, Integer> map = new HashMap<>();
         map.put("pageIndex", pageIndex);
+        RequestBody body = GsonUtils.getGson(map);
+        addSubscribe(dataManager.getHotDesign(SharedPreferencesUtil.getUserToken(), body)
+                .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<HotDesignsBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView) {
+                    @Override
+                    public void onNext(List<HotDesignsBean> hotDesigns) {
+                        if (hotDesigns == null) {
+                            return;
+                        }
+                        mView.showSuccess(hotDesigns);
+                    }
+                })
+        );
+    }
+
+    public void loadMore() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("pageIndex", ++pageIndex);
         RequestBody body = GsonUtils.getGson(map);
         addSubscribe(dataManager.getHotDesign(SharedPreferencesUtil.getUserToken(), body)
                 .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
@@ -48,20 +68,9 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
                         if (hotDesigns == null) {
                             return;
                         }
-                        mView.showSuccess(hotDesigns);
+                        mView.showMoreSuccess(hotDesigns);
                     }
                 })
         );
-//        TestRequestServer.getInstance().getHotDesign(SharedPreferencesUtil.getUserToken(), body).enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                Log.e("TAG", "FUCK YOU" + response.body().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//            }
-//        });
     }
 }
