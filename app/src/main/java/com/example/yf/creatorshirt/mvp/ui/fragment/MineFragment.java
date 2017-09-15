@@ -70,10 +70,10 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     protected void initData() {
-        //根据第一次登录的接口返回的Token去访问用户返回的信息
-        if (UserInfoManager.getInstance().getLoginResponse() != null) {
-            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
-        }
+//        //根据第一次登录的接口返回的Token去访问用户返回的信息
+//        if (UserInfoManager.getInstance().getLoginResponse() != null) {
+//            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
+//        }
 
     }
 
@@ -98,6 +98,14 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 bundle.putString("title", "我的设计");
                 startCommonActivity(mActivity, bundle, AllOrderActivity.class);
                 break;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(UserInfoManager.getInstance().getLoginResponse() != null){
+            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
         }
     }
 

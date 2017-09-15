@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
                     startCommonActivity(this, null, LoginActivity.class);
                     choiceTabState(TYPE_MINE);
                     changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
-                    hideFragment = showFragment;
+                    mAppBar.setVisibility(View.GONE);
                 } else {
                     showFragment = TYPE_MINE;
                     choiceTabState(TYPE_MINE);
