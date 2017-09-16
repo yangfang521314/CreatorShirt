@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.LoginPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
@@ -26,6 +27,8 @@ import com.example.yf.creatorshirt.utils.WeakReferenceHandler;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 import java.util.Set;
@@ -143,9 +146,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        startCommonActivity(this, null, EditUserActivity.class);
-        ToastUtil.showToast(this, "登录成功", 0);
-        this.finish();
+        if (!loginBean.getUserInfo().getNew()) {
+            ToastUtil.showToast(this, "登录成功", 0);
+            EventBus.getDefault().post(new UpdateUserInfoEvent(true));
+            finish();
+        } else {
+            startCommonActivity(this, null, EditUserActivity.class);
+            ToastUtil.showToast(this, "登录成功", 0);
+            this.finish();
+        }
     }
 
     private class RegisterHandler extends WeakReferenceHandler<LoginActivity> {

@@ -24,6 +24,9 @@ public class App extends MultiDexApplication {
     private static App mInstance;
     private static AppComponent mAppComponent;
     private Set<Activity> allActivities;
+    /*用户是否登录*/
+    public static boolean isLogin;
+
     public static AppComponent getAppComponent() {
         if (mAppComponent == null) {
             mAppComponent = DaggerAppComponent.builder()
@@ -46,6 +49,11 @@ public class App extends MultiDexApplication {
         UMShareAPI.get(this);
         UserInfoManager.getInstance().init(this);
         initShareConfig();
+        if (SharedPreferencesUtil.getIsLogin()) {
+            setIsLogin(true);
+        } else {
+            setIsLogin(false);
+        }
     }
 
     private void initShareConfig() {
@@ -60,4 +68,8 @@ public class App extends MultiDexApplication {
         allActivities.add(activity);
     }
 
+    public static void setIsLogin(boolean b) {
+        App.isLogin = b;
+        SharedPreferencesUtil.setIsLogin(isLogin);
+    }
 }

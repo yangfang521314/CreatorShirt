@@ -52,7 +52,7 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getVerifyCode(phone);
     }
 
-    public Observable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
+    public Flowable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
         return mHttpHelper.getUserInfo(userToken);
     }
 

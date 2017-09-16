@@ -1,26 +1,28 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UserInfoManager;
-import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.AllOrderActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.mvp.ui.view.DialogLogout;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;
@@ -38,20 +40,21 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     ImageView mUserPicture;
     @BindView(R.id.choice_address_iv)
     ImageView mChoiceAddress;
-    @BindView(R.id.choice_design_iv)
-    ImageView mChoiceDesign;
     @BindView(R.id.choice_order_iv)
     ImageView mChoiceOrder;
-    @BindView(R.id.design_number)
-    TextView mDesignNumber;
-    @BindView(R.id.order_number)
-    TextView mOrderNumber;
-    @BindView(R.id.address_number)
-    TextView mAddressNumber;
     @BindView(R.id.user_name)
     TextView mUserName;
-
-    private LoginBean mUserInfo;
+    @BindView(R.id.update_user_info)
+    ImageView mUpdateUserInfo;
+    @BindView(R.id.rl_user_address)
+    RelativeLayout mRLAddress;
+    @BindView(R.id.rl_user_info)
+    RelativeLayout mRLUserInfo;
+    @BindView(R.id.rl_user_order)
+    RelativeLayout mRLUserOrder;
+    @BindView(R.id.exit_login)
+    Button mExitLogin;
+    private DialogLogout dialogLogout;
 
     @Inject
     Activity mActivity;
@@ -73,49 +76,88 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     protected void initData() {
-//        //根据第一次登录的接口返回的Token去访问用户返回的信息
-//        if (UserInfoManager.getInstance().getLoginResponse() != null) {
-//            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
+        //打开app用户去更新信息
+//        if (!TextUtils.isEmpty(UserInfoManager.getInstance().getToken())) {
+        Log.e("T......./////", "DDDDD" + App.isLogin);
+        if (App.isLogin) {
+            mPresenter.getUserInfo(SharedPreferencesUtil.getUserToken());
 //        }
+        }
 
     }
 
-    @OnClick({R.id.user_avatar, R.id.choice_address_iv, R.id.choice_order_iv, R.id.choice_design_iv,
-            R.id.order_number, R.id.address_number, R.id.design_number})
+    @OnClick({R.id.user_avatar, R.id.choice_address_iv, R.id.choice_order_iv, R.id.update_user_info,
+            R.id.rl_user_address, R.id.rl_user_info, R.id.rl_user_order, R.id.user_name, R.id.exit_login})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.user_name:
             case R.id.user_avatar:
-                startCommonActivity(mActivity, null, UserCenterActivity.class);
+                if (App.isLogin) {
+                    startCommonActivity(getActivity(), null, UserCenterActivity.class);
+                } else {
+                    startCommonActivity(getActivity(), null, LoginActivity.class);
+                }
                 break;
             case R.id.choice_address_iv:
-            case R.id.address_number:
-                startCommonActivity(mActivity, null, AddressShowActivity.class);
+            case R.id.rl_user_address:
+                if (App.isLogin) {
+                    startCommonActivity(mActivity, null, AddressShowActivity.class);
+                } else {
+                    startCommonActivity(getActivity(), null, LoginActivity.class);
+                }
                 break;
             case R.id.choice_order_iv:
-            case R.id.order_number:
-                startCommonActivity(mActivity, null, AllOrderActivity.class);
+            case R.id.rl_user_order:
                 break;
-            case R.id.design_number:
-            case R.id.choice_design_iv:
-                HotDesignsBean hotDesignsBean = new HotDesignsBean();
-                hotDesignsBean.setUserid(mUserInfo.getUserInfo().getUserid());
-                Bundle bundle = new Bundle();
-                bundle.putString("title", "我的设计");
-                startCommonActivity(mActivity, bundle, DesignerOrdersActivity.class);
+            case R.id.update_user_info:
+            case R.id.rl_user_info:
+                if (App.isLogin) {
+                    startCommonActivity(mActivity, null, UserCenterActivity.class);
+                } else {
+                    startCommonActivity(getActivity(), null, LoginActivity.class);
+                }
                 break;
+            case R.id.exit_login:
+                getDialog();
+                break;
+
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (UserInfoManager.getInstance().getLoginResponse() != null) {
-            mPresenter.getUserInfo(UserInfoManager.getInstance().getLoginResponse().getToken());
+    private void getDialog() {
+        dialogLogout = new DialogLogout();
+        dialogLogout.setOnDialogClickListener(itemsOnclickListener);
+        dialogLogout.show(getFragmentManager(), "dialog");
+    }
+
+    private View.OnClickListener itemsOnclickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.negative:
+                    dialogLogout.dismiss();
+                    break;
+                case R.id.positive:
+                    logout();
+                    dialogLogout.dismiss();
+                    ToastUtil.showToast(getContext(), "注销成功", 0);
+                    break;
+                default:
+                    break;
+            }
+
         }
+    };
+
+    private void logout() {
+        UserInfoManager.getInstance().logOut();
+        updateUserView();
     }
 
     @Override
     public void showErrorMsg(String msg) {
+        App.setIsLogin(false);
+        UserInfoManager.getInstance().logOut();
         ToastUtil.showToast(mActivity, msg, 0);
     }
 
@@ -131,18 +173,27 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     public void showUserInfo(LoginBean userInfo) {
-        mUserInfo = userInfo;
-        updateUserView(userInfo);
+        updateUserView();
     }
 
     //更新视图
-    public void updateUserView(LoginBean userInfo) {
-        mUserName.setText(userInfo.getUserInfo().getName());
-        RequestOptions options = new RequestOptions()
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.mipmap.mm);
-        Glide.with(mActivity).
-                load(userInfo.getUserInfo().getHeadImage()).apply(options).into(mUserPicture);
+    public void updateUserView() {
+        if (App.isLogin) {
+            if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                mUserName.setText(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getName());
+                RequestOptions options = new RequestOptions()
+                        .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(R.mipmap.mm);
+                Glide.with(mActivity).
+                        load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage()).apply(options).into(mUserPicture);
+                mExitLogin.setText("退出登录");
+                mExitLogin.setVisibility(View.VISIBLE);
+            }
+        } else {
+            mExitLogin.setVisibility(View.GONE);
+            mUserName.setText("未登录");
+            mUserPicture.setImageResource(R.mipmap.user_default_avatar);
+        }
     }
 }

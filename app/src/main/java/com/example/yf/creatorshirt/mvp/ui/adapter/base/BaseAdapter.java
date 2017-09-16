@@ -57,7 +57,7 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
 
     public void add(int index, M data) {
         mData.add(index, data);
-        notifyItemChanged(index);
+        notifyItemInserted(index);
     }
 
     /**
@@ -91,30 +91,12 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
         notifyItemRangeRemoved(start, count);
     }
 
-    /**
-     * add a cell list
-     *
-     * @param lists
-     */
-    public void addAll(List<M> lists) {
-        if (lists == null || lists.size() == 0) {
-            return;
-        }
-        mData.addAll(lists);
-        notifyItemRangeChanged(mData.size() - lists.size(), mData.size());
+
+    public void addMore(List<M> items) {
+        int startPosition = mData.size();
+        mData.addAll(items);
+        notifyItemRangeInserted(startPosition, mData.size());
     }
 
-    public void addAll(int index, List<M> lists) {
-        if (lists == null || lists.size() == 0) {
-            return;
-        }
-        mData.addAll(index, lists);
-        notifyItemRangeChanged(index, index + lists.size());
-    }
-
-    public void clear() {
-        mData.clear();
-        notifyDataSetChanged();
-    }
 
 }

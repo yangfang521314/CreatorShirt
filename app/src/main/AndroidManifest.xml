@@ -98,6 +98,7 @@
         <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
         <activity android:name=".mvp.ui.activity.DesignerOrdersActivity" />
         <activity android:name=".mvp.ui.activity.AddressCheckActivity" />
+        <activity android:name=".mvp.ui.activity.DetailOrders22Activity"></activity>
     </application>
 
 </manifest>

@@ -61,7 +61,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Observable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
+    public Flowable<HttpResponse<LoginBean>> getUserInfo(String userToken) {
         return mRequestApi.getUserInfo(userToken);
     }
 

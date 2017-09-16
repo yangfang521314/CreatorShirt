@@ -14,7 +14,6 @@ import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,7 +40,7 @@ public interface RequestApi {
 
     //获取用户信息
     @POST("f-Users/GetUserInfo")
-    Observable<HttpResponse<LoginBean>> getUserInfo(@Header("Token") String userToken);
+    Flowable<HttpResponse<LoginBean>> getUserInfo(@Header("Token") String userToken);
 
     //获取爆款数据
     @POST("f-Users/requestOrdersFromsquare")

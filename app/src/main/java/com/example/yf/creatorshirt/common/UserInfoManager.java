@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.common;
 
 import android.content.Context;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.UserInfoCache;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
@@ -15,6 +16,7 @@ public class UserInfoManager {
     private LoginBean mLoginResponse;
     private UserInfoCache userInfoCache;
     private Context mContext;
+    private String token;
 
     public static UserInfoManager getInstance() {
         return ourInstance;
@@ -23,7 +25,9 @@ public class UserInfoManager {
     public void init(Context context) {
         mContext = context;
         userInfoCache = new UserInfoCache(context);
-        mLoginResponse = userInfoCache.getUserInfo();
+        if (isLogin()) {
+            mLoginResponse = userInfoCache.getUserInfo();
+        }
     }
 
     private UserInfoManager() {
@@ -46,11 +50,23 @@ public class UserInfoManager {
      * @param name
      */
     public void setLoginSuccess(LoginBean loginResponse, String name, String token, String mobile) {
+        App.setIsLogin(true);
         SharedPreferencesUtil.setUserName(name);
         SharedPreferencesUtil.saveUserToken(token);
         SharedPreferencesUtil.saveUserPhone(mobile);
         mLoginResponse = loginResponse;
         userInfoCache.saveUserInfo(mLoginResponse);
+    }
+
+    public String getToken() {
+        if (mLoginResponse != null) {
+            return getLoginResponse().getToken();
+        }
+        return null;
+    }
+
+    public boolean isLogin() {
+        return App.isLogin;
     }
 
     /**
@@ -64,6 +80,10 @@ public class UserInfoManager {
      * 登录下,注销登录,需要同时更新视图
      */
     public void logOut() {
+        if (!isLogin()) {
+            return;
+        }
+        App.setIsLogin(false);
         //注销时暂时不清楚用户名密码
         //SharedPreferencesUtil.setUserName("");
         //SharedPreferencesUtil.setUserPassword("");

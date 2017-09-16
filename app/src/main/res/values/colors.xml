@@ -75,5 +75,6 @@
   <color name="platinum_1">#e3e6ed</color>
   <color name="black_1">#030303</color>
   <color name="slategray">#717789</color>
+  <color name="line_dialog">#808080</color>
 </resources>
 

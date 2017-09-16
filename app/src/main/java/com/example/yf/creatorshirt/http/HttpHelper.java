@@ -14,8 +14,6 @@ import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**
@@ -28,7 +26,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<String>> getVerifyCode(RequestBody phone);
 
-    Observable<HttpResponse<LoginBean>> getUserInfo(String userToken);
+    Flowable<HttpResponse<LoginBean>> getUserInfo(String userToken);
 
     Flowable<HttpResponse<List<BombStyleBean>>> getBombData(RequestBody userToken);
 

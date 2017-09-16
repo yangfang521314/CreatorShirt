@@ -10,14 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
@@ -25,6 +24,10 @@ import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +67,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -99,18 +103,9 @@ public class MainActivity extends BaseActivity {
                 showFragment = TYPE_SQUARE;
                 break;
             case R.id.mine_text:
-                //没有Token进行登录
-                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
-                    startCommonActivity(this, null, LoginActivity.class);
-                    choiceTabState(TYPE_MINE);
-                    mAppBar.setVisibility(View.GONE);
-                    changeFragment(getShowFragment(TYPE_MINE), getShowFragment(TYPE_SQUARE));
-                    showFragment = TYPE_MINE;
-                } else {
-                    showFragment = TYPE_MINE;
-                    choiceTabState(TYPE_MINE);
-                    mAppBar.setVisibility(View.GONE);
-                }
+                showFragment = TYPE_MINE;
+                choiceTabState(TYPE_MINE);
+                mAppBar.setVisibility(View.GONE);
                 break;
         }
         changeFragment(getShowFragment(showFragment), getShowFragment(hideFragment));
@@ -171,12 +166,21 @@ public class MainActivity extends BaseActivity {
         return mSquareFragment;
     }
 
+
+    //login success update view
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUserViewByLogin(UpdateUserInfoEvent event) {
+        if (mMineFragment != null && mMineFragment.isAdded()) {
+            mMineFragment.updateUserView();
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        if((System.currentTimeMillis() -mExitTime)>2000){
-            ToastUtil.showToast(this,getString(R.string.exit_app),Toast.LENGTH_LONG);
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
             mExitTime = System.currentTimeMillis();
-        }else {
+        } else {
             System.exit(0);
         }
 
@@ -216,5 +220,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

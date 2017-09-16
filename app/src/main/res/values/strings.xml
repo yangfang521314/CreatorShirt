@@ -23,4 +23,7 @@
     <string name="no_url">没有地址</string>
     <string name="loading">加载中</string>
     <string name="refreshing">正在刷新...</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_no">取消</string>
+    <string name="title_dialog">自定义底部菜单</string>
 </resources>

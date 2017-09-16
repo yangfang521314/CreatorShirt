@@ -59,7 +59,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     public void phoneLogin(String phone, String password) {
         if (password != null && phone != null) {
             ArrayMap<String, String> map = new ArrayMap<>();
-            map.put("mobile", phone);
+            map.put( "mobile", phone);
             map.put("password", password);
             Gson gson = new Gson();
             String requestEntity = gson.toJson(map);
@@ -68,7 +68,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
             addSubscribe(mDataManager.login(body)
                     .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
                     .compose(RxUtils.<LoginBean>handleResult())
-                    .subscribeWith(new CommonSubscriber<LoginBean>(mView,"登录失败，请重试") {
+                    .subscribeWith(new CommonSubscriber<LoginBean>(mView, "登录失败，请重试") {
 
                         @Override
                         public void onNext(LoginBean loginBean) {

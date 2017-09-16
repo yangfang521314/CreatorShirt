@@ -212,7 +212,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         super.initData();
         if (getIntent().getExtras() != null) {
             mBombStyleBean = getIntent().getExtras().getParcelable("detail");
-            if (UserInfoManager.getInstance().getLoginResponse().getToken() != null) {
+            if (UserInfoManager.getInstance().getLoginResponse() != null) {
                 mPresenter.requestOrdersPraise(mBombStyleBean.getId());
             }
         }
