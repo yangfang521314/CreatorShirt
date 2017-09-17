@@ -30,7 +30,6 @@ public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> 
 
     @Override
     protected void bindCustomViewHolder(SizeViewHolder holder, final int position) {
-        holder.mSizeX.setText(mData.get(position).getLetter());
         holder.mSizeNumber.setText(mData.get(position).getSize());
         DisplayUtil.calculateItemSizeWidth(mContext,holder.mll);
         holder.mll.setOnClickListener(new View.OnClickListener() {

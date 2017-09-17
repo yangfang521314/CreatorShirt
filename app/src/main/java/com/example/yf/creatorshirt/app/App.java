@@ -58,7 +58,7 @@ public class App extends MultiDexApplication {
 
     private void initShareConfig() {
 //        59b105c7717c19193f00057f
-        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setWeixin("wx791dd5375a413291", "fa887ebfa17a272eb28d7b6c2fd9c16e");
     }
 
     public void addActivity(Activity activity) {

@@ -19,8 +19,8 @@ public class Constants {
     public static final String USER_TOKEN = "user_token";
     public static final String USER_MOBILE = "user_mobile";
 
-    public static final String[] size = {"160", "165", "170", "175", "180", "185"};
-    public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
+    public static final String[] size = {"160cm", "165cm", "170cm", "175cm", "180cm", "185cm"};
+//    public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
     public static final int USER_AVATAR_MAX_SIZE = 150 ;
     public static final String USER_NAME = "username";
     public static final String  LOGIN = "login";

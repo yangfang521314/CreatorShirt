@@ -10,18 +10,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignerOrdersViewHolder;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 /**
  * Created by yangfang on 2017/9/13.
  */
 
 public class DesignerOrdersAdapter extends BaseAdapter<BombStyleBean, DesignerOrdersViewHolder> {
-    ItemClickListener.OnItemClickListener onClickListener;
+    ItemClickListener.OnItemObjectClickListener onClickListener;
 
     public DesignerOrdersAdapter(Context context) {
         super(context);
@@ -42,13 +39,13 @@ public class DesignerOrdersAdapter extends BaseAdapter<BombStyleBean, DesignerOr
             holder.mLinearDesigner.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onClickListener.onItemClick(view, position);
+                    onClickListener.onItemClick(mData.get(position));
                 }
             });
         }
     }
 
-    public void setOnClickListener(ItemClickListener.OnItemClickListener onClickListener) {
+    public void setOnClickListener(ItemClickListener.OnItemObjectClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 }

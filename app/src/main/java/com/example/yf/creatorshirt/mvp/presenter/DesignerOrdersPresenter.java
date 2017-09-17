@@ -1,11 +1,8 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignerOrdersContract;
 import com.example.yf.creatorshirt.utils.GsonUtils;
@@ -69,7 +66,26 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     public void onNext(List<BombStyleBean> orderStyleBeen) {
                         mView.showMoreData(orderStyleBeen);
                     }
+
                 })
+        );
+    }
+
+    public void getRefreshDesigner() {
+        pageIndex = 0;
+        Map<String, Integer> map = new HashMap<>();
+        map.put("desginUserId", userID);
+        map.put("pageIndex", pageIndex);
+        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
+                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
+                    @Override
+                    public void onNext(List<BombStyleBean> orderStyleBeen) {
+                        mView.showRefreshData(orderStyleBeen);
+                    }
+                })
+
         );
     }
 }

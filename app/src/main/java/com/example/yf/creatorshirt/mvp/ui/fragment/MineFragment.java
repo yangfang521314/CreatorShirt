@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -77,11 +76,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //打开app用户去更新信息
-//        if (!TextUtils.isEmpty(UserInfoManager.getInstance().getToken())) {
-        Log.e("T......./////", "DDDDD" + App.isLogin);
         if (App.isLogin) {
             mPresenter.getUserInfo(SharedPreferencesUtil.getUserToken());
-//        }
         }
 
     }

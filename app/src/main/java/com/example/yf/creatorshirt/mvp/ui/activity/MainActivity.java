@@ -18,6 +18,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.fragment.DesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity {
 
     private SquareFragment mSquareFragment;
     private MineFragment mMineFragment;
+    private DesignFragment mDesignFragment;
     private String showFragment;
     private String hideFragment;
     private long mExitTime = 0;
@@ -80,10 +82,12 @@ public class MainActivity extends BaseActivity {
         mPermissionsChecker = new PermissionChecker(this);
         mSquareFragment = new SquareFragment();
         mMineFragment = new MineFragment();
+        mDesignFragment = new DesignFragment();
         showFragment = TYPE_SQUARE;
         hideFragment = TYPE_SQUARE;
         mTransaction = getSupportFragmentManager().beginTransaction();
         mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
+                .add(R.id.content, mDesignFragment, "design").hide(mDesignFragment)
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
         String key = PackageUtil.getSignature(App.getInstance());
@@ -98,9 +102,8 @@ public class MainActivity extends BaseActivity {
                 choiceTabState(TYPE_SQUARE);
                 break;
             case R.id.design_text:
-                startActivity(new Intent(this, DesignActivity.class));
                 choiceTabState(TYPE_DESIGN);
-                showFragment = TYPE_SQUARE;
+                showFragment = TYPE_DESIGN;
                 break;
             case R.id.mine_text:
                 showFragment = TYPE_MINE;
@@ -162,6 +165,8 @@ public class MainActivity extends BaseActivity {
                 return mSquareFragment;
             case TYPE_MINE:
                 return mMineFragment;
+            case TYPE_DESIGN:
+                return mDesignFragment;
         }
         return mSquareFragment;
     }

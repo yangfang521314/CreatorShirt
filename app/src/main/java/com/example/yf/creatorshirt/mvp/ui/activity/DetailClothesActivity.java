@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
@@ -30,6 +31,8 @@ import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,6 +176,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
                         || SharedPreferencesUtil.getUserId() == 0) {
                     startCommonActivity(this, null, LoginActivity.class);
                 } else {
+                    mPresenter.saveOrdersFromShare(mBombStyleBean.getId(),mBombStyleBean.getHeight());
                     startChoiceActivity();
                 }
             case R.id.user_avatar:
@@ -245,4 +249,9 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         ToastUtil.showToast(this, msg, 0);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new UpdateOrdersEvent(true));
+    }
 }

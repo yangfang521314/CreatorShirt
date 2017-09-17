@@ -14,13 +14,11 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseViewHolder;
 
 public class SizeViewHolder extends BaseViewHolder {
     public TextView mSizeNumber;
-    public TextView mSizeX;
     public LinearLayout mll;
 
     public SizeViewHolder(ViewGroup parent, @LayoutRes int resId) {
         super(parent, resId);
         mSizeNumber = getView(R.id.size_number);
-        mSizeX = getView(R.id.size_x);
         mll = getView(R.id.ll_item_size);
     }
 }

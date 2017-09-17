@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/app_bar"
@@ -57,7 +56,7 @@
             </LinearLayout>
 
 
-            <android.support.v7.widget.RecyclerView
+            <com.example.yf.creatorshirt.mvp.ui.view.freshrecyler.FreshRecyclerView
                 android:id="@+id/designer_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

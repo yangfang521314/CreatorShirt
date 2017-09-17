@@ -17,7 +17,7 @@
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:src="@drawable/recy_header_anim" />
 
         <TextView
             android:id="@+id/msg"

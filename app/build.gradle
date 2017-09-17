@@ -105,6 +105,7 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_social_shareboard.jar')
+    compile files('libs/umeng_social_shareview.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
@@ -113,4 +114,7 @@ dependencies {
     compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/happy-dns-0.2.9.jar')
+    compile files('libs/okio-1.9.0.jar')
+    compile files('libs/umeng_shareboard_widget.jar')
 }

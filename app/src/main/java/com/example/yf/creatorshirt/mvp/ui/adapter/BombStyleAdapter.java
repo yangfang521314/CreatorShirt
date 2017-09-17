@@ -34,7 +34,7 @@ public class BombStyleAdapter extends BaseAdapter<BombStyleBean, StyleViewHolder
     protected void bindCustomViewHolder(StyleViewHolder holder, final int position) {
         if(!TextUtils.isEmpty(mData.get(position).getFinishimage())) {
             holder.mClothePrice.setText("¥" + String.valueOf(mData.get(position).getFee()));
-            holder.mCreatorName.setText(mData.get(position).getUserName() + " 的原创定制");
+            holder.mCreatorName.setText(mData.get(position).getBaseName());
             Glide.with(mContext).load(mData.get(position).getFinishimage()).into(holder.mImageView);
             holder.mClothePriseNum.setText(String.valueOf(mData.get(position).getPraise()) + "人赞");
             holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {

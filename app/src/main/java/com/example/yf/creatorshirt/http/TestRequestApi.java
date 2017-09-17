@@ -46,4 +46,7 @@ public interface TestRequestApi {
 
     @POST("f-Users/addUseraddress")
     Call<HttpResponse> saveAddress(@Header("Token") String userToken, @Body RequestBody body);
+
+    @POST("f-Users/saveOrdersFromShare")
+    Call<HttpResponse> saveOrdersFromShare(@Header("Token") String userToken, @Body RequestBody body);
 }

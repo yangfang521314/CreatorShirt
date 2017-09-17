@@ -260,7 +260,7 @@ public class FreshRecyclerView extends RecyclerView {
         }
     }
 
-    private final RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
+    private final AdapterDataObserver mDataObserver = new AdapterDataObserver() {
         @Override
         public void onChanged() {
             mWrapAdapter.notifyDataSetChanged();

@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -18,36 +23,62 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.ui.activity.MainActivity">
+        <activity
+            android:name=".mvp.ui.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activity.LoginActivity" />
+        <activity
+            android:name=".mvp.ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.DesignActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".mvp.ui.activity.DetailDesignActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.ChoiceSizeActivity" />
+        <activity
+            android:name=".mvp.ui.activity.ChoiceSizeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.MyOrderActivity"
             android:label="@string/title_activity_my_order"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.AddressShowActivity" />
-        <activity android:name=".mvp.ui.activity.AddressEditActivity" />
-        <activity android:name=".mvp.ui.activity.AllOrderActivity" />
-        <activity android:name=".mvp.ui.activity.SuccessPayActivity" />
-        <activity android:name=".mvp.ui.activity.DetailOrderActivity" />
-        <activity android:name=".mvp.ui.activity.UserCenterActivity" />
-        <activity android:name=".mvp.ui.activity.MyDesignActivity" />
+        <activity
+            android:name=".mvp.ui.activity.AddressShowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.AddressEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.AllOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.SuccessPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.DetailOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.UserCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.MyDesignActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.PermissionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".mvp.ui.activity.EditUserActivity" />
+        <activity
+            android:name=".mvp.ui.activity.EditUserActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -95,10 +126,15 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".mvp.ui.activity.DetailClothesActivity" />
-        <activity android:name=".mvp.ui.activity.DesignerOrdersActivity" />
-        <activity android:name=".mvp.ui.activity.AddressCheckActivity" />
-        <activity android:name=".mvp.ui.activity.DetailOrders22Activity"></activity>
+        <activity
+            android:name=".mvp.ui.activity.DetailClothesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.AddressCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.DeignerNewOrdersActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

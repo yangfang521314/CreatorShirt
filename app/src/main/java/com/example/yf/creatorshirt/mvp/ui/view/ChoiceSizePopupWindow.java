@@ -57,7 +57,6 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
         for (int i = 0; i < Constants.size.length; i++) {
             clothesSize = new ClothesSize();
             clothesSize.setSize(Constants.size[i]);
-            clothesSize.setLetter(Constants.letter[i]);
             clothesList.add(clothesSize);
         }
     }

@@ -5,10 +5,6 @@
     android:layout_gravity="center"
     android:background="@color/white">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
-
     <TextView
         android:id="@+id/sex_choice"
         android:layout_width="match_parent"

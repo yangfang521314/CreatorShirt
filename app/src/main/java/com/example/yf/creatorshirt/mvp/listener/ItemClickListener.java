@@ -20,10 +20,17 @@ public class ItemClickListener implements RecyclerView.OnItemTouchListener {
          * @param position 点击的位置
          */
         void onItemClick(View view, int position);
+
+
     }
 
+    public interface OnItemObjectClickListener {
+        void onItemClick(Object o);
+    }
+
+
     public interface OnClickListener {
-        void onClick(View view,int position);
+        void onClick(View view, int position);
     }
 
     public ItemClickListener(OnItemClickListener clickListener) {

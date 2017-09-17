@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
@@ -15,7 +14,7 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.presenter.HotDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.DesignerOrdersActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.DeignerNewOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -164,6 +163,6 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     public void onItemClick(View view, int position) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("hotDesigner", hotDesignsBeen.get(position));
-        startCommonActivity(getActivity(), bundle, DesignerOrdersActivity.class);
+        startCommonActivity(getActivity(), bundle, DeignerNewOrdersActivity.class);
     }
 }
