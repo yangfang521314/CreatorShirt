@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -49,6 +47,7 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.UserView> im
                         SharedPreferencesUtil.saveUserPhone(loginBean.getUserInfo().getMobile());
                         UserInfoManager.getInstance().setLoginSuccess(loginBean, loginBean.getUserInfo().getName(),
                                 loginBean.getToken(), loginBean.getUserInfo().getMobile());
+                        UserInfoManager.getInstance().updateLocalLoginResponse();
                         mView.showUserInfo(loginBean);
                     }
 

@@ -56,8 +56,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private DataManager manager;
     private String QiniuToken;
     private UploadManager uploadManager = new UploadManager();
-    private String userToken = SharedPreferencesUtil.getUserToken();
-    private String UserId = SharedPreferencesUtil.getUserId() + "_";
+    private String userToken;
+    private String UserId;
     private OrderBaseInfo mOrderBaseInfo;
     private String imageFrontUrl;
     private String imageBackUrl;
@@ -88,7 +88,9 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     public void getList(final String kewWord, final String imageUrl) {
         if (TextUtils.isEmpty(QiniuToken)) {
             Log.e("TAG", "没有取到token");
+            return;
         }
+        UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
         String key = UserId + Utils.getTime() + kewWord;
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -133,6 +135,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      * 获取七牛token
      */
     public void getToken() {
+        userToken = UserInfoManager.getInstance().getToken();
+        if (userToken == null) {
+            return;
+        }
         addSubscribe(manager.getQiToken(userToken)
                 .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
                 .compose(RxUtils.<String>handleResult())
@@ -140,6 +146,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     @Override
                     public void onNext(String s) {
                         QiniuToken = s;
+
                     }
                 })
         );
@@ -223,10 +230,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     }
 
     public void getShare(final Activity mActivity) {
-        if(mOrderBaseInfo.getFrontUrl() == null){
+        if (mOrderBaseInfo.getFrontUrl() == null) {
             return;
         }
-        if(UserInfoManager.getInstance().getUserName() == null){
+        if (UserInfoManager.getInstance().getUserName() == null) {
             return;
         }
         //微信好友、朋友圈分享
@@ -235,7 +242,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         weixinContent.setThumb(thumb);
         weixinContent.setTitle(UserInfoManager.getInstance().getUserName());
         weixinContent.setDescription("衣秀，做自己的设计师");
-        Log.e("TGFFF","//////////");
 //        new ShareAction(mActivity)
 //                .withMedia(weixinContent)
 //                .setDisplayList(SHARE_MEDIA.WEIXIN)

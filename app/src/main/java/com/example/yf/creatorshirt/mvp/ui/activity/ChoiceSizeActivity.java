@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -23,7 +24,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -55,7 +55,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     @Override
     public void initData() {
         super.initData();
-        mPresenter.getToken();
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
             styleContext = getIntent().getExtras().getString("styleContext");
@@ -93,11 +92,13 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         switch (view.getId()) {
             case R.id.btn_choice_order:
-                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken())) {
-                    startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
-                } else {
+                if (App.isLogin) {
                     initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
                     setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                    mPresenter.getToken();
+                } else {
+                    startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
+
                 }
                 break;
             case R.id.back:
@@ -105,8 +106,12 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 break;
             case R.id.share_weixin:
                 //// TODO: 30/06/2017 微信分享
-                mPresenter.setOrderClothes(mOrderBaseInfo);
-                mPresenter.getShare(this);
+                if(App.isLogin) {
+                    mPresenter.setOrderClothes(mOrderBaseInfo);
+                    mPresenter.getShare(this);
+                }else {
+                    startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
+                }
                 break;
             case R.id.clothes_front:
                 mButtonBack.setSelected(false);

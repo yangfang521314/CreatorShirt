@@ -17,6 +17,7 @@ import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.AllOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
@@ -76,7 +77,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     @Override
     protected void initData() {
         //打开app用户去更新信息
-        if (App.isLogin) {
+        if (App.isLogin) {//注销掉之后只能拿sharedprefrenseUtil
             mPresenter.getUserInfo(SharedPreferencesUtil.getUserToken());
         }
 
@@ -104,6 +105,11 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 break;
             case R.id.choice_order_iv:
             case R.id.rl_user_order:
+                if (App.isLogin) {
+                    startCommonActivity(mActivity, null, AllOrdersActivity.class);
+                } else {
+                    startCommonActivity(getActivity(), null, LoginActivity.class);
+                }
                 break;
             case R.id.update_user_info:
             case R.id.rl_user_info:

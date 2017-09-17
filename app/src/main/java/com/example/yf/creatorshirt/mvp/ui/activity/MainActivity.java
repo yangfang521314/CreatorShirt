@@ -100,10 +100,14 @@ public class MainActivity extends BaseActivity {
             case R.id.square_text:
                 showFragment = TYPE_SQUARE;
                 choiceTabState(TYPE_SQUARE);
+                mAppBar.setVisibility(View.VISIBLE);
+                mAppBarTitle.setText("广场");
                 break;
             case R.id.design_text:
                 choiceTabState(TYPE_DESIGN);
                 showFragment = TYPE_DESIGN;
+                mAppBar.setVisibility(View.VISIBLE);
+                mAppBarTitle.setText("设计定制");
                 break;
             case R.id.mine_text:
                 showFragment = TYPE_MINE;

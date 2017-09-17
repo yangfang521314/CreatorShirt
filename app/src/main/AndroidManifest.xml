@@ -58,7 +58,7 @@
             android:name=".mvp.ui.activity.AddressEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.AllOrderActivity"
+            android:name=".mvp.ui.activity.AllOrdersActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.SuccessPayActivity"
@@ -118,7 +118,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5126ff896c738f2bfa000438" />
+            android:value="59b105c7717c19193f00057f" />
 
         <activity
             android:name=".wxapi.WXEntryActivity"

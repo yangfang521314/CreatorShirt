@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
@@ -27,6 +28,7 @@ public class UserInfoManager {
         userInfoCache = new UserInfoCache(context);
         if (isLogin()) {
             mLoginResponse = userInfoCache.getUserInfo();
+            Log.e("tag","fuck you "+mLoginResponse.getUserInfo().toString());
         }
     }
 

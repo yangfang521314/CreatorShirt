@@ -32,7 +32,7 @@ public class SuccessPayActivity extends BaseActivity {
         if (view.getId() == R.id.btn_check_order) {
             Bundle bundle = new Bundle();
             bundle.putString("title",getString(R.string.my_order));
-            startCommonActivity(this,bundle,AllOrderActivity.class);
+            startCommonActivity(this,bundle,AllOrdersActivity.class);
         }
     }
 

@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.AllOrderAdapter;
 
 import butterknife.BindView;
 
-public class AllOrderActivity extends BaseActivity implements ItemClickListener.OnItemClickListener {
+public class AllOrdersActivity extends BaseActivity implements ItemClickListener.OnItemClickListener {
     @BindView(R.id.all_order_recyclerView)
     RecyclerView mAllOrderRY;
 

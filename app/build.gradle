@@ -37,27 +37,22 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
             ]
-
         }
         debug {
             minifyEnabled false
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
             ]
-
         }
-
     }
     productFlavors {
         "yixiu" {}
