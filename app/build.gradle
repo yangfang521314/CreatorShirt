@@ -114,7 +114,4 @@ dependencies {
     compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/happy-dns-0.2.9.jar')
-    compile files('libs/okio-1.9.0.jar')
-    compile files('libs/umeng_shareboard_widget.jar')
 }

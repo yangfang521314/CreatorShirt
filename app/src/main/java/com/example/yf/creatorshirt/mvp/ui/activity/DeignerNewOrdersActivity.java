@@ -31,6 +31,7 @@ import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ import butterknife.BindView;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresenter> implements
@@ -112,8 +114,8 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void UpDateOrders(UpdateOrdersEvent event){
-        if(event.getFlag()){
+    public void UpDateOrders(UpdateOrdersEvent event) {
+        if (event.getFlag()) {
             refreshOrdersData();
         }
     }
@@ -192,29 +194,34 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
                     public Integer apply(@NonNull Long aLong) throws Exception {
                         return 4 - aLong.intValue();
                     }
-                }).subscribeWith(new CommonSubscriber<Integer>(this) {
+                })
+                .take(5).doOnSubscribe(new Consumer<Subscription>() {
             @Override
-            public void onNext(Integer integer) {
-                if (integer < 3) {
-                    mDesignerRecycler.refreshComplete();
-                    heardTextView.setVisibility(View.VISIBLE);
-                }
-            }
+            public void accept(@NonNull Subscription subscription) throws Exception {
 
-            @Override
-            public void onComplete() {
-                super.onComplete();
-                heardTextView.setVisibility(View.GONE);
             }
+        })
+                .subscribeWith(new CommonSubscriber<Integer>(this) {
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer < 3) {
+                            mDesignerRecycler.refreshComplete();
+                            heardTextView.setVisibility(View.VISIBLE);
+                        }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                mDesignerRecycler.refreshComplete();
-                heardTextView.setVisibility(View.GONE);
-            }
+                    @Override
+                    public void onComplete() {
+                        heardTextView.setVisibility(View.GONE);
+                    }
 
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        mDesignerRecycler.refreshComplete();
+                        heardTextView.setVisibility(View.GONE);
+                    }
+
+                });
     }
 
     @Override
