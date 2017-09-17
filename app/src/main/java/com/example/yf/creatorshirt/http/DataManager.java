@@ -5,7 +5,6 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
-import com.example.yf.creatorshirt.mvp.model.UserInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -15,7 +14,6 @@ import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.RequestBody;
 
 /**
@@ -138,6 +136,11 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson) {
         return mHttpHelper.OrderPraise(token,gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson) {
+        return mHttpHelper.saveOrdersFromShare(token,gson);
     }
 
 

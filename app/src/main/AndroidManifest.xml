@@ -134,7 +134,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.DeignerNewOrdersActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

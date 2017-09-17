@@ -322,7 +322,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         }
     }
 
-    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back})
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back,
+    R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:

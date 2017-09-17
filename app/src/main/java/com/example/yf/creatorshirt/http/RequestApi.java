@@ -97,4 +97,8 @@ public interface RequestApi {
     //订单点赞
     @POST("f-Users/OrderPraise")
     Flowable<HttpResponse<PraiseEntity>> OrderPraise(@Header("Token") String userToken, @Body RequestBody requestBody);
+
+    //下订单保存
+    @POST("f-Users/saveOrdersFromShare")
+    Flowable<HttpResponse<OrderType>> saveOrdersFromShare(@Header("Token") String token, @Body RequestBody requestBody);
 }

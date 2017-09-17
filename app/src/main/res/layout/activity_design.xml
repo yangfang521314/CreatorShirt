@@ -97,7 +97,6 @@
     <Button
         android:id="@+id/btn_start"
         style="@style/common_start_btn"
-        android:layout_margin="10dp"
         android:text="开始设计" />
 
 </RelativeLayout>

@@ -105,6 +105,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 break;
             case R.id.share_weixin:
                 //// TODO: 30/06/2017 微信分享
+                mPresenter.setOrderClothes(mOrderBaseInfo);
                 mPresenter.getShare(this);
                 break;
             case R.id.clothes_front:

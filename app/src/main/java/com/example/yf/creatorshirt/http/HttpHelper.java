@@ -12,6 +12,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
 
 import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 
 import io.reactivex.Flowable;
 import okhttp3.RequestBody;
@@ -55,4 +56,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody);
 
     Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson);
+
+    Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson);
 }

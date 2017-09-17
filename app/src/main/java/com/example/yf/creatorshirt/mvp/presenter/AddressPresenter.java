@@ -53,7 +53,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
         TestRequestServer.getInstance().getAddressData(SharedPreferencesUtil.getUserToken()).enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("Address", "dddd" + response.body().getResult());
+                Log.e("Address", "dddd" + response.body().getResult()+response.body().getStatus());
             }
 
             @Override
@@ -95,7 +95,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
         TestRequestServer.getInstance().saveAddress(SharedPreferencesUtil.getUserToken(),body).enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("复仇天","resss"+response.body());
+                Log.e("复仇天","resss"+response.body()+response.body().getStatus());
             }
 
             @Override

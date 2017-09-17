@@ -164,7 +164,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         saveStyleEntity.setStyleContext(styleContext);
         Gson gson = new Gson();
         String postEntity = gson.toJson(saveStyleEntity);
-        Log.e("TAG", "DDDD" + postEntity.toString());
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
         addSubscribe(manager.saveOrderData(userToken, body)
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
@@ -224,10 +223,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     }
 
     public void getShare(final Activity mActivity) {
-        if(mOrderBaseInfo.getFrontUrl() != null){
+        if(mOrderBaseInfo.getFrontUrl() == null){
             return;
         }
-        if(UserInfoManager.getInstance().getUserName() != null){
+        if(UserInfoManager.getInstance().getUserName() == null){
             return;
         }
         //微信好友、朋友圈分享
@@ -236,6 +235,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         weixinContent.setThumb(thumb);
         weixinContent.setTitle(UserInfoManager.getInstance().getUserName());
         weixinContent.setDescription("衣秀，做自己的设计师");
+        Log.e("TGFFF","//////////");
 //        new ShareAction(mActivity)
 //                .withMedia(weixinContent)
 //                .setDisplayList(SHARE_MEDIA.WEIXIN)
@@ -288,4 +288,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         }
     };
 
+    public void setOrderClothes(OrderBaseInfo mOrderBaseInfo) {
+        this.mOrderBaseInfo = mOrderBaseInfo;
+    }
 }

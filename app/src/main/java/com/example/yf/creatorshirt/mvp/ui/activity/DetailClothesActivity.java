@@ -22,7 +22,7 @@ import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -176,8 +176,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
                         || SharedPreferencesUtil.getUserId() == 0) {
                     startCommonActivity(this, null, LoginActivity.class);
                 } else {
-                    mPresenter.saveOrdersFromShare(mBombStyleBean.getId(),mBombStyleBean.getHeight());
-                    startChoiceActivity();
+                    mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mBombStyleBean.getHeight());
+
                 }
             case R.id.user_avatar:
                 break;
@@ -192,17 +192,19 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     }
 
-    private void startChoiceActivity() {
+    private void startChoiceActivity(OrderType orderType) {
+//        Bundle bundle = new Bundle();
+//        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
+//        orderBaseInfo.setType(mBombStyleBean.getBaseId());
+//        orderBaseInfo.setColor(mBombStyleBean.getColor());
+//        orderBaseInfo.setGender(mBombStyleBean.getGender());
+//        orderBaseInfo.setFrontUrl(mAllImage[0]);
+//        orderBaseInfo.setBackUrl(mAllImage[1]);
+//        bundle.putParcelable("allImage", orderBaseInfo);
+//        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
         Bundle bundle = new Bundle();
-        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
-        orderBaseInfo.setType(mBombStyleBean.getBaseId());
-        orderBaseInfo.setColor(mBombStyleBean.getColor());
-        orderBaseInfo.setGender(mBombStyleBean.getGender());
-        orderBaseInfo.setFrontUrl(mAllImage[0]);
-        orderBaseInfo.setBackUrl(mAllImage[1]);
-        bundle.putParcelable("allImage", orderBaseInfo);
-        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
-        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+        bundle.putString("orderId", orderType.getOrderId());
+        startCommonActivity(this, bundle, MyOrderActivity.class);
     }
 
 
@@ -241,6 +243,13 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         mPraise.setBackgroundResource(R.drawable.designer_parise_press_bg);
         mClothesPraiseNum.setBackgroundResource(R.drawable.designer_parise_press_bg);
         mClothesPraiseNum.setText(integer.getPraise() + "人赞");
+    }
+
+    @Override
+    public void showSuccessOrder(OrderType orderType) {
+        if(orderType != null) {
+            startChoiceActivity(orderType);
+        }
     }
 
     @Override
