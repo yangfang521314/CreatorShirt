@@ -38,13 +38,13 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackOrnament;
     @BindView(R.id.choice_select_arm)
     ImageView mBackArm;
-//    @BindView(R.id.clothes_pattern_bounds)
+    //    @BindView(R.id.clothes_pattern_bounds)
 //    RelativeLayout mBackBounds;
     @BindView(R.id.choice_select_neck)
     ImageView mBackNeck;
     @BindView(R.id.clothes_container_background)
     ImageView mBackClothes;
-        @BindView(R.id.rl_back_root)
+    @BindView(R.id.rl_back_root)
     RelativeLayout mContainerBackBackground;
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
@@ -117,16 +117,16 @@ public class ClothesBackView extends PercentRelativeLayout {
 
     public void setBackData(CommonStyleData mBackStyleData) {
         if (mBackStyleData.getNeckUrl() != null) {
-            setNeckUrl(Constants.ImageUrl+mBackStyleData.getNeckUrl());
+            setNeckUrl(Constants.ImageUrl + mBackStyleData.getNeckUrl());
         }
         if (mBackStyleData.getOrnametUrl() != null) {
-            setOrnameUrl(Constants.ImageUrl+mBackStyleData.getOrnametUrl());
+            setOrnameUrl(Constants.ImageUrl + mBackStyleData.getOrnametUrl());
         }
         if (mBackStyleData.getArmUrl() != null) {
-            setArmUrl(Constants.ImageUrl+mBackStyleData.getArmUrl());
+            setArmUrl(Constants.ImageUrl + mBackStyleData.getArmUrl());
         }
         if (mBackStyleData.getPattern() != null) {
-            addStickerView(Constants.ImageUrl+mBackStyleData.getPattern());
+            addStickerView(Constants.ImageUrl + mBackStyleData.getPattern());
         }
     }
 
@@ -176,7 +176,7 @@ public class ClothesBackView extends PercentRelativeLayout {
         });
         //反面
         //// TODO: 2017/8/27 设计高度
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DisplayUtil.Dp2Px(mContext,320));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DisplayUtil.Dp2Px(mContext, 320));
         ClothesBackView.this.addView(stickerView, lp);
         mViews.add(stickerView);
         setStickerViewEdit(stickerView);

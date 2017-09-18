@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
@@ -77,6 +78,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     private BombStyleBean mBombStyleBean;
     private List<View> mViewList;
     private String[] mAllImage;
+    private boolean isFlag = false;
 
     @Override
     protected void inject() {
@@ -171,25 +173,38 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                if (TextUtils.isEmpty(SharedPreferencesUtil.getUserToken()) ||
-                        TextUtils.isEmpty((SharedPreferencesUtil.getUserPhone()))
-                        || SharedPreferencesUtil.getUserId() == 0) {
-                    startCommonActivity(this, null, LoginActivity.class);
-                } else {
+                if (App.isLogin) {
                     mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mBombStyleBean.getHeight());
-
+                } else {
+                    startCommonActivity(this, null, LoginActivity.class);
                 }
             case R.id.user_avatar:
                 break;
             case R.id.praise:
-                if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                if (App.isLogin) {
                     if (!TextUtils.isEmpty(UserInfoManager.getInstance().getLoginResponse().getToken())) {
                         mPresenter.OrderPraise(mBombStyleBean.getId());
                     }
+                } else {
+                    isFlag = true;
+                    startCommonActivity(this, null, LoginActivity.class);
                 }
                 break;
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (App.isLogin) {
+            if (isFlag) {
+                if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                    mPresenter.requestOrdersPraise(mBombStyleBean.getId());
+                }
+            }
+        }
+        isFlag = false;
     }
 
     private void startChoiceActivity(OrderType orderType) {
@@ -218,8 +233,10 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         super.initData();
         if (getIntent().getExtras() != null) {
             mBombStyleBean = getIntent().getExtras().getParcelable("detail");
-            if (UserInfoManager.getInstance().getLoginResponse() != null) {
-                mPresenter.requestOrdersPraise(mBombStyleBean.getId());
+            if (App.isLogin) {
+                if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                    mPresenter.requestOrdersPraise(mBombStyleBean.getId());
+                }
             }
         }
     }
@@ -247,7 +264,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     @Override
     public void showSuccessOrder(OrderType orderType) {
-        if(orderType != null) {
+        if (orderType != null) {
             startChoiceActivity(orderType);
         }
     }

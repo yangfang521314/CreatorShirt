@@ -325,7 +325,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void addNewData(String title, List<DetailOtherStyle> fileList) {
         if (!NewDetailData.containsKey(title) && fileList != null) {
             NewDetailData.put(title, fileList);
-            Log.e(TAG, "news detail" + NewDetailData.size());
         }
     }
 
@@ -548,7 +547,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void setColorBg(String color) {
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
-            Log.e("Tag", "dddd" + mClothes.getHeight() + ":" + mClothes.getWidth());
             mClothes.setBackgroundColor(colorN);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {

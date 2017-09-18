@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-/** 头条频道的新闻列表 */
 public class FreshRecyclerView extends RecyclerView {
     private LoadingListener mLoadingListener;
     private WrapAdapter mWrapAdapter;
