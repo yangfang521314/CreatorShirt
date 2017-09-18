@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -72,8 +73,14 @@ public class ClothesBackView extends PercentRelativeLayout {
     }
 
     public void setImageUrl(String imageBackUrl) {
-        Log.e("tag", "ddd" + imageBackUrl);
-        Glide.with(App.getInstance()).load(imageBackUrl).into(mBackClothes);
+        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
+            ViewGroup.LayoutParams params = mBackClothes.getLayoutParams();
+            params.width = 592;
+            mBackClothes.setLayoutParams(params);
+            Glide.with(this).load(imageBackUrl).into(mBackClothes);
+        } else {
+            Glide.with(this).load(imageBackUrl).into(mBackClothes);
+        }
     }
 
     public void setArmVisibility(int visibility) {

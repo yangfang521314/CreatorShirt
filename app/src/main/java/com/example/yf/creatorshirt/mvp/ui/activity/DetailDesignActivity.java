@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -180,17 +181,20 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBackStyleData = new CommonStyleData();
         mOrderBaseInfo = new OrderBaseInfo();
         String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
-
         mContainerBackBackground.setImageUrl(imageBackUrl);
         mContainerBackBackground.setContext(this);
     }
 
     private void initFrontBg() {
         mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
-        if(DisplayUtil.getScreenW(this)<1080){
-//            ViewGroup.LayoutParams params = Clothes.getLayoutParams()
+        if (DisplayUtil.getScreenW(this) < 1080) {
+            ViewGroup.LayoutParams params = mClothes.getLayoutParams();
+            params.width = 592;
+            mClothes.setLayoutParams(params);
+            Glide.with(this).load(mBackgroundUrl).into(mClothes);
+        } else {
+            Glide.with(this).load(mBackgroundUrl).into(mClothes);
         }
-        Glide.with(this).load(mBackgroundUrl).into(mClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -544,6 +548,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void setColorBg(String color) {
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            Log.e("Tag", "dddd" + mClothes.getHeight() + ":" + mClothes.getWidth());
             mClothes.setBackgroundColor(colorN);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
