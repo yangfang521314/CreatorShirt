@@ -12,6 +12,8 @@
 
     <RelativeLayout
         android:id="@+id/rl_user_info"
+        android:layout_margin="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -53,6 +55,7 @@
         android:id="@+id/designer_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:divider="@null"
         android:scrollbarFadeDuration="1"
         android:scrollbarSize="4dp"

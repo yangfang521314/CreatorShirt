@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -74,7 +75,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText("");
+        mAppBarTitle.setText("定制详情");
         mAppBarBack.setVisibility(View.VISIBLE);
         mGridLayoutManager = new GridLinearLayoutManager(this, 3);
         mDesignerRecycler.setLayoutManager(mGridLayoutManager);
@@ -115,8 +116,17 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void UpDateOrders(UpdateOrdersEvent event) {
-        if (event.getFlag()) {
+        if (event.getFlag()){
             refreshOrdersData();
+        }
+    }
+
+    @OnClick({R.id.back})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
         }
     }
 

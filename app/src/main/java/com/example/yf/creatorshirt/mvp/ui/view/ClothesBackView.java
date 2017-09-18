@@ -37,14 +37,14 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackOrnament;
     @BindView(R.id.choice_select_arm)
     ImageView mBackArm;
-    @BindView(R.id.clothes_pattern_bounds)
-    RelativeLayout mBackBounds;
+//    @BindView(R.id.clothes_pattern_bounds)
+//    RelativeLayout mBackBounds;
     @BindView(R.id.choice_select_neck)
     ImageView mBackNeck;
     @BindView(R.id.clothes_container_background)
     ImageView mBackClothes;
-    //    @BindView(R.id.rl_back_root)
-//    RelativeLayout mContainerBackBackground;
+        @BindView(R.id.rl_back_root)
+    RelativeLayout mContainerBackBackground;
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
     //处于编辑的贴纸

@@ -49,8 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="52dp"
-        android:scaleType="centerCrop"
         android:src="@mipmap/man_t_shirt" />
 
     <ImageView
@@ -58,7 +56,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:scaleType="fitXY"
         android:src="@mipmap/icon_circle_neck"
         android:visibility="gone" />
 
@@ -67,7 +64,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:scaleType="fitXY"
         android:visibility="gone" />
 
     <ImageView
@@ -75,7 +71,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:scaleType="fitXY"
         android:src="@mipmap/ornament"
         android:visibility="gone" />
 </RelativeLayout>

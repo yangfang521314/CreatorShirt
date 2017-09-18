@@ -94,10 +94,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     ImageView mChoiceArm;
     @BindView(R.id.rl_clothes_root)
     RelativeLayout mContainerFrontBackground;//正面
-    @BindView(R.id.clothes_pattern_bounds)
-    RelativeLayout mPatternBounds;
-    @BindView(R.id.clothes_signature)
-    TextView mClothesSignature;
+    //    @BindView(R.id.clothes_pattern_bounds)
+//    RelativeLayout mPatternBounds;
+//    @BindView(R.id.clothes_signature)
+//    TextView mClothesSignature;
     @BindView(R.id.clothes_back)
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
@@ -156,8 +156,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private Paint paint;
 
     private String imageUrl = null;//图片url
-    private String mImagecolor="#FFFFFF";//背景颜色 默认白色
-
+    private String mImagecolor = "#FFFFFF";//背景颜色 默认白色
 
     @Override
     protected void inject() {
@@ -181,6 +180,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBackStyleData = new CommonStyleData();
         mOrderBaseInfo = new OrderBaseInfo();
         String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
+
         mContainerBackBackground.setImageUrl(imageBackUrl);
         mContainerBackBackground.setContext(this);
     }
@@ -323,7 +323,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     }
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back,
-    R.id.back})
+            R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
@@ -361,8 +361,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         break;
                     case COLOR:
                         //不选择默认是白色
-                        commonStyleData.setColor("ffffff");
-                        mBackStyleData.setColor("ffffff");
+                        commonStyleData.setColor("#ffffff");
+                        mBackStyleData.setColor("#ffffff");
                         if (mButtonFront.isSelected()) {
                             mClothes.setBackgroundResource(R.color.white);
                         }
@@ -394,7 +394,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 //                        mClothesSignature.setVisibility(View.GONE);
 //                        break;
                 }
-                mPatternBounds.setVisibility(View.GONE);
+//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -454,7 +454,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
                 if (mCurrentStickerView != null) {
                     mCurrentStickerView.setInEdit(false);
-                    mPatternBounds.setVisibility(View.GONE);
+//                    mPatternBounds.setVisibility(View.GONE);
                     // TODO: 22/06/2017 完成后禁止StickerView的点击事件
                     mCurrentStickerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -492,7 +492,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
                 Glide.with(this).load(imageUrl).into(mClothes);
                 getNameDeign(mDetailStyleFrontData);
-                mPatternBounds.setVisibility(View.GONE);
+//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -509,7 +509,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 if (mBackStyleData != null) {
                     mContainerBackBackground.setBackData(mBackStyleData);
                 }
-                mPatternBounds.setVisibility(View.GONE);
+//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -521,12 +521,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     private void startNewActivity() {
         Bundle bundle = new Bundle();
-//                        commonStyleData.setFrontUrl(imageFrontPath);
-//                        mBackStyleData.setBackUrl(imageBackPath);
-//                        commonStyleData.setGender(gender);
-//                        commonStyleData.setType(type);
-//                        mBackStyleData.setGender(gender);
-//                        mBackStyleData.setType(type);
         mOrderBaseInfo.setBackUrl(imageBackPath);
         mOrderBaseInfo.setFrontUrl(imageFrontPath);
         mOrderBaseInfo.setGender(gender);
@@ -547,6 +541,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void setColorBg(String color) {
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            Log.e("TAG","FUCK YOU"+ mClothes.getWidth()+":"+mClothes.getHeight());
             mClothes.setBackgroundColor(colorN);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
@@ -717,7 +712,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 setColorBg(mImagecolor);
                 break;
             case PATTERN:
-                mPatternBounds.setVisibility(View.VISIBLE);
+//                mPatternBounds.setVisibility(View.VISIBLE);
                 imageUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setPatternUrl(imageUrl);
                 break;
