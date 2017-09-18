@@ -97,6 +97,13 @@ public class DisplayUtil {
 
     }
 
+    public static void calculateHHWidth(Context context, RelativeLayout mContainerBackground) {
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = mContainerBackground.getLayoutParams();
+        layoutParams.width = getScreenW(context) / 3;
+        mContainerBackground.setLayoutParams(layoutParams);
+    }
+
     /**
      * 设置衣服背景的高度
      *

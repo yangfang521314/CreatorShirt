@@ -1,11 +1,11 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
@@ -34,7 +34,7 @@ public class DesignFragment extends BaseFragment<DesignPresenter> implements Des
     @BindView(R.id.choice_woman)
     RelativeLayout mChoiceWoman;
     @BindView(R.id.btn_start)
-    Button mStartDesign;
+    TextView mStartDesign;
     @BindView(R.id.clothes_style_rv)
     RecyclerView mClotheRV;
     private List<DesignBaseBean> listM = new ArrayList<>();
@@ -63,7 +63,7 @@ public class DesignFragment extends BaseFragment<DesignPresenter> implements Des
     @Override
     protected void initViews(View mView) {
         mClotheRV.setVisibility(View.GONE);
-        mClotheRV.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mClotheRV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         adapter = new DesignAdapter(getActivity());
         adapter.setItemClickListener(this);
         mClotheRV.setAdapter(adapter);

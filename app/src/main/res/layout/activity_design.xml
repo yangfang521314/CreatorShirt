@@ -94,9 +94,14 @@
         android:layout_above="@+id/btn_start"
         android:layout_below="@+id/clothe_style" />
 
-    <Button
+    <TextView
+        android:background="@color/black"
+        android:textColor="@color/white"
         android:id="@+id/btn_start"
-        style="@style/common_start_btn"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
         android:text="开始设计" />
 
 </RelativeLayout>

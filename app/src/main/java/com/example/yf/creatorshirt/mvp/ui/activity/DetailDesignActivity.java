@@ -187,6 +187,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     private void initFrontBg() {
         mBackgroundUrl = Constants.ImageUrl + gender + type + "A" + ".png";
+        if(DisplayUtil.getScreenW(this)<1080){
+//            ViewGroup.LayoutParams params = Clothes.getLayoutParams()
+        }
         Glide.with(this).load(mBackgroundUrl).into(mClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
@@ -541,7 +544,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void setColorBg(String color) {
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
-            Log.e("TAG","FUCK YOU"+ mClothes.getWidth()+":"+mClothes.getHeight());
             mClothes.setBackgroundColor(colorN);
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
