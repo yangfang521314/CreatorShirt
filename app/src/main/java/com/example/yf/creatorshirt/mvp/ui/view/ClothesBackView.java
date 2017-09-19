@@ -73,6 +73,7 @@ public class ClothesBackView extends PercentRelativeLayout {
     }
 
     public void setImageUrl(String imageBackUrl) {
+//        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackBackground);
         if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
             ViewGroup.LayoutParams params = mBackClothes.getLayoutParams();
             params.width = 592;

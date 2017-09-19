@@ -47,13 +47,16 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
 
     }
 
-    @OnClick({R.id.add_address})
+    @OnClick({R.id.add_address,R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_address:
                 Intent intent = new Intent();
                 intent.setClass(this, AddressEditActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }

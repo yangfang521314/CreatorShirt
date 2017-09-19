@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.util.Log;
+
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -49,6 +51,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "数据请求错误") {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
+                        Log.e("TA","DDDDD"+addressBeen.get(0).toString());
                         mView.showSuccess(addressBeen);
                     }
                 })
