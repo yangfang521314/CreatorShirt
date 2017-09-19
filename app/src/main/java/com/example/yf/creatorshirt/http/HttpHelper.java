@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
 import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**
@@ -33,7 +34,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(String userToken, RequestBody body);
 
-    Flowable<HttpResponse<List<AddressBean>>> getAddressData();
+    Flowable<HttpResponse<List<AddressBean>>> getAddressData(String userToken);
 
     Flowable<HttpResponse<DesignBaseInfo>> getBaseDesign();
 
@@ -58,4 +59,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson);
 
     Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson);
+
+    Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson);
 }

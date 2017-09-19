@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.UpdateAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.address.City;
 import com.example.yf.creatorshirt.mvp.presenter.AddressPresenter;
@@ -15,6 +16,8 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,15 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     TextView mReceiverCity;
     @BindView(R.id.address_choice)
     ImageView mAddressChoice;
+    private AddressBean mAddressBean;
+
+    @Override
+    public void initData() {
+        super.initData();
+        if (getIntent().getExtras() != null) {
+            mAddressBean = getIntent().getExtras().getParcelable("address");
+        }
+    }
 
     @Override
     protected void inject() {
@@ -47,12 +59,22 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText("地址编辑");
+
         mAppBarBack.setVisibility(View.VISIBLE);
         mSaveAddress.setVisibility(View.VISIBLE);
+        if (mAddressBean != null) {
+            mAppBarTitle.setText("地址修改");
+            mReceiverName.setText(mAddressBean.getUserName());
+            mReceiverCity.setText(mAddressBean.getCity());
+            mReceiverPhone.setText(mAddressBean.getMobile());
+            mReceiverEmail.setText(mAddressBean.getZipcode());
+            mEditAddress.setText(mAddressBean.getAddress());
+        } else {
+            mAppBarTitle.setText("地址编辑");
+        }
     }
 
-    @OnClick({R.id.address_edit_city, R.id.address_choice, R.id.save})
+    @OnClick({R.id.address_edit_city, R.id.address_choice, R.id.save, R.id.back})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.address_choice:
@@ -66,10 +88,19 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
                 String receiverEmail = mReceiverEmail.getText().toString();
                 String receiverCity = mReceiverCity.getText().toString();
                 String receiverAddress = mEditAddress.getText().toString();
-                if (!isCheck()) {
-                    mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress);
-                    mPresenter.saveAddressData();
+                if (mAddressBean == null) {
+                    if (!isCheck()) {
+                        mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress);
+                        mPresenter.saveAddressData();
+                    }
+                } else {
+                    if (!isCheck()) {
+                        mPresenter.setUpdateAddress(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress, mAddressBean.getIsDefault(), mAddressBean.getId());
+                    }
                 }
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }
@@ -134,8 +165,14 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     }
 
     @Override
-    public void SuccessSaveAddress() {
-        ToastUtil.showToast(this,"地址保存成功",0);
+    public void SuccessSaveAddress(String message) {
+        ToastUtil.showToast(this, message, 0);
+        EventBus.getDefault().post(new UpdateAddressEvent(true));
         finish();
+    }
+
+    @Override
+    public void successDefaultAddress(String flag) {
+
     }
 }

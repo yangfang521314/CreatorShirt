@@ -67,9 +67,6 @@
             android:name=".mvp.ui.activity.DetailOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.UserCenterActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".mvp.ui.activity.MyDesignActivity"
             android:screenOrientation="portrait" />
         <activity

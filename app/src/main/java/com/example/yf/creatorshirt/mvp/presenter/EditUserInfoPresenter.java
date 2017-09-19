@@ -6,6 +6,9 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -21,6 +24,7 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,14 +89,22 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
                     public Integer apply(@NonNull HttpResponse httpResponse) throws Exception {
-                        Log.e("TAG","RESPONSE"+httpResponse.getStatus());
+                        Log.e("TAG", "RESPONSE" + httpResponse.getStatus());
                         return httpResponse.getStatus();
                     }
                 })
                 .subscribe(new Consumer<Integer>() {
                     @Override
                     public void accept(@NonNull Integer status) throws Exception {
-                        mView.showSuccessSaveInfo(status);
+                        if (status == 1) {
+                            if (App.isLogin) {
+                                UserInfoManager.getInstance().getLoginResponse().getUserInfo().setHeadImage(userAvatar);
+                                UserInfoManager.getInstance().getLoginResponse().getUserInfo().setName(mUserName);
+                                UserInfoManager.getInstance().updateLocalLoginResponse();
+                                EventBus.getDefault().post(new UpdateUserInfoEvent(true));
+                            }
+                            mView.showSuccessSaveInfo(status);
+                        }
                     }
                 }));
 
@@ -104,7 +116,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
      */
     public void saveUserAvatar() {
         String key = "avatar_" + SharedPreferencesUtil.getUserId() + Utils.getTime();
-        Log.e("TAG","EditUSER"+QiniuToken);
+        Log.e("TAG", "EditUSER" + QiniuToken);
         uploadManager.put(file, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -148,7 +160,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
         addSubscribe(manager.getQiToken(SharedPreferencesUtil.getUserToken())
                 .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
                 .compose(RxUtils.<String>handleResult())
-                .subscribeWith(new CommonSubscriber<String>(mView,"没有TOKEN") {
+                .subscribeWith(new CommonSubscriber<String>(mView, "没有TOKEN") {
                     @Override
                     public void onNext(String s) {
                         QiniuToken = s;

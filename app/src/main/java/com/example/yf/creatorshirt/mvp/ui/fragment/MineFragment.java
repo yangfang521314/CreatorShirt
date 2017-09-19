@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +19,8 @@ import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AllOrdersActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.UserCenterActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.mvp.ui.view.DialogLogout;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
@@ -90,7 +91,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
             case R.id.user_name:
             case R.id.user_avatar:
                 if (App.isLogin) {
-                    startCommonActivity(getActivity(), null, UserCenterActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("update","update");
+                    startCommonActivity(getActivity(), bundle, EditUserActivity.class);
                 } else {
                     startCommonActivity(getActivity(), null, LoginActivity.class);
                 }
@@ -114,7 +117,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
             case R.id.update_user_info:
             case R.id.rl_user_info:
                 if (App.isLogin) {
-                    startCommonActivity(mActivity, null, UserCenterActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("update","update");
+                    startCommonActivity(mActivity, bundle, EditUserActivity.class);
                 } else {
                     startCommonActivity(getActivity(), null, LoginActivity.class);
                 }

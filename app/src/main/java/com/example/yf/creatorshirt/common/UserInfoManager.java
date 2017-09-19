@@ -75,6 +75,9 @@ public class UserInfoManager {
      * 登录下,更新本地存储的用户信息,需要同时更新视图
      */
     public void updateLocalLoginResponse() {
+        if(!isLogin()){
+            return;
+        }
         userInfoCache.saveUserInfo(mLoginResponse);
     }
 

@@ -29,6 +29,9 @@ public class UserInfo implements Parcelable,Serializable{
         headImage = in.readString();
     }
 
+    public UserInfo() {
+    }
+
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
         @Override
         public UserInfo createFromParcel(Parcel in) {

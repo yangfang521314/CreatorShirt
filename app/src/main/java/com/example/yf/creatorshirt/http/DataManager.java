@@ -64,8 +64,8 @@ public class DataManager implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<List<AddressBean>>> getAddressData() {
-        return mHttpHelper.getAddressData();
+    public Flowable<HttpResponse<List<AddressBean>>> getAddressData(String userToken) {
+        return mHttpHelper.getAddressData(userToken);
     }
 
     /**
@@ -141,6 +141,11 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson) {
         return mHttpHelper.saveOrdersFromShare(token,gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson) {
+        return mHttpHelper.setDefaultAddress(token,gson);
     }
 
 

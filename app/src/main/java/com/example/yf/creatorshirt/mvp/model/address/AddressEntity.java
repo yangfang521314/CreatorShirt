@@ -14,23 +14,39 @@ import android.os.Parcelable;
 public class AddressEntity implements Parcelable{
     private String id;
     private String address;
-    private String isDefault;
+    private int isDefault;
     private String userName;
     private String mobile;
     private String city;
     private String zipcode;
 
+    public AddressEntity() {
+    }
+
     protected AddressEntity(Parcel in) {
         id = in.readString();
         address = in.readString();
-        isDefault = in.readString();
+        isDefault = in.readInt();
         userName = in.readString();
         mobile = in.readString();
         city = in.readString();
         zipcode = in.readString();
     }
 
-    public AddressEntity() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(address);
+        dest.writeInt(isDefault);
+        dest.writeString(userName);
+        dest.writeString(mobile);
+        dest.writeString(city);
+        dest.writeString(zipcode);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<AddressEntity> CREATOR = new Creator<AddressEntity>() {
@@ -44,6 +60,19 @@ public class AddressEntity implements Parcelable{
             return new AddressEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "AddressEntity{" +
+                "id='" + id + '\'' +
+                ", address='" + address + '\'' +
+                ", isDefault=" + isDefault +
+                ", userName='" + userName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", city='" + city + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
+    }
 
     public String getId() {
         return id;
@@ -61,11 +90,11 @@ public class AddressEntity implements Parcelable{
         this.address = address;
     }
 
-    public String getIsDefault() {
+    public int getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(String isDefault) {
+    public void setIsDefault(int isDefault) {
         this.isDefault = isDefault;
     }
 
@@ -99,21 +128,5 @@ public class AddressEntity implements Parcelable{
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(address);
-        dest.writeString(isDefault);
-        dest.writeString(userName);
-        dest.writeString(mobile);
-        dest.writeString(city);
-        dest.writeString(zipcode);
     }
 }

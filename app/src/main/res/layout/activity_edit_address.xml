@@ -209,6 +209,7 @@
                 android:gravity="end|center"
                 android:hint="请输入"
                 android:maxLines="2"
+                android:inputType="text"
                 android:padding="10dp"
                 android:textColor="@color/black_1"
                 android:textColorHint="#c2c3cb"

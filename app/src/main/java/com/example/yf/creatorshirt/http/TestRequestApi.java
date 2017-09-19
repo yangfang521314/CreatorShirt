@@ -49,4 +49,7 @@ public interface TestRequestApi {
 
     @POST("f-Users/saveOrdersFromShare")
     Call<HttpResponse> saveOrdersFromShare(@Header("Token") String userToken, @Body RequestBody body);
+
+    @POST("f-Users/setDefaultAddress")
+    Call<HttpResponse> setDefaultAddress(@Header("Token") String userToken, @Body RequestBody body);
 }

@@ -74,8 +74,8 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<List<AddressBean>>> getAddressData() {
-        return mRequestApi.getAddress();
+    public Flowable<HttpResponse<List<AddressBean>>> getAddressData(String userToken) {
+        return mRequestApi.getAddress(userToken);
     }
 
     @Override
@@ -137,6 +137,11 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody requestBody) {
         return mRequestApi.saveOrdersFromShare(token,requestBody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody requestBody) {
+        return mRequestApi.setDefaultAddress(token,requestBody);
     }
 
 

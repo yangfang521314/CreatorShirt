@@ -71,6 +71,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     private File file;
     private EditUserPopupWindow mPopupWindow;
     private String mAvatarUrl;
+    private String update = null;
 
     @Override
     protected void inject() {
@@ -79,9 +80,26 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
 
     @Override
     protected void initView() {
-
+        if (update != null) {
+            if (update.equals("update")) {
+                mAppBarTitle.setText("修改资料");
+                mTextFilter.setVisibility(View.GONE);
+            }
+        } else {
+            mAppBarTitle.setText("编辑用户");
+            mTextFilter.setVisibility(View.VISIBLE);
+        }
+        mAppBarBack.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+        if (getIntent().getExtras() != null) {
+            update = getIntent().getExtras().getString("update");
+        }
+
+    }
 
     @Override
     protected int getView() {
@@ -101,7 +119,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         }
     }
 
-    @OnClick({R.id.user_edit_avatar, R.id.user_tv_filter, R.id.save_user})
+    @OnClick({R.id.user_edit_avatar, R.id.user_tv_filter, R.id.save_user, R.id.back})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_tv_filter:
@@ -117,6 +135,9 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
                     mPresenter.setUserName(PhoneUtils.getTextString(mEditName));
                     mPresenter.saveUserInfo();
                 }
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }
@@ -189,9 +210,15 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
 
     @Override
     public void showSuccessSaveInfo(Integer status) {
-        if (status == 1) {
+        if (update != null) {
+            if (update.equals("update")) {
+                SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
+                ToastUtil.showToast(this, "设置信息成功", 0);
+                this.finish();
+            }
+        } else {
             SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
-            ToastUtil.showToast(this, "设置信息成功", 0);
+            ToastUtil.showToast(this, "修改资料成功", 0);
             this.finish();
         }
     }

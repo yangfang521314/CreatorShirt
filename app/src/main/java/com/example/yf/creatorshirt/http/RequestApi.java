@@ -16,7 +16,6 @@ import java.util.List;
 import io.reactivex.Flowable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -51,8 +50,8 @@ public interface RequestApi {
     Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(@Header("Token") String userToken, @Body RequestBody body);
 
     //获取我的地址
-    @GET("user/getAddress")
-    Flowable<HttpResponse<List<AddressBean>>> getAddress();
+    @POST("f-Users/requestUserAddress")
+    Flowable<HttpResponse<List<AddressBean>>> getAddress(@Header("Token") String userToken);
 
     //设计的基本数据
     @POST("fDesigns/GetBaseInfo")
@@ -101,4 +100,7 @@ public interface RequestApi {
     //下订单保存
     @POST("f-Users/saveOrdersFromShare")
     Flowable<HttpResponse<OrderType>> saveOrdersFromShare(@Header("Token") String token, @Body RequestBody requestBody);
+
+    @POST("f-Users/setDefaultAddress")
+    Flowable<HttpResponse<Integer>> setDefaultAddress(@Header("Token") String token, @Body RequestBody requestBody);
 }

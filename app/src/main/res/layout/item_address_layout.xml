@@ -15,7 +15,7 @@
             android:id="@+id/address_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/choice_address_btn"
+            android:layout_toRightOf="@+id/choice_default_address"
             android:text="张芷溪"
             android:textColor="@color/black"
             android:textSize="18sp" />
@@ -36,20 +36,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/address_name"
             android:layout_marginTop="10dp"
-            android:textColor="@color/black"
             android:layout_toLeftOf="@+id/edit_address_btn"
-            android:layout_toRightOf="@+id/choice_address_btn"
+            android:layout_toRightOf="@+id/choice_default_address"
             android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <ImageView
-            android:id="@+id/choice_address_btn"
+            android:id="@+id/choice_default_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/choice_address" />
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/choice_not_address" />
+
 
         <ImageView
             android:id="@+id/edit_address_btn"

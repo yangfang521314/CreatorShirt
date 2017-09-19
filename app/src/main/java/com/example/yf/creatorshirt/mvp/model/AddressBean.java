@@ -1,11 +1,23 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by yang on 29/06/2017.
  * 地址字段
+ *
+ * {id=29.0,
+ * address=yyyyy,
+ * isDefault=0.0,
+ * userName=yang,
+ * mobile=15868178345,
+ * city=北京北京市东城区,
+ * zipcode=10000.0,
+ * userId=1143.0}
  */
 
-public class AddressBean {
+public class AddressBean implements Parcelable{
     /**
      * address = cangyihdahdask; //
      * city = "\U6d59\U6c5f\U7701\U676d\U5dde\U5e02\U6c5f\U5e72\U533a"; //    id = 13;
@@ -22,6 +34,31 @@ public class AddressBean {
     private int isDefault;
     private String mobile;
     private String userId;
+    private String userName;
+    private String zipcode;
+
+    protected AddressBean(Parcel in) {
+        address = in.readString();
+        id = in.readString();
+        city = in.readString();
+        isDefault = in.readInt();
+        mobile = in.readString();
+        userId = in.readString();
+        userName = in.readString();
+        zipcode = in.readString();
+    }
+
+    public static final Creator<AddressBean> CREATOR = new Creator<AddressBean>() {
+        @Override
+        public AddressBean createFromParcel(Parcel in) {
+            return new AddressBean(in);
+        }
+
+        @Override
+        public AddressBean[] newArray(int size) {
+            return new AddressBean[size];
+        }
+    };
 
     public String getUserName() {
         return userName;
@@ -31,8 +68,6 @@ public class AddressBean {
         this.userName = userName;
     }
 
-    private String userName;
-    private String zipcode;
 
     public String getAddress() {
         return address;
@@ -101,5 +136,22 @@ public class AddressBean {
                 ", userId='" + userId + '\'' +
                 ", zipcode='" + zipcode + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeString(id);
+        dest.writeString(city);
+        dest.writeInt(isDefault);
+        dest.writeString(mobile);
+        dest.writeString(userId);
+        dest.writeString(userName);
+        dest.writeString(zipcode);
     }
 }
