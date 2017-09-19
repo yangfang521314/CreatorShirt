@@ -26,7 +26,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
@@ -462,6 +461,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     case ARM:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setArmUrl(imageUrl);
+                            isFront = true;
+
                         }
                         if (mButtonBack.isSelected()) {
                             mBackStyleData.setArmUrl(imageUrl);
@@ -470,6 +471,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     case NECK:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setNeckUrl(imageUrl);
+                            isFront = true;
+
                         }
                         if (mButtonBack.isSelected()) {
                             mBackStyleData.setNeckUrl(imageUrl);
@@ -486,6 +489,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     case ORNAMENT:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setOrnametUrl(imageUrl);
+                            isFront = true;
+
                         }
                         if (mButtonBack.isSelected()) {
                             mBackStyleData.setOrnametUrl(imageUrl);
@@ -525,6 +530,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 //                }
                 break;
             case R.id.clothes_front://点击正面
+                isFront = true;
                 mContainerFrontBackground.setVisibility(View.VISIBLE);
                 mContainerBackBackground.setVisibility(View.GONE);
                 mButtonFront.setSelected(true);
@@ -554,7 +560,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceReturn.setVisibility(View.GONE);
-                isFront = true;
                 break;
             case R.id.clothes_back://点击反面
 
@@ -564,7 +569,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mButtonFront.setSelected(false);
                 String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
                 mContainerBackBackground.setImageUrl(imageBackUrl);
-                if(!isBack) {
+                if (!isBack) {
                     initShowStyle();
                 }
                 if (mBackStyleData != null) {
@@ -619,7 +624,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             mClothes.setBackgroundColor(colorN);
-            Log.e("tag","mmmmm"+mClothes.getWidth()+":"+mClothes.getHeight());
+            Log.e("tag", "mmmmm" + mClothes.getWidth() + ":" + mClothes.getHeight());
 
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {

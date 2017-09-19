@@ -2,8 +2,8 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
+import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
 import com.example.yf.creatorshirt.utils.RxUtils;
@@ -45,7 +45,7 @@ public class DesignPresenter extends RxPresenter<DesignBaseContract.DesignBaseVi
                         return map;
                     }
                 })
-                .subscribeWith(new CommonSubscriber<Map<String, List<DesignBaseBean>>>(mView, "为什么") {
+                .subscribeWith(new CommonSubscriber<Map<String, List<DesignBaseBean>>>(mView) {
                     @Override
                     public void onNext(Map<String, List<DesignBaseBean>> stringListMap) {
                         mView.showBaseDesignSuccess(stringListMap);

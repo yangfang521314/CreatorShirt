@@ -36,7 +36,6 @@ public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHo
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-//        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
         holder.mStyleTextView.setText(mData.get(position).getName());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -27,7 +27,7 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
     }
 
     @Override
-    protected void bindCustomViewHolder(DesignBaseHolder holder, final int position) {
+    protected void bindCustomViewHolder(final DesignBaseHolder holder, final int position) {
         holder.mClothesName.setText(mData.get(position).getBaseName());
 
         holder.llClothes.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +36,14 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
                 clickListener.onItemClick(v, position);
             }
         });
+//        Glide.with(mContext).asBitmap().load(com.example.yf.creatorshirt.utils.Constants.ImageUrl+
+//        "A"+mData.get(position).getBaseId()+mData.get(position).getGender()+"_icon.png").listener(new SimpleTarget<Bitmap>() {
+//
+//            @Override
+//            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+////                holder.mClothesName.setCompoundDrawablesWithIntrinsicBounds(0,);
+//            }
+//        });
     }
 
     public void setItemClickListener(ItemClickListener.OnItemClickListener clickListener) {
