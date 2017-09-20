@@ -154,6 +154,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     //生成订单
     public void sendOrderData() {
+        String[] newSize = size.split("c");
+        String size = newSize[0];
         imageBackUrl = map.get("B");
         imageFrontUrl = map.get("A");
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();

@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.adapter.viewholder;
 import android.support.annotation.LayoutRes;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -18,6 +19,7 @@ public class AddressViewHolder extends BaseViewHolder{
     public TextView mAddress;
     public ImageView mEditAddress;
     public ImageView mDefaultAddress;
+    public RelativeLayout mAddressChoice;
     public AddressViewHolder(ViewGroup parent, @LayoutRes int resId) {
         super(parent, resId);
         mReceiverName = getView(R.id.address_name);
@@ -25,5 +27,6 @@ public class AddressViewHolder extends BaseViewHolder{
         mAddress = getView(R.id.address);
         mEditAddress = getView(R.id.edit_address_btn);
         mDefaultAddress = getView(R.id.choice_default_address);
+        mAddressChoice = getView(R.id.rl_address);
     }
 }

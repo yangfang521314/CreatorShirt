@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+
 /**
  * dp与px单位间的相互转换
  */
@@ -120,12 +122,12 @@ public class DisplayUtil {
     public static void calculateRelative(Context context, RelativeLayout mRelative) {
         int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
-        layoutParams.height = height / 2;
+        layoutParams.height = 592;
         mRelative.setLayoutParams(layoutParams);
     }
 
     public static void calculateItemSizeWidth(Context context, LinearLayout mll) {
-        int width = getScreenW(context);
+            int width = getScreenW(context);
         ViewGroup.LayoutParams layoutParams = mll.getLayoutParams();
         layoutParams.width = (int) (width / 6.5);
         mll.setLayoutParams(layoutParams);
@@ -142,5 +144,12 @@ public class DisplayUtil {
         layoutParams.width = 592;
         layoutParams.height = 592;
         mBackImageView.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateBigRelative(Context context, RelativeLayout mRelative) {
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
+        layoutParams.height = 750;
+        mRelative.setLayoutParams(layoutParams);
     }
 }

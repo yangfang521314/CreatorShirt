@@ -172,7 +172,11 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     @Override
     protected void initView() {
-        DisplayUtil.calculateRelative(this, mRelative);
+        if (DisplayUtil.getScreenW(this) < 1080) {
+            DisplayUtil.calculateRelative(this, mRelative);
+        }else {
+            DisplayUtil.calculateBigRelative(this, mRelative);
+        }
 //        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
         //默认显示正面
         initFrontBg();
@@ -628,6 +632,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mOrderBaseInfo.setGender(gender);
         mOrderBaseInfo.setType(type);
         mOrderBaseInfo.setColor(mImagecolor);
+        Log.e("TAG","fuck      ,,,,"+mImagecolor);
         bundle.putParcelable("allImage", mOrderBaseInfo);
         OrderData orderData = new OrderData();
         orderData.setBackData(mBackStyleData);
@@ -644,12 +649,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         int colorN = Color.parseColor(color);
         if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
             mClothes.setBackgroundColor(colorN);
-            Log.e("tag", "mmmmm" + mClothes.getWidth() + ":" + mClothes.getHeight());
 
         }
         if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
             mContainerBackBackground.setColorResources(colorN);
-            Log.e("tag", "fuck you" + mClothes.getWidth() + ":" + mClothes.getHeight());
         }
     }
 
@@ -845,7 +848,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private void addStickerView(final String imageId) {
         final StickerView stickerView = new StickerView(this);
         RequestOptions options = new RequestOptions();
-        options.override(100, 100);
         Glide.with(this).asBitmap().apply(options).load(imageId).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -890,6 +892,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             //正面
             lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT);
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+
         }
         mContainerFrontBackground.addView(stickerView, lp);
         mViews.add(stickerView);

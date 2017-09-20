@@ -38,6 +38,7 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
     private AddressAdapter addressAdapter;
     private ImageView mCurrentView;
     private ImageView mBeforeView;
+    private boolean choiceAddress;
 
     @Override
     protected void inject() {
@@ -47,10 +48,12 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
     @Override
     public void initData() {
         super.initData();
-
+        if (getIntent().getExtras() != null) {
+            choiceAddress = getIntent().getExtras().getBoolean("choice");
+        }
     }
 
-    @OnClick({R.id.add_address,R.id.back})
+    @OnClick({R.id.add_address, R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_address:
@@ -95,6 +98,11 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
             }
         }
         list.add(0, mAddressBean);
+        if(choiceAddress){
+            addressAdapter.setChoice(true);
+        }else {
+            addressAdapter.setChoice(false);
+        }
         addressAdapter.setData(list);
         mRecyclerView.setAdapter(addressAdapter);
     }
@@ -134,12 +142,11 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
                 mCurrentView.setImageResource(R.mipmap.choice_address);
                 mBeforeView = mCurrentView;
                 break;
+            case R.id.rl_show_address:
+                AddressBean mChoiceAddress = (AddressBean) o;
+                EventBus.getDefault().post(new DefaultAddressEvent(mChoiceAddress));
+                finish();
+                break;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        EventBus.getDefault().post(new DefaultAddressEvent(true));
     }
 }

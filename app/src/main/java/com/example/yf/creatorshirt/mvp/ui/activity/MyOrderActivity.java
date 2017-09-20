@@ -2,6 +2,8 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -83,6 +86,11 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         getActivityComponent().inject(this);
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected void initView() {
@@ -96,9 +104,9 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
-                Intent intent = new Intent();
-                intent.setClass(this, AddressShowActivity.class);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("choice", true);
+                startCommonActivity(this, bundle, AddressShowActivity.class);
                 break;
             case R.id.pay_for_money:
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
@@ -157,10 +165,15 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateDefaultAddress(DefaultAddressEvent event) {
-        if (event.getFlag()) {
-            //// TODO: 2017/9/20 有代检验
-            mPresenter.getAddressData();
+        if (event.getFlag() != null) {
+            upDateAddress(event.getFlag());
         }
+    }
+
+    private void upDateAddress(AddressBean data) {
+        mOrderName.setText(data.getUserName());
+        mOrderAddress.setText(data.getAddress());
+        mOrderMobile.setText(data.getMobile());
     }
 
     @Override
@@ -182,6 +195,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         mPayClothesPrices.setText("¥" + orderData.getFee());
         Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
         mPayClothesNumbers.setText(String.valueOf(number));
+        mPayClothesSize.setText(orderData.getSize());
     }
 
     private boolean isCheck() {
@@ -223,5 +237,11 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @Override
     public void showErrorMsg(String msg) {
         ToastUtil.showToast(this, msg, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

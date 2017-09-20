@@ -145,10 +145,9 @@ public class ClothesBackView extends PercentRelativeLayout {
      * @param patternUrl
      */
     public void addStickerView(String patternUrl) {
-        final StickerView stickerView = new StickerView(mContext);
+        final StickerView stickerView = new StickerView(App.getInstance());
         RequestOptions options = new RequestOptions();
-        options.override(20,20);
-        Glide.with(mContext).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
+        Glide.with(App.getInstance()).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 stickerView.setImageBitmap(resource);
@@ -159,7 +158,7 @@ public class ClothesBackView extends PercentRelativeLayout {
             @Override
             public void onDeleteClick() {
                 mViews.remove(stickerView);
-                ClothesBackView.this.removeView(stickerView);
+                mContainerBackBackground.removeView(stickerView);
             }
 
             @Override
@@ -193,7 +192,7 @@ public class ClothesBackView extends PercentRelativeLayout {
             lp =new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT);
         }
-        ClothesBackView.this.addView(stickerView, lp);
+        mContainerBackBackground.addView(stickerView, lp);
         mViews.add(stickerView);
         setStickerViewEdit(stickerView);
     }
@@ -213,7 +212,7 @@ public class ClothesBackView extends PercentRelativeLayout {
     public void removeStickerView() {
         if (mCurrentStickerView != null) {
             mViews.remove(mCurrentStickerView);
-            ClothesBackView.this.removeView(mCurrentStickerView);
+            mContainerBackBackground.removeView(mCurrentStickerView);
         }
 
     }

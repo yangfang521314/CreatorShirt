@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -39,7 +40,7 @@ public class FileUtils {
      */
     public static String saveBitmap(@NonNull Bitmap bitmap, @NonNull Context context, String name) {
         String path = null;
-        File file = getFile("StickerView"+name);
+        File file = getFile("StickerView" + name);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
@@ -129,7 +130,7 @@ public class FileUtils {
         options.inJustDecodeBounds = false;
         Bitmap img = BitmapFactory.decodeFile(fileSrc, options);
         Log.i("COMPRESS", "file size after compress-->" + img.getByteCount() / 256);
-        String filename = context.getFilesDir()+ File.separator + "video-" + img.hashCode() + ".jpg";
+        String filename = context.getFilesDir() + File.separator + "video-" + img.hashCode() + ".jpg";
         saveBitmap2File(img, filename);
         return new File(filename);
 
@@ -174,6 +175,28 @@ public class FileUtils {
         }
 
         return bmp.compress(format, quality, stream);
+    }
+
+    public static Bitmap getZoomImage(Bitmap bitmap, double newWidth, double newHeight) {
+        if (bitmap == null) {
+            return null;
+        }
+        if (bitmap.isRecycled()) {
+            return null;
+        }
+        if (newHeight <= 0 || newHeight <= 0) {
+            return null;
+        }
+        //获取图片的宽和高
+        float width = bitmap.getWidth();
+        float height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleWidth = (float) (newWidth / width);
+        float scaleHeight = (float) (newHeight / height);
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, (int) width, (int) height, matrix, true);
+        return newBitmap;
+
     }
 
 

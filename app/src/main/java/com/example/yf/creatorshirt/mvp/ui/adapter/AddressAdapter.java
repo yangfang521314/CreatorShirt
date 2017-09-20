@@ -20,8 +20,10 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
     public AddressAdapter(Context context) {
         super(context);
     }
+
     private ItemClickListener.OnItemComClickListener listener;
     private ImageView mCurrentView;
+    private boolean isChoice;
 
     @Override
     protected AddressViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
@@ -30,6 +32,7 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
 
     @Override
     protected void bindCustomViewHolder(AddressViewHolder holder, final int position) {
+
         holder.mReceiverName.setText(mData.get(position).getUserName());
         holder.mAddress.setText(mData.get(position).getAddress());
         holder.mReceiverPhone.setText(mData.get(position).getMobile());
@@ -37,24 +40,36 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
             @Override
             public void onClick(View v) {
                 mCurrentView.setImageResource(R.mipmap.choice_not_address);
-                listener.onItemClick(mData.get(position),v);
+                listener.onItemClick(mData.get(position), v);
             }
         });
         holder.mEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(mData.get(position),v);
+                listener.onItemClick(mData.get(position), v);
             }
         });
-        if(position == 0){
+        if (position == 0) {
             mCurrentView = holder.mDefaultAddress;
             mCurrentView.setImageResource(R.mipmap.choice_address);
         }
-
+        if (isChoice) {
+            holder.mDefaultAddress.setVisibility(View.GONE);
+            holder.mAddressChoice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(mData.get(position), view);
+                }
+            });
+        }
     }
 
     public void setOnClickListener(ItemClickListener.OnItemComClickListener listener) {
         this.listener = listener;
 
+    }
+
+    public void setChoice(boolean b) {
+        isChoice = b;
     }
 }

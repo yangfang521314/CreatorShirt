@@ -39,9 +39,13 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
                 clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });
+        holder.mStyleTextView.setVisibility(View.GONE);
+        ViewGroup.LayoutParams params = holder.mStyleImageView.getLayoutParams();
+        params.height = 200;
+        params.width = 200;
+        holder.mStyleImageView.setLayoutParams(params);
         RequestOptions options = new RequestOptions();
         options.fitCenter();
-        options.override(100,100);
         Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(position).getFile()).
                 into(holder.mStyleImageView);
 

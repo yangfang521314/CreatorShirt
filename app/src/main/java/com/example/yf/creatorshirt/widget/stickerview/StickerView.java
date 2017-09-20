@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.utils.FileUtils;
 
 
 /**
@@ -124,16 +125,19 @@ public class StickerView extends ImageView {
         localPaint.setStyle(Paint.Style.STROKE);
         localPaint.setStrokeWidth(2.0f);
         dm = getResources().getDisplayMetrics();
-        mScreenwidth = dm.widthPixels;
-        mScreenHeight = dm.heightPixels;
+        if (dm.widthPixels < 1080) {
+            mScreenwidth = 592;
+            mScreenHeight = 592;
+        } else {
+            mScreenwidth = 750;
+            mScreenHeight = 750;
+        }
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         if (mBitmap != null) {
-
-
             float[] arrayOfFloat = new float[9];
             matrix.getValues(arrayOfFloat);
             float f1 = 0.0F * arrayOfFloat[0] + 0.0F * arrayOfFloat[1] + arrayOfFloat[2];
@@ -196,7 +200,8 @@ public class StickerView extends ImageView {
 
     public void setBitmap(Bitmap bitmap) {
         matrix.reset();
-        mBitmap = bitmap;
+        Bitmap newBitmap = FileUtils.getZoomImage(bitmap,750,750);
+        mBitmap = newBitmap;
         setDiagonalLength();
         initBitmaps();
         int w = mBitmap.getWidth();
