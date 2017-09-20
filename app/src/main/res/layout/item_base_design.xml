@@ -15,12 +15,19 @@
         android:paddingBottom="15dp"
         android:paddingTop="15dp">
 
+        <ImageView
+            android:id="@+id/clothes_total_iv"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_t_shirt" />
+
         <TextView
+            android:layout_below="@+id/clothes_total_iv"
             android:id="@+id/clothes_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:drawableTop="@mipmap/icon_t_shirt"
             android:gravity="center"
             android:text="T恤"
             android:textColor="@color/black"

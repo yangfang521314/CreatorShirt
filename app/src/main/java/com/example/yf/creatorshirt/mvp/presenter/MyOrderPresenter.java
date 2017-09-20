@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
@@ -14,10 +15,8 @@ import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -134,4 +133,17 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
     }
 
 
+    public void getAddressData() {
+        addSubscribe(manager.getAddressData(SharedPreferencesUtil.getUserToken())
+                .compose(RxUtils.<HttpResponse<List<AddressBean>>>rxSchedulerHelper())
+                .compose(RxUtils.<List<AddressBean>>handleResult())
+                .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "数据请求错误") {
+                    @Override
+                    public void onNext(List<AddressBean> addressBeen) {
+                        Log.e("TA","DDDDD"+addressBeen.get(0).toString());
+                        mView.showAddressSuccess(addressBeen);
+                    }
+                })
+        );
+    }
 }

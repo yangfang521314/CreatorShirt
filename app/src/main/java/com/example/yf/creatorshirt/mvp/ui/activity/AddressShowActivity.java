@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.presenter.AddressPresenter;
@@ -17,6 +18,8 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AddressAdapter;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -132,5 +135,11 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
                 mBeforeView = mCurrentView;
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new DefaultAddressEvent(true));
     }
 }

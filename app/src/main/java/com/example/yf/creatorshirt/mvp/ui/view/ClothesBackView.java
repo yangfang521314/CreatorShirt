@@ -77,7 +77,11 @@ public class ClothesBackView extends PercentRelativeLayout {
         if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
             ViewGroup.LayoutParams params = mBackClothes.getLayoutParams();
             params.width = 592;
+            params.height = 592;
             mBackClothes.setLayoutParams(params);
+            DisplayUtil.calculateBackSize(mBackArm);
+            DisplayUtil.calculateBackSize(mBackNeck);
+            DisplayUtil.calculateBackSize(mBackOrnament);
             Glide.with(this).load(imageBackUrl).into(mBackClothes);
         } else {
             Glide.with(this).load(imageBackUrl).into(mBackClothes);
@@ -143,7 +147,7 @@ public class ClothesBackView extends PercentRelativeLayout {
     public void addStickerView(String patternUrl) {
         final StickerView stickerView = new StickerView(mContext);
         RequestOptions options = new RequestOptions();
-        options.centerCrop();
+        options.override(20,20);
         Glide.with(mContext).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -177,7 +181,18 @@ public class ClothesBackView extends PercentRelativeLayout {
         });
         //反面
         //// TODO: 2017/8/27 设计高度
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DisplayUtil.Dp2Px(mContext, 320));
+        RelativeLayout.LayoutParams lp;
+        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
+            //正面
+            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.height = 592;
+            lp.width = 592;
+        } else {
+            //正面
+            lp =new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                    , ViewGroup.LayoutParams.MATCH_PARENT);
+        }
         ClothesBackView.this.addView(stickerView, lp);
         mViews.add(stickerView);
         setStickerViewEdit(stickerView);

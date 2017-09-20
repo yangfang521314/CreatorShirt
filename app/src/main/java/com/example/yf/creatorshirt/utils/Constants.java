@@ -6,12 +6,11 @@ package com.example.yf.creatorshirt.utils;
 
 public class Constants {
 
-
     //透明度
     public static final float NORMAL_ALPHA = 1.0f;
     public static final float CHANGE_ALPHA = 0.4f;
-
     public static final String ImageUrl = "http://oub3nsjgh.bkt.clouddn.com/";
+    public static final String ImageDetailUrl = "http://ovxvofng1.bkt.clouddn.com/";
     //用户信息
     public static final String USER_INFO = "UserInfo";
 

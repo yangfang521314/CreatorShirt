@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.DefaultAddressEvent;
+import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
@@ -19,6 +21,11 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,8 +39,8 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     private static final String TAG = MyOrderActivity.class.getSimpleName();
     @BindView(R.id.order_receiver_address)
     TextView mOrderAddress;
-    @BindView(R.id.order_receiver_email)
-    TextView mOrderEmail;
+    @BindView(R.id.order_receiver_mobile)
+    TextView mOrderMobile;
     @BindView(R.id.order_receiver_name)
     TextView mOrderName;
     @BindView(R.id.pay_for_money)
@@ -126,9 +133,9 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 mPayClothesNumbers.setText(String.valueOf(number));
                 break;
             case R.id.pay_clothes_minus:
-                if(number>1) {
+                if (number > 1) {
                     --number;
-                }else {
+                } else {
                     number = 1;
                 }
                 mPayClothesNumbers.setText(String.valueOf(number));
@@ -145,7 +152,15 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         }
         mPresenter.setOrderId(orderId);
         mPresenter.getOrdersData();
+        mPresenter.getAddressData();
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateDefaultAddress(DefaultAddressEvent event) {
+        if (event.getFlag()) {
+            //// TODO: 2017/9/20 有代检验
+            mPresenter.getAddressData();
+        }
     }
 
     @Override
@@ -189,6 +204,19 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
             ToastUtil.showToast(this, "生成订单出错", 0);
         } else {
             mPresenter.payForWeiChat(value);
+        }
+    }
+
+    @Override
+    public void showAddressSuccess(List<AddressBean> addressBeen) {
+        if (addressBeen != null) {
+            for (AddressBean m : addressBeen) {
+                if (m.getIsDefault() == 1) {//默认地址
+                    mOrderName.setText(m.getUserName());
+                    mOrderAddress.setText(m.getAddress());
+                    mOrderMobile.setText(m.getMobile());
+                }
+            }
         }
     }
 

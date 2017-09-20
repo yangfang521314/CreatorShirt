@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -8,13 +9,13 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
+import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder;
 
 /**
  * Created by yangfang on 2017/8/21.
  */
 
-public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHolder> {
+public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
 
     public ColorStyleAdapter(Context context) {
@@ -22,12 +23,12 @@ public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHol
     }
 
     @Override
-    protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        return new ItemViewHolder(parent, R.layout.item_style_layout);
+    protected ColorItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
+        return new ColorItemViewHolder(parent, R.layout.item_stylecolor_layout);
     }
 
     @Override
-    protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
+    protected void bindCustomViewHolder(final ColorItemViewHolder holder, final int position) {
         holder.mStyleTextView.setText(mData.get(position).getName());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +36,7 @@ public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHol
                 clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });
+        holder.mStyleImageView.setOutColor(Color.parseColor("#"+mData.get(position).getValue()));
     }
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {

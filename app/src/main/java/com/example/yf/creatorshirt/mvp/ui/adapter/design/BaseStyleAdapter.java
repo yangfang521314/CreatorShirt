@@ -1,16 +1,21 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.LogUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -38,9 +43,20 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
             @Override
             public void onClick(View v) {
                 holder.mCommonStyle.setPressed(true);
-                onClickListener.onClick(holder.mCommonStyle,position);
+                onClickListener.onClick(holder.mCommonStyle, position);
             }
         });
+        String name = mData.get(position).getTitle();
+        String result;
+        try {
+            result = URLEncoder.encode(name, "UTF-8");
+            if (!TextUtils.isEmpty(result)) {
+                Glide.with(mContext).load(Constants.ImageDetailUrl + result + ".png").into(holder.mStyleImageView);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

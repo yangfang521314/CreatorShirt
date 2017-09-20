@@ -130,4 +130,17 @@ public class DisplayUtil {
         layoutParams.width = (int) (width / 6.5);
         mll.setLayoutParams(layoutParams);
     }
+
+    public static void calculateFrontSize(ImageView imageView) {
+        ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+        layoutParams.width = 592;
+        imageView.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateBackSize(ImageView mBackImageView) {
+        ViewGroup.LayoutParams layoutParams = mBackImageView.getLayoutParams();
+        layoutParams.width = 592;
+        layoutParams.height = 592;
+        mBackImageView.setLayoutParams(layoutParams);
+    }
 }

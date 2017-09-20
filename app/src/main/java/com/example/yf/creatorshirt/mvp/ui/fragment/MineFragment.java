@@ -180,7 +180,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     public void showUserInfo(LoginBean userInfo) {
-        updateUserView();
+            updateUserView();
     }
 
     //更新视图

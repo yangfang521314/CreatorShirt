@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
+import com.example.yf.creatorshirt.utils.Constants;
 
 /**
  * Created by Administrator on 2017/8/13.
@@ -36,14 +38,10 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
                 clickListener.onItemClick(v, position);
             }
         });
-//        Glide.with(mContext).asBitmap().load(com.example.yf.creatorshirt.utils.Constants.ImageUrl+
-//        "A"+mData.get(position).getBaseId()+mData.get(position).getGender()+"_icon.png").listener(new SimpleTarget<Bitmap>() {
-//
-//            @Override
-//            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-////                holder.mClothesName.setCompoundDrawablesWithIntrinsicBounds(0,);
-//            }
-//        });
+        Glide.with(mContext).load(Constants.ImageUrl +
+                mData.get(position).getGender() + mData.get(position).getBaseId() + "A_icon.png").into
+                (holder.mClothesT);
+
     }
 
     public void setItemClickListener(ItemClickListener.OnItemClickListener clickListener) {

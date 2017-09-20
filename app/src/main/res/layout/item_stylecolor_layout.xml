@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/common_style"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="1.5dp"
+    android:background="@drawable/sex_clothes_background"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.example.yf.creatorshirt.mvp.ui.view.CircleView
+        android:id="@+id/design_icon_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:height="60dp"
+        app:inColor="@color/black"
+        app:outColor="@color/gainsboro"
+        app:stroke="2dp"
+        app:width="60dp" />
+
+    <TextView
+        android:id="@+id/design_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="衣领"
+        android:textSize="14.0sp" />
+</LinearLayout>
