@@ -20,5 +20,6 @@ public class SizeViewHolder extends BaseViewHolder {
         super(parent, resId);
         mSizeNumber = getView(R.id.size_number);
         mll = getView(R.id.ll_item_size);
+//        DisplayUtil.calculateBGWidth(mll);
     }
 }

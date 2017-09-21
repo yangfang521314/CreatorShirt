@@ -26,6 +26,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DesignerOrdersAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.freshrecyler.FreshRecyclerView;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import org.greenrobot.eventbus.EventBus;
@@ -116,7 +117,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void UpDateOrders(UpdateOrdersEvent event) {
-        if (event.getFlag()){
+        if (event.getFlag()) {
             refreshOrdersData();
         }
     }
@@ -151,7 +152,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Override
     public void showSuccessData(List<BombStyleBean> orderStyleBeen) {
-        mFirstStyleEntity = orderStyleBeen;
+        mFirstStyleEntity.addAll(orderStyleBeen);
         mAdapter.setData(mFirstStyleEntity);
         mDesignerRecycler.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
@@ -176,15 +177,54 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Override
     public void showRefreshData(List<BombStyleBean> orderStyle) {
-
-        int before = orderStyle.size();
-        mFirstStyleEntity.removeAll(orderStyle);
-        mFirstStyleEntity.addAll(0, orderStyle);
-        int after = orderStyle.size();
-        int newsUpdate = after - before;
+        if (mFirstStyleEntity != null) {
+            mFirstStyleEntity.clear();
+        }
+        mFirstStyleEntity.addAll(orderStyle);
+        mAdapter.setData(mFirstStyleEntity);
         mAdapter.notifyDataSetChanged();
-        updateNewsToast(newsUpdate);
+        Flowable.interval(0, 1, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<Long, Integer>() {
+                    @Override
+                    public Integer apply(@NonNull Long aLong) throws Exception {
+                        return 4 - aLong.intValue();
+                    }
+                })
+                .take(5).doOnSubscribe(new Consumer<Subscription>() {
+            @Override
+            public void accept(@NonNull Subscription subscription) throws Exception {
 
+            }
+        })
+                .subscribeWith(new CommonSubscriber<Integer>(this) {
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer < 3) {
+                            mDesignerRecycler.refreshComplete();
+                            heardTextView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        heardTextView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mDesignerRecycler.refreshComplete();
+                        heardTextView.setVisibility(View.GONE);
+                    }
+
+                });
+
+    }
+
+    @Override
+    public void showUpdateZero(int i) {
+        updateNewsToast(i);
     }
 
 
@@ -245,5 +285,12 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        ToastUtil.showToast(this, msg, 0);
+        mDesignerRecycler.refreshComplete();
     }
 }

@@ -51,6 +51,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private ChoiceSizePopupWindow mPopupWindow;
     private OrderBaseInfo mOrderBaseInfo;
     private String styleContext;//正面背面json数据
+    private OrderType mdetailOrderType;
 
     @Override
     public void initData() {
@@ -63,6 +64,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             }
             if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
+            }
+            //立即下订单页面
+            if (getIntent().getExtras().getParcelable("orderType") != null) {
+                this.mdetailOrderType = getIntent().getExtras().getParcelable("orderType");
             }
         }
 
@@ -106,10 +111,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 break;
             case R.id.share_weixin:
                 //// TODO: 30/06/2017 微信分享
-                if(App.isLogin) {
+                if (App.isLogin) {
                     mPresenter.setOrderClothes(mOrderBaseInfo);
                     mPresenter.getShare(this);
-                }else {
+                } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
                 break;
@@ -138,18 +143,23 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 }
             }
         });
-        mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
-        mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-                if (mPopupWindow.getBeforeView() != null) {
-                    startNewActivity();
+                if (mdetailOrderType != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("orderId", mdetailOrderType.getOrderId());
+                    startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
                 } else {
-                    ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
+                    if (mPopupWindow.getBeforeView() != null) {
+                        startNewActivity();
+                    } else {
+                        ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
+                    }
                 }
             }
         });
+
         return mPopupWindow;
     }
 
@@ -196,5 +206,14 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     @Override
     public void stateError() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+
+        }
     }
 }

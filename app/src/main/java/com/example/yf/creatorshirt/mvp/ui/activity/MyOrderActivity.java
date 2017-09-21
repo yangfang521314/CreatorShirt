@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -100,7 +99,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     }
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
-            R.id.pay_clothes_add, R.id.pay_clothes_minus})
+            R.id.pay_clothes_add, R.id.pay_clothes_minus,R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -139,6 +138,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
             case R.id.pay_clothes_add:
                 ++number;
                 mPayClothesNumbers.setText(String.valueOf(number));
+                mPayClothesTotal.setText("¥" + (number * orderData.getFee()));
                 break;
             case R.id.pay_clothes_minus:
                 if (number > 1) {
@@ -147,6 +147,10 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                     number = 1;
                 }
                 mPayClothesNumbers.setText(String.valueOf(number));
+                mPayClothesTotal.setText("¥" + (number * orderData.getFee()));
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
     }
@@ -184,18 +188,29 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     //根据订单号查询到的订单详细信息
     @Override
     public void showSuccessOrderData(OrderStyleBean orderStyleBean) {
-        if (isCheck())
-            this.orderData = orderStyleBean;
-        if (orderData.getGender() != null) {
-            if (orderData.getGender().equals("A")) {
-                mPayClothesSex.setText("女-" + orderData.getBaseName());
+        this.orderData = orderStyleBean;
+        if (!isCheck()) {
+            if (orderData.getGender() != null) {
+                if (orderData.getGender().equals("W")) {
+                    mPayClothesSex.setText("女" + orderData.getBaseName());
+
+                } else if (orderData.getGender().equals("M")) {
+                    mPayClothesSex.setText("男" + orderData.getBaseName());
+                } else {
+                    mPayClothesSex.setText(orderData.getBaseName());
+
+                }
             }
+            Log.e(TAG, "CCCC" + orderData.getColor());
+            int colorN = Color.parseColor("#"+orderData.getColor());
+            mPayClothesColor.setOutColor(colorN);
+            mPayClothesPrices.setText("¥" + orderData.getFee());
+            Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
+            mPayClothesNumbers.setText(String.valueOf(number));
+            mPayClothesSize.setText(orderData.getSize());
+            double totalPrice = number * orderData.getFee();//初始化价格
+            mPayClothesTotal.setText((int) totalPrice);
         }
-        mPayClothesColor.setOutColor(Color.parseColor(orderData.getColor()));
-        mPayClothesPrices.setText("¥" + orderData.getFee());
-        Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
-        mPayClothesNumbers.setText(String.valueOf(number));
-        mPayClothesSize.setText(orderData.getSize());
     }
 
     private boolean isCheck() {
@@ -204,10 +219,13 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
             return true;
         } else if (TextUtils.isEmpty(orderData.getBaseName())) {
             Log.e(TAG, "没有衣服名字");
+            return true;
         } else if (TextUtils.isEmpty(orderData.getHeaderImage())) {
             Log.e(TAG, "头像缺少");
+            return true;
         } else if (TextUtils.isEmpty(orderData.getTitle())) {
             Log.e(TAG, "没有TITLE");
+            return true;
         }
         return false;
     }

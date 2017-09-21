@@ -142,7 +142,7 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
                 mCurrentView.setImageResource(R.mipmap.choice_address);
                 mBeforeView = mCurrentView;
                 break;
-            case R.id.rl_show_address:
+            case R.id.rl_address:
                 AddressBean mChoiceAddress = (AddressBean) o;
                 EventBus.getDefault().post(new DefaultAddressEvent(mChoiceAddress));
                 finish();

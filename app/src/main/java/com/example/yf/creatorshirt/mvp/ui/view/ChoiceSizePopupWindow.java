@@ -80,6 +80,7 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
                 if (onPopupClickListener != null) {
                     onPopupClickListener.onClickListener();
                 }
+                mBeforeView.setSelected(false);
                 break;
         }
     }

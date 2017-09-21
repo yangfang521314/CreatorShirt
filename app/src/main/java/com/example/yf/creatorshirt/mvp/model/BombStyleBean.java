@@ -3,6 +3,8 @@ package com.example.yf.creatorshirt.mvp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by yang on 31/07/2017.
  * 爆款数据
@@ -38,7 +40,7 @@ import android.os.Parcelable;
  * UserName=葛岭????????,
  * headerImage=https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJHM7RJLsPVYe2icSUNOJ1guH5q11B9TTsuN6MmRV9lGOkHLJ5e7pZYtg0LiaLvqF0emH9omI8lnLcA/0},
  */
-public class BombStyleBean implements Parcelable{
+public class BombStyleBean implements Parcelable,Serializable {
     private int id;
     private int userId;
     private String Gender;
@@ -264,33 +266,33 @@ public class BombStyleBean implements Parcelable{
     public void setHeaderImage(String headerImage) {
         this.headerImage = headerImage;
     }
-
-    @Override
-    public String toString() {
-        return "BombStyleBean{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", Gender='" + Gender + '\'' +
-                ", baseId='" + baseId + '\'' +
-                ", Context='" + Context + '\'' +
-                ", addDate='" + addDate + '\'' +
-                ", baseName='" + baseName + '\'' +
-                ", title='" + title + '\'' +
-                ", praise=" + praise +
-                ", height='" + height + '\'' +
-                ", color='" + color + '\'' +
-                ", orderType='" + orderType + '\'' +
-                ", size='" + size + '\'' +
-                ", address='" + address + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", finishimage='" + finishimage + '\'' +
-                ", allImage='" + allImage + '\'' +
-                ", fee=" + fee +
-                ", styleContext='" + styleContext + '\'' +
-                ", UserName='" + UserName + '\'' +
-                ", headerImage='" + headerImage + '\'' +
-                '}';
-    }
+//
+//    @Override
+//    public String toString() {
+//        return "BombStyleBean{" +
+//                "id=" + id +
+//                ", userId=" + userId +
+//                ", Gender='" + Gender + '\'' +
+//                ", baseId='" + baseId + '\'' +
+//                ", Context='" + Context + '\'' +
+//                ", addDate='" + addDate + '\'' +
+//                ", baseName='" + baseName + '\'' +
+//                ", title='" + title + '\'' +
+//                ", praise=" + praise +
+//                ", height='" + height + '\'' +
+//                ", color='" + color + '\'' +
+//                ", orderType='" + orderType + '\'' +
+//                ", size='" + size + '\'' +
+//                ", address='" + address + '\'' +
+//                ", zipcode='" + zipcode + '\'' +
+//                ", finishimage='" + finishimage + '\'' +
+//                ", allImage='" + allImage + '\'' +
+//                ", fee=" + fee +
+//                ", styleContext='" + styleContext + '\'' +
+//                ", UserName='" + UserName + '\'' +
+//                ", headerImage='" + headerImage + '\'' +
+//                '}';
+//    }
 
     @Override
     public int describeContents() {

@@ -20,6 +20,8 @@ public interface DesignerOrdersContract {
         void showMoreData(List<BombStyleBean> orderStyleBeen);
 
         void showRefreshData(List<BombStyleBean> orderStyleBeen);
+
+        void showUpdateZero(int i);
     }
 
     interface Presenter extends BasePresenter<DesignerDesignView> {

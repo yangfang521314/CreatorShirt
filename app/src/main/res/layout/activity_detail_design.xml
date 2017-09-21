@@ -20,6 +20,7 @@
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:id="@+id/rl_clothes_root"
+            android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null">
@@ -30,6 +31,7 @@
         <com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView
             android:id="@+id/rl_clothes_back_root"
             android:layout_width="match_parent"
+            android:layout_centerInParent="true"
             android:layout_height="wrap_content"
             android:background="@null"
             android:visibility="gone" />

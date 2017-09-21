@@ -5,16 +5,16 @@
     android:layout_height="wrap_content"
     android:background="@drawable/choice_size_background"
     android:gravity="center"
-    android:padding="10dp"
     android:orientation="vertical">
-
-
 
     <TextView
         android:id="@+id/size_number"
+        android:padding="7dp"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="160CM"
+        android:textColor="@color/black"
         android:textSize="12sp" />
 
 </LinearLayout>

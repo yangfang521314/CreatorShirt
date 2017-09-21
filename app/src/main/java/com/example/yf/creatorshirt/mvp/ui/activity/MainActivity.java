@@ -190,6 +190,8 @@ public class MainActivity extends BaseActivity {
             ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
             mExitTime = System.currentTimeMillis();
         } else {
+            finish();
+            onDestroy();
             System.exit(0);
         }
 

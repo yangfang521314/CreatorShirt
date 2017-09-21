@@ -12,6 +12,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 /**
  * Created by yangfang on 2017/8/21.
@@ -41,8 +42,13 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
         });
         holder.mStyleTextView.setVisibility(View.GONE);
         ViewGroup.LayoutParams params = holder.mStyleImageView.getLayoutParams();
-        params.height = 200;
-        params.width = 200;
+        if (DisplayUtil.getScreenW(mContext) < 1080) {
+            params.height = 120;
+            params.width = 120;
+        } else {
+            params.height = 200;
+            params.width = 200;
+        }
         holder.mStyleImageView.setLayoutParams(params);
         RequestOptions options = new RequestOptions();
         options.fitCenter();

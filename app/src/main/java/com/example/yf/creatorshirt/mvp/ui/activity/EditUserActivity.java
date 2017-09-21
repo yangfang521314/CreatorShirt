@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -38,6 +39,7 @@ import com.example.yf.creatorshirt.utils.CircleAvatar;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.CropUtils;
 import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.GlideRequestOptions;
 import com.example.yf.creatorshirt.utils.PermissionUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesMark;
@@ -84,6 +86,18 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
             if (update.equals("update")) {
                 mAppBarTitle.setText("修改资料");
                 mTextFilter.setVisibility(View.GONE);
+                if (App.isLogin) {
+                    Glide.with(this)
+                            .load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage())
+                            .apply(GlideRequestOptions.getCircleOptions())
+                            .into(mEditUser);
+                    mAvatarUrl = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage();
+                    if (!TextUtils.isEmpty(UserInfoManager.getInstance().getUserName())) {
+                        mEditName.setText(UserInfoManager.getInstance().getUserName());
+                        mEditName.setSelection(UserInfoManager.getInstance().getUserName().length());
+
+                    }
+                }
             }
         } else {
             mAppBarTitle.setText("编辑用户");

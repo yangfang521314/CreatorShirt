@@ -19,6 +19,7 @@ import com.example.yf.creatorshirt.utils.Constants;
 public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
 
+
     public DesignAdapter(Context context) {
         super(context);
     }
@@ -36,8 +37,11 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
             @Override
             public void onClick(View v) {
                 clickListener.onItemClick(v, position);
+                v.setSelected(true);
+
             }
         });
+
         Glide.with(mContext).load(Constants.ImageUrl +
                 mData.get(position).getGender() + mData.get(position).getBaseId() + "A_icon.png").into
                 (holder.mClothesT);

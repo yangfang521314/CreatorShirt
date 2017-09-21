@@ -23,6 +23,7 @@ import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
@@ -30,7 +31,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -112,10 +112,10 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
             return true;
         } else if (TextUtils.isEmpty(mBombStyleBean.getBaseName())) {
             Log.e(TAG, "没有衣服名字");
-        } else if (TextUtils.isEmpty(mBombStyleBean.getHeaderImage())) {
-            Log.e(TAG, "头像缺少");
+            return true;
         } else if (TextUtils.isEmpty(mBombStyleBean.getTitle())) {
             Log.e(TAG, "没有TITLE");
+            return true;
         }
         return false;
     }
@@ -169,7 +169,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     }
 
-    @OnClick({R.id.btn_start, R.id.user_avatar, R.id.praise})
+    @OnClick({R.id.btn_start, R.id.user_avatar, R.id.praise, R.id.back})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
@@ -190,6 +190,9 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
                     startCommonActivity(this, null, LoginActivity.class);
                 }
                 break;
+            case R.id.back:
+                finish();
+                break;
         }
 
     }
@@ -208,6 +211,17 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     }
 
     private void startChoiceActivity(OrderType orderType) {
+        Bundle bundle = new Bundle();
+        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
+        orderBaseInfo.setType(mBombStyleBean.getBaseId());
+        orderBaseInfo.setColor(mBombStyleBean.getColor());
+        orderBaseInfo.setGender(mBombStyleBean.getGender());
+        orderBaseInfo.setFrontUrl(mAllImage[0]);
+        orderBaseInfo.setBackUrl(mAllImage[1]);
+        bundle.putParcelable("orderType",orderType);
+        bundle.putParcelable("allImage", orderBaseInfo);
+        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
+        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
 //        Bundle bundle = new Bundle();
 //        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
 //        orderBaseInfo.setType(mBombStyleBean.getBaseId());
@@ -217,9 +231,9 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 //        orderBaseInfo.setBackUrl(mAllImage[1]);
 //        bundle.putParcelable("allImage", orderBaseInfo);
 //        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
-        Bundle bundle = new Bundle();
-        bundle.putString("orderId", orderType.getOrderId());
-        startCommonActivity(this, bundle, MyOrderActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("orderId", orderType.getOrderId());
+//        startCommonActivity(this, bundle, MyOrderActivity.class);
     }
 
 
@@ -276,8 +290,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().post(new UpdateOrdersEvent(true));
     }
 }

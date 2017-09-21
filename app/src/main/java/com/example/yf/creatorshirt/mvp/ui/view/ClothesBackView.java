@@ -3,8 +3,8 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -63,7 +63,6 @@ public class ClothesBackView extends PercentRelativeLayout {
 
     public ClothesBackView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
         initView(context);
     }
 
@@ -73,7 +72,6 @@ public class ClothesBackView extends PercentRelativeLayout {
     }
 
     public void setImageUrl(String imageBackUrl) {
-//        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerBackBackground);
         if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
             ViewGroup.LayoutParams params = mBackClothes.getLayoutParams();
             params.width = 592;
@@ -116,7 +114,6 @@ public class ClothesBackView extends PercentRelativeLayout {
     }
 
     public void setColor(int color) {
-        Log.e("ClothesBackView", "c" + color);
         mBackClothes.setBackgroundResource(color);
     }
 
@@ -145,12 +142,14 @@ public class ClothesBackView extends PercentRelativeLayout {
      * @param patternUrl
      */
     public void addStickerView(String patternUrl) {
-        final StickerView stickerView = new StickerView(App.getInstance());
+        final StickerView stickerView = new StickerView(mContext);
         RequestOptions options = new RequestOptions();
         Glide.with(App.getInstance()).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                stickerView.setImageBitmap(resource);
+                if(stickerView != null) {
+                    stickerView.setImageBitmap(resource);
+                }
             }
         });
 
@@ -189,7 +188,7 @@ public class ClothesBackView extends PercentRelativeLayout {
             lp.width = 592;
         } else {
             //正面
-            lp =new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT);
         }
         mContainerBackBackground.addView(stickerView, lp);
@@ -215,5 +214,18 @@ public class ClothesBackView extends PercentRelativeLayout {
             mContainerBackBackground.removeView(mCurrentStickerView);
         }
 
+    }
+
+    public void setChoiceDone() {
+        if (mCurrentStickerView != null) {
+            mCurrentStickerView.setInEdit(false);
+            // TODO: 22/06/2017 完成后禁止StickerView的点击事件
+            mCurrentStickerView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
     }
 }

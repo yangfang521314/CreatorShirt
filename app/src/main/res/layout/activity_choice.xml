@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/app_bar" />
 
     <LinearLayout
@@ -68,7 +68,7 @@
         android:layout_above="@+id/share_weixin"
         android:layout_margin="8dp"
         android:background="@color/black"
-        android:text="生成订单49.99￥"
+        android:text="生成订单"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:visibility="visible" />

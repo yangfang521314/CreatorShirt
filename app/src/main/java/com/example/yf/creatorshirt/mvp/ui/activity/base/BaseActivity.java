@@ -53,6 +53,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         initView();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+    }
 
     private void initToolbar() {
         mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);

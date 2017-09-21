@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,6 @@ public abstract class BasePopupWindow extends PopupWindow{
         setAnimationStyle(R.style.AnimBottom);
         this.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        ColorDrawable drawable = new ColorDrawable(0x0000000);
-        this.setBackgroundDrawable(drawable);
     }
 
     public abstract View getView();

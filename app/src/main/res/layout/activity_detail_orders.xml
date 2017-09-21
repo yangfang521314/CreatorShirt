@@ -13,7 +13,6 @@
     <RelativeLayout
         android:id="@+id/rl_user_info"
         android:layout_margin="10dp"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -55,14 +54,15 @@
         android:id="@+id/designer_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:divider="@null"
         android:scrollbarFadeDuration="1"
-        android:scrollbarSize="4dp"
+        android:scrollbarSize="1dp"
         android:scrollbarThumbVertical="@color/colorAccent"
         android:scrollbars="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="3dp" />
 
 </LinearLayout>

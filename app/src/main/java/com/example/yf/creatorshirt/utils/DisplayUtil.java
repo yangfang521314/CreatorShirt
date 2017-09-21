@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * dp与px单位间的相互转换
@@ -87,12 +87,12 @@ public class DisplayUtil {
 
     /**
      * 设置定制布局的宽和高
+     *
      * @param context
      * @param linearLayout
      */
     public static void calculateDesignerClothesWidth(Context context, ImageView linearLayout) {
         int width = getScreenW(context);
-        int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
         layoutParams.height = width / 3;
         linearLayout.setLayoutParams(layoutParams);
@@ -100,7 +100,6 @@ public class DisplayUtil {
     }
 
     public static void calculateHHWidth(Context context, RelativeLayout mContainerBackground) {
-        int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = mContainerBackground.getLayoutParams();
         layoutParams.width = getScreenW(context) / 3;
         mContainerBackground.setLayoutParams(layoutParams);
@@ -109,25 +108,24 @@ public class DisplayUtil {
     /**
      * 设置衣服背景的高度
      *
-     * @param context
      * @param mContainerBackground
      */
-    public static void calculateBGWidth(Context context, RelativeLayout mContainerBackground) {
-        int height = getScreenH(context);
+    public static void calculateBGWidth(LinearLayout mContainerBackground) {
+        int w = getScreenW(context);
         ViewGroup.LayoutParams layoutParams = mContainerBackground.getLayoutParams();
-        layoutParams.height = height / 2;
+        layoutParams.width = w / 6;
+        layoutParams.height = w / 6;
         mContainerBackground.setLayoutParams(layoutParams);
     }
 
     public static void calculateRelative(Context context, RelativeLayout mRelative) {
-        int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
         layoutParams.height = 592;
         mRelative.setLayoutParams(layoutParams);
     }
 
     public static void calculateItemSizeWidth(Context context, LinearLayout mll) {
-            int width = getScreenW(context);
+        int width = getScreenW(context);
         ViewGroup.LayoutParams layoutParams = mll.getLayoutParams();
         layoutParams.width = (int) (width / 6.5);
         mll.setLayoutParams(layoutParams);
@@ -147,9 +145,22 @@ public class DisplayUtil {
     }
 
     public static void calculateBigRelative(Context context, RelativeLayout mRelative) {
-        int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
         layoutParams.height = 750;
         mRelative.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateRl(RelativeLayout relativeLayout) {
+        ViewGroup.LayoutParams layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.height = 750;
+        layoutParams.width = 750;
+        relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateSmallRl(RelativeLayout relativeLayout) {
+        ViewGroup.LayoutParams layoutParams = relativeLayout.getLayoutParams();
+        layoutParams.height = 592;
+        layoutParams.width = 592;
+        relativeLayout.setLayoutParams(layoutParams);
     }
 }

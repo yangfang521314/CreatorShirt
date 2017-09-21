@@ -57,6 +57,7 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         return R.layout.fragment_bomb_styles;
     }
 
+
     @Override
     protected void initViews(View mView) {
         hotDesignsBeen = new ArrayList<>();
@@ -164,5 +165,10 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         Bundle bundle = new Bundle();
         bundle.putParcelable("hotDesigner", hotDesignsBeen.get(position));
         startCommonActivity(getActivity(), bundle, DeignerNewOrdersActivity.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

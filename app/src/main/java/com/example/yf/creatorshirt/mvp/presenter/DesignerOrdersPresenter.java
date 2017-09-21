@@ -1,19 +1,22 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.http.HttpResultResponse;
+import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignerOrdersContract;
 import com.example.yf.creatorshirt.utils.GsonUtils;
-import com.example.yf.creatorshirt.utils.RxUtils;
-import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/9/12.
@@ -37,17 +40,37 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
         Map<String, Integer> map = new HashMap<>();
         map.put("desginUserId", userID);
         map.put("pageIndex", pageIndex);
-        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<BombStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
-                    @Override
-                    public void onNext(List<BombStyleBean> orderStyleBeen) {
-                        mView.showSuccessData(orderStyleBeen);
+//        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
+//                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+//                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+//                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
+//                    @Override
+//                    public void onNext(List<BombStyleBean> orderStyleBeen) {
+//                        mView.showSuccessData(orderStyleBeen);
+//                    }
+//                })
+//
+//        );
+        TestRequestServer.getInstance().getDesignOrders(GsonUtils.getGson(map)).enqueue(new Callback<HttpResultResponse>() {
+            @Override
+            public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
+                if (response.body().getStatus() == 1) {
+                    if (response.body().getResult() != null) {
+                        mView.showSuccessData(response.body().getResult());
+                    } else {
+                        mView.showErrorMsg(App.getInstance().getString(R.string.no_data));
                     }
-                })
 
-        );
+                } else {
+                    mView.showErrorMsg(App.getInstance().getString(R.string.no_data));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResultResponse> call, Throwable t) {
+                mView.showErrorMsg(App.getInstance().getString(R.string.no_net));
+            }
+        });
     }
 
     public void setUserId(int userId) {
@@ -58,17 +81,36 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
         Map<String, Integer> map = new HashMap<>();
         map.put("desginUserId", userID);
         map.put("pageIndex", ++pageIndex);
-        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<BombStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
-                    @Override
-                    public void onNext(List<BombStyleBean> orderStyleBeen) {
-                        mView.showMoreData(orderStyleBeen);
+//        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
+//                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+//                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+//                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
+//                    @Override
+//                    public void onNext(List<BombStyleBean> orderStyleBeen) {
+//                        mView.showMoreData(orderStyleBeen);
+//                    }
+//
+//                })
+//        );
+        TestRequestServer.getInstance().getDesignOrders(GsonUtils.getGson(map)).enqueue(new Callback<HttpResultResponse>() {
+            @Override
+            public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
+                if (response.body().getStatus() == 1) {
+                    if (response.body().getResult() != null) {
+                        mView.showMoreData(response.body().getResult());
+                    } else {
+                        mView.showErrorMsg("数据为空");
                     }
+                } else {
+                    mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
+                }
+            }
 
-                })
-        );
+            @Override
+            public void onFailure(Call<HttpResultResponse> call, Throwable t) {
+                mView.showErrorMsg(App.getInstance().getString(R.string.no_net));
+            }
+        });
     }
 
     public void getRefreshDesigner() {
@@ -76,16 +118,38 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
         Map<String, Integer> map = new HashMap<>();
         map.put("desginUserId", userID);
         map.put("pageIndex", pageIndex);
-        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<BombStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
-                    @Override
-                    public void onNext(List<BombStyleBean> orderStyleBeen) {
-                        mView.showRefreshData(orderStyleBeen);
-                    }
-                })
+//        addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
+//                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
+//                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+//                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "请求失败，请检查网络", false) {
+//                    @Override
+//                    public void onNext(List<BombStyleBean> orderStyleBeen) {
+//                        mView.showRefreshData(orderStyleBeen);
+//                    }
+//                })
+//
+//        );
 
-        );
+        TestRequestServer.getInstance().getDesignOrders(GsonUtils.getGson(map)).enqueue(new Callback<HttpResultResponse>() {
+            @Override
+            public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
+                if (response.body().getStatus() == 1) {
+                    if (response.body().getResult() != null) {
+                        mView.showRefreshData(response.body().getResult());
+                    } else {
+                        mView.showErrorMsg("数据为空");
+                    }
+
+                } else {
+                    mView.showUpdateZero(0);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HttpResultResponse> call, Throwable t) {
+                mView.showErrorMsg("刷新失败");
+            }
+        });
     }
 }

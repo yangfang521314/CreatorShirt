@@ -125,7 +125,7 @@ public class FileUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(fileSrc, options);
-        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+        options.inSampleSize = calculateInSampleSize(options, 750, 750);
         Log.i("COMPRESS", "options.inSampleSize-->" + options.inSampleSize);
         options.inJustDecodeBounds = false;
         Bitmap img = BitmapFactory.decodeFile(fileSrc, options);
@@ -165,7 +165,7 @@ public class FileUtils {
      */
     public static boolean saveBitmap2File(Bitmap bmp, String filename) {
         Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
-        int quality = 50;
+        int quality = 100;
         OutputStream stream = null;
         try {
             stream = new FileOutputStream(filename);

@@ -26,6 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
@@ -50,6 +52,8 @@ import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,10 +178,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     protected void initView() {
         if (DisplayUtil.getScreenW(this) < 1080) {
             DisplayUtil.calculateRelative(this, mRelative);
-        }else {
+        } else {
             DisplayUtil.calculateBigRelative(this, mRelative);
         }
-//        DisplayUtil.calculateBGWidth(App.getInstance(), mContainerFrontBackground);
         //默认显示正面
         initFrontBg();
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -185,6 +188,17 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         commonStyleData = new CommonStyleData();
         mBackStyleData = new CommonStyleData();
         mOrderBaseInfo = new OrderBaseInfo();
+        initBackBg();
+
+    }
+
+    private void initBackBg() {
+        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
+            DisplayUtil.calculateSmallRl(mContainerBackBackground);
+        } else {
+            DisplayUtil.calculateRl(mContainerBackBackground);
+        }
+        mContainerBackBackground.setContext(this);
     }
 
     private void initFrontBg() {
@@ -195,7 +209,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             DisplayUtil.calculateFrontSize(mChoiceArm);
             DisplayUtil.calculateFrontSize(mChoiceNeck);
             Glide.with(this).load(mBackgroundUrl).into(mClothes);
+            DisplayUtil.calculateSmallRl(mContainerFrontBackground);
         } else {
+            DisplayUtil.calculateRl(mContainerFrontBackground);
             Glide.with(this).load(mBackgroundUrl).into(mClothes);
         }
         mAppBarTitle.setText(R.string.design);
@@ -341,16 +357,16 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
             }
 
-            if (mData.getColor() != null) {
-                if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getColor().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(COLOR);
-                    addColorData(name, mData.getColor().getFileList());
-                }
-            }
+//            if (mData.getColor() != null) {
+//                if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
+//                    styleBean = new StyleBean();
+//                    name = mData.getColor().getName();
+//                    styleBean.setTitle(name);
+//                    newList.add(styleBean);
+//                    clotheKey.add(COLOR);
+//                    addColorData(name, mData.getColor().getFileList());
+//                }
+//            }
             if (mData.getPattern() != null) {
                 if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
                     styleBean = new StyleBean();
@@ -446,9 +462,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         if (mButtonFront.isSelected()) {
                             mClothes.setBackgroundResource(R.color.white);
                         }
-                        if (mButtonBack.isSelected()) {
-                            mContainerBackBackground.setColor(R.color.white);
-                        }
+                        int colorN = Color.parseColor("#ffffff");
+                        mContainerBackBackground.setColorResources(colorN);
                         break;
                     case ORNAMENT:
                         if (mButtonFront.isSelected()) {
@@ -506,9 +521,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setColor(mImagecolor);
                         }
-                        if (mButtonBack.isSelected()) {
-                            mBackStyleData.setColor(mImagecolor);
-                        }
+                        mBackStyleData.setColor(mImagecolor);
                         break;
                     case ORNAMENT:
                         if (mButtonFront.isSelected()) {
@@ -549,6 +562,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         }
                     });
                 }
+                mContainerBackBackground.setChoiceDone();//反面处理
+
 //                if (CLOTHES_STYLE.equals(SIGNATURE) && isEditSign) {
 //                    setSignatureText();//签名处理
 //                }
@@ -559,27 +574,26 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mContainerBackBackground.setVisibility(View.GONE);
                 mButtonFront.setSelected(true);
                 mButtonBack.setSelected(false);
-                if (commonStyleData != null) {
-                    if (commonStyleData.getNeckUrl() != null) {
-                        setNeckImage(commonStyleData.getNeckUrl());
-                    }
-                    if (commonStyleData.getArmUrl() != null) {
-                        setArmImage(commonStyleData.getArmUrl());
-                    }
-                    if (commonStyleData.getPattern() != null) {
-                        addStickerView(commonStyleData.getPattern());
-                    }
-                    if (commonStyleData.getOrnametUrl() != null) {
-                        setOrnametUrl(commonStyleData.getOrnametUrl());
-                    }
-                    if (commonStyleData.getColor() != null) {
-                        setColorBg(commonStyleData.getColor());
-                    }
-                }
+//                if (commonStyleData != null) {
+//                    if (commonStyleData.getNeckUrl() != null) {
+//                        setNeckImage(commonStyleData.getNeckUrl());
+//                    }
+//                    if (commonStyleData.getArmUrl() != null) {
+//                        setArmImage(commonStyleData.getArmUrl());
+//                    }
+//                    if (commonStyleData.getPattern() != null) {
+//                        addStickerView(commonStyleData.getPattern());
+//                    }
+//                    if (commonStyleData.getOrnametUrl() != null) {
+//                        setOrnametUrl(commonStyleData.getOrnametUrl());
+//                    }
+//                    if (commonStyleData.getColor() != null) {
+//                        setColorBg(commonStyleData.getColor());
+//                    }
+//                }
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
                 Glide.with(this).load(imageUrl).into(mClothes);
                 getNameDeign(mDetailStyleFrontData, "front");
-//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -596,9 +610,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 if (!isBack) {
                     initShowStyle();
                 }
-                if (mBackStyleData != null) {
-                    mContainerBackBackground.setBackData(mBackStyleData);
-                }
+//                if (mBackStyleData != null) {
+//                    mContainerBackBackground.setBackData(mBackStyleData);
+//                }
                 getNameDeign(mDetailStyleBackData, "back");
 
 //                mPatternBounds.setVisibility(View.GONE);
@@ -622,6 +636,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         if (mDetailStyleBackData.getOrnament().getFileList().size() != 0 && mDetailStyleBackData.getOrnament().getFileList().size() != 0) {
             mBackStyleData.setOrnametUrl(mDetailStyleBackData.getOrnament().getFileList().get(0).getFile());
         }
+        mContainerBackBackground.setBackData(mBackStyleData);
     }
 
 
@@ -632,7 +647,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mOrderBaseInfo.setGender(gender);
         mOrderBaseInfo.setType(type);
         mOrderBaseInfo.setColor(mImagecolor);
-        Log.e("TAG","fuck      ,,,,"+mImagecolor);
         bundle.putParcelable("allImage", mOrderBaseInfo);
         OrderData orderData = new OrderData();
         orderData.setBackData(mBackStyleData);
@@ -651,9 +665,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             mClothes.setBackgroundColor(colorN);
 
         }
-        if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
-            mContainerBackBackground.setColorResources(colorN);
-        }
+//        if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
+        mContainerBackBackground.setColorResources(colorN);
+//        }
     }
 
     /**
@@ -720,12 +734,11 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     private void generateBitmap() {
         Bitmap bitmap = Bitmap.createBitmap(mContainerBackBackground.getWidth(),
-                mContainerBackBackground.getHeight()
+                mContainerFrontBackground.getHeight()
                 , Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         mContainerBackBackground.draw(canvas);
         imageBackPath = FileUtils.saveBitmap(bitmap, this, "back");
-
         Bitmap bitmapFront = Bitmap.createBitmap(mContainerFrontBackground.getWidth(),
                 mContainerFrontBackground.getHeight()
                 , Bitmap.Config.ARGB_8888);
@@ -952,5 +965,11 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @Override
     public void stateError() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().post(new ChangeSelectEvent(true));
     }
 }

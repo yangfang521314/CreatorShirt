@@ -8,8 +8,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -18,6 +16,8 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
 
 
@@ -78,7 +78,7 @@ public class StickerView extends ImageView {
 
     private float MIN_SCALE = 0.5f;
 
-    private float MAX_SCALE = 1.2f;
+    private float MAX_SCALE = 1.0f;
 
     private double halfDiagonalLength;
 
@@ -200,7 +200,12 @@ public class StickerView extends ImageView {
 
     public void setBitmap(Bitmap bitmap) {
         matrix.reset();
-        Bitmap newBitmap = FileUtils.getZoomImage(bitmap,750,750);
+        Bitmap newBitmap;
+        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
+            newBitmap = FileUtils.getZoomImage(bitmap, 592, 592);
+        } else {
+            newBitmap = FileUtils.getZoomImage(bitmap, 750, 750);
+        }
         mBitmap = newBitmap;
         setDiagonalLength();
         initBitmaps();

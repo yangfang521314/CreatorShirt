@@ -39,7 +39,7 @@ public interface TestRequestApi {
     Call<HttpResponse> getBomData(@Body RequestBody body);
 
     @POST("f-Users/requestDesignOrders")
-    Call<HttpResponse> getDesignOrders(@Body RequestBody body);
+    Call<HttpResultResponse> getDesignOrders(@Body RequestBody body);
 
     @POST("f-Users/GetUserInfo")
     Call<HttpResponse> getUserInfo(@Header("Token") String userToken);

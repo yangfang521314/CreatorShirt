@@ -22,6 +22,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
@@ -65,6 +66,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private String size;
     private String styleContext;
     private UMImage weixinContent;
+    private AsyncTask<String, Integer, Void> asyncTask;
 
     private Map<String, String> map = new HashMap<>();
     private Handler handler = new Handler() {
@@ -124,6 +126,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 } else {
                     Log.e("qiniu_back", "UPLOAD fail");
                     mView.showErrorMsg("保存图片失败");
+                    asyncTask.cancel(true);
                 }
 
             }
@@ -158,10 +161,13 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         String size = newSize[0];
         imageBackUrl = map.get("B");
         imageFrontUrl = map.get("A");
+        String baseColor = mOrderBaseInfo.getColor();
+        String[] detail = baseColor.split("#");
+        String detailColor = detail[1];
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
         saveStyleEntity.setGender(mOrderBaseInfo.getGender());
         saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
-        saveStyleEntity.setColor(mOrderBaseInfo.getColor());
+        saveStyleEntity.setColor(detailColor);
         saveStyleEntity.setHeight(Integer.parseInt(size));
         saveStyleEntity.setOrderType("Check");
         saveStyleEntity.setSize(Integer.parseInt(size));
@@ -202,7 +208,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
 
     public void request(final String key, final String value) {
-        AsyncTask<String, Integer, Void> asyncTask = new AsyncTask<String, Integer, Void>() {
+        asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
             protected Void doInBackground(String... params) {
                 getList(key, value);
@@ -211,7 +217,12 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
             @Override
             protected void onPreExecute() {
-                Log.e("TAG", "正在保存图片");
+                ToastUtil.showProgressToast(App.getInstance(),"正在生成订单",0);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
             }
 
             @Override
