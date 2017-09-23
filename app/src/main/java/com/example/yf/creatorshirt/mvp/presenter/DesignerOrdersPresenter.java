@@ -58,11 +58,11 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     if (response.body().getResult() != null) {
                         mView.showSuccessData(response.body().getResult());
                     } else {
-                        mView.showErrorMsg(App.getInstance().getString(R.string.no_data));
+                        mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
                     }
 
                 } else {
-                    mView.showErrorMsg(App.getInstance().getString(R.string.no_data));
+                    mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
                 }
             }
 
@@ -99,10 +99,10 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     if (response.body().getResult() != null) {
                         mView.showMoreData(response.body().getResult());
                     } else {
-                        mView.showErrorMsg("数据为空");
+                        mView.showErrorMsg(App.getInstance().getString(R.string.load_more_failure));
                     }
                 } else {
-                    mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
+                    mView.showErrorMsg(App.getInstance().getString(R.string.load_more_failure));
                 }
             }
 
@@ -137,7 +137,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     if (response.body().getResult() != null) {
                         mView.showRefreshData(response.body().getResult());
                     } else {
-                        mView.showErrorMsg("数据为空");
+                        mView.showErrorMsg(App.getInstance().getString(R.string.refresh_data_failure));
                     }
 
                 } else {
@@ -148,7 +148,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
 
             @Override
             public void onFailure(Call<HttpResultResponse> call, Throwable t) {
-                mView.showErrorMsg("刷新失败");
+                mView.showErrorMsg(App.getInstance().getString(R.string.no_net));
             }
         });
     }

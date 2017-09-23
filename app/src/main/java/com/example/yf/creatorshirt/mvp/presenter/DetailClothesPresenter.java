@@ -78,18 +78,6 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
                     }
                 })
         );
-//        TestRequestServer.getInstance().saveOrdersFromShare(UserInfoManager.getInstance().getToken()
-//
-//        ,GsonUtils.getGson(map)).enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//            }
-//
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//            }
-//        });
 
     }
 }

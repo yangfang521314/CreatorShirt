@@ -9,13 +9,11 @@ import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
-import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 
 import java.util.List;
-import java.util.function.DoubleUnaryOperator;
 
 import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
 /**

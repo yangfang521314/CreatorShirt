@@ -17,7 +17,7 @@ import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
-import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;

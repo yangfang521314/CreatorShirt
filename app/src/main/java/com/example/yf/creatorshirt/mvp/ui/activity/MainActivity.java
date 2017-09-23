@@ -10,12 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.DesignFragment;
@@ -184,17 +186,25 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
-            mExitTime = System.currentTimeMillis();
-        } else {
-            finish();
-            onDestroy();
-            System.exit(0);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUserViewByLogin(ChangeSelectEvent event) {
+        if (mMineFragment != null && mMineFragment.isAdded()) {
+            mDesignFragment.updateChoiceSelect();
         }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
+                mExitTime = System.currentTimeMillis();
+            } else {
+                MainActivity.this.finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -231,6 +241,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ToastUtil.cancel();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        ToastUtil.showToast(this,msg,0);
     }
 }

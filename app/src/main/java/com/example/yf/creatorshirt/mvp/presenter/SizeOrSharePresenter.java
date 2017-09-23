@@ -183,7 +183,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         addSubscribe(manager.saveOrderData(userToken, body)
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView,"生成订单失败") {
                     @Override
                     public void onNext(OrderType s) {
                         mView.showSuccessData(s);

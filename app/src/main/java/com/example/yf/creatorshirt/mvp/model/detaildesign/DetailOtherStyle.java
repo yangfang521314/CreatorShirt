@@ -1,10 +1,12 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
+import com.example.yf.creatorshirt.mvp.model.BaseChoiceEntity;
+
 /**
  * Created by yangfang on 2017/8/20.
  */
 
-public class DetailOtherStyle {
+public class DetailOtherStyle extends BaseChoiceEntity{
     private String name;
     private String file;
     private String positionType;

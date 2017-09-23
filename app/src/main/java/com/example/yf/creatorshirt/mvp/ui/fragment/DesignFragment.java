@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +40,6 @@ public class DesignFragment extends BaseFragment<DesignPresenter> implements Des
     private List<DesignBaseBean> listM = new ArrayList<>();
     private List<DesignBaseBean> listW = new ArrayList<>();
     private DesignAdapter adapter;
-    private View beforeView;
     private View currentView;
     private int currentPosition;
 
@@ -112,12 +110,12 @@ public class DesignFragment extends BaseFragment<DesignPresenter> implements Des
     @Override
     public void onItemClick(View currentView, int position) {
         currentPosition = position;
-        if (beforeView != null) {
-            beforeView.setSelected(false);
-        }
         this.currentView = currentView;
-        currentView.setSelected(true);
-        beforeView = currentView;
     }
 
+    public void updateChoiceSelect() {
+        mChoiceWoman.setSelected(false);
+        mChoiceMan.setSelected(false);
+        currentView.setSelected(false);
+    }
 }

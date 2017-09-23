@@ -51,7 +51,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private ChoiceSizePopupWindow mPopupWindow;
     private OrderBaseInfo mOrderBaseInfo;
     private String styleContext;//正面背面json数据
-    private OrderType mdetailOrderType;
 
     @Override
     public void initData() {
@@ -64,10 +63,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             }
             if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
-            }
-            //立即下订单页面
-            if (getIntent().getExtras().getParcelable("orderType") != null) {
-                this.mdetailOrderType = getIntent().getExtras().getParcelable("orderType");
             }
         }
 
@@ -146,17 +141,13 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-                if (mdetailOrderType != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("orderId", mdetailOrderType.getOrderId());
-                    startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+
+                if (mPopupWindow.getBeforeView() != null) {
+                    startNewActivity();
                 } else {
-                    if (mPopupWindow.getBeforeView() != null) {
-                        startNewActivity();
-                    } else {
-                        ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
-                    }
+                    ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
                 }
+
             }
         });
 

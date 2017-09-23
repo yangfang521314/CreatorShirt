@@ -12,6 +12,16 @@ public class DesignBaseBean {
     private String baseName;
     private String Gender;
 
+    private boolean isSelect = false;
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
     public String getBaseId() {
         return baseId;
     }

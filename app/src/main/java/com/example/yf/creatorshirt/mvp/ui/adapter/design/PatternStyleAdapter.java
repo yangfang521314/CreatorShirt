@@ -20,6 +20,8 @@ import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
+    private View preView;
+    private int prePosition;
 
     public PatternStyleAdapter(Context context) {
         super(context);
@@ -34,12 +36,31 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(holder.mCommonStyle, position);
-            }
-        });
+        if (mData.get(position).isSelect()) {
+            holder.itemView.setSelected(true);
+            preView = holder.itemView;
+            prePosition = position;
+        } else {
+            holder.itemView.setSelected(false);
+        }
+        if (clickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(holder.mCommonStyle, position);
+                    if (preView != null) {
+                        preView.setSelected(false);
+                        if (prePosition >= 0 && prePosition < mData.size()) {
+                            mData.get(prePosition).setSelect(false);
+                        }
+                    }
+                    prePosition = position;
+                    preView = v;
+                    preView.setSelected(true);
+                    mData.get(prePosition).setSelect(true);
+                }
+            });
+        }
         holder.mStyleTextView.setVisibility(View.GONE);
         ViewGroup.LayoutParams params = holder.mStyleImageView.getLayoutParams();
         if (DisplayUtil.getScreenW(mContext) < 1080) {

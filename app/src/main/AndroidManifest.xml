@@ -71,8 +71,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.PermissionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.EditUserActivity"
             android:screenOrientation="portrait" />

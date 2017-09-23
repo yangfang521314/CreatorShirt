@@ -25,6 +25,8 @@ import java.util.List;
 public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     private ItemClickListener.OnClickListener onClickListener;
+    private View preView;
+    private int prePosition;
 
     public BaseStyleAdapter(Context context) {
         super(context);
@@ -37,13 +39,29 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-//        holder.mStyleImageView.setImageResource(mData.get(position).getImageId());
+        if (mData.get(position).isSelect()) {
+            holder.itemView.setSelected(true);
+            preView = holder.itemView;
+            prePosition = position;
+        } else {
+            holder.itemView.setSelected(false);
+        }
         holder.mStyleTextView.setText(mData.get(position).getTitle());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.mCommonStyle.setPressed(true);
+                if (preView != null) {
+                    preView.setSelected(false);
+                    if (prePosition >= 0 && prePosition < mData.size()) {
+                        mData.get(prePosition).setSelect(false);
+                    }
+                }
+                prePosition = position;
+                preView = v;
+                preView.setSelected(true);
+                mData.get(prePosition).setSelect(true);
                 onClickListener.onClick(holder.mCommonStyle, position);
+
             }
         });
         String name = mData.get(position).getTitle();

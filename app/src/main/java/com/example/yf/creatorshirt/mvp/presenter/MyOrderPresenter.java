@@ -6,6 +6,7 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
@@ -88,7 +89,6 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                 .subscribeWith(new CommonSubscriber<PayOrderEntity>(mView) {
                     @Override
                     public void onNext(PayOrderEntity payOrderEntity) {
-                        Log.e("TAG", "GGGGGGGGGGGGGGGG" + payOrderEntity.toString());
                         mView.showPayOrder(payOrderEntity);
                     }
                 })
@@ -137,10 +137,9 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         addSubscribe(manager.getAddressData(SharedPreferencesUtil.getUserToken())
                 .compose(RxUtils.<HttpResponse<List<AddressBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<AddressBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "数据请求错误") {
+                .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "请求地址错误") {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
-                        Log.e("TA","DDDDD"+addressBeen.get(0).toString());
                         mView.showAddressSuccess(addressBeen);
                     }
                 })

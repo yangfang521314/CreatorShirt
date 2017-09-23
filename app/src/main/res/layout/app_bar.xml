@@ -20,11 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:gravity="center"
             android:layout_marginRight="8dp">
 
             <ImageView
                 android:id="@+id/back"
-                android:padding="2dp"
+                android:padding="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/back"

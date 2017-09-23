@@ -8,6 +8,7 @@ import android.view.View;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.adapter.SquarePagerAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,11 @@ public class SquareFragment extends BaseFragment {
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(getActivity(),msg,0);
     }
 
     @Override

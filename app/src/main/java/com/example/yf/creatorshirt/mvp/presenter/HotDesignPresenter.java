@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
@@ -62,7 +60,7 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
         addSubscribe(dataManager.getHotDesign(SharedPreferencesUtil.getUserToken(), body)
                 .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<HotDesignsBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView, "请求失败") {
+                .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView) {
                     @Override
                     public void onNext(List<HotDesignsBean> hotDesigns) {
                         if (hotDesigns == null) {

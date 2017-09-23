@@ -127,4 +127,10 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
         startCommonActivity(getActivity(), bundle, DetailClothesActivity.class);
     }
 
+    @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        ToastUtil.showToast(getActivity(),msg,0);
+
+    }
 }

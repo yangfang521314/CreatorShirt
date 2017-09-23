@@ -40,7 +40,7 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
         addSubscribe(dataManager.getBombData(body)
                 .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<BombStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "数据获取失败") {
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView) {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
                         mView.showSuccess(bombStyleBeen);

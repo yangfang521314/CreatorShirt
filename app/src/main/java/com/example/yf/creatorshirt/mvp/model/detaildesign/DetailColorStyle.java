@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
+import com.example.yf.creatorshirt.mvp.model.BaseChoiceEntity;
+
 /**
  * Created by yangfang on 2017/8/19.
  * 最小的style，example：
@@ -8,7 +10,7 @@ package com.example.yf.creatorshirt.mvp.model.detaildesign;
  *
  */
 
-public class DetailColorStyle {
+public class DetailColorStyle extends BaseChoiceEntity{
     private String name;
     private String value;
 

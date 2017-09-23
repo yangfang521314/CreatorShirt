@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -48,7 +46,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             addSubscribe(manager.getDetailDesign(requestBody)
                     .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
                     .compose(RxUtils.<DetailStyleBean>handleResult())
-                    .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "fuck") {
+                    .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
                         @Override
                         public void onNext(DetailStyleBean detailStyleBean) {
                                 mView.showSuccessData(detailStyleBean);

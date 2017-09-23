@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
+import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 /**
  * Created by yang on 28/07/2017.
@@ -38,6 +39,10 @@ public class PermissionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemUtilsBar.with(this).init();
+        SystemUtilsBar.with(this)
+                .statusBarDarkFont(true, 0.2f)
+                .init();
         if (getIntent() == null || !getIntent().hasExtra(EXTRA_PERMISSIONS)) {
             throw new RuntimeException("PermissionsActivity需要使用静态startActivityForResult方法启动!");
         }

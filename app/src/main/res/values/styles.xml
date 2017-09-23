@@ -7,9 +7,10 @@
 
     <style name="BaseAppTheme" parent="AppTheme.Base">
         <item name="colorPrimary">@color/colorPrimary</item>    <!--toolbar -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!-- 状态栏 -->
+        <item name="colorPrimaryDark">@color/colorPrimary</item> <!-- 状态栏 -->
         <item name="colorAccent">@color/colorAccent</item>  <!-- 重点 -->
         <item name="android:listDivider">@drawable/divider_bg</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
     </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseAppTheme" />
@@ -63,5 +64,17 @@
         <item name="android:textSize">18.67sp</item>
         <item name="android:background">@color/black</item>
         <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="AnimationActivity" mce_bogus="1" parent="@android:style/Animation.Activity">
+
+        <!--<item name="android:activityOpenEnterAnimation">@anim/slide_in_bottom</item>-->
+
+        <!--<item name="android:activityOpenExitAnimation">@anim/slide_out_bottom</item>-->
+
+        <!--<item name="android:activityCloseEnterAnimation">@anim/slide_in_bottom</item>-->
+
+        <!--<item name="android:activityCloseExitAnimation">@anim/slide_out_bottom</item>-->
+
     </style>
 </resources>

@@ -2,16 +2,12 @@ package com.example.yf.creatorshirt.pay.weixin;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * 微信支付

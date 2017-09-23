@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.presenter;
+package com.example.yf.creatorshirt.mvp.model;
 
 /**
  * Created by panguso on 2017/9/5.

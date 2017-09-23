@@ -20,7 +20,8 @@ import java.util.List;
 
 public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
-    private View mBeforeView;
+    private View preView;
+    private int prePosition;
 
 
     public DetailStyleAdapter(Context context) {
@@ -36,21 +37,35 @@ public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHo
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        holder.mStyleTextView.setText(mData.get(position).getName());
-        holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(holder.mCommonStyle, position);
-                v.setSelected(true);
-                mBeforeView.setSelected(false);
-                mBeforeView = v;
-            }
-        });
-        Glide.with(mContext).load(Constants.ImageUrl + mData.get(position).getIcon()).into(holder.mStyleImageView);
-        if (position == 0) {
-            mBeforeView = holder.mCommonStyle;
-            mBeforeView.setSelected(true);
+        if (mData.get(position).isSelect()) {
+            holder.itemView.setSelected(true);
+            preView = holder.itemView;
+            prePosition = position;
+        } else {
+            holder.itemView.setSelected(false);
         }
+        holder.mStyleTextView.setText(mData.get(position).getName());
+        if (clickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (preView != null) {
+                        preView.setSelected(false);
+                        if (prePosition >= 0 && prePosition < mData.size()) {
+                            mData.get(prePosition).setSelect(false);
+                        }
+                    }
+                    prePosition = position;
+                    preView = v;
+                    preView.setSelected(true);
+                    mData.get(prePosition).setSelect(true);
+                    clickListener.onItemClick(holder.mCommonStyle, position);
+
+                }
+            });
+        }
+        Glide.with(mContext).load(Constants.ImageUrl + mData.get(position).getIcon()).into(holder.mStyleImageView);
+
     }
 
     @Override

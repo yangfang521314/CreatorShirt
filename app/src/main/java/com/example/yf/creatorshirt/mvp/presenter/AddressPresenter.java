@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -48,10 +46,9 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
         addSubscribe(mDataManager.getAddressData(SharedPreferencesUtil.getUserToken())
                 .compose(RxUtils.<HttpResponse<List<AddressBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<AddressBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "数据请求错误") {
+                .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView) {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
-                        Log.e("TA","DDDDD"+addressBeen.get(0).toString());
                         mView.showSuccess(addressBeen);
                     }
                 })
@@ -85,7 +82,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                     @Override
                     public void onNext(Integer integer) {
                         if (integer.equals(1)) {
-                            mView.SuccessSaveAddress("保存成功");
+                            mView.SuccessSaveAddress("地址保存成功");
                         }
                     }
                 })
@@ -114,7 +111,7 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                     @Override
                     public void onNext(Integer integer) {
                         if (integer.equals(1)) {
-                            mView.SuccessSaveAddress("修改成功");
+                            mView.SuccessSaveAddress("地址修改成功");
                         }
                     }
                 })

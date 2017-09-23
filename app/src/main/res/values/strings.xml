@@ -27,6 +27,7 @@
     <string name="dialog_no">取消</string>
     <string name="title_dialog">自定义底部菜单</string>
     <string name="no_net">请求失败，请检查网络</string>
-    <string name="load_failure">加载更多失败</string>
-    <string name="no_data">加载数据失败</string>
+    <string name="load_more_failure">加载更多失败</string>
+    <string name="load_failure">加载数据失败</string>
+    <string name="refresh_data_failure">刷新数据失败</string>
 </resources>

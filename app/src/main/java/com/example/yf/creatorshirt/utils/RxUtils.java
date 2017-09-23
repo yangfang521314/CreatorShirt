@@ -81,7 +81,7 @@ public class RxUtils {
                             return createData(tHttpResponse.getResult());
                         } else {
                             LogUtil.e(TAG, "服务器返回error");
-                            return Flowable.error(new Throwable("服务器返回error"));
+                            return Flowable.error(new Throwable("服务器返回数据出错"));
                         }
                     }
                 });
@@ -105,7 +105,7 @@ public class RxUtils {
                         if (tHttpResponse.getStatus() == 1) {
                             return createObservablData(tHttpResponse.getResult());
                         } else {
-                            return Observable.error(new Throwable("服务器返回error"));
+                            return Observable.error(new Throwable("服务器返回出错"));
                         }
                     }
                 });

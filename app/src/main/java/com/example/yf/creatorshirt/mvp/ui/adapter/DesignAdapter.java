@@ -18,6 +18,8 @@ import com.example.yf.creatorshirt.utils.Constants;
 
 public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
+    private int oldPosition;
+    private View oldContainer;
 
 
     public DesignAdapter(Context context) {
@@ -32,13 +34,28 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
     @Override
     protected void bindCustomViewHolder(final DesignBaseHolder holder, final int position) {
         holder.mClothesName.setText(mData.get(position).getBaseName());
-
+        if (mData.get(position).isSelect()) {
+            holder.llClothes.setSelected(true);
+        } else {
+            holder.llClothes.setSelected(false);
+        }
+        if (clickListener == null) {
+            return;
+        }
         holder.llClothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (oldContainer != null) {
+                    oldContainer.setSelected(false);
+                    if (oldPosition >= 0 && oldPosition < mData.size()) {
+                        mData.get(oldPosition).setSelect(false);
+                    }
+                }
+                oldContainer = v;
+                oldPosition = position;
+                oldContainer.setSelected(true);
+                mData.get(oldPosition).setSelect(true);
                 clickListener.onItemClick(v, position);
-                v.setSelected(true);
-
             }
         });
 

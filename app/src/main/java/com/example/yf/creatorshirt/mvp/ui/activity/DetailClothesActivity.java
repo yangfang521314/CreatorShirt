@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,16 +25,18 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
+import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -72,6 +78,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     ViewPager mViewPager;
     @BindView(R.id.ll_indicator)
     LinearLayout mLinearLayout;
+    @BindView(R.id.rl_detail_clothes)
+    RelativeLayout mRelativeClothes;
     private ShapeView shapeView;
 
 
@@ -79,7 +87,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     private List<View> mViewList;
     private String[] mAllImage;
     private boolean isFlag = false;
-
+    private ChoiceSizePopupWindow mPopupWindow;
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -174,7 +182,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         switch (view.getId()) {
             case R.id.btn_start:
                 if (App.isLogin) {
-                    mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mBombStyleBean.getHeight());
+                    initPopupWindow().showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+                    setWindowBgAlpha(Constants.CHANGE_ALPHA);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);
                 }
@@ -197,6 +206,43 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     }
 
+    private void setWindowBgAlpha(float f) {
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = f;
+        params.dimAmount = f;
+        getWindow().setAttributes(params);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    //初始化PopupWindow
+    private PopupWindow initPopupWindow() {
+        mPopupWindow = new ChoiceSizePopupWindow(this);
+        mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (!mPopupWindow.isShowing()) {
+                    setWindowBgAlpha(Constants.NORMAL_ALPHA);
+                }
+            }
+        });
+        mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
+            @Override
+            public void onClickListener() {
+
+                if (mPopupWindow.getBeforeView() != null) {
+                    saveOrderAndStart();
+                }
+            }
+        });
+
+        return mPopupWindow;
+    }
+
+    private void saveOrderAndStart() {
+        mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mPopupWindow.getSize());
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -212,28 +258,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private void startChoiceActivity(OrderType orderType) {
         Bundle bundle = new Bundle();
-        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
-        orderBaseInfo.setType(mBombStyleBean.getBaseId());
-        orderBaseInfo.setColor(mBombStyleBean.getColor());
-        orderBaseInfo.setGender(mBombStyleBean.getGender());
-        orderBaseInfo.setFrontUrl(mAllImage[0]);
-        orderBaseInfo.setBackUrl(mAllImage[1]);
-        bundle.putParcelable("orderType",orderType);
-        bundle.putParcelable("allImage", orderBaseInfo);
-        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
-        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
-//        Bundle bundle = new Bundle();
-//        OrderBaseInfo orderBaseInfo = new OrderBaseInfo();
-//        orderBaseInfo.setType(mBombStyleBean.getBaseId());
-//        orderBaseInfo.setColor(mBombStyleBean.getColor());
-//        orderBaseInfo.setGender(mBombStyleBean.getGender());
-//        orderBaseInfo.setFrontUrl(mAllImage[0]);
-//        orderBaseInfo.setBackUrl(mAllImage[1]);
-//        bundle.putParcelable("allImage", orderBaseInfo);
-//        bundle.putString("styleContext", mBombStyleBean.getStyleContext());
-//        Bundle bundle = new Bundle();
-//        bundle.putString("orderId", orderType.getOrderId());
-//        startCommonActivity(this, bundle, MyOrderActivity.class);
+        bundle.putString("orderId",orderType.getOrderId());
+        startCommonActivity(this, bundle, MyOrderActivity.class);
     }
 
 

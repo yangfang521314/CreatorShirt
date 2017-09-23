@@ -159,6 +159,10 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         }
     }
 
+    @Override
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(getActivity(), msg, 0);
+    }
 
     @Override
     public void onItemClick(View view, int position) {

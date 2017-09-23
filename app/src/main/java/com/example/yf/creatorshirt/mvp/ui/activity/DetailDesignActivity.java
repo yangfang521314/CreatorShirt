@@ -550,6 +550,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mBtnFinish.setVisibility(View.VISIBLE);
                     mChoiceReturn.setVisibility(View.GONE);
+                    mDesCurrentView.setSelected(false);
                 }
                 if (mCurrentStickerView != null) {
                     mCurrentStickerView.setInEdit(false);

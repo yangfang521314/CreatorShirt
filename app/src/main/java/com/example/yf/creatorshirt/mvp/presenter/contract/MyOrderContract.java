@@ -2,7 +2,7 @@ package com.example.yf.creatorshirt.mvp.presenter.contract;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
-import com.example.yf.creatorshirt.mvp.presenter.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 

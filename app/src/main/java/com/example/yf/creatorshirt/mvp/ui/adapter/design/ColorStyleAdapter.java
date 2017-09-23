@@ -17,6 +17,8 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder
 
 public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
+    private static View preView;
+    private int prePosition;
 
     public ColorStyleAdapter(Context context) {
         super(context);
@@ -29,14 +31,31 @@ public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVi
 
     @Override
     protected void bindCustomViewHolder(final ColorItemViewHolder holder, final int position) {
+        if (mData.get(position).isSelect()) {
+            holder.itemView.setSelected(true);
+            preView = holder.itemView;
+            prePosition = position;
+        } else {
+            holder.itemView.setSelected(false);
+        }
         holder.mStyleTextView.setText(mData.get(position).getName());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (preView != null) {
+                    preView.setSelected(false);
+                    if (prePosition >= 0 && prePosition < mData.size()) {
+                        mData.get(prePosition).setSelect(false);
+                    }
+                }
+                prePosition = position;
+                preView = v;
+                preView.setSelected(true);
+                mData.get(prePosition).setSelect(true);
                 clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });
-        holder.mStyleImageView.setOutColor(Color.parseColor("#"+mData.get(position).getValue()));
+        holder.mStyleImageView.setOutColor(Color.parseColor("#" + mData.get(position).getValue()));
     }
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
