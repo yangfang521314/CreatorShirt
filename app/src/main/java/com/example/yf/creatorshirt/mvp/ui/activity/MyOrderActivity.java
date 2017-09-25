@@ -7,17 +7,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
@@ -48,9 +48,9 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @BindView(R.id.pay_for_money)
     Button mPayfor;
     @BindView(R.id.pay_alipay)
-    RadioButton mPayAlipay;
+    CheckBox mPayAlipay;
     @BindView(R.id.pay_weixin)
-    RadioButton mPayWeixin;
+    CheckBox mPayWeixin;
     @BindView(R.id.pay_clothes_id)
     TextView mPayClothesId;
     @BindView(R.id.pay_clothes_prices)
@@ -73,6 +73,8 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     TextView mPayClothesTotal;
     @BindView(R.id.pay_clothes_picture)
     ImageView mPayClothesImage;
+    @BindView(R.id.choice_iv)
+    ImageView mChoiceImageView;
 
 
     private String orderId;
@@ -99,7 +101,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     }
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
-            R.id.pay_clothes_add, R.id.pay_clothes_minus,R.id.back})
+            R.id.pay_clothes_add, R.id.pay_clothes_minus,R.id.back,R.id.choice_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:

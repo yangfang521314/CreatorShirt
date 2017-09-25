@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -23,8 +24,10 @@ import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
+import com.example.yf.creatorshirt.mvp.ui.view.SharePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,8 +52,11 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private String mFrontImageUrl;
 
     private ChoiceSizePopupWindow mPopupWindow;
+    private SharePopupWindow mSharePopupWindow;
     private OrderBaseInfo mOrderBaseInfo;
     private String styleContext;//正面背面json数据
+    private OrderType mOrderType;
+    private String token;
 
     @Override
     public void initData() {
@@ -93,9 +99,14 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
-                    initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-                    setWindowBgAlpha(Constants.CHANGE_ALPHA);
-                    mPresenter.getToken();
+                    if (mOrderType == null) {
+                        mPresenter.getToken();
+                        initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+                        setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                    } else {
+                        initPopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+                        setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                    }
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
 
@@ -107,8 +118,13 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             case R.id.share_weixin:
                 //// TODO: 30/06/2017 微信分享
                 if (App.isLogin) {
-                    mPresenter.setOrderClothes(mOrderBaseInfo);
-                    mPresenter.getShare(this);
+                    if (mOrderType == null) {
+                        mPresenter.getShareToken();
+                    } else {
+                        //有orderId直接分享
+                        mPresenter.setOrderClothes(mOrderBaseInfo);
+                        mPresenter.getShare(this);
+                    }
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
@@ -154,17 +170,33 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         return mPopupWindow;
     }
 
+    /**
+     * 2中情况，分享后的生成订单
+     * 保存直接生成订单
+     */
     private void startNewActivity() {
-        saveOrderData();
+        if (mOrderType == null) {
+            saveOrderData(Constants.check);
+        } else {
+            mPresenter.saveOrdersFromShare(mOrderType.getOrderId(), mPopupWindow.getSize());
+        }
     }
 
     /**
      * 保存数据到服务器
+     *
+     * @param type
      */
-    private void saveOrderData() {
-        mPresenter.setClothesData(mOrderBaseInfo, mPopupWindow.getSize());
+    private void saveOrderData(String type) {
+        if (type.equals(Constants.check)) {
+            mPresenter.setClothesData(mOrderBaseInfo, mPopupWindow.getSize());
+
+        } else if (type.equals(Constants.share)) {
+            mPresenter.setClothesData(mOrderBaseInfo, null);
+        }
         mPresenter.setStyleContext(styleContext);
         mPresenter.setIM(mBackImageUrl);
+        mPresenter.setSaveType(type);
         mPresenter.request("A", mFrontImageUrl);
     }
 
@@ -182,11 +214,58 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         return R.layout.activity_choice;
     }
 
+    //订单直接保存
     @Override
     public void showSuccessData(OrderType data) {
+        mOrderType = data;
         Bundle bundle = new Bundle();
         bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+    }
+
+    //分享直接保存
+    @Override
+    public void showShareSuccessData(OrderType s) {
+        mOrderType = s;
+        initSharePopupWindow().showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+        setWindowBgAlpha(Constants.CHANGE_ALPHA);
+    }
+
+    @Override
+    public void showTokenSuccess(String s) {
+    }
+
+    @Override
+    public void showShareTokenSuccess(String s) {
+        if (!TextUtils.isEmpty(s)) {
+            saveOrderData(Constants.share);
+        }
+    }
+
+    @Override
+    public void hidePopupWindow() {
+        mSharePopupWindow.dismiss();
+    }
+
+    private SharePopupWindow initSharePopupWindow() {
+        mSharePopupWindow = new SharePopupWindow(this);
+        mSharePopupWindow.showAtLocation(mRealChoiceSize, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+        mSharePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (!mSharePopupWindow.isShowing()) {
+                    setWindowBgAlpha(Constants.NORMAL_ALPHA);
+                }
+            }
+        });
+        mSharePopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
+            @Override
+            public void onClickListener() {
+                mPresenter.setOrderClothes(mOrderBaseInfo);
+                mPresenter.getShare(ChoiceSizeActivity.this);
+            }
+        });
+        return mSharePopupWindow;
     }
 
     @Override
@@ -194,17 +273,18 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         ToastUtil.showToast(this, msg, 0);
     }
 
-    @Override
-    public void stateError() {
-
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
-
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
     }
 }

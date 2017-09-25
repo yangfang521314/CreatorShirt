@@ -49,6 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="8dp"
+            android:padding="1dp"
             android:src="@mipmap/choice_not_address" />
 
 
@@ -59,8 +60,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="6dp"
+            android:padding="1dp"
             android:layout_marginRight="5dp"
-            app:srcCompat="@mipmap/choice_address_edit" />
+            app:srcCompat="@mipmap/choice_edit_address" />
     </RelativeLayout>
 
 

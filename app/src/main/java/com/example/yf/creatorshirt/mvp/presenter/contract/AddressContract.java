@@ -16,9 +16,6 @@ public interface AddressContract {
     interface AddressView extends BaseView {
         void showSuccess(List<AddressBean> addressBean);
 
-        void SuccessSaveAddress(String message);
-
-
         void successDefaultAddress(String flag);
     }
 

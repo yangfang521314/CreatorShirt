@@ -46,6 +46,8 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackClothes;
     @BindView(R.id.rl_back_root)
     RelativeLayout mContainerBackBackground;
+    @BindView(R.id.clothes_signature)
+    MoveTextView mClothesSignature;
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
     //处于编辑的贴纸

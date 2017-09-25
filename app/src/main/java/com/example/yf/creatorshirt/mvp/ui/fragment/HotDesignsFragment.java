@@ -1,8 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,9 +16,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.DeignerNewOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.HotDesignStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.utils.ToastUtil;
-import com.yanyusong.y_divideritemdecoration.Y_Divider;
-import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
-import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +60,6 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         mRecyclerView.setLayoutManager(mGridManager);
         adapter = new HotDesignStyleAdapter(mActivity);
         adapter.setOnclicklistener(this);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -122,42 +116,42 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         }
     }
 
-    private class DividerItemDecoration extends Y_DividerItemDecoration {
-
-        private DividerItemDecoration(Context context) {
-            super(context);
-        }
-
-        @Override
-        public Y_Divider getDivider(int itemPosition) {
-            Y_Divider divider = null;
-            switch (itemPosition % 2) {
-                case 0:
-                    //每一行第一个显示rignt和bottom
-                    divider = new Y_DividerBuilder()
-                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
-                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
-                            .create();
-                    break;
-                case 1:
-                    //每一行第一个显示rignt和bottom
-                    divider = new Y_DividerBuilder()
-                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
-                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
-                            .create();
-                    break;
-                case 2:
-                    //第二个显示Left和bottom
-                    divider = new Y_DividerBuilder()
-                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
-                            .create();
-                    break;
-                default:
-                    break;
-            }
-            return divider;
-        }
-    }
+//    private class DividerItemDecoration extends Y_DividerItemDecoration {
+//
+//        private DividerItemDecoration(Context context) {
+//            super(context);
+//        }
+//
+//        @Override
+//        public Y_Divider getDivider(int itemPosition) {
+//            Y_Divider divider = null;
+//            switch (itemPosition % 2) {
+//                case 0:
+//                    //每一行第一个显示rignt和bottom
+//                    divider = new Y_DividerBuilder()
+//                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+//                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+//                            .create();
+//                    break;
+//                case 1:
+//                    //每一行第一个显示rignt和bottom
+//                    divider = new Y_DividerBuilder()
+//                            .setRightSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+//                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+//                            .create();
+//                    break;
+//                case 2:
+//                    //第二个显示Left和bottom
+//                    divider = new Y_DividerBuilder()
+//                            .setBottomSideLine(true, Color.parseColor("#dddddd"), 1, 0, 0)
+//                            .create();
+//                    break;
+//                default:
+//                    break;
+//            }
+//            return divider;
+//        }
+//    }
 
     @Override
     public void showErrorMsg(String msg) {

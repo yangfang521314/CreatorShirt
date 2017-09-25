@@ -28,17 +28,17 @@
     <!--android:textSize="12sp" />-->
     <!--</RelativeLayout>-->
 
-    <ImageView
+    <com.example.yf.creatorshirt.mvp.ui.view.MoveTextView
+        android:id="@+id/clothes_signature"
         android:layout_width="50dp"
         android:layout_height="20dp"
-        android:text="AAAAAA"
-        android:id="@+id/clothes_signature"
+        android:layout_centerInParent="true"
         android:background="@drawable/shape_clothe_pattern"
         android:gravity="center"
-        android:layout_centerInParent="true"
+        android:text="AAAAA"
         android:textColor="@color/goldenpoppy"
         android:textSize="14sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/clothes_container_background"

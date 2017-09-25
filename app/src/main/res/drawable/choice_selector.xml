@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:drawable="@mipmap/choice_address" android:state_checked="true"/>
+        <item android:drawable="@mipmap/choice_not_address" android:state_checked="false"/>
+        <!--
+         -->
+        <item android:drawable="@mipmap/choice_not_address"/>
+
+</selector>
+<!--<item android:state_checked="true" android:drawable="@drawable/fuxuan_input01" />-->
+<!--<item android:state_selected="true" android:drawable="@drawable/fuxuan_input01"></item>-->
+<!--<item android:state_pressed="true" android:drawable="@drawable/fuxuan_input01"></item>-->
+<!--<item android:state_checked="false" android:drawable="@drawable/fuxuan_input02" />-->

@@ -8,19 +8,23 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.mvp.listener.CommonListener;
+import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveStyleEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
+import com.example.yf.creatorshirt.utils.ShareContentUtil;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
@@ -29,12 +33,7 @@ import com.google.gson.Gson;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +49,8 @@ import okhttp3.RequestBody;
  * Created by yangfang on 2017/8/28.
  */
 
-public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOrShareView> implements SizeOrShareContract.Presenter {
+public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOrShareView> implements
+        SizeOrShareContract.Presenter, CommonListener.CommonClickListener {
 
     private static final int WHAT_SUCCESS = 1;
     private static final int WHAT_SUCCESS2 = 2;
@@ -65,7 +65,9 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private String mBack;
     private String size;
     private String styleContext;
+    private String type;
     private UMImage weixinContent;
+    private OrderType mOrderType;
     private AsyncTask<String, Integer, Void> asyncTask;
 
     private Map<String, String> map = new HashMap<>();
@@ -77,6 +79,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 getList("B", mBack);
             }
             if (msg.what == WHAT_SUCCESS2) {
+                ToastUtil.cancel();
                 sendOrderData();
             }
         }
@@ -139,6 +142,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      */
     public void getToken() {
         userToken = UserInfoManager.getInstance().getToken();
+        Log.e("TAG", "CKVM" + userToken);
         if (userToken == null) {
             return;
         }
@@ -149,44 +153,58 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     @Override
                     public void onNext(String s) {
                         QiniuToken = s;
-
+                        mView.showTokenSuccess(s);
                     }
                 })
         );
     }
 
-    //生成订单
+    //直接生成订单
     public void sendOrderData() {
-        String[] newSize = size.split("c");
-        String size = newSize[0];
+        SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
+        if (size != null) {
+            String[] newSize = size.split("c");
+            String size = newSize[0];
+            saveStyleEntity.setSize(Integer.parseInt(size));
+            saveStyleEntity.setHeight(Integer.parseInt(size));
+
+        } else {
+            //分享不传size;
+        }
         imageBackUrl = map.get("B");
         imageFrontUrl = map.get("A");
         String baseColor = mOrderBaseInfo.getColor();
         String[] detail = baseColor.split("#");
         String detailColor = detail[1];
-        SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
         saveStyleEntity.setGender(mOrderBaseInfo.getGender());
         saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
         saveStyleEntity.setColor(detailColor);
-        saveStyleEntity.setHeight(Integer.parseInt(size));
-        saveStyleEntity.setOrderType("Check");
-        saveStyleEntity.setSize(Integer.parseInt(size));
+        saveStyleEntity.setOrderType(type);
         saveStyleEntity.setFinishImage(imageFrontUrl);
         saveStyleEntity.setAllImage(imageFrontUrl + "," + imageBackUrl);
         saveStyleEntity.setZipCode("");
         saveStyleEntity.setAddress("");
         saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
         saveStyleEntity.setStyleContext(styleContext);
+
         Gson gson = new Gson();
         String postEntity = gson.toJson(saveStyleEntity);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
         addSubscribe(manager.saveOrderData(userToken, body)
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView,"生成订单失败") {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单失败") {
                     @Override
                     public void onNext(OrderType s) {
-                        mView.showSuccessData(s);
+                        if (type != null) {
+                            if (type.equals("Check")) {
+                                mView.showSuccessData(s);
+
+                            } else if (type.equals("Share")) {
+                                mView.showShareSuccessData(s);
+                            }
+                            mOrderType = s;
+                        }
                     }
                 }));
         if (map.size() != 0) {
@@ -206,7 +224,12 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         this.styleContext = s;
     }
 
-
+    /**
+     * 保存图片
+     *
+     * @param key
+     * @param value
+     */
     public void request(final String key, final String value) {
         asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
@@ -217,7 +240,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
             @Override
             protected void onPreExecute() {
-                ToastUtil.showProgressToast(App.getInstance(),"正在生成订单",0);
+                ToastUtil.showProgressToast(App.getInstance(), "正在生成订单", R.drawable.progress_icon);
             }
 
             @Override
@@ -242,6 +265,11 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         this.size = size;
     }
 
+    /**
+     * 分享方法
+     *
+     * @param mActivity
+     */
     public void getShare(final Activity mActivity) {
         if (mOrderBaseInfo.getFrontUrl() == null) {
             return;
@@ -249,65 +277,73 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         if (UserInfoManager.getInstance().getUserName() == null) {
             return;
         }
-        //微信好友、朋友圈分享
-        weixinContent = new UMImage(mActivity, mOrderBaseInfo.getFrontUrl());
-        UMImage thumb = new UMImage(mActivity, mOrderBaseInfo.getFrontUrl());
-        weixinContent.setThumb(thumb);
-        weixinContent.setTitle(UserInfoManager.getInstance().getUserName());
-        weixinContent.setDescription("衣秀，做自己的设计师");
-//        new ShareAction(mActivity)
-//                .withMedia(weixinContent)
-//                .setDisplayList(SHARE_MEDIA.WEIXIN)
-//                .setCallback(umShareListener)
-//                .open();
-        new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE
-        )
+        ShareContentUtil shareContentUtil = new ShareContentUtil(mActivity);
+        ShareInfoEntity infoEntity = new ShareInfoEntity();
+        infoEntity.setPicUrl(imageFrontUrl);
+//        http://styleweb.man-kang.com?orderid=321
+        infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
 
-                .setShareboardclickCallback(new ShareBoardlistener() {
-                    @Override
-                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        if (share_media == SHARE_MEDIA.WEIXIN || share_media == SHARE_MEDIA.WEIXIN_CIRCLE || share_media == SHARE_MEDIA.WEIXIN_FAVORITE) {
-                            new ShareAction(mActivity).
-                                    setPlatform(share_media).
-                                    setCallback(umShareListener)
-                                    .withMedia(weixinContent)
-                                    .share();
-                        }
-
-                    }
-
-                }).open();
+        infoEntity.setContent("衣秀，做自己的设计师");
+        infoEntity.setTitle(UserInfoManager.getInstance().getUserName()+"的原创定制");
+        infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
+        shareContentUtil.setOnClickListener(this);
+        shareContentUtil.startShare(infoEntity, 1);
 
     }
 
-    private UMShareListener umShareListener = new UMShareListener() {
-        @Override
-        public void onStart(SHARE_MEDIA share_media) {
-
-        }
-
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-            Log.d("SharePlatform", "platform成功" + platform);
-            if (platform.name().equals("WEIIN_FAVORITE")) {
-                Toast.makeText(App.getInstance(), " 收藏成功啦", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(App.getInstance(), " 分享成功啦", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(App.getInstance(), " 分享失败啦", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(App.getInstance(), " 分享取消了", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     public void setOrderClothes(OrderBaseInfo mOrderBaseInfo) {
         this.mOrderBaseInfo = mOrderBaseInfo;
+    }
+
+    public void setSaveType(String type) {
+        this.type = type;
+    }
+
+    public void getShareToken() {
+        userToken = UserInfoManager.getInstance().getToken();
+        if (userToken == null) {
+            return;
+        }
+        addSubscribe(manager.getQiToken(userToken)
+                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult())
+                .subscribeWith(new CommonSubscriber<String>(mView) {
+                    @Override
+                    public void onNext(String s) {
+                        QiniuToken = s;
+                        mView.showShareTokenSuccess(s);
+                    }
+                })
+        );
+
+    }
+
+    @Override
+    public void onClickListener() {
+        mView.hidePopupWindow();
+    }
+
+    /**
+     * 分享的保存订单
+     *
+     * @param orderId
+     * @param size
+     */
+    public void saveOrdersFromShare(String orderId, String size) {
+        Map<String, String> map = new HashMap<>();
+        map.put("orderId", orderId);
+        map.put("height", size);
+        addSubscribe(manager.saveOrdersFromShare(UserInfoManager.getInstance().getLoginResponse().getToken(),
+                GsonUtils.getGson(map))
+                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+                .compose(RxUtils.<OrderType>handleResult())
+                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                    @Override
+                    public void onNext(OrderType orderType) {
+                        mView.showSuccessData(orderType);//生成订单
+                    }
+                })
+        );
     }
 }

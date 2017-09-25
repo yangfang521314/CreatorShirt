@@ -9,4 +9,5 @@ public class CommonListener {
     public interface CommonClickListener{
         void onClickListener();
     }
+
 }

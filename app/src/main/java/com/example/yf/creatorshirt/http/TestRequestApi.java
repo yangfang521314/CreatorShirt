@@ -52,4 +52,7 @@ public interface TestRequestApi {
 
     @POST("f-Users/setDefaultAddress")
     Call<HttpResponse> setDefaultAddress(@Header("Token") String userToken, @Body RequestBody body);
+
+    @POST("fDesigns/GetTypeversionResources")
+    Call<HttpResponse> getDetailDesign(@Body RequestBody requestBody);
 }

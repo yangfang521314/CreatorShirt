@@ -23,4 +23,6 @@ public class Constants {
     public static final int USER_AVATAR_MAX_SIZE = 150 ;
     public static final String USER_NAME = "username";
     public static final String  LOGIN = "login";
+    public static final String  share = "Share";
+    public static final String  check = "Check";
 }

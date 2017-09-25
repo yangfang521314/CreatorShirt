@@ -32,7 +32,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
                 android:padding="@dimen/my_order_padding"
                 android:text="收货地址"
                 android:textColor="@color/darkjunglegreen"
@@ -44,14 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
                 android:padding="@dimen/my_order_padding">
 
                 <TextView
                     android:id="@+id/order_receiver_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:text="张芷溪"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/black"
@@ -63,28 +61,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
                     android:layout_marginRight="20dp"
+                    android:padding="5dp"
                     android:text="1555555555"
                     android:textColor="@color/darkjunglegreen"
                     android:textSize="16.5sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_receiver_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/order_receiver_mobile"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:layout_marginRight="20dp"
+                    android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
+                    android:textColor="@color/darkjunglegreen"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/choice_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/order_receiver_mobile"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:padding="3dp"
+                    android:src="@mipmap/address_forward" />
             </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/order_receiver_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_receiver"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp"
-                android:drawablePadding="1dp"
-                android:drawableRight="@mipmap/address_forward"
-                android:padding="@dimen/my_order_padding"
-                android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
-                android:textColor="@color/darkjunglegreen"
-                android:textSize="15sp" />
 
 
             <TextView
@@ -107,12 +114,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
-                android:padding="4dp">
+                android:padding="8dp">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/pay_alipay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/choice_selector"
+                    android:button="@null" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -133,12 +142,14 @@
                 android:layout_below="@+id/rl_alipay"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
-                android:padding="4dp">
+                android:padding="8dp">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/pay_weixin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/choice_selector"
+                    android:button="@null" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -157,7 +168,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
                 android:padding="@dimen/my_order_padding"
                 android:text="@string/detail_order"
                 android:textColor="@color/darkjunglegreen"

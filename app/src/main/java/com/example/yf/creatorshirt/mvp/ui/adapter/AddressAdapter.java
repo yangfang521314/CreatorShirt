@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.AddressViewHolder;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 /**
  * Created by yang on 29/06/2017.
@@ -55,6 +57,13 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
         }
         if (isChoice) {
             holder.mDefaultAddress.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.mReceiverName.getLayoutParams();
+            layoutParams.leftMargin = DisplayUtil.Dp2Px(mContext, 10);
+            holder.mReceiverName.setLayoutParams(layoutParams);
+            RelativeLayout.LayoutParams Params = (RelativeLayout.LayoutParams) holder.mAddress.getLayoutParams();
+            Params.leftMargin = DisplayUtil.Dp2Px(mContext, 10);
+            holder.mAddress.setLayoutParams(Params);
+            holder.mDefaultAddress.clearFocus();
             holder.mAddressChoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -8,5 +8,5 @@ import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
  */
 public interface ShareContentUtilInterface {
     void startShare(ShareInfoEntity shareEntity, int i);
-    void onDestoryShare();
+    void onDestroyShare();
 }

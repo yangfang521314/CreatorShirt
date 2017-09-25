@@ -98,18 +98,13 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
             }
         }
         list.add(0, mAddressBean);
-        if(choiceAddress){
+        if (choiceAddress) {
             addressAdapter.setChoice(true);
-        }else {
+        } else {
             addressAdapter.setChoice(false);
         }
         addressAdapter.setData(list);
         mRecyclerView.setAdapter(addressAdapter);
-    }
-
-    @Override
-    public void SuccessSaveAddress(String message) {
-        ToastUtil.showToast(this, message, 0);
     }
 
     @Override

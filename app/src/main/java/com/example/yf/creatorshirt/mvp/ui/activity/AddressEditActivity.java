@@ -11,8 +11,8 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.common.UpdateAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.address.City;
-import com.example.yf.creatorshirt.mvp.presenter.AddressPresenter;
-import com.example.yf.creatorshirt.mvp.presenter.contract.AddressContract;
+import com.example.yf.creatorshirt.mvp.presenter.AddressEditPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.AddressEditContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -20,7 +20,6 @@ import com.example.yf.creatorshirt.utils.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,7 +27,7 @@ import butterknife.OnClick;
 /**
  * 编辑地址页面
  */
-public class AddressEditActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView {
+public class AddressEditActivity extends BaseActivity<AddressEditPresenter> implements AddressEditContract.AddressEditView {
     private static final int RETURN_CITY = 23;
     @BindView(R.id.address_edit_address)
     EditText mEditAddress;
@@ -95,7 +94,8 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
                     }
                 } else {
                     if (!isCheck()) {
-                        mPresenter.setUpdateAddress(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress, mAddressBean.getIsDefault(), mAddressBean.getId());
+                        mPresenter.setUpdate(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress, mAddressBean.getIsDefault(), mAddressBean.getId());
+                        mPresenter.setUpdateAddress();
                     }
                 }
                 break;
@@ -160,8 +160,8 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
     }
 
     @Override
-    public void showSuccess(List<AddressBean> addressBean) {
-
+    public void showErrorMsg(String msg) {
+        ToastUtil.showToast(this, msg, 0);
     }
 
     @Override
@@ -171,8 +171,4 @@ public class AddressEditActivity extends BaseActivity<AddressPresenter> implemen
         finish();
     }
 
-    @Override
-    public void successDefaultAddress(String flag) {
-
-    }
 }

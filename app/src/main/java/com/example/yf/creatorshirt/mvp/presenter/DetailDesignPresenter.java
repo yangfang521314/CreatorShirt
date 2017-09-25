@@ -33,15 +33,15 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
     @Override
     public void getDetailDesign(String gender, String type) {
         JSONObject root = new JSONObject();
-        JSONObject request = new JSONObject();
+        final JSONObject request = new JSONObject();
         try {
-            request.put("Gender",gender);
-            request.put("Typeversion",type);
-            root.put("baseInfo",request);
+            request.put("Gender", gender);
+            request.put("Typeversion", type);
+            root.put("baseInfo", request);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(root != null) {
+        if (root != null) {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
             addSubscribe(manager.getDetailDesign(requestBody)
                     .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
@@ -49,7 +49,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
                         @Override
                         public void onNext(DetailStyleBean detailStyleBean) {
-                                mView.showSuccessData(detailStyleBean);
+                            mView.showSuccessData(detailStyleBean);
                         }
                     })
 

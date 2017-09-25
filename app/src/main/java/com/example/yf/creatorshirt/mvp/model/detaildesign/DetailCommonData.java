@@ -5,8 +5,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.ColorData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.NeckData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.OrnamentData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.PatternData;
-
-import java.util.List;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.SignatureData;
 
 /**
  * Created by yangfang on 2017/8/19.
@@ -21,6 +20,7 @@ public class DetailCommonData {
     private OrnamentData ornament;
     private ColorData color;
     private PatternData pattern;
+    private SignatureData text;
 
     public NeckData getNeck() {
         return neck;
@@ -62,6 +62,14 @@ public class DetailCommonData {
         this.pattern = pattern;
     }
 
+    public SignatureData getText() {
+        return text;
+    }
+
+    public void setText(SignatureData text) {
+        this.text = text;
+    }
+
     @Override
     public String toString() {
         return "DetailCommonData{" +
@@ -70,6 +78,7 @@ public class DetailCommonData {
                 ", ornament=" + ornament +
                 ", color=" + color +
                 ", pattern=" + pattern +
+                ", text=" + text +
                 '}';
     }
 }

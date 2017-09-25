@@ -14,6 +14,13 @@ public interface SizeOrShareContract {
 
         void showSuccessData(OrderType s);
 
+        void showShareSuccessData(OrderType s);
+
+        void showTokenSuccess(String s);
+
+        void showShareTokenSuccess(String s);
+
+        void hidePopupWindow();
     }
 
     interface Presenter extends BasePresenter<SizeOrShareView> {

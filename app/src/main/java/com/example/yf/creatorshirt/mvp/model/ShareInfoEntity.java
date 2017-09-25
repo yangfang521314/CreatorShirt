@@ -8,27 +8,37 @@ import android.os.Parcel;
  * Created by yang on 2015/12/16.
  */
 public class ShareInfoEntity {
+
     private String picUrl;//分享图片链接
-   // private UMImage image;//分享的图片
+//    private UMImage image;//分享的图片
     private String title;//分享标题
     private String targetUrl;//分享目标链接
     private String content;//分享内容
-    private Bitmap defaultImg;//没有图片URL时默认的图片
-    /*public UMImage getImage() {
-        return image;
+    private int defaultImg;//没有图片URL时默认的图片
+
+//    public UMImage getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(UMImage image) {
+//        this.image = image;
+//    }
+
+    public String getPicUrl() {
+        return picUrl;
     }
 
-    public void setImage(UMImage image) {
-        this.image = image;
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
-*/
-    public String getPicUrl() {return picUrl;}
 
-    public void setPicUrl(String picUrl) {this.picUrl = picUrl;}
+    public int getDefaultImg() {
+        return defaultImg;
+    }
 
-    public Bitmap getDefaultImg() {return defaultImg;}
-
-    public void setDefaultImg(Bitmap defaultImg) {this.defaultImg = defaultImg;}
+    public void setDefaultImg(int defaultImg) {
+        this.defaultImg = defaultImg;
+    }
 
     public String getTitle() {
         return title;
@@ -59,7 +69,7 @@ public class ShareInfoEntity {
         return "\ntitle = " + title
                 + "; \npicUrl = " + picUrl
                 + "; \ntargetUrl=" + targetUrl
-                + "; \ncontent="+content;
+                + "; \ncontent=" + content;
     }
 
     public ShareInfoEntity() {
