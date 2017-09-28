@@ -52,6 +52,7 @@ public class TextStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVie
                 preView = v;
                 preView.setSelected(true);
                 mData.get(prePosition).setSelect(true);
+                if(clickListener != null)
                 clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });

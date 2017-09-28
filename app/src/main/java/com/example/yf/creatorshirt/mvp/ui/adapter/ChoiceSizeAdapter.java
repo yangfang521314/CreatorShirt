@@ -35,6 +35,7 @@ public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> 
         holder.mll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(clickListener != null)
                 clickListener.onItemClick(v,position);
             }
         });

@@ -88,6 +88,37 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
     public void set*(...);
 }
+############################自定义数据适配器不混淆############################
+-keep public class * extends android.widget.BaseAdapter {*;}
+-keep public class * extends android.support.v4.view.PagerAdapter {*;}
+
+#event-bus callback
+-keepclassmembers class * {
+    void onEventMainThread(***);
+}
+
+#retrofit
+-keep class retrofit2.**{*;}
+-dontwarn retrofit2.**
+-dontnote retrofit2.**
+#-keep class retrofit.**{*;}
+#-dontwarn retrofit.**
+#okthhp
+-keep class org.apache.http.**{*;}
+-dontwarn org.apache.http.**
+#okthhp
+#-keep class com.squareup.okhttp3.**{*;}
+#-dontwarn com.squareup.okhttp3.**
+#-dontnote com.squareup.okhttp3.**
+#-keep class com.squareup.okhttp.**{*;}
+#-dontwarn com.squareup.okhttp.**
+-keep class okhttp3.**{*;}
+-dontwarn okhttp3.**
+-dontnote okhttp3.**
+
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
 
 ###########################Umeng Share#########
 -dontshrink

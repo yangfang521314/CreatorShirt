@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.address.City;
@@ -166,7 +167,7 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
 
     @Override
     public void SuccessSaveAddress(String message) {
-        ToastUtil.showToast(this, message, 0);
+        ToastUtil.showToast(App.getInstance(), message, 0);
         EventBus.getDefault().post(new UpdateAddressEvent(true));
         finish();
     }

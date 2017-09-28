@@ -49,7 +49,7 @@ public class DialogLogout extends DialogFragment {
         return view;
     }
 
-    private void initView(View view) {;
+    private void initView(View view) {
         mLine = view.findViewById(R.id.view_line1);
         mDialogName = (TextView) view.findViewById(R.id.tv_dialog_name);
         mConfirm = (Button) view.findViewById(R.id.positive);

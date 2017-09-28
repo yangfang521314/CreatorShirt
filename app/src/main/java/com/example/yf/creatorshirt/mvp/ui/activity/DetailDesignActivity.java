@@ -991,8 +991,15 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     }
 
     @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        ToastUtil.showToast(this, msg, 0);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().post(new ChangeSelectEvent(true));
+        ToastUtil.cancel();
     }
 }

@@ -30,18 +30,10 @@ public class SaveStyleEntity implements Parcelable {
     private String finishImage;
     private int userId;
     private String allImage;
+    private String texture;
 
-    public static final Creator<SaveStyleEntity> CREATOR = new Creator<SaveStyleEntity>() {
-        @Override
-        public SaveStyleEntity createFromParcel(Parcel in) {
-            return new SaveStyleEntity(in);
-        }
-
-        @Override
-        public SaveStyleEntity[] newArray(int size) {
-            return new SaveStyleEntity[size];
-        }
-    };
+    public SaveStyleEntity() {
+    }
 
     public String getGender() {
         return gender;
@@ -49,14 +41,6 @@ public class SaveStyleEntity implements Parcelable {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getBaseId() {
@@ -131,24 +115,57 @@ public class SaveStyleEntity implements Parcelable {
         this.finishImage = finishImage;
     }
 
-    public SaveStyleEntity() {
+    public int getUserId() {
+        return userId;
     }
 
-    public SaveStyleEntity(Parcel in) {
-        this.gender = in.readString();
-        this.baseId = in.readString();
-        this.styleContext = in.readString();
-        this.height = in.readInt();
-        this.color = in.readString();
-        this.orderType = in.readString();
-        this.size = in.readInt();
-        this.address = in.readString();
-        this.zipCode = in.readString();
-        this.finishImage = in.readString();
-        this.userId = in.readInt();
-        this.allImage = in.readString();
-
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
+
+    public String getAllImage() {
+        return allImage;
+    }
+
+    public void setAllImage(String allImage) {
+        this.allImage = allImage;
+    }
+
+    public String getTexture() {
+        return texture;
+    }
+
+    public void setTexture(String texture) {
+        this.texture = texture;
+    }
+
+    protected SaveStyleEntity(Parcel in) {
+        gender = in.readString();
+        baseId = in.readString();
+        styleContext = in.readString();
+        height = in.readInt();
+        color = in.readString();
+        orderType = in.readString();
+        size = in.readInt();
+        address = in.readString();
+        zipCode = in.readString();
+        finishImage = in.readString();
+        userId = in.readInt();
+        allImage = in.readString();
+        texture = in.readString();
+    }
+
+    public static final Creator<SaveStyleEntity> CREATOR = new Creator<SaveStyleEntity>() {
+        @Override
+        public SaveStyleEntity createFromParcel(Parcel in) {
+            return new SaveStyleEntity(in);
+        }
+
+        @Override
+        public SaveStyleEntity[] newArray(int size) {
+            return new SaveStyleEntity[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -169,30 +186,6 @@ public class SaveStyleEntity implements Parcelable {
         dest.writeString(finishImage);
         dest.writeInt(userId);
         dest.writeString(allImage);
-    }
-
-    @Override
-    public String toString() {
-        return "SaveStyleEntity{" +
-                "gender='" + gender + '\'' +
-                ", baseId=" + baseId +
-                ", styleContext='" + styleContext + '\'' +
-                ", height=" + height +
-                ", color='" + color + '\'' +
-                ", orderType='" + orderType + '\'' +
-                ", size=" + size +
-                ", address='" + address + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", finishImage='" + finishImage + '\'' +
-                ", allImage='" + finishImage + '\'' +
-                '}';
-    }
-
-    public String getAllImage() {
-        return allImage;
-    }
-
-    public void setAllImage(String allImage) {
-        this.allImage = allImage;
+        dest.writeString(texture);
     }
 }

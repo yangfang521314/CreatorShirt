@@ -40,6 +40,7 @@ public class BombStyleAdapter extends BaseAdapter<BombStyleBean, StyleViewHolder
             holder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(clickListener != null)
                     clickListener.onItemClick(v, position);
                 }
             });

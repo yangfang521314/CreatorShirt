@@ -10,6 +10,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 
 import java.util.List;
 
@@ -146,6 +147,11 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson) {
         return mHttpHelper.setDefaultAddress(token,gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<List<TextureEntity>>> getTextUre(RequestBody gson) {
+        return mHttpHelper.getTextUre(gson);
     }
 
 

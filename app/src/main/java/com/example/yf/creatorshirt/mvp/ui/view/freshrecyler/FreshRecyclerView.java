@@ -252,11 +252,7 @@ public class FreshRecyclerView extends RecyclerView {
         }
 
         View view = mHeaderViews.get(0);
-        if (view.getParent() != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return view.getParent() != null;
     }
 
     private final AdapterDataObserver mDataObserver = new AdapterDataObserver() {

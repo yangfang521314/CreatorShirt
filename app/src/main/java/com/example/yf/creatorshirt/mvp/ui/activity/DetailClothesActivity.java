@@ -29,6 +29,7 @@ import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -88,6 +89,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     private String[] mAllImage;
     private boolean isFlag = false;
     private ChoiceSizePopupWindow mPopupWindow;
+    private List<TextureEntity> textureEntityList;
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -181,7 +184,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                if (App.isLogin) {
+                if (App.isLogin && textureEntityList != null) {
                     initPopupWindow().showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
                     setWindowBgAlpha(Constants.CHANGE_ALPHA);
                 } else {
@@ -216,7 +219,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     //初始化PopupWindow
     private PopupWindow initPopupWindow() {
-        mPopupWindow = new ChoiceSizePopupWindow(this);
+        mPopupWindow = new ChoiceSizePopupWindow(this, textureEntityList);
         mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -229,8 +232,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         mPopupWindow.setOnPopupClickListener(new CommonListener.CommonClickListener() {
             @Override
             public void onClickListener() {
-
-                if (mPopupWindow.getBeforeView() != null) {
+                if (isCheckSzieOrTexture()) {
                     saveOrderAndStart();
                 }
             }
@@ -239,8 +241,19 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         return mPopupWindow;
     }
 
+    private boolean isCheckSzieOrTexture() {
+        if (mPopupWindow.getBeforeView() == null) {
+            ToastUtil.showToast(this, "请选择尺寸", 0);
+            return false;
+        } else if (TextUtils.isEmpty(mPopupWindow.getTextUre())) {
+            ToastUtil.showToast(this, "请选择材质", 0);
+            return false;
+        }
+        return true;
+    }
+
     private void saveOrderAndStart() {
-        mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mPopupWindow.getSize());
+        mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mPopupWindow.getSize(),mPopupWindow.getTextUre());
     }
 
     @Override
@@ -258,7 +271,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private void startChoiceActivity(OrderType orderType) {
         Bundle bundle = new Bundle();
-        bundle.putString("orderId",orderType.getOrderId());
+        bundle.putString("orderId", orderType.getOrderId());
         startCommonActivity(this, bundle, MyOrderActivity.class);
     }
 
@@ -275,6 +288,8 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
             mBombStyleBean = getIntent().getExtras().getParcelable("detail");
             if (App.isLogin) {
                 if (UserInfoManager.getInstance().getLoginResponse() != null) {
+                    mPresenter.getTexture(mBombStyleBean);
+
                     mPresenter.requestOrdersPraise(mBombStyleBean.getId());
                 }
             }
@@ -310,6 +325,11 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     }
 
     @Override
+    public void showSuccessTextUre(List<TextureEntity> textureEntity) {
+        textureEntityList = textureEntity;
+    }
+
+    @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
         ToastUtil.showToast(this, msg, 0);
@@ -318,6 +338,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ToastUtil.cancel();
         EventBus.getDefault().post(new UpdateOrdersEvent(true));
     }
 }

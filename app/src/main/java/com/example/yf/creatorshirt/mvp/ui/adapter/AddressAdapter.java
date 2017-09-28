@@ -67,7 +67,8 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
             holder.mAddressChoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(mData.get(position), view);
+                    if (listener != null)
+                        listener.onItemClick(mData.get(position), view);
                 }
             });
         }

@@ -4,12 +4,13 @@ import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 
 import java.util.List;
 
@@ -59,4 +60,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson);
 
     Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson);
+
+    Flowable<HttpResponse<List<TextureEntity>>> getTextUre(RequestBody gson);
 }

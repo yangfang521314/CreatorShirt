@@ -11,6 +11,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AllOrderAdapter;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class AllOrdersActivity extends BaseActivity implements ItemClickListener.OnItemClickListener {
     @BindView(R.id.all_order_recyclerView)
@@ -36,12 +37,23 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
     @Override
     protected void initView() {
         mAppBarTitle.setText(title);
+        mAppBarBack.setVisibility(View.VISIBLE);
         AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
         mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         allOrderAdapter.setOnClickListener(this);
         mAllOrderRY.setAdapter(allOrderAdapter);
     }
+
+    @OnClick({R.id.back})
+    void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
+        }
+    }
+
 
     @Override
     protected int getView() {
@@ -50,10 +62,10 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
 
     @Override
     public void onItemClick(View view, int position) {
-        if(title.equals(getString(R.string.my_order))) {
+        if (title.equals(getString(R.string.my_order))) {
             startCommonActivity(this, null, DetailOrderActivity.class);
-        }else {
-            startCommonActivity(this,null,MyDesignActivity.class);
+        } else {
+            startCommonActivity(this, null, MyDesignActivity.class);
         }
     }
 }

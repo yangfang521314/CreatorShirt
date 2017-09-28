@@ -10,7 +10,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-//// TODO: 2017/7/4 maybe this page and ChoiceActivity use a common Activity;
 public class SuccessPayActivity extends BaseActivity {
 
     @BindView(R.id.btn_check_order)
@@ -27,12 +26,15 @@ public class SuccessPayActivity extends BaseActivity {
         mAppBarTitle.setText(R.string.design);
     }
 
-    @OnClick({R.id.btn_check_order})
+    @OnClick({R.id.btn_check_order,R.id.back})
     public void onClick(View view) {
         if (view.getId() == R.id.btn_check_order) {
             Bundle bundle = new Bundle();
             bundle.putString("title",getString(R.string.my_order));
             startCommonActivity(this,bundle,AllOrdersActivity.class);
+        }
+        if(view.getId() == R.id.back){
+//            startCommonActivity(null,);
         }
     }
 

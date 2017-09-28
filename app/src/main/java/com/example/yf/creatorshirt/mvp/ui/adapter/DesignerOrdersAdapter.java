@@ -39,6 +39,7 @@ public class DesignerOrdersAdapter extends BaseAdapter<BombStyleBean, DesignerOr
             holder.mLinearDesigner.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(onClickListener != null)
                     onClickListener.onItemClick(mData.get(position));
                 }
             });

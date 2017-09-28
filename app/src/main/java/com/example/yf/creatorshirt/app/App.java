@@ -1,19 +1,18 @@
 package com.example.yf.creatorshirt.app;
 
-import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.inject.component.AppComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerAppComponent;
 import com.example.yf.creatorshirt.inject.module.AppModule;
 import com.example.yf.creatorshirt.inject.module.HttpModule;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by yf on 2017/5/11.
@@ -23,9 +22,9 @@ public class App extends MultiDexApplication {
 
     private static App mInstance;
     private static AppComponent mAppComponent;
-    private Set<Activity> allActivities;
     /*用户是否登录*/
     public static boolean isLogin;
+    private RefWatcher refWatcher;
 
     public static AppComponent getAppComponent() {
         if (mAppComponent == null) {
@@ -54,19 +53,15 @@ public class App extends MultiDexApplication {
         } else {
             setIsLogin(false);
         }
+        if(BuildConfig.DEBUG) {
+            refWatcher = LeakCanary.install(this);
+        }
     }
 
     private void initShareConfig() {
 //        59b105c7717c19193f00057f
         PlatformConfig.setWeixin("wx1b403c8f6e9b990b", "5167021796dfd6b73766af3a6b3a33ee");
         PlatformConfig.setSinaWeibo("4176293252", "a3dda28debdc8bc811013fcf928ad6a9","http://sns.whalecloud.com");
-    }
-
-    public void addActivity(Activity activity) {
-        if (allActivities == null) {
-            allActivities = new HashSet<>();
-        }
-        allActivities.add(activity);
     }
 
     public static void setIsLogin(boolean b) {

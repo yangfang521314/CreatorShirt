@@ -55,6 +55,7 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
                 oldPosition = position;
                 oldContainer.setSelected(true);
                 mData.get(oldPosition).setSelect(true);
+                if(clickListener != null)
                 clickListener.onItemClick(v, position);
             }
         });

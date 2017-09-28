@@ -12,7 +12,6 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.HotDesignViewHolder;
-import com.example.yf.creatorshirt.utils.CircleAvatar;
 
 /**
  * Created by yang on 31/07/2017.
@@ -47,6 +46,7 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
         holder.mDesigner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(itemClickListener != null)
                 itemClickListener.onItemClick(v,position);
             }
         });

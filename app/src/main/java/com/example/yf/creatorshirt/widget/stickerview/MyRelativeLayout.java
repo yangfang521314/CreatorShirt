@@ -704,7 +704,7 @@ public class MyRelativeLayout extends RelativeLayout {
      * @return
      */
     private boolean ifIsOnView(int width, int height, int startX, int startY, Point point) {
-        return (point.x < (width + startX) && point.x > startX && point.y < (startY + height) && point.y > startY) ? true : false;
+        return (point.x < (width + startX) && point.x > startX && point.y < (startY + height) && point.y > startY);
     }
 
     /**
@@ -719,7 +719,7 @@ public class MyRelativeLayout extends RelativeLayout {
         int h = view.getHeight();
         float x = view.getX();
         float y = view.getY();
-        return (point.x < (w + x) && point.x > x && point.y < (y + h) && point.y > y) ? true : false;
+        return (point.x < (w + x) && point.x > x && point.y < (y + h) && point.y > y);
     }
 
     /**

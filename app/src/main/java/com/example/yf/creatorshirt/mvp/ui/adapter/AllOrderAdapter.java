@@ -33,6 +33,7 @@ public class AllOrderAdapter extends BaseAdapter<AllOrderBean, OrderViewHolder> 
         holder.mRlOrderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(onClickListener != null)
                 onClickListener.onItemClick(v,position);
             }
         });

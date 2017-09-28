@@ -97,11 +97,12 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     protected void initView() {
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
+        mPayWeixin.setVisibility(View.GONE);
 
     }
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
-            R.id.pay_clothes_add, R.id.pay_clothes_minus,R.id.back,R.id.choice_iv})
+            R.id.pay_clothes_add, R.id.pay_clothes_minus, R.id.back, R.id.choice_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -111,17 +112,17 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 break;
             case R.id.pay_for_money:
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
-//                startCommonActivity(this, null, SuccessPayActivity.class)
-                if (payType != null) {
-                    if (orderData != null) {
-                        mPresenter.payMomentOrders(orderData.getId(), orderData.getAddress(),
-                                orderData.getZipcode(), payType, orderData.getFee());
-                    } else {
-                        ToastUtil.showToast(this, "订单出错", 0);
-                    }
-                } else {
-                    ToastUtil.showToast(this, "请选择支付方式", 0);
-                }
+                startCommonActivity(this, null, SuccessPayActivity.class);
+//                if (payType != null) {
+//                    if (orderData != null) {
+//                        mPresenter.payMomentOrders(orderData.getId(), orderData.getAddress(),
+//                                orderData.getZipcode(), payType, orderData.getFee());
+//                    } else {
+//                        ToastUtil.showToast(this, "订单出错", 0);
+//                    }
+//                } else {
+//                    ToastUtil.showToast(this, "请选择支付方式", 0);
+//                }
                 break;
             case R.id.pay_alipay:
                 mPayWeixin.setChecked(false);
@@ -163,10 +164,13 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
         super.initData();
         if (getIntent().getExtras() != null) {
             orderId = getIntent().getExtras().getString("orderId");
+            if (orderId != null) {
+                mPresenter.setOrderId(orderId);
+                mPresenter.getOrdersData();
+                mPresenter.getAddressData();
+            }
         }
-        mPresenter.setOrderId(orderId);
-        mPresenter.getOrdersData();
-        mPresenter.getAddressData();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -203,8 +207,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
 
                 }
             }
-            Log.e(TAG, "CCCC" + orderData.getColor());
-            int colorN = Color.parseColor("#"+orderData.getColor());
+            int colorN = Color.parseColor("#" + orderData.getColor());
             mPayClothesColor.setOutColor(colorN);
             mPayClothesPrices.setText("¥" + orderData.getFee());
             Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);

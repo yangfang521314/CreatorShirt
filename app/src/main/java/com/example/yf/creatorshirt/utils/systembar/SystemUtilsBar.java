@@ -319,10 +319,7 @@ public class SystemUtilsBar {
      * @return the boolean
      */
     public static boolean isSupportStatusBarDarkFont() {
-        if (OSUtils.isMIUI6More() || OSUtils.isFlymeOS4More()
-                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-            return true;
-        } else
-            return false;
+        return OSUtils.isMIUI6More() || OSUtils.isFlymeOS4More()
+                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
     }
 }

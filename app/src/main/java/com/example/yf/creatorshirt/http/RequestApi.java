@@ -10,6 +10,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 
 import java.util.List;
 
@@ -103,4 +104,8 @@ public interface RequestApi {
 
     @POST("f-Users/setDefaultAddress")
     Flowable<HttpResponse<Integer>> setDefaultAddress(@Header("Token") String token, @Body RequestBody requestBody);
+
+    //材质
+    @POST("fDesigns/GetTexture")
+    Flowable<HttpResponse<List<TextureEntity>>> getTexture(@Body RequestBody gson);
 }

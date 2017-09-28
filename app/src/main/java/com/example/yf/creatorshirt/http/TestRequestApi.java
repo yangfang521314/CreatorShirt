@@ -55,4 +55,7 @@ public interface TestRequestApi {
 
     @POST("fDesigns/GetTypeversionResources")
     Call<HttpResponse> getDetailDesign(@Body RequestBody requestBody);
+
+    @POST("fDesigns/GetTexture")
+    Call<HttpResponse> getTexture(RequestBody gson);
 }

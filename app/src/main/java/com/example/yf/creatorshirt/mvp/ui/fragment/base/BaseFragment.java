@@ -17,6 +17,7 @@ import com.example.yf.creatorshirt.inject.component.FragmentComponent;
 import com.example.yf.creatorshirt.inject.module.FragmentModule;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import javax.inject.Inject;
 
@@ -94,6 +95,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         if(mPresenter != null){
             mPresenter.detachView(this);
         }
+        ToastUtil.cancel();
         super.onDestroy();
     }
 

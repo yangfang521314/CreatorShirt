@@ -19,6 +19,7 @@ import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveStyleEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -33,12 +34,12 @@ import com.google.gson.Gson;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-import com.umeng.socialize.media.UMImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -66,8 +67,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private String size;
     private String styleContext;
     private String type;
-    private UMImage weixinContent;
     private OrderType mOrderType;
+    private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
 
     private Map<String, String> map = new HashMap<>();
@@ -186,6 +187,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         saveStyleEntity.setAddress("");
         saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
         saveStyleEntity.setStyleContext(styleContext);
+        saveStyleEntity.setTexture(textUre);
 
         Gson gson = new Gson();
         String postEntity = gson.toJson(saveStyleEntity);
@@ -284,7 +286,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
 
         infoEntity.setContent("衣秀，做自己的设计师");
-        infoEntity.setTitle(UserInfoManager.getInstance().getUserName()+"的原创定制");
+        infoEntity.setTitle(UserInfoManager.getInstance().getUserName() + "的原创定制");
         infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
         shareContentUtil.setOnClickListener(this);
         shareContentUtil.startShare(infoEntity, 1);
@@ -327,13 +329,15 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     /**
      * 分享的保存订单
      *
+     * @param texture
      * @param orderId
      * @param size
      */
-    public void saveOrdersFromShare(String orderId, String size) {
+    public void saveOrdersFromShare(String orderId, String size, String texture) {
         Map<String, String> map = new HashMap<>();
         map.put("orderId", orderId);
         map.put("height", size);
+        map.put("texture", texture);
         addSubscribe(manager.saveOrdersFromShare(UserInfoManager.getInstance().getLoginResponse().getToken(),
                 GsonUtils.getGson(map))
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
@@ -345,5 +349,51 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     }
                 })
         );
+    }
+
+    public void getTexture(OrderBaseInfo mOrderBaseInfo) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("Gender", mOrderBaseInfo.getGender());
+            jsonObject.put("Typeversion", mOrderBaseInfo.getType());
+            addSubscribe(manager.getTextUre(GsonUtils.getGson(jsonObject))
+                    .compose(RxUtils.<HttpResponse<List<TextureEntity>>>rxSchedulerHelper())
+                    .compose(RxUtils.<List<TextureEntity>>handleResult())
+                    .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
+                        @Override
+                        public void onNext(List<TextureEntity> textureEntity) {
+                            mView.showSuccessTextUre(textureEntity);
+                        }
+                    }));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//       TestRequestServer.getInstance().getTexture(GsonUtils.getGson(jsonObject)).enqueue(new Callback<HttpResponse>() {
+//           @Override
+//           public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//               if(response.isSuccessful()){
+//                   if (response.body().getStatus() == 1){
+//                      mView.showSuccessTextUre();
+//                   }else {
+//                       mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
+//                   }
+//               }
+//           }
+//
+//           @Override
+//           public void onFailure(Call<HttpResponse> call, Throwable t) {
+//
+//           }
+//       });
+//    }
+
+
+    }
+
+    public void setTextUre(String textUre) {
+        if (textUre != null) {
+            this.textUre = textUre;
+        }
     }
 }

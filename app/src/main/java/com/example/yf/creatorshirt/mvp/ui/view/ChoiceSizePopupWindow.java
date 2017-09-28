@@ -11,10 +11,13 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
+import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ChoiceSizeAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.TextureAdapter;
 import com.example.yf.creatorshirt.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +27,7 @@ import butterknife.OnClick;
  * Created by yang on 23/06/2017.
  */
 
-public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickListener.OnItemClickListener{
+public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickListener.OnItemClickListener {
     private CommonListener.CommonClickListener onPopupClickListener;
     private Context mContext;
     private ArrayList<ClothesSize> clothesList;
@@ -33,13 +36,19 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
     Button mBtnMakeOrder;
     @BindView(R.id.recyclerView_size)
     RecyclerView mRecyclerViewSize;
+    @BindView(R.id.recyclerView_texture)
+    RecyclerView mRecyclerViewTexture;
     private View mBeforeView;
+    private View mTextureView;
     private String size;
+    private List<TextureEntity> list;
+    private String textUre;
 
 
-
-    public ChoiceSizePopupWindow(Context context) {
+    public ChoiceSizePopupWindow(Context context, List<TextureEntity> textureEntityList) {
         mContext = context;
+        list = textureEntityList;
+        initView();
     }
 
     @Override
@@ -47,7 +56,6 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
         View view = layoutInflater.inflate(R.layout.choice_size_item, null);
         ButterKnife.bind(this, view);
         initData();
-        initView();
         return view;
     }
 
@@ -67,6 +75,31 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
         choiceSizeAdapter.setData(clothesList);
         choiceSizeAdapter.setOnItemClickListener(this);
         mRecyclerViewSize.setAdapter(choiceSizeAdapter);
+        initTextUre();
+    }
+
+    private void setTexture(Object o) {
+        textUre = (String) o;
+    }
+
+    private void initTextUre() {
+        mRecyclerViewTexture.setLayoutManager(new LinearLayoutManager(App.getInstance(), LinearLayoutManager.HORIZONTAL, false));
+        TextureAdapter adapter = new TextureAdapter(App.getInstance());
+        adapter.setData(list);
+        adapter.setOnComClickListener(new ItemClickListener.OnItemComClickListener() {
+
+            @Override
+            public void onItemClick(Object o, View view) {
+                if (mTextureView != null) {
+                    mTextureView.setSelected(false);
+                }
+                //点击选择大小
+                view.setSelected(true);
+                mTextureView = view;
+                setTexture(o);
+            }
+        });
+        mRecyclerViewTexture.setAdapter(adapter);
     }
 
     public void setOnPopupClickListener(CommonListener.CommonClickListener onPopupClickListener) {
@@ -80,7 +113,9 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
                 if (onPopupClickListener != null) {
                     onPopupClickListener.onClickListener();
                 }
-                mBeforeView.setSelected(false);
+//                if(mBeforeView != null) {
+//                    mBeforeView.setSelected(false);
+//                }
                 break;
         }
     }
@@ -98,6 +133,10 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
 
     private void setChoice(String size) {
         this.size = size;
+    }
+
+    public String getTextUre() {
+        return textUre;
     }
 
     public String getSize() {

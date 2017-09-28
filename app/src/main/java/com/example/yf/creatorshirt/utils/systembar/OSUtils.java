@@ -23,10 +23,7 @@ class OSUtils {
      */
     public static boolean isEMUI3_1() {
         String property = getEMUIVersion();
-        if ("EmotionUI 3".equals(property) || property.contains("EmotionUI_3.1")) {
-            return true;
-        }
-        return false;
+        return "EmotionUI 3".equals(property) || property.contains("EmotionUI_3.1");
     }
 
     /**
@@ -94,10 +91,7 @@ class OSUtils {
      */
     public static boolean isMIUI6More() {
         String version = getMIUIVersion();
-        if ((!version.isEmpty() && Integer.valueOf(version.substring(1)) >= 6)) {
-            return true;
-        } else
-            return false;
+        return (!version.isEmpty() && Integer.valueOf(version.substring(1)) >= 6);
     }
 
     /**

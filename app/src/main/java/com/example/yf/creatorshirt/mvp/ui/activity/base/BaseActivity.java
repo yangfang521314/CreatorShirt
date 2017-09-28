@@ -15,6 +15,7 @@ import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import javax.inject.Inject;
@@ -44,7 +45,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .statusBarDarkFont(true, 0.2f)
                 .init();
         ButterKnife.bind(this);
-        App.getInstance().addActivity(this);
         inject();
         if (mPresenter != null)
             mPresenter.attachView(this);
@@ -105,11 +105,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detachView(this);
         }
+        ToastUtil.cancel();
     }
 
     @Override
     public void showErrorMsg(String msg) {
-
     }
 
     @Override

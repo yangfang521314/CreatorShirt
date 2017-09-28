@@ -516,12 +516,8 @@ public class BubbleTextView extends ImageView {
                     float x = event.getX(0);
                     float y = event.getY(0);
                     //判断手指抖动距离 加上isMove判断 只要移动过 都是true
-                    if (!isMove && Math.abs(x - lastX) < moveLimitDis
-                            && Math.abs(y - lastY) < moveLimitDis) {
-                        isMove = false;
-                    } else {
-                        isMove = true;
-                    }
+                    isMove = !(!isMove && Math.abs(x - lastX) < moveLimitDis
+                            && Math.abs(y - lastY) < moveLimitDis);
                     matrix.postTranslate(x - lastX, y - lastY);
                     lastX = x;
                     lastY = y;
