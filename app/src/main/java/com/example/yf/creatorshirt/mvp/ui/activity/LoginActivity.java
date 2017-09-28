@@ -193,6 +193,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     };
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ToastUtil.cancel();
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (null != this.getCurrentFocus()) {
             /**
@@ -291,6 +297,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private void loginByThirdpart(String openId) {
         mPresenter.wenxinLogin(openId);
     }
-
 
 }

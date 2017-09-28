@@ -42,4 +42,10 @@ public class SuccessPayActivity extends BaseActivity {
     protected int getView() {
         return R.layout.activity_success_pay;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startCommonActivity(this,null,MainActivity.class);
+    }
 }

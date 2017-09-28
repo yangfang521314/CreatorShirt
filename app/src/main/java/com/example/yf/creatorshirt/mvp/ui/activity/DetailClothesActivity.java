@@ -184,7 +184,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                if (App.isLogin && textureEntityList != null) {
+                if (App.isLogin ) {
                     initPopupWindow().showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
                     setWindowBgAlpha(Constants.CHANGE_ALPHA);
                 } else {

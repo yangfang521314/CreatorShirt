@@ -47,7 +47,9 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
 
     public ChoiceSizePopupWindow(Context context, List<TextureEntity> textureEntityList) {
         mContext = context;
-        list = textureEntityList;
+        if (textureEntityList != null) {
+            list = textureEntityList;
+        }
         initView();
     }
 
