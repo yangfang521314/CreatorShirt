@@ -20,8 +20,8 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
-import com.zhy.android.percent.support.PercentRelativeLayout;
 
 import java.util.ArrayList;
 
@@ -29,10 +29,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by yangfang on 2017/8/26.
+ * Creatd by yangfang on 2017/8/26.
  */
 
-public class ClothesBackView extends PercentRelativeLayout {
+public class ClothesBackView extends MyRelativeLayout {
     private Context mContext;
     @BindView(R.id.choice_ornament)
     ImageView mBackOrnament;
@@ -46,8 +46,6 @@ public class ClothesBackView extends PercentRelativeLayout {
     ImageView mBackClothes;
     @BindView(R.id.rl_back_root)
     RelativeLayout mContainerBackBackground;
-    @BindView(R.id.clothes_signature)
-    MoveTextView mClothesSignature;
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
     //处于编辑的贴纸

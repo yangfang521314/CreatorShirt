@@ -54,6 +54,20 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     })
 
             );
+//            TestRequestServer.getInstance().getDetailDesign(requestBody).enqueue(new Callback<HttpResponse>() {
+//                @Override
+//                public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//                    Log.e("tag","ddddd"+response.body().getResult());
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<HttpResponse> call, Throwable t) {
+//
+//                }
+//            });
         }
+
+
     }
 }

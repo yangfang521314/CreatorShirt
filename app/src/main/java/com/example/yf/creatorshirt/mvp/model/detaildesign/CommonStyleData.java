@@ -13,6 +13,51 @@ public class CommonStyleData implements Parcelable {
     private String ornametUrl;
     private String color;
     private String pattern;
+    private String text;
+
+    protected CommonStyleData(Parcel in) {
+        neckUrl = in.readString();
+        armUrl = in.readString();
+        ornametUrl = in.readString();
+        color = in.readString();
+        pattern = in.readString();
+        text = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(neckUrl);
+        dest.writeString(armUrl);
+        dest.writeString(ornametUrl);
+        dest.writeString(color);
+        dest.writeString(pattern);
+        dest.writeString(text);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<CommonStyleData> CREATOR = new Creator<CommonStyleData>() {
+        @Override
+        public CommonStyleData createFromParcel(Parcel in) {
+            return new CommonStyleData(in);
+        }
+
+        @Override
+        public CommonStyleData[] newArray(int size) {
+            return new CommonStyleData[size];
+        }
+    };
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
     public String getNeckUrl() {
         return neckUrl;
@@ -68,39 +113,4 @@ public class CommonStyleData implements Parcelable {
     public CommonStyleData() {
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.neckUrl);
-        dest.writeString(this.armUrl);
-        dest.writeString(this.ornametUrl);
-        dest.writeString(this.color);
-        dest.writeString(this.pattern);
-    }
-
-    protected CommonStyleData(Parcel in) {
-        this.neckUrl = in.readString();
-        this.armUrl = in.readString();
-        this.ornametUrl = in.readString();
-        this.color = in.readString();
-        this.pattern = in.readString();
-
-
-    }
-
-    public static final Creator<CommonStyleData> CREATOR = new Creator<CommonStyleData>() {
-        @Override
-        public CommonStyleData createFromParcel(Parcel source) {
-            return new CommonStyleData(source);
-        }
-
-        @Override
-        public CommonStyleData[] newArray(int size) {
-            return new CommonStyleData[size];
-        }
-    };
 }

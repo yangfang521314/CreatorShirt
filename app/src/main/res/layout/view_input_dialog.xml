@@ -13,7 +13,7 @@
         android:background="@drawable/shape_clothe_pattern"
         android:gravity="center"
         android:padding="10dp"
-        android:maxLength="5"
+        android:maxLength="10"
         android:inputType="textCapWords"
         android:textColor="@color/outerspace"
         android:textSize="24sp" />

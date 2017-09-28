@@ -28,7 +28,6 @@ public class BubbleTextView extends ImageView {
 
     private static final String TAG = "BubbleTextView";
 
-
     private Bitmap deleteBitmap;
     private Bitmap flipVBitmap;
     private Bitmap topBitmap;
@@ -312,6 +311,7 @@ public class BubbleTextView extends ImageView {
         //使用拷贝 不然会对资源文件进行引用而修改
         setBitmap(BitmapFactory.decodeResource(getResources(), resId));
     }
+
 
     public void setImageResource(int resId, BubblePropertyModel model) {
         matrix.reset();

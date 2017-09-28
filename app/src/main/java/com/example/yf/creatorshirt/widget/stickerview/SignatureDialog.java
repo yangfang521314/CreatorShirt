@@ -50,6 +50,20 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.choice_back:
+                done(v);
+                break;
+            case R.id.choice_done:
+                done(v);
+                break;
+        }
+
+    }
+
+    private void done(View v) {
+        dismiss();
+
         if (completeCallBack != null) {
             if (TextUtils.isEmpty(mEditSignature.getText())) {
                 str = "";
@@ -60,6 +74,9 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         }
     }
 
+    public void setMessage(String message) {
+        mEditSignature.setText(message);
+    }
 
     public interface CompleteCallBack {
         void onClickChoiceOrBack(View view, String s);

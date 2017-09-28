@@ -15,8 +15,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,18 +41,19 @@ import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.mvp.ui.adapter.TextStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
-import com.example.yf.creatorshirt.mvp.ui.view.MoveTextView;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.LogUtil;
+import com.example.yf.creatorshirt.utils.NetworkUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
-import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
+import com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout;
 import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -102,11 +101,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @BindView(R.id.choice_select_arm)
     ImageView mChoiceArm;
     @BindView(R.id.rl_clothes_root)
-    RelativeLayout mContainerFrontBackground;//正面
-    //    @BindView(R.id.clothes_pattern_bounds)
-//    RelativeLayout mPatternBounds;
-    @BindView(R.id.clothes_signature)
-    MoveTextView mClothesSignature;
+    MyRelativeLayout mContainerFrontBackground;//正面
     @BindView(R.id.clothes_back)
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
@@ -195,7 +190,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mBackStyleData = new CommonStyleData();
         mOrderBaseInfo = new OrderBaseInfo();
         initBackBg();
-
     }
 
     private void initBackBg() {
@@ -224,6 +218,18 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerStyle.setVisibility(View.VISIBLE);
         mBtnFinish.setVisibility(View.VISIBLE);
+        mContainerFrontBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        mContainerBackBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     @Override
@@ -240,6 +246,14 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @Override
     public void showSuccessData(DetailStyleBean detailStyleBean) {
         if (detailStyleBean != null) {
+            if (detailStyleBean.getData() == null)
+                return;
+            if (detailStyleBean.getData().getA() == null) {
+                return;
+            }
+            if (detailStyleBean.getData().getB() == null) {
+                return;
+            }
             mDetailStyleBackData = detailStyleBean.getData().getB();
             mDetailStyleFrontData = detailStyleBean.getData().getA();
             getNameDeign(mDetailStyleFrontData, "front");
@@ -330,10 +344,16 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
             }
             if (mData.getText() != null) {
-                styleBean = new StyleBean();
-                styleBean.setTitle("签名");
-                newList.add(styleBean);
-                clotheKey.add(SIGNATURE);
+                if (mData.getText().getFileList() != null) {
+                    if (mData.getText().getFileList().size() != 0) {
+                        styleBean = new StyleBean();
+                        name = mData.getText().getName();
+                        styleBean.setTitle(name);
+                        newList.add(styleBean);
+                        clotheKey.add(SIGNATURE);
+                        addTextData(name, mData.getText().getFileList());
+                    }
+                }
             }
         }
 
@@ -369,16 +389,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
             }
 
-//            if (mData.getColor() != null) {
-//                if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
-//                    styleBean = new StyleBean();
-//                    name = mData.getColor().getName();
-//                    styleBean.setTitle(name);
-//                    newList.add(styleBean);
-//                    clotheKey.add(COLOR);
-//                    addColorData(name, mData.getColor().getFileList());
-//                }
-//            }
             if (mData.getPattern() != null) {
                 if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
                     styleBean = new StyleBean();
@@ -390,10 +400,16 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 }
             }
             if (mData.getText() != null) {
-                styleBean = new StyleBean();
-                styleBean.setTitle("个性签名");
-                newList.add(styleBean);
-                clotheKey.add(SIGNATURE);
+                if (mData.getText().getFileList() != null) {
+                    if (mData.getText().getFileList().size() != 0) {
+                        styleBean = new StyleBean();
+                        name = mData.getText().getName();
+                        styleBean.setTitle(name);
+                        newList.add(styleBean);
+                        clotheKey.add(SIGNATURE);
+                        addTextData(name, mData.getText().getFileList());
+                    }
+                }
             }
         }
 
@@ -402,6 +418,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
         mBaseDesignAdapter.notifyDataSetChanged();
 
+    }
+
+    private void addTextData(String name, List<DetailColorStyle> fileList) {
+        mSignatureData.put(name, fileList);
     }
 
     /**
@@ -504,7 +524,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         }
                         break;
                     case SIGNATURE:
-                        mClothesSignature.setVisibility(View.GONE);
+//                        mClothesSignature.setVisibility(View.GONE);
+                        mContainerFrontBackground.deleteViews();
                         break;
                 }
 //                mPatternBounds.setVisibility(View.GONE);
@@ -559,12 +580,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                             mBackStyleData.setPattern(imageUrl);
                         }
                         break;
-//                    case SIGNATURE:
-//                        mClothesSignature.setVisibility(View.VISIBLE);
-//                        if (isEditSign) {
-//                            setSignatureText();//签名处理
-//                        }
-//                        break;
+                    case SIGNATURE:
+                        mContainerFrontBackground.saveText();
+                        mContainerFrontBackground.getList();
+                        break;
                 }
                 if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -588,6 +607,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 //
                 break;
             case R.id.clothes_front://点击正面
+                if (!NetworkUtils.isNetWorkConnected()) {
+                    showErrorMsg("无网络连接，请重试");
+                    return;
+                }
                 isFront = true;
                 mContainerFrontBackground.setVisibility(View.VISIBLE);
                 mContainerBackBackground.setVisibility(View.GONE);
@@ -619,7 +642,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mChoiceReturn.setVisibility(View.GONE);
                 break;
             case R.id.clothes_back://点击反面
-
+                if (!NetworkUtils.isNetWorkConnected()) {
+                    showErrorMsg("无网络连接，请重试");
+                    return;
+                }
                 mContainerFrontBackground.setVisibility(View.GONE);
                 mContainerBackBackground.setVisibility(View.VISIBLE);
                 mButtonBack.setSelected(true);
@@ -766,36 +792,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         imageFrontPath = FileUtils.saveBitmap(bitmapFront, this, "front");
     }
 
-    /**
-     * 签名
-     */
-    private void setSignatureText() {
-        final SignatureDialog dialog = new SignatureDialog(this);
-        dialog.show();
-        Window win = dialog.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        win.setAttributes(lp);
-        dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
-            @Override
-            public void onClickChoiceOrBack(View view, String s) {
-                switch (view.getId()) {
-                    case R.id.choice_done:
-                        mSignatureText = s;
-                        mClothesSignature.setVisibility(View.VISIBLE);
-                        mClothesSignature.setText(mSignatureText);
-                        dialog.dismiss();
-                        break;
-                    case R.id.choice_back:
-                        mSignatureText = "";
-                        dialog.dismiss();
-                        break;
-                }
-            }
-        });
-    }
-
 
     /**
      * 点击total style
@@ -851,23 +847,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 setColorBg(mImagecolor);
                 break;
             case PATTERN:
-//                mPatternBounds.setVisibility(View.VISIBLE);
                 imageUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setPatternUrl(imageUrl);
                 break;
             case SIGNATURE://签名处理
-//                if (position == 0) {
-//                    mClothesSignature.setVisibility(View.GONE);
-//                    isEditSign = false;
-//                } else if (position == 1) {
-//                    mClothesSignature.setVisibility(View.VISIBLE);
-//                    isEditSign = true;
-//                }
-                mClothesSignature.setVisibility(View.VISIBLE);
-//                if (isEditSign) {
-                setSignatureText();//签名处理
-//                }
-                Log.e("tag", "dddddd");
+                mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
+                Log.e(TAG, "COLOR:" + mImagecolor);
+                mContainerFrontBackground.setTextColor(mImagecolor);
                 break;
         }
         currentView.setSelected(true);
@@ -971,6 +957,20 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             adapter.setOnClickListener(this);
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+        }
+        if (mSignatureData.containsKey((newList.get(position).getTitle()))) {
+            TextStyleAdapter adapter = new TextStyleAdapter(this);
+            adapter.setData(mSignatureData.get(newList.get(position).getTitle()));
+            adapter.setOnClickListener(this);
+            mRecyclerDetailStyle.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            ToastUtil.showToast(this, "点击图片选择定制", 0);
+            mContainerFrontBackground.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
         }
         if (mPatternData.containsKey(newList.get(position).getTitle())) {
             PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);

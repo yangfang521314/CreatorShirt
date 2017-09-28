@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar">
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout
             android:id="@+id/rl_clothes_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:background="@null">
 
             <include layout="@layout/clothes_front_layout" />
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+        </com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout>
 
         <com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView
             android:id="@+id/rl_clothes_back_root"
