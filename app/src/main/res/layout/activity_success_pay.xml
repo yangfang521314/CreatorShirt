@@ -39,9 +39,9 @@
             android:text="快递单号会发到您的收货人联系手机上，" />
 
         <TextView
-            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="请您自助查询" />
     </LinearLayout>
 
@@ -50,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/share_weixin"
+        android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
         android:background="@color/black"
         android:text="查看我的订单"
@@ -72,6 +73,6 @@
         android:text="分享给微信好友"
         android:textColor="@color/sand"
         android:textSize="16sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="张芷溪"
+                android:hint=""
                 android:textColor="@color/riflegreen"
                 android:textSize="16sp" />
 
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/designer_name"
                 android:layout_marginTop="10dp"
-                android:text="185个原创设计"
+                android:text="0个原创设计"
                 android:textColor="@color/darkgray"
                 android:textSize="16sp" />
         </LinearLayout>

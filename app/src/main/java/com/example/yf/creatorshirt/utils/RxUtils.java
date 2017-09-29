@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -76,8 +77,11 @@ public class RxUtils {
                     @Override
                     public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
                         if (tHttpResponse.getStatus() == 1) {
-                            Log.e(TAG,"status"+tHttpResponse.getStatus());
-                            Log.e(TAG,"status"+tHttpResponse.getResult());
+                            Log.e(TAG, "status" + tHttpResponse.getStatus());
+                            Log.e(TAG, "status" + tHttpResponse.getResult());
+                            if (tHttpResponse.getResult() == null) {
+                                return Flowable.error(new Throwable("没有数据"));
+                            }
                             return createData(tHttpResponse.getResult());
                         } else {
                             LogUtil.e(TAG, "服务器返回error");
