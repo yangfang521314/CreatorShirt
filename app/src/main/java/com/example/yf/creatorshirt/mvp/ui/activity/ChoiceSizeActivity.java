@@ -193,7 +193,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         if (mOrderType == null) {
             saveOrderData(Constants.check);
         } else {
-            mPresenter.saveOrdersFromShare(mOrderType.getOrderId(), mPopupWindow.getSize(),mPopupWindow.getTextUre());
+            mPresenter.saveOrdersFromShare(mOrderType.getOrderId(), mPopupWindow.getSize(), mPopupWindow.getTextUre());
         }
     }
 
@@ -237,6 +237,12 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         Bundle bundle = new Bundle();
         bundle.putString("orderId", data.getOrderId());
         startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+        if (mSharePopupWindow != null) {
+            mSharePopupWindow.dismiss();
+        }
     }
 
     //分享直接保存
@@ -306,6 +312,9 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         super.onDestroy();
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
+        }
+        if(mSharePopupWindow != null){
+            mSharePopupWindow.dismiss();
         }
     }
 

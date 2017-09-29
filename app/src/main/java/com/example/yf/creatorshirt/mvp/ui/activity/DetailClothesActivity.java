@@ -184,7 +184,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                if (App.isLogin ) {
+                if (App.isLogin) {
                     initPopupWindow().showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
                     setWindowBgAlpha(Constants.CHANGE_ALPHA);
                 } else {
@@ -253,7 +253,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     }
 
     private void saveOrderAndStart() {
-        mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mPopupWindow.getSize(),mPopupWindow.getTextUre());
+        mPresenter.saveOrdersFromShare(mBombStyleBean.getId(), mPopupWindow.getSize(), mPopupWindow.getTextUre());
     }
 
     @Override
@@ -273,6 +273,9 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         Bundle bundle = new Bundle();
         bundle.putString("orderId", orderType.getOrderId());
         startCommonActivity(this, bundle, MyOrderActivity.class);
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
     }
 
 
@@ -338,6 +341,9 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
         ToastUtil.cancel();
         EventBus.getDefault().post(new UpdateOrdersEvent(true));
     }
