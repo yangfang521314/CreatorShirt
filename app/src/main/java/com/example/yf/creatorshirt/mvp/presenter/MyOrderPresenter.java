@@ -67,7 +67,7 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                     @Override
                     public void onNext(OrderStyleBean orderStyleBean) {
                         if (orderStyleBean == null) {
-                            mView.showErrorMsg("数据为空");
+                            mView.showErrorMsg("没有订单数据");
                             return;
                         }
                         mView.showSuccessOrderData(orderStyleBean);

@@ -48,8 +48,11 @@ public class DesignPresenter extends RxPresenter<DesignBaseContract.DesignBaseVi
                 .subscribeWith(new CommonSubscriber<Map<String, List<DesignBaseBean>>>(mView) {
                     @Override
                     public void onNext(Map<String, List<DesignBaseBean>> stringListMap) {
-                        if(stringListMap != null && stringListMap.size() != 0)
-                        mView.showBaseDesignSuccess(stringListMap);
+                        if(stringListMap != null && stringListMap.size() != 0) {
+                            mView.showBaseDesignSuccess(stringListMap);
+                        }else {
+                            mView.showErrorMsg("没有数据");
+                        }
                     }
                 })
         );

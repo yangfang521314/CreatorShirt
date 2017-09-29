@@ -99,7 +99,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     if (response.body().getResult() != null && response.body().getResult().size() != 0) {
                         mView.showMoreData(response.body().getResult());
                     } else {
-                        mView.showErrorMsg(App.getInstance().getString(R.string.load_more_failure));
+                        mView.showErrorMsg("没有更多数据");
                     }
                 } else {
                     mView.showErrorMsg(App.getInstance().getString(R.string.load_more_failure));

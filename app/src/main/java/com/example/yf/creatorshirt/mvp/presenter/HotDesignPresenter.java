@@ -63,13 +63,14 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
                 .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView) {
                     @Override
                     public void onNext(List<HotDesignsBean> hotDesigns) {
-                        if (hotDesigns == null) {
-                            return;
+                        if (hotDesigns != null) {
+                            if (hotDesigns.size() == 0) {
+                                mView.showErrorMsg("没有更多数据");
+                            } else {
+                                mView.showMoreSuccess(hotDesigns);
+
+                            }
                         }
-                        if (hotDesigns.size() == 0) {
-                            return;
-                        }
-                        mView.showMoreSuccess(hotDesigns);
                     }
                 })
         );

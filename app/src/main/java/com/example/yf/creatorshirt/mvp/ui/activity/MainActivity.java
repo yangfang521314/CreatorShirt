@@ -200,6 +200,7 @@ public class MainActivity extends BaseActivity {
                 ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
                 mExitTime = System.currentTimeMillis();
             } else {
+                ToastUtil.cancel();
                 MainActivity.this.finish();
             }
             return true;
@@ -241,8 +242,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ToastUtil.cancel();
-        //// TODO: 2017/9/29 inputmethod leake 
+        //// TODO: 2017/9/29 inputmethod leake
         EventBus.getDefault().unregister(this);
     }
 

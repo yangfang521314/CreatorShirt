@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -205,15 +206,21 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private void saveOrderData(String type) {
         if (type.equals(Constants.check)) {
             mPresenter.setClothesData(mOrderBaseInfo, mPopupWindow.getSize());
-
-        } else if (type.equals(Constants.share)) {
-            mPresenter.setClothesData(mOrderBaseInfo, null);
+            mPresenter.setStyleContext(styleContext);
+            mPresenter.setIM(mBackImageUrl);
+            mPresenter.setSaveType(type);
+            mPresenter.setTextUre(mPopupWindow.getTextUre());
+            mPresenter.request("A", mFrontImageUrl);
         }
-        mPresenter.setStyleContext(styleContext);
-        mPresenter.setIM(mBackImageUrl);
-        mPresenter.setSaveType(type);
-        mPresenter.setTextUre(mPopupWindow.getTextUre());
-        mPresenter.request("A", mFrontImageUrl);
+        if (type.equals(Constants.share)) {
+            Log.e("TAG","FFFFFF");
+            mPresenter.setClothesData(mOrderBaseInfo, null);
+            mPresenter.setStyleContext(styleContext);
+            mPresenter.setIM(mBackImageUrl);
+            mPresenter.setSaveType(type);
+            mPresenter.request("A", mFrontImageUrl);
+        }
+
     }
 
     private void setWindowBgAlpha(float f) {
@@ -313,7 +320,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
-        if(mSharePopupWindow != null){
+        if (mSharePopupWindow != null) {
             mSharePopupWindow.dismiss();
         }
     }

@@ -168,7 +168,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             String size = newSize[0];
             saveStyleEntity.setSize(Integer.parseInt(size));
             saveStyleEntity.setHeight(Integer.parseInt(size));
-
+            saveStyleEntity.setTexture(textUre);
         } else {
             //分享不传size;
         }
@@ -187,7 +187,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         saveStyleEntity.setAddress("");
         saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
         saveStyleEntity.setStyleContext(styleContext);
-        saveStyleEntity.setTexture(textUre);
 
         Gson gson = new Gson();
         String postEntity = gson.toJson(saveStyleEntity);
@@ -205,8 +204,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                             } else if (type.equals("Share")) {
                                 mView.showShareSuccessData(s);
                             }
-                            if (s != null)
-                                mOrderType = s;
+                            mOrderType = s;
                         }
                     }
                 }));
@@ -314,8 +312,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(String s) {
-                        if (s == null)
-                            return;
+                        Log.e("Tgs","dddddddd");
                         QiniuToken = s;
                         mView.showShareTokenSuccess(s);
                     }
@@ -336,7 +333,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      * @param orderId
      * @param size
      */
-    public void saveOrdersFromShare(final String orderId, String size, String texture) {
+    public void saveOrdersFromShare(String orderId, String size, String texture) {
         Map<String, String> map = new HashMap<>();
         map.put("orderId", orderId);
         map.put("height", size);
@@ -348,8 +345,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType orderType) {
-                        if (orderType == null)
-                            return;
                         mView.showSuccessData(orderType);//生成订单
                     }
                 })
@@ -367,10 +362,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
                         @Override
                         public void onNext(List<TextureEntity> textureEntity) {
-                            if(textureEntity ==  null)
-                                return;
-                            if(textureEntity.size() == 0)
-                                return;
                             mView.showSuccessTextUre(textureEntity);
                         }
                     }));

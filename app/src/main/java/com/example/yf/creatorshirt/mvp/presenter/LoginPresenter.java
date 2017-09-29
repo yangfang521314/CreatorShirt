@@ -59,7 +59,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     public void phoneLogin(String phone, String password) {
         if (password != null && phone != null) {
             ArrayMap<String, String> map = new ArrayMap<>();
-            map.put( "mobile", phone);
+            map.put("mobile", phone);
             map.put("password", password);
             Gson gson = new Gson();
             String requestEntity = gson.toJson(map);
@@ -72,7 +72,8 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
 
                         @Override
                         public void onNext(LoginBean loginBean) {
-                            if(loginBean == null){
+                            if (loginBean == null) {
+                                mView.showErrorMsg("登录失败");
                                 return;
                             }
                             SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());
