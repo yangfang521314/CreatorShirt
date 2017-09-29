@@ -114,7 +114,7 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
 
     @Override
     public void successDefaultAddress(String flag) {
-        ToastUtil.showToast(this, flag, 0);
+        ToastUtil.showToast(mContext, flag, 0);
     }
 
     @Override

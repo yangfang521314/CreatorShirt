@@ -81,6 +81,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             }
             if (msg.what == WHAT_SUCCESS2) {
                 ToastUtil.cancel();
+                if (asyncTask != null) {
+                    asyncTask.cancel(true);
+                    asyncTask = null;
+                }
                 sendOrderData();
             }
         }
@@ -130,7 +134,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 } else {
                     Log.e("qiniu_back", "UPLOAD fail");
                     mView.showErrorMsg("保存图片失败");
-                    asyncTask.cancel(true);
+                    if (asyncTask != null) {
+                        asyncTask.cancel(true);
+                        asyncTask = null;
+                    }
                 }
 
             }
