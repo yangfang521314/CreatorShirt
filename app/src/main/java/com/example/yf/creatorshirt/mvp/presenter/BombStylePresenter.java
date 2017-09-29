@@ -36,13 +36,14 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
         pageIndex = 0;
         Map<String, Integer> map = new HashMap<>();
         map.put("pageIndex", 0);
-        RequestBody body = GsonUtils.getGson(map);
+        final RequestBody body = GsonUtils.getGson(map);
         addSubscribe(dataManager.getBombData(body)
                 .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<BombStyleBean>>handleResult())
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView) {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
+                        if(bombStyleBeen != null && bombStyleBeen.size() != 0)
                         mView.showSuccess(bombStyleBeen);
                     }
                 }));
@@ -52,13 +53,14 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
     public void getMoreBombData() {
         Map<String, Integer> map = new HashMap<>();
         map.put("pageIndex", ++pageIndex);
-        RequestBody body = GsonUtils.getGson(map);
+        final RequestBody body = GsonUtils.getGson(map);
         addSubscribe(dataManager.getBombData(body)
                 .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<BombStyleBean>>handleResult())
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "加载更多失败",false) {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
+                        if(bombStyleBeen != null && bombStyleBeen.size() != 0)
                         mView.showMoreSuccessData(bombStyleBeen);
                     }
                 }));

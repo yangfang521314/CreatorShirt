@@ -164,7 +164,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
             mDesignerRecycler.noMoreLoading();
         } else {
             if (orderStyleBeen.size() == 0) {
-                Toast.makeText(this, "到底了，已经没有更多数据", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "到底了，已经没有更多数据", Toast.LENGTH_SHORT).show();
                 mDesignerRecycler.noMoreLoading();
             } else {
                 mFirstStyleEntity.addAll(orderStyleBeen);
@@ -290,7 +290,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
     @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
-        ToastUtil.showToast(this, msg, 0);
+        ToastUtil.showToast(mContext, msg, 0);
         mDesignerRecycler.refreshComplete();
     }
 }

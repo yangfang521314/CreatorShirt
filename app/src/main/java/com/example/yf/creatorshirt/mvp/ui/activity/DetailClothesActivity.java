@@ -243,10 +243,10 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private boolean isCheckSzieOrTexture() {
         if (mPopupWindow.getBeforeView() == null) {
-            ToastUtil.showToast(this, "请选择尺寸", 0);
+            ToastUtil.showToast(mContext, "请选择尺寸", 0);
             return false;
         } else if (TextUtils.isEmpty(mPopupWindow.getTextUre())) {
-            ToastUtil.showToast(this, "请选择材质", 0);
+            ToastUtil.showToast(mContext, "请选择材质", 0);
             return false;
         }
         return true;
@@ -332,7 +332,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
     @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
-        ToastUtil.showToast(this, msg, 0);
+        ToastUtil.showToast(mContext, msg, 0);
     }
 
     @Override

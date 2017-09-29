@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                ToastUtil.showToast(this, getString(R.string.exit_app), Toast.LENGTH_LONG);
+                ToastUtil.showToast(mContext, getString(R.string.exit_app), Toast.LENGTH_LONG);
                 mExitTime = System.currentTimeMillis();
             } else {
                 MainActivity.this.finish();
@@ -248,6 +248,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
-        ToastUtil.showToast(this,msg,0);
+        ToastUtil.showToast(mContext,msg,0);
     }
 }

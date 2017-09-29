@@ -55,7 +55,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
             @Override
             public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
                 if (response.body().getStatus() == 1) {
-                    if (response.body().getResult() != null) {
+                    if (response.body().getResult() != null && response.body().getResult().size() != 0) {
                         mView.showSuccessData(response.body().getResult());
                     } else {
                         mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
@@ -96,7 +96,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
             @Override
             public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
                 if (response.body().getStatus() == 1) {
-                    if (response.body().getResult() != null) {
+                    if (response.body().getResult() != null && response.body().getResult().size() != 0) {
                         mView.showMoreData(response.body().getResult());
                     } else {
                         mView.showErrorMsg(App.getInstance().getString(R.string.load_more_failure));
@@ -134,7 +134,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
             @Override
             public void onResponse(Call<HttpResultResponse> call, Response<HttpResultResponse> response) {
                 if (response.body().getStatus() == 1) {
-                    if (response.body().getResult() != null) {
+                    if (response.body().getResult() != null && response.body().getResult().size() != 0) {
                         mView.showRefreshData(response.body().getResult());
                     } else {
                         mView.showErrorMsg(App.getInstance().getString(R.string.refresh_data_failure));

@@ -44,7 +44,9 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView) {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
-                        mView.showSuccess(addressBeen);
+                        if(addressBeen != null && addressBeen.size() != 0) {
+                            mView.showSuccess(addressBeen);
+                        }
                     }
                 })
         );

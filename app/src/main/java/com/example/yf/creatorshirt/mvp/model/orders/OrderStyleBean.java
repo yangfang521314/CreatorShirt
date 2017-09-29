@@ -30,7 +30,7 @@ package com.example.yf.creatorshirt.mvp.model.orders;
 public class OrderStyleBean {
 
 
-    private int id;
+    private String id;
     private String userId;
     private String Gender;
     private String baseId;
@@ -51,11 +51,11 @@ public class OrderStyleBean {
     private String UserName;
     private String headerImage;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -29,6 +29,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.presenter.EditUserInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
@@ -45,6 +46,8 @@ import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesMark;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -138,6 +141,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         switch (view.getId()) {
             case R.id.user_tv_filter:
                 this.finish();
+                EventBus.getDefault().post(new UpdateUserInfoEvent(true));
                 break;
             case R.id.user_edit_avatar:
                 initPopupWindow();
@@ -158,11 +162,11 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
 
     private boolean isCheck() {
         if (TextUtils.isEmpty(PhoneUtils.getTextString(mEditName))) {
-            ToastUtil.showToast(this, "用户名为空", 0);
+            ToastUtil.showToast(mContext, "用户名为空", 0);
             return false;
         }
         if (TextUtils.isEmpty(mAvatarUrl)) {
-            ToastUtil.showToast(this, "没有选择头像", 0);
+            ToastUtil.showToast(mContext, "没有选择头像", 0);
             return false;
         }
         return true;
@@ -227,12 +231,12 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         if (update != null) {
             if (update.equals("update")) {
                 SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
-                ToastUtil.showToast(this, "设置信息成功", 0);
+                ToastUtil.showToast(mContext, "设置信息成功", 0);
                 this.finish();
             }
         } else {
             SharedPreferencesUtil.setUserName(PhoneUtils.getTextString(mEditName));
-            ToastUtil.showToast(this, "修改资料成功", 0);
+            ToastUtil.showToast(mContext, "修改资料成功", 0);
             this.finish();
         }
     }
@@ -327,8 +331,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
                         new DialogPermission(this, "关闭摄像头权限影响扫描功能");
 
                     } else {
-                        Toast.makeText(this, "未获取摄像头权限", Toast.LENGTH_SHORT)
-                                .show();
+                        ToastUtil.showToast(mContext, "未获取摄像头权限", Toast.LENGTH_SHORT);
                     }
                 }
                 break;

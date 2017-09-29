@@ -66,6 +66,9 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
                         if (hotDesigns == null) {
                             return;
                         }
+                        if (hotDesigns.size() == 0) {
+                            return;
+                        }
                         mView.showMoreSuccess(hotDesigns);
                     }
                 })

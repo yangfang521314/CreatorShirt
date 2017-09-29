@@ -49,6 +49,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
                         @Override
                         public void onNext(DetailStyleBean detailStyleBean) {
+                            if(detailStyleBean != null)
                             mView.showSuccessData(detailStyleBean);
                         }
                     })

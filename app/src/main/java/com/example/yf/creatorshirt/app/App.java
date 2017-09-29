@@ -68,4 +68,5 @@ public class App extends MultiDexApplication {
         App.isLogin = b;
         SharedPreferencesUtil.setIsLogin(isLogin);
     }
+
 }

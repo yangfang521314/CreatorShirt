@@ -72,6 +72,9 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
 
                         @Override
                         public void onNext(LoginBean loginBean) {
+                            if(loginBean == null){
+                                return;
+                            }
                             SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());
                             SharedPreferencesUtil.saveUserToken(loginBean.getToken());
                             SharedPreferencesUtil.saveUserPhone(loginBean.getUserInfo().getMobile());

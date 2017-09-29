@@ -106,23 +106,23 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
+            case R.id.choice_iv:
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("choice", true);
                 startCommonActivity(this, bundle, AddressShowActivity.class);
                 break;
             case R.id.pay_for_money:
                 //// TODO: 30/06/2017 跳转到支付宝或者微信去支付
-                startCommonActivity(this, null, SuccessPayActivity.class);
-//                if (payType != null) {
-//                    if (orderData != null) {
-//                        mPresenter.payMomentOrders(orderData.getId(), orderData.getAddress(),
-//                                orderData.getZipcode(), payType, orderData.getFee());
-//                    } else {
-//                        ToastUtil.showToast(this, "订单出错", 0);
-//                    }
-//                } else {
-//                    ToastUtil.showToast(this, "请选择支付方式", 0);
-//                }
+                if (payType != null) {
+                    if (orderData != null) {
+                        mPresenter.payMomentOrders(orderData.getId(), orderData.getAddress(),
+                                orderData.getZipcode(), payType, orderData.getFee());
+                    } else {
+                        ToastUtil.showToast(mContext, "订单出错", 0);
+                    }
+                } else {
+                    ToastUtil.showToast(mContext, "请选择支付方式", 0);
+                }
                 break;
             case R.id.pay_alipay:
                 mPayWeixin.setChecked(false);
@@ -238,9 +238,12 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @Override
     public void showPayOrder(PayOrderEntity value) {
         if (value == null) {
-            ToastUtil.showToast(this, "生成订单出错", 0);
+//            ToastUtil.showToast(this, "生成订单出错", 0);
+            startCommonActivity(this, null, SuccessPayActivity.class);
+
         } else {
-            mPresenter.payForWeiChat(value);
+//            mPresenter.payForWeiChat(value);
+            mPresenter.aplipay(value);
         }
     }
 
@@ -259,7 +262,7 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
 
     @Override
     public void showErrorMsg(String msg) {
-        ToastUtil.showToast(this, msg, 0);
+        ToastUtil.showToast(mContext, msg, 0);
     }
 
     @Override

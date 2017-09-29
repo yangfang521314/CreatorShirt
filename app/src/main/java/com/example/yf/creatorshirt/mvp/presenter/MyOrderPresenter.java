@@ -1,18 +1,24 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
+import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
+import com.example.yf.creatorshirt.pay.alipay.Alipay;
 import com.example.yf.creatorshirt.pay.weixin.WXPay;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
 
@@ -23,6 +29,9 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/91.
@@ -57,6 +66,10 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                 .subscribeWith(new CommonSubscriber<OrderStyleBean>(mView) {
                     @Override
                     public void onNext(OrderStyleBean orderStyleBean) {
+                        if (orderStyleBean == null) {
+                            mView.showErrorMsg("数据为空");
+                            return;
+                        }
                         mView.showSuccessOrderData(orderStyleBean);
                     }
                 })
@@ -73,7 +86,7 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
      * @param payType
      * @param fee
      */
-    public void payMomentOrders(int id, String address, String zipcode, String payType, double fee) {
+    public void payMomentOrders(String id, String address, String zipcode, String payType, double fee) {
         Map<String, String> map = new HashMap<>();
         map.put("orderId", orderId);
         map.put("address", address);
@@ -83,17 +96,43 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         Gson gson = new Gson();
         String payEntity = gson.toJson(map);
         final RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), payEntity);
-        addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), requestBody)
-                .compose(RxUtils.<HttpResponse<PayOrderEntity>>rxSchedulerHelper())
-                .compose(RxUtils.<PayOrderEntity>handleResult())
-                .subscribeWith(new CommonSubscriber<PayOrderEntity>(mView) {
+//        addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), requestBody)
+//                .compose(RxUtils.<HttpResponse<PayOrderEntity>>rxSchedulerHelper())
+//                .compose(RxUtils.<PayOrderEntity>handleResult())
+//                .subscribeWith(new CommonSubscriber<PayOrderEntity>(mView) {
+//                    @Override
+//                    public void onNext(PayOrderEntity payOrderEntity) {
+//                        if (payOrderEntity == null) {
+//                            mView.showErrorMsg("数据为空");
+//                            return;
+//                        }
+//                        mView.showPayOrder(payOrderEntity);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        super.onError(e);
+//                        mView.showErrorMsg(e.getMessage());
+//                    }
+//                })
+//
+//        );
+        TestRequestServer.getInstance().payMentOrders(UserInfoManager.getInstance().getToken(), requestBody)
+                .enqueue(new Callback<HttpResponse>() {
                     @Override
-                    public void onNext(PayOrderEntity payOrderEntity) {
-                        mView.showPayOrder(payOrderEntity);
+                    public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                        if (response.isSuccessful()) {
+                            mView.showErrorMsg(response.body().getResult().toString());
+                            mView.showPayOrder(null);
+                        }
+                        //// TODO: 2017/9/29 支付暂无
                     }
-                })
 
-        );
+                    @Override
+                    public void onFailure(Call<HttpResponse> call, Throwable t) {
+                        mView.showErrorMsg(App.getInstance().getString(R.string.no_net));
+                    }
+                });
     }
 
     //微信支付
@@ -140,9 +179,72 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "请求地址错误") {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
+                        if (addressBeen == null) {
+                            mView.showErrorMsg("地址为空");
+                            return;
+                        }
+                        if (addressBeen.size() == 0)
+                            return;
+
                         mView.showAddressSuccess(addressBeen);
                     }
                 })
         );
+    }
+
+    /**
+     * 支付宝支付
+     *
+     * @param value
+     */
+    public void aplipay(PayOrderEntity value) {
+        String alipay_appid = value.toString();
+        doAlipay(alipay_appid);
+    }
+
+    /**
+     * 支付宝支付
+     *
+     * @param pay_param 支付服务生成的支付参数
+     */
+    private void doAlipay(String pay_param) {
+        new Alipay(App.getInstance(), pay_param, new Alipay.AlipayResultCallBack() {
+            @Override
+            public void onSuccess() {
+                ToastUtil.showToast(App.getInstance(), "支付成功", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onDealing() {
+                ToastUtil.showToast(App.getInstance(), "支付处理中...", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onError(int error_code) {
+                switch (error_code) {
+                    case Alipay.ERROR_RESULT:
+                        ToastUtil.showToast(App.getInstance(), "支付失败:支付结果解析错误", Toast.LENGTH_SHORT);
+                        break;
+
+                    case Alipay.ERROR_NETWORK:
+                        ToastUtil.showToast(App.getInstance(), "支付失败:网络连接错误", Toast.LENGTH_SHORT);
+                        break;
+
+                    case Alipay.ERROR_PAY:
+                        ToastUtil.showToast(App.getInstance(), "支付错误:支付码支付失败", Toast.LENGTH_SHORT);
+                        break;
+
+                    default:
+                        ToastUtil.showToast(App.getInstance(), "支付错误", Toast.LENGTH_SHORT);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onCancel() {
+                ToastUtil.showToast(App.getInstance(), "支付取消", Toast.LENGTH_SHORT);
+            }
+        }).doPay();
     }
 }

@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 break;
             case R.id.send_code:
                 if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
-                    ToastUtil.showToast(this, "请输入正确的手机号码", 0);
+                    ToastUtil.showToast(mContext, "请输入正确的手机号码", 0);
                 } else {
                     countTime = 60;
                     mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));
@@ -113,11 +113,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     public boolean emptyCheck() {
         if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
-            ToastUtil.showToast(this, "请输入13位正确的手机号", 0);
+            ToastUtil.showToast(mContext, "请输入13位正确的手机号", 0);
             return false;
         }
         if (!PhoneUtils.notEmpty(mEditCode)) {
-            ToastUtil.showToast(this, "请输入验证码", 0);
+            ToastUtil.showToast(mContext, "请输入验证码", 0);
             return false;
         }
 
@@ -147,12 +147,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void LoginSuccess(LoginBean loginBean) {
         if (!loginBean.getUserInfo().getNew()) {
-            ToastUtil.showToast(this, "登录成功", 0);
+            ToastUtil.showToast(mContext, "登录成功", 0);
             EventBus.getDefault().post(new UpdateUserInfoEvent(true));
             finish();
         } else {
             startCommonActivity(this, null, EditUserActivity.class);
-            ToastUtil.showToast(this, "登录成功", 0);
+            ToastUtil.showToast(mContext, "登录成功", 0);
             this.finish();
         }
     }
@@ -176,7 +176,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             mHandler.removeCallbacks(runnable);
         }
         mHandler.postDelayed(runnable, 1000);
-        ToastUtil.showToast(this, "验证码已经发送", 0);
+        ToastUtil.showToast(mContext, "验证码已经发送", 0);
     }
 
     Runnable runnable = new Runnable() {

@@ -49,8 +49,8 @@
                     android:id="@+id/order_receiver_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="姓名"
                     android:padding="5dp"
-                    android:text="张芷溪"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/black"
                     android:textSize="16.5sp"
@@ -62,8 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
+                    android:hint="电话号码"
                     android:padding="5dp"
-                    android:text="1555555555"
                     android:textColor="@color/darkjunglegreen"
                     android:textSize="16.5sp"
                     android:textStyle="bold" />
@@ -73,11 +73,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/order_receiver_mobile"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
                     android:gravity="start"
+                    android:hint="请选择地址"
                     android:padding="5dp"
-                    android:layout_marginRight="20dp"
-                    android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
                     android:textColor="@color/darkjunglegreen"
                     android:textSize="15sp" />
 

@@ -63,6 +63,7 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
                 .subscribeWith(new CommonSubscriber<PraiseEntity>(mView) {
                     @Override
                     public void onNext(PraiseEntity integer) {
+                        if(integer != null)
                         mView.addPraiseNum(integer);
                     }
                 })
@@ -81,6 +82,7 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
                 .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType orderType) {
+                        if(orderType != null)
                         mView.showSuccessOrder(orderType);
                     }
                 })
@@ -99,7 +101,10 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
                     .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
                         @Override
                         public void onNext(List<TextureEntity> textureEntity) {
-                            mView.showSuccessTextUre(textureEntity);
+                            if(textureEntity != null) {
+                                if (textureEntity.size() != 0)
+                                mView.showSuccessTextUre(textureEntity);
+                            }
                         }
                     }));
         } catch (JSONException e) {

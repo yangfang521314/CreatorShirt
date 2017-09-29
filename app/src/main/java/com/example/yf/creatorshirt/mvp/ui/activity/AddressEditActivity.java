@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -43,6 +45,9 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
     @BindView(R.id.address_choice)
     ImageView mAddressChoice;
     private AddressBean mAddressBean;
+
+    @Inject
+    App mContext;
 
     @Override
     public void initData() {
@@ -108,16 +113,16 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
 
     private boolean isCheck() {
         if (TextUtils.isEmpty(PhoneUtils.getTextString(mReceiverName))) {
-            ToastUtil.showToast(this, "请输入收件人姓名", 0);
+            ToastUtil.showToast(mContext, "请输入收件人姓名", 0);
             return true;
         } else if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
-            ToastUtil.showToast(this, "请输入有效的电话号码", 0);
+            ToastUtil.showToast(mContext, "请输入有效的电话号码", 0);
             return true;
         } else if (TextUtils.isEmpty(mReceiverCity.getText().toString())) {
-            ToastUtil.showToast(this, "请输入收件人地区", 0);
+            ToastUtil.showToast(mContext, "请输入收件人地区", 0);
             return true;
         } else if (TextUtils.isEmpty(PhoneUtils.getTextString(mEditAddress))) {
-            ToastUtil.showToast(this, "请输入完整地址", 0);
+            ToastUtil.showToast(mContext, "请输入完整地址", 0);
             return true;
         }
         return false;

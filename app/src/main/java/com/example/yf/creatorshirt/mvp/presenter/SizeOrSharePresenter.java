@@ -205,7 +205,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                             } else if (type.equals("Share")) {
                                 mView.showShareSuccessData(s);
                             }
-                            mOrderType = s;
+                            if (s != null)
+                                mOrderType = s;
                         }
                     }
                 }));
@@ -313,6 +314,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(String s) {
+                        if (s == null)
+                            return;
                         QiniuToken = s;
                         mView.showShareTokenSuccess(s);
                     }
@@ -333,7 +336,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      * @param orderId
      * @param size
      */
-    public void saveOrdersFromShare(String orderId, String size, String texture) {
+    public void saveOrdersFromShare(final String orderId, String size, String texture) {
         Map<String, String> map = new HashMap<>();
         map.put("orderId", orderId);
         map.put("height", size);
@@ -345,6 +348,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType orderType) {
+                        if (orderType == null)
+                            return;
                         mView.showSuccessData(orderType);//生成订单
                     }
                 })
@@ -362,6 +367,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
                         @Override
                         public void onNext(List<TextureEntity> textureEntity) {
+                            if(textureEntity ==  null)
+                                return;
+                            if(textureEntity.size() == 0)
+                                return;
                             mView.showSuccessTextUre(textureEntity);
                         }
                     }));

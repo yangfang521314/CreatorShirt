@@ -36,6 +36,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     @Inject
     public T mPresenter;
 
+    @Inject
+    public App mContext;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

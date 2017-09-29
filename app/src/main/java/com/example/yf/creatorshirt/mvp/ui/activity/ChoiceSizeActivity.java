@@ -175,10 +175,10 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
 
     private boolean isCheck() {
         if (mPopupWindow.getBeforeView() == null) {
-            ToastUtil.showToast(ChoiceSizeActivity.this, "请选择尺寸", 0);
+            ToastUtil.showToast(mContext, "请选择尺寸", 0);
             return false;
         } else if (TextUtils.isEmpty(mPopupWindow.getTextUre())) {
-            ToastUtil.showToast(ChoiceSizeActivity.this, "请选择材质", 0);
+            ToastUtil.showToast(mContext, "请选择材质", 0);
             return false;
         }
         return true;

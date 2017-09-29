@@ -462,7 +462,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         switch (view.getId()) {
             case R.id.btn_choice_finish:
                 if (mContainerBackBackground.getWidth() <= 0) {
-                    ToastUtil.showToast(this, "没有定制背面,请先定制背面", 0);
+                    ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
                 } else {
                     //// TODO: 2017/8/27 没有图片时会报null
                     generateBitmap();//生成衣服的图片
@@ -964,7 +964,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             adapter.setOnClickListener(this);
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            ToastUtil.showToast(this, "点击图片选择定制", 0);
+            ToastUtil.showToast(mContext, "点击图片选择定制", 0);
             mContainerFrontBackground.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -993,7 +993,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
-        ToastUtil.showToast(this, msg, 0);
+        ToastUtil.showToast(mContext, msg, 0);
     }
 
     @Override

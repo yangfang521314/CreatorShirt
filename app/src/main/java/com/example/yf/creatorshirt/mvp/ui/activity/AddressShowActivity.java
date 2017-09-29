@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
@@ -90,21 +91,25 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
 
     @Override
     public void showSuccess(List<AddressBean> list) {
-        AddressBean mAddressBean = null;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getIsDefault() == 1) {
-                mAddressBean = list.get(i);
-                list.remove(i);
+        if (list != null && list.size() != 0) {
+            AddressBean mAddressBean = null;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getIsDefault() == 1) {
+                    mAddressBean = list.get(i);
+                    list.remove(i);
+                }
             }
-        }
-        list.add(0, mAddressBean);
-        if (choiceAddress) {
-            addressAdapter.setChoice(true);
+            list.add(0, mAddressBean);
+            if (choiceAddress) {
+                addressAdapter.setChoice(true);
+            } else {
+                addressAdapter.setChoice(false);
+            }
+            addressAdapter.setData(list);
+            mRecyclerView.setAdapter(addressAdapter);
         } else {
-            addressAdapter.setChoice(false);
+            ToastUtil.showToast(App.getInstance(), "没有地址，请添加收货地址", 0);
         }
-        addressAdapter.setData(list);
-        mRecyclerView.setAdapter(addressAdapter);
     }
 
     @Override
