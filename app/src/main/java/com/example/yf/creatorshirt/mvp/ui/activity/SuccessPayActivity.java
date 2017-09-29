@@ -3,9 +3,11 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -14,6 +16,8 @@ public class SuccessPayActivity extends BaseActivity {
 
     @BindView(R.id.btn_check_order)
     Button mCheckOrder;
+    @BindView(R.id.share_weixin)
+    TextView shareWeixin;
 
     @Override
     protected void inject() {
@@ -26,15 +30,18 @@ public class SuccessPayActivity extends BaseActivity {
         mAppBarTitle.setText(R.string.design);
     }
 
-    @OnClick({R.id.btn_check_order,R.id.back})
+    @OnClick({R.id.btn_check_order, R.id.back, R.id.share_weixin})
     public void onClick(View view) {
         if (view.getId() == R.id.btn_check_order) {
             Bundle bundle = new Bundle();
-            bundle.putString("title",getString(R.string.my_order));
-            startCommonActivity(this,bundle,AllOrdersActivity.class);
+            bundle.putString("title", getString(R.string.my_order));
+            startCommonActivity(this, bundle, AllOrdersActivity.class);
         }
-        if(view.getId() == R.id.back){
+        if (view.getId() == R.id.back) {
             finish();
+        }
+        if (view.getId() == R.id.share_weixin) {
+            ToastUtil.showToast(mContext, "未接入", 0);
         }
     }
 
@@ -46,6 +53,6 @@ public class SuccessPayActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startCommonActivity(this,null,MainActivity.class);
+        startCommonActivity(this, null, MainActivity.class);
     }
 }
