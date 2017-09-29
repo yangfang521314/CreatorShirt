@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -213,7 +212,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             mPresenter.request("A", mFrontImageUrl);
         }
         if (type.equals(Constants.share)) {
-            Log.e("TAG","FFFFFF");
             mPresenter.setClothesData(mOrderBaseInfo, null);
             mPresenter.setStyleContext(styleContext);
             mPresenter.setIM(mBackImageUrl);

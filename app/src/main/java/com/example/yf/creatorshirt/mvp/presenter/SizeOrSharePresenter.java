@@ -312,9 +312,10 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(String s) {
-                        Log.e("Tgs","dddddddd");
-                        QiniuToken = s;
-                        mView.showShareTokenSuccess(s);
+                        if (s != null) {
+                            QiniuToken = s;
+                            mView.showShareTokenSuccess(s);
+                        }
                     }
                 })
         );
@@ -345,7 +346,11 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType orderType) {
-                        mView.showSuccessData(orderType);//生成订单
+                        if (orderType == null) {
+                            mView.showErrorMsg("订单生成出错");
+                        } else {
+                            mView.showSuccessData(orderType);//生成订单
+                        }
                     }
                 })
         );
@@ -362,7 +367,11 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
                         @Override
                         public void onNext(List<TextureEntity> textureEntity) {
-                            mView.showSuccessTextUre(textureEntity);
+                            if (textureEntity != null) {
+                                if (textureEntity.size() != 0) {
+                                    mView.showSuccessTextUre(textureEntity);
+                                }
+                            }
                         }
                     }));
         } catch (JSONException e) {
