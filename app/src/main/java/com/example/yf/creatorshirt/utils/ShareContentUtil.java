@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
 import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
@@ -113,9 +114,11 @@ public class ShareContentUtil extends ShareContentUtilAbstract {
                                             .share();
                                 }
                                 if (share_media == SHARE_MEDIA.QQ || share_media == SHARE_MEDIA.QZONE) {
-                                    new ShareAction(mContext).setPlatform(share_media).setCallback(umShareListener)
-                                            .withMedia(qqShareContent)
-                                            .share();
+                                    ToastUtil.showToast(App.getInstance(),"暂未接入成功",0);
+                                    return;
+//                                    new ShareAction(mContext).setPlatform(share_media).setCallback(umShareListener)
+//                                            .withMedia(qqShareContent)
+//                                            .share();
                                 }
                                 if (share_media == SHARE_MEDIA.SINA) {
                                     new ShareAction(mContext).setPlatform(share_media).setCallback(umShareListener)
