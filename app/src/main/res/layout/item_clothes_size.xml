@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_item_size"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="30dp"
+    android:layout_margin="0.5dp"
     android:background="@drawable/choice_size_background"
     android:gravity="center"
     android:orientation="vertical">

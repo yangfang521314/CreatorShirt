@@ -6,15 +6,15 @@
     <EditText
         android:id="@+id/edit_signature"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="151dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/shape_clothe_pattern"
         android:gravity="center"
-        android:padding="10dp"
-        android:maxLength="10"
         android:inputType="textCapWords"
+        android:maxLength="10"
+        android:padding="10dp"
         android:textColor="@color/outerspace"
         android:textSize="24sp" />
 
@@ -24,22 +24,54 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_signature"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="左侧个性签名"
+        android:text="个性签名"
         android:textColor="@color/taupegray"
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/tv_show_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_show_sig"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="最多包含五个字符，包括数字和大写字母。。。。。。。。。。"
+        android:text="最多包含五个字符，包括数字和大写字母"
         android:textColor="@color/taupegray"
         android:textSize="16sp" />
+
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_show_message"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/manatee" />
+
+    <TextView
+        android:id="@+id/tv_show_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_1"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="字体样式"
+        android:textColor="@color/taupegray"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_choice_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_show_font"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:id="@+id/ll_choice_back"

@@ -595,7 +595,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 if (mCurrentStickerView != null) {
                     mCurrentStickerView.setInEdit(false);
 //                    mPatternBounds.setVisibility(View.GONE);
-                    // TODO: 22/06/2017 完成后禁止StickerView的点击事件
+                    // 22/06/2017 完成后禁止StickerView的点击事件
                     mCurrentStickerView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -604,7 +604,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     });
                 }
                 mContainerBackBackground.setChoiceDone();//反面处理
-//
                 break;
             case R.id.clothes_front://点击正面
                 if (!NetworkUtils.isNetWorkConnected()) {
@@ -616,23 +615,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 mContainerBackBackground.setVisibility(View.GONE);
                 mButtonFront.setSelected(true);
                 mButtonBack.setSelected(false);
-//                if (commonStyleData != null) {
-//                    if (commonStyleData.getNeckUrl() != null) {
-//                        setNeckImage(commonStyleData.getNeckUrl());
-//                    }
-//                    if (commonStyleData.getArmUrl() != null) {
-//                        setArmImage(commonStyleData.getArmUrl());
-//                    }
-//                    if (commonStyleData.getPattern() != null) {
-//                        addStickerView(commonStyleData.getPattern());
-//                    }
-//                    if (commonStyleData.getOrnametUrl() != null) {
-//                        setOrnametUrl(commonStyleData.getOrnametUrl());
-//                    }
-//                    if (commonStyleData.getColor() != null) {
-//                        setColorBg(commonStyleData.getColor());
-//                    }
-//                }
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
                 Glide.with(this).load(imageUrl).into(mClothes);
                 getNameDeign(mDetailStyleFrontData, "front");
@@ -655,12 +637,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                 if (!isBack) {
                     initShowStyle();
                 }
-//                if (mBackStyleData != null) {
-//                    mContainerBackBackground.setBackData(mBackStyleData);
-//                }
                 getNameDeign(mDetailStyleBackData, "back");
-
-//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -976,6 +953,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
             patternStyleAdapter.setOnClickListener(this);
+            patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
             mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
             patternStyleAdapter.notifyDataSetChanged();
         }
@@ -1001,5 +979,12 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         super.onDestroy();
         EventBus.getDefault().post(new ChangeSelectEvent(true));
         ToastUtil.cancel();
+    }
+
+    private class ChoiceAvatarListener implements ItemClickListener.OnItemComClickListener {
+        @Override
+        public void onItemClick(Object o, View view) {
+            ToastUtil.showToast(App.getInstance(),"ddd",0);
+        }
     }
 }

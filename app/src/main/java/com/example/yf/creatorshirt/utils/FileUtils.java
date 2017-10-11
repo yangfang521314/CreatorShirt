@@ -200,4 +200,18 @@ public class FileUtils {
     }
 
 
+    /**
+     * 删除指定文件
+     *
+     * @param file
+     * @return
+     */
+    public static boolean deleteFile(File file) {
+        if (file.exists() && file.isFile()) {
+            return file.delete();
+        }
+        return false;
+    }
+
+
 }

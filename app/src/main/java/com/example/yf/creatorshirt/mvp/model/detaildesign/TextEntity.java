@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
+import android.graphics.Typeface;
+
 /**
  * Created by yangfang on 2017/9/27.
  */
@@ -7,6 +9,7 @@ package com.example.yf.creatorshirt.mvp.model.detaildesign;
 public class TextEntity {
     private String color;
     private String text;
+    private Typeface typeface;
 
     public String getColor() {
         return color;
@@ -30,5 +33,13 @@ public class TextEntity {
                 "color='" + color + '\'' +
                 ", text='" + text + '\'' +
                 '}';
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
     }
 }

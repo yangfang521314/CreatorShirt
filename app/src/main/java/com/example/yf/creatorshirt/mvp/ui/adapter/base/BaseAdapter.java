@@ -115,5 +115,4 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
         notifyItemRangeInserted(startPosition, mData.size());
     }
 
-
 }

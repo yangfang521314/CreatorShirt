@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +29,16 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
     }
 
     @Override
+    public int getItemCount() {
+        if (mData == null) {
+            Log.e("TAG", "数据为空");
+            return 0;
+        }
+        return mData.size() + 1;
+    }
+
+
+    @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
         ItemViewHolder holder = null;
         holder = new ItemViewHolder(parent, R.layout.item_style_layout);
@@ -36,45 +47,60 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        if (mData.get(position).isSelect()) {
-            holder.itemView.setSelected(true);
-            preView = holder.itemView;
-            prePosition = position;
+        if (position != 0) {
+            if (mData.get(position - 1).isSelect()) {
+                holder.itemView.setSelected(true);
+                preView = holder.itemView;
+                prePosition = position;
+            } else {
+                holder.itemView.setSelected(false);
+            }
+            if (clickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickListener.onItemClick(holder.mCommonStyle, position);
+                        if (preView != null) {
+                            preView.setSelected(false);
+                            if (prePosition >= 0 && prePosition < mData.size()) {
+                                mData.get(prePosition).setSelect(false);
+                            }
+                        }
+                        prePosition = position;
+                        preView = v;
+                        preView.setSelected(true);
+                        mData.get(prePosition).setSelect(true);
+                    }
+                });
+            }
+            holder.mStyleTextView.setVisibility(View.GONE);
+            ViewGroup.LayoutParams params = holder.mStyleImageView.getLayoutParams();
+            if (DisplayUtil.getScreenW(mContext) < 1080) {
+                params.height = 120;
+                params.width = 120;
+            } else {
+                params.height = 200;
+                params.width = 200;
+            }
+            holder.mStyleImageView.setLayoutParams(params);
+            RequestOptions options = new RequestOptions();
+            options.fitCenter();
+            Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(position).getFile()).
+                    into(holder.mStyleImageView);
         } else {
-            holder.itemView.setSelected(false);
-        }
-        if (clickListener != null) {
+            holder.mStyleImageView.setImageResource(R.mipmap.add);
+            holder.mStyleTextView.setText("添加本地图片");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickListener.onItemClick(holder.mCommonStyle, position);
                     if (preView != null) {
                         preView.setSelected(false);
-                        if (prePosition >= 0 && prePosition < mData.size()) {
-                            mData.get(prePosition).setSelect(false);
-                        }
+                        mData.get(prePosition).setSelect(false);
                     }
-                    prePosition = position;
-                    preView = v;
-                    preView.setSelected(true);
-                    mData.get(prePosition).setSelect(true);
+                    comClickListener.onItemClick(null, v);
                 }
             });
         }
-        holder.mStyleTextView.setVisibility(View.GONE);
-        ViewGroup.LayoutParams params = holder.mStyleImageView.getLayoutParams();
-        if (DisplayUtil.getScreenW(mContext) < 1080) {
-            params.height = 120;
-            params.width = 120;
-        } else {
-            params.height = 200;
-            params.width = 200;
-        }
-        holder.mStyleImageView.setLayoutParams(params);
-        RequestOptions options = new RequestOptions();
-        options.fitCenter();
-        Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(position).getFile()).
-                into(holder.mStyleImageView);
 
     }
 

@@ -22,9 +22,12 @@ public class ItemViewHolder extends BaseViewHolder {
 
     public ItemViewHolder(ViewGroup parent, @LayoutRes int resId) {
         super(parent, resId);
-        mStyleImageView = getView(R.id.design_icon_style);
-        mStyleTextView = getView(R.id.design_text_style);
-        mCommonStyle = getView(R.id.common_style);
-        DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
+        if(resId == R.layout.item_style_layout) {
+            mStyleImageView = getView(R.id.design_icon_style);
+            mStyleTextView = getView(R.id.design_text_style);
+            mCommonStyle = getView(R.id.common_style);
+            DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
+        }
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.TextUtils;
@@ -99,7 +100,6 @@ public class MyRelativeLayout extends RelativeLayout {
     private double scaleTimes = 1;
     private String currentColor = "#ffffff";//默认
     private String currentText;
-
 
     public MyRelativeTouchCallBack getMyRelativeTouchCallBack() {
         return myRelativeTouchCallBack;
@@ -319,7 +319,7 @@ public class MyRelativeLayout extends RelativeLayout {
     /**
      * 添加一个TextView到界面上
      */
-    public void addTextView(final TextView tv, float x, float y, String content, float mtextSize, float rotate) {
+    public void addTextView(final TextView tv, float x, float y, String content, float mtextSize, float rotate, Typeface typefaceUpdate) {
         if (tv == null) {
             if (mtextSize == 0) {
                 mtextSize = DEFAULT_TEXTSIZE;
@@ -328,6 +328,7 @@ public class MyRelativeLayout extends RelativeLayout {
 //            textView = LayoutInflater.from(context).inflate(R.layout.item_delete,)
             textView.setTag(System.currentTimeMillis());
             textView.setText(content);
+            textView.setTypeface(typefaceUpdate);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             textView.setLayoutParams(params);
 //            textView.setBackgroundResource(R.drawable.shape_clothe_pattern);
@@ -453,6 +454,7 @@ public class MyRelativeLayout extends RelativeLayout {
             addView(textView);
         } else {
             textView = tv;
+            textView.setTypeface(typefaceUpdate);
             textView.setText(content);
         }
 
@@ -523,7 +525,7 @@ public class MyRelativeLayout extends RelativeLayout {
     }
 
     private void setSignatureText(String message, final boolean isNew) {
-        final SignatureDialog dialog = new SignatureDialog(context);
+        final SignatureDialog dialog = new SignatureDialog(context, getTypeFace());
         dialog.show();
         if (message != null) {
             dialog.setMessage(message);
@@ -534,20 +536,28 @@ public class MyRelativeLayout extends RelativeLayout {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         win.setAttributes(lp);
         dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
+
             @Override
-            public void onClickChoiceOrBack(View view, String s) {
+            public void onClickChoiceOrBack(View view, String s, Typeface o) {
                 String content = s;
                 if (TextUtils.isEmpty(content)) {
 //                    ToastUtil.makeText(context, "您没有任何输入!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (isNew) {
-                        addTextView(null, currentX, currentY, content, 0, 0);
+                        addTextView(null, currentX, currentY, content, 0, 0, o);
                     } else {
-                        addTextView(textView, textView.getX(), textView.getY(), content, textView.getTextSize(), textView.getRotation());
+                        addTextView(textView, textView.getX(), textView.getY(), content, textView.getTextSize(), textView.getRotation(), o);
                     }
                 }
             }
         });
+    }
+
+    public Typeface getTypeFace() {
+        if (textView != null) {
+            return textView.getTypeface();
+        }
+        return null;
     }
 
     /**
