@@ -244,6 +244,7 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         //// TODO: 2017/9/29 inputmethod leake
         EventBus.getDefault().unregister(this);
+        ToastUtil.cancel();
     }
 
     @Override
