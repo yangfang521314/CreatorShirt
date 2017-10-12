@@ -42,6 +42,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
 import com.example.yf.creatorshirt.mvp.presenter.CommonAvatarPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.TextStyleAdapter;
@@ -74,7 +75,7 @@ import butterknife.OnClick;
  * 衣服具体设计样式界面
  */
 public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
-        ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView {
+        ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView,CommonAvatarContract.CommonAvatarView{
 
     private static final String TAG = DetailDesignActivity.class.getSimpleName();
     public static final String NECK = "neck";
@@ -993,7 +994,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().post(new ChangeSelectEvent(true));
-        ToastUtil.cancel();
     }
 
     private class ChoiceAvatarListener implements ItemClickListener.OnItemComClickListener {
@@ -1002,8 +1002,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             EditUserPopupWindow mPopupWindow = mAvatarPresenter.initPopupWindow();
             mPopupWindow.showAtLocation(mDesign, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
             mAvatarPresenter.setParams(Constants.CHANGE_ALPHA);
-//            mFileAvatar = mAvatarPresenter.getFileUpdate();
-//            setPatternUrl(mFileAvatar.getPath());
             mDesCurrentView = view;
         }
     }

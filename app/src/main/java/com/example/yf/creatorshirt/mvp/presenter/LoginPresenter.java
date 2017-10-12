@@ -103,7 +103,6 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(@NonNull String s) {
-                        Log.e("TAG", "请求成功" + s);
                         mView.showSuccessCode();
                     }
                 }));

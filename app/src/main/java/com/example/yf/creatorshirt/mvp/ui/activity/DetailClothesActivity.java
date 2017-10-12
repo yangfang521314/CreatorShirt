@@ -345,7 +345,6 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
-        ToastUtil.cancel();
         EventBus.getDefault().post(new UpdateOrdersEvent(true));
     }
 }

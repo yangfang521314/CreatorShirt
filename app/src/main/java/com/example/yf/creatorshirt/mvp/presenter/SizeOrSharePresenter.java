@@ -200,7 +200,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         addSubscribe(manager.saveOrderData(userToken, body)
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单失败") {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType s) {
                         if (type != null) {
@@ -211,6 +211,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                                 mView.showShareSuccessData(s);
                             }
                             mOrderType = s;
+                        } else {
+                            mView.showErrorMsg("生成订单失败");
                         }
                     }
                 }));
@@ -349,7 +351,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 GsonUtils.getGson(map))
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单出错") {
                     @Override
                     public void onNext(OrderType orderType) {
                         if (orderType == null) {

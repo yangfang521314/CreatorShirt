@@ -4,8 +4,6 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
-import java.io.File;
-
 /**
  * Created by yangfang on 2017/8/19.
  */
@@ -15,7 +13,6 @@ public interface DetailDesignContract {
     interface DetailDesignView extends BaseView {
         void showSuccessData(DetailStyleBean detailStyleBean);
 
-        void showSuccessAvatar(File cover);
     }
 
     interface Presenter extends BasePresenter<DetailDesignView> {

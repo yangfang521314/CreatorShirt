@@ -195,7 +195,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ToastUtil.cancel();
     }
 
     @Override

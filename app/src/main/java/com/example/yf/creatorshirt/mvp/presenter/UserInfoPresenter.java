@@ -36,10 +36,11 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.UserView> im
         addSubscribe(manager.getUserInfo(token)
                 .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
                 .compose(RxUtils.<LoginBean>handleResult())
-                .subscribeWith(new CommonSubscriber<LoginBean>(mView, "更新用户信息失败") {
+                .subscribeWith(new CommonSubscriber<LoginBean>(mView) {
                     @Override
                     public void onNext(@NonNull LoginBean loginBean) {
                         if (loginBean == null) {
+                            mView.showErrorMsg("更新用户信息失败");
                             return;
                         }
                         SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());

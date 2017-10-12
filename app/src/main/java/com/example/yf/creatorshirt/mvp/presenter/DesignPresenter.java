@@ -39,18 +39,20 @@ public class DesignPresenter extends RxPresenter<DesignBaseContract.DesignBaseVi
                 .map(new Function<DesignBaseInfo, Map<String, List<DesignBaseBean>>>() {
                     @Override
                     public Map<String, List<DesignBaseBean>> apply(@NonNull DesignBaseInfo value) throws Exception {
-                        Map<String,List<DesignBaseBean>> map = new HashMap<>();
-                        map.put("m",value.getM());
-                        map.put("w",value.getW());
+                        Map<String, List<DesignBaseBean>> map = new HashMap<>();
+                        map.put("m", value.getM());
+                        map.put("w", value.getW());
                         return map;
                     }
                 })
                 .subscribeWith(new CommonSubscriber<Map<String, List<DesignBaseBean>>>(mView) {
                     @Override
                     public void onNext(Map<String, List<DesignBaseBean>> stringListMap) {
-                        if(stringListMap != null && stringListMap.size() != 0) {
-                            mView.showBaseDesignSuccess(stringListMap);
-                        }else {
+                        if (stringListMap != null) {
+                            if (stringListMap.size() != 0) {
+                                mView.showBaseDesignSuccess(stringListMap);
+                            }
+                        } else {
                             mView.showErrorMsg("没有数据");
                         }
                     }

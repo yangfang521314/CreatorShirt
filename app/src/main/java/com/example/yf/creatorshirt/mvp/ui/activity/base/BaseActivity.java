@@ -125,6 +125,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ToastUtil.cancel();
         if (netBroadcastReceiver != null) {
             this.unregisterReceiver(netBroadcastReceiver);
+        }
+        if(netInterface != null){
             netInterface = null;
         }
         Utils.fixInputMethodManagerLeak(this);

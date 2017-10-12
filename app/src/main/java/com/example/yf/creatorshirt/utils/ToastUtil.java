@@ -21,12 +21,14 @@ import com.example.yf.creatorshirt.R;
  */
 public class ToastUtil {
     private static Toast mToast;
-    /** 显示Toast的消息标记 */
+    /**
+     * 显示Toast的消息标记
+     */
     private static final int SHOW_TOAST = 0;
-    private static final long TOAST_SHORT_DELAY=1000;
+    private static final long TOAST_SHORT_DELAY = 1000;
 
     @SuppressLint("HandlerLeak")
-    private static Handler mHandler= new Handler(){
+    private static Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW_TOAST:
@@ -38,11 +40,13 @@ public class ToastUtil {
             }
         }
     };
+
     @Deprecated
-    public static void make(Context context,CharSequence cs,int resId){
-        showToast(context, cs,resId);
+    public static void make(Context context, CharSequence cs, int resId) {
+        showToast(context, cs, resId);
     }
-    public static void showToast(Context context,CharSequence cs,int resId){
+
+    public static void showToast(Context context, CharSequence cs, int resId) {
 
         destroy();
 
@@ -67,6 +71,7 @@ public class ToastUtil {
         toastView.addView(imageCodeProject, 0);
         mToast.show();
     }
+
     public static void showProgressToast(Context context, String text, int icon) {
 
         destroy();
@@ -92,16 +97,21 @@ public class ToastUtil {
         mHandler.sendEmptyMessageDelayed(SHOW_TOAST, Toast.LENGTH_LONG);
 
     }
-    private static void destroy(){
-        if(mToast !=null){
+
+    private static void destroy() {
+        if (mToast != null) {
             mToast.cancel();
-            mHandler.removeCallbacksAndMessages(null);
-            mToast=null;
+            mToast = null;
         }
     }
-    public static void cancel(){
-        if(mHandler!=null){
+
+    public static void cancel() {
+        if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
+        }
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
         }
     }
 

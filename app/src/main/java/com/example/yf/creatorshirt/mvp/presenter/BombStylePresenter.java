@@ -43,9 +43,13 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView) {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
-                        if(bombStyleBeen != null && bombStyleBeen.size() != 0) {
-                            mView.showSuccess(bombStyleBeen);
-                        }else {
+                        if (bombStyleBeen != null) {
+                            if (bombStyleBeen.size() != 0) {
+                                mView.showSuccess(bombStyleBeen);
+                            } else {
+                                mView.showErrorMsg("没有爆款数据");
+                            }
+                        } else {
                             mView.showErrorMsg("没有数据");
                         }
                     }
@@ -60,13 +64,15 @@ public class BombStylePresenter extends RxPresenter<BombStylesContract.BombView>
         addSubscribe(dataManager.getBombData(body)
                 .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
                 .compose(RxUtils.<List<BombStyleBean>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, "加载更多失败",false) {
+                .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, false) {
                     @Override
                     public void onNext(List<BombStyleBean> bombStyleBeen) {
-                        if(bombStyleBeen != null && bombStyleBeen.size() != 0) {
-                            mView.showMoreSuccessData(bombStyleBeen);
-                        }else {
-                            mView.showErrorMsg("没有数据");
+                        if (bombStyleBeen != null) {
+                            if (bombStyleBeen.size() != 0) {
+                                mView.showMoreSuccessData(bombStyleBeen);
+                            }
+                        } else {
+                            mView.showErrorMsg("没有更多数据");
                         }
                     }
                 }));

@@ -45,7 +45,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         addSubscribe(manager.getDetailDesign(requestBody)
                 .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
                 .compose(RxUtils.<DetailStyleBean>handleResult())
-                .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
+                .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView) {
                     @Override
                     public void onNext(DetailStyleBean detailStyleBean) {
                         if(detailStyleBean != null)
@@ -54,19 +54,5 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 })
 
         );
-//            TestRequestServer.getInstance().getDetailDesign(requestBody).enqueue(new Callback<HttpResponse>() {
-//                @Override
-//                public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                    Log.e("tag","ddddd"+response.body().getResult());
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//                }
-//            });
-
-
     }
 }

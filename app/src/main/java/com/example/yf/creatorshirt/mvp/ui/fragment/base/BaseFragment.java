@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.inject.component.DaggerFragmentComponent;
@@ -95,13 +94,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         if(mPresenter != null){
             mPresenter.detachView(this);
         }
-        ToastUtil.cancel();
         super.onDestroy();
     }
 
     @Override
     public void showErrorMsg(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+        ToastUtil.showToast(mContext,msg,0);
     }
 
     @Override

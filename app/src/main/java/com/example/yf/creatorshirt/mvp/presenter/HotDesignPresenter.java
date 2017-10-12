@@ -45,6 +45,11 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
                     @Override
                     public void onNext(List<HotDesignsBean> hotDesigns) {
                         if (hotDesigns == null) {
+                            mView.showErrorMsg("没有设计师");
+                            return;
+                        }
+                        if (hotDesigns.size() == 0) {
+                            mView.showErrorMsg("没有设计师");
                             return;
                         }
                         mView.showSuccess(hotDesigns);

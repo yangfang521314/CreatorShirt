@@ -55,15 +55,16 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if (mView == null) {
             return;
         }
-        if(NetworkUtils.isNetWorkConnected()){
+        if (!NetworkUtils.isNetWorkConnected()) {
             mView.showErrorMsg(App.getInstance().getString(R.string.no_net));
+            return;
         }
         if (mErrorMsg != null && !TextUtils.isEmpty(mErrorMsg)) {
             mView.showErrorMsg(mErrorMsg);
         } else if (e instanceof HttpException) {
-            mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
-        } else {
             mView.showErrorMsg(e.getMessage());
+        } else {
+            mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
         }
         if (isShowErrorState) {
             mView.stateError();

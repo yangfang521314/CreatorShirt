@@ -44,8 +44,12 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView) {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
-                        if(addressBeen != null && addressBeen.size() != 0) {
-                            mView.showSuccess(addressBeen);
+                        if (addressBeen != null) {
+                            if (addressBeen.size() != 0) {
+                                mView.showSuccess(addressBeen);
+                            } else {
+                                mView.showErrorMsg("没有添加地址");
+                            }
                         }
                     }
                 })

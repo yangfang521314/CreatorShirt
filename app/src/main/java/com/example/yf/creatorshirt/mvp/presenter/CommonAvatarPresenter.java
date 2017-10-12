@@ -15,7 +15,7 @@ import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
-import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
+import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
@@ -40,17 +40,18 @@ public class CommonAvatarPresenter implements BasePresenter {
     private EditUserPopupWindow mPopupWindow;
     private Uri uri;
     private File file;
-    private File fileUpdate;
-    private DetailDesignContract.DetailDesignView mView;
+    private CommonAvatarContract.CommonAvatarView mView;
 
     @Override
     public void attachView(BaseView view) {
-        mView = (DetailDesignContract.DetailDesignView) view;
+        mView = (CommonAvatarContract.CommonAvatarView) view;
     }
 
     @Override
     public void detachView(BaseView view) {
-
+        if (mView != null) {
+            mView = null;
+        }
     }
 
     public CommonAvatarPresenter(Context context) {
@@ -98,7 +99,7 @@ public class CommonAvatarPresenter implements BasePresenter {
     /**
      * camera
      */
-    private void uploadAvatarFromPhotoRequest() {
+    public void uploadAvatarFromPhotoRequest() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
@@ -166,17 +167,13 @@ public class CommonAvatarPresenter implements BasePresenter {
     private void compressAndUploadAvatar(String fileSrc) {
         File cover = FileUtils.getSmallBitmap(mActivity, fileSrc);
         setImageFile(cover);
-        saveUserAvatar();
     }
 
-    private void saveUserAvatar() {
-
-    }
 
     private void setImageFile(File cover) {
-        if(cover != null) {
+        if (cover != null) {
             mView.showSuccessAvatar(cover);
-        }else {
+        } else {
             mView.showErrorMsg("选择失败");
         }
     }
