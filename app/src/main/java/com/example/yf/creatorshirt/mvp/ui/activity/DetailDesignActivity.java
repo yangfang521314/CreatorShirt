@@ -535,11 +535,9 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         }
                         break;
                     case SIGNATURE:
-//                        mClothesSignature.setVisibility(View.GONE);
                         mContainerFrontBackground.deleteViews();
                         break;
                 }
-//                mPatternBounds.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -594,9 +592,15 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                     case SIGNATURE:
                         mContainerFrontBackground.saveText();
                         mContainerFrontBackground.getList();
+                        if (mDesCurrentView == null) {
+                            mRecyclerStyle.setVisibility(View.VISIBLE);
+                            mRecyclerDetailStyle.setVisibility(View.GONE);
+                            mBtnFinish.setVisibility(View.VISIBLE);
+                            mChoiceReturn.setVisibility(View.GONE);
+                        }
                         break;
                 }
-                if (mDesCurrentView != null ) {
+                if (mDesCurrentView != null) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mBtnFinish.setVisibility(View.VISIBLE);
