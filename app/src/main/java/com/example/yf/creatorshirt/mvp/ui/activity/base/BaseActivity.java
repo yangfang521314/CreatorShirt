@@ -1,6 +1,9 @@
 package com.example.yf.creatorshirt.mvp.ui.activity.base;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import com.example.yf.creatorshirt.inject.component.DaggerActivityComponent;
 import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
+import com.example.yf.creatorshirt.utils.NetBroadcastReceiver;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
@@ -26,12 +30,14 @@ import butterknife.ButterKnife;
  * Created by yang on 2017/5/11.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView, NetBroadcastReceiver.NetInterface {
 
     protected TextView mAppBarTitle;
     protected ImageView mAppBarBack;
     protected LinearLayout mAppBar;
     protected TextView mSaveAddress;
+    public static NetBroadcastReceiver.NetInterface netInterface;
+    public NetBroadcastReceiver netBroadcastReceiver;
 
     @Inject
     public T mPresenter;
@@ -54,6 +60,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         initData();
         initToolbar();
         initView();
+        netInterface = this;
+        netBroadcastReceiver = new NetBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netBroadcastReceiver, filter);
     }
 
     @Override
@@ -109,6 +122,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mPresenter.detachView(this);
         }
         ToastUtil.cancel();
+        if (netBroadcastReceiver != null) {
+            this.unregisterReceiver(netBroadcastReceiver);
+        }
     }
 
     @Override
@@ -127,6 +143,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public void stateError() {
+
+    }
+
+    @Override
+    public void netChange(int type) {
 
     }
 }

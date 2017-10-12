@@ -156,6 +156,9 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     public void showErrorMsg(String msg) {
         ToastUtil.showToast(getActivity(), msg, 0);
+        if(mSwipeRefresh.isRefreshing()){
+            mSwipeRefresh.setRefreshing(false);
+        }
     }
 
     @Override

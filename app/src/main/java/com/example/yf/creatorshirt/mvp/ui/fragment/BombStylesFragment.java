@@ -131,6 +131,8 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
         ToastUtil.showToast(getActivity(),msg,0);
-
+        if(mSwipeRefresh.isRefreshing()){
+            mSwipeRefresh.setRefreshing(false);
+        }
     }
 }

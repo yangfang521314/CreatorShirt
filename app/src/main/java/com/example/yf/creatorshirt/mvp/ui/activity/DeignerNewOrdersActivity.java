@@ -296,5 +296,6 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
         super.showErrorMsg(msg);
         ToastUtil.showToast(mContext, msg, 0);
         mDesignerRecycler.refreshComplete();
+
     }
 }

@@ -251,4 +251,16 @@ public class MainActivity extends BaseActivity {
         super.showErrorMsg(msg);
         ToastUtil.showToast(mContext, msg, 0);
     }
+
+    @Override
+    public void netChange(int type) {
+        super.netChange(type);
+        if (type == 1 || type == 2) {
+            refresh();
+        }
+    }
+
+    public void refresh() {
+
+    }
 }
