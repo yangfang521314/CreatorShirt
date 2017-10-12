@@ -20,6 +20,7 @@ import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 import com.example.yf.creatorshirt.utils.NetBroadcastReceiver;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.example.yf.creatorshirt.utils.Utils;
 import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import javax.inject.Inject;
@@ -126,6 +127,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             this.unregisterReceiver(netBroadcastReceiver);
             netInterface = null;
         }
+        Utils.fixInputMethodManagerLeak(this);
     }
 
     @Override
