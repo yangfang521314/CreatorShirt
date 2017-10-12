@@ -41,19 +41,21 @@ public class FileUtils {
     public static String saveBitmap(@NonNull Bitmap bitmap, @NonNull Context context, String name) {
         String path = null;
         File file = getFile("StickerView" + name);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-            path = file.getAbsolutePath();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (file != null) {
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+                path = file.getAbsolutePath();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            LogUtil.e("TAG", "SaveImageToGallery: the path of Bitmap is " + file.getAbsolutePath());
         }
-        LogUtil.e("TAG", "SaveImageToGallery: the path of Bitmap is " + file.getAbsolutePath());
         return path;
     }
 
@@ -98,7 +100,7 @@ public class FileUtils {
      * @return
      */
     public static String getCachePath(Context context) {
-        String cachePath = null;
+        String cachePath;
 
         if (Environment.MEDIA_MOUNTED.equals(Environment
                 .getExternalStorageState())
@@ -207,10 +209,7 @@ public class FileUtils {
      * @return
      */
     public static boolean deleteFile(File file) {
-        if (file.exists() && file.isFile()) {
-            return file.delete();
-        }
-        return false;
+        return file.exists() && file.isFile() && file.delete();
     }
 
 

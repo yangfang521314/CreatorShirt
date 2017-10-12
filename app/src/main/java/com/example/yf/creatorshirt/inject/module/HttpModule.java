@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.inject.module;
 
 import android.support.compat.BuildConfig;
-import android.util.Log;
 
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.http.RequestApi;

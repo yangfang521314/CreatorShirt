@@ -12,8 +12,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.Constants;
 
-import java.util.List;
-
 /**
  * Created by yang on 19/06/2017.
  */
@@ -30,7 +28,7 @@ public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHo
 
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        ItemViewHolder holder = null;
+        ItemViewHolder holder;
         holder = new ItemViewHolder(parent, R.layout.item_style_layout);
         return holder;
     }
@@ -67,15 +65,6 @@ public class DetailStyleAdapter extends BaseAdapter<DetailOtherStyle, ItemViewHo
         Glide.with(mContext).load(Constants.ImageUrl + mData.get(position).getIcon()).into(holder.mStyleImageView);
 
     }
-
-    @Override
-    public void setData(List<DetailOtherStyle> data) {
-        super.setData(data);
-        if (mData.size() > 2) {
-            //// TODO: 20/06/2017 如size不同可能需要分类
-        }
-    }
-
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
         this.clickListener = clickListener;

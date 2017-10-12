@@ -359,7 +359,6 @@ public class BubbleTextView extends ImageView {
         int w = mBitmap.getWidth();
         int h = mBitmap.getHeight();
         oringinWidth = w;
-        float topbarHeight = DisplayUtil.Dp2Px(getContext(), 50);
         //Y坐标为 （顶部操作栏+正方形图）/2
         matrix.postTranslate(mScreenwidth / 2 - w / 2, (mScreenwidth) / 2 - h / 2);
         invalidate();

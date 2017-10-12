@@ -7,7 +7,6 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 
 import java.util.List;
 
-import static org.eclipse.jdt.internal.core.JavadocConstants.P;
 
 /**
  * Created by yang on 31/07/2017.

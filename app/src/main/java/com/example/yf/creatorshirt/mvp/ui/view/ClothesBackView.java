@@ -147,9 +147,7 @@ public class ClothesBackView extends MyRelativeLayout {
         Glide.with(App.getInstance()).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                if(stickerView != null) {
-                    stickerView.setImageBitmap(resource);
-                }
+                stickerView.setImageBitmap(resource);
             }
         });
 

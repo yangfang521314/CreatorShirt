@@ -22,7 +22,7 @@ public class ImageViewAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if (list == null && list.size() == 0) {
+        if (list == null) {
             return 0;
         }
         return list.size();

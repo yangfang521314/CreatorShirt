@@ -40,7 +40,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
 
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        ItemViewHolder holder = null;
+        ItemViewHolder holder;
         holder = new ItemViewHolder(parent, R.layout.item_style_layout);
         return holder;
     }

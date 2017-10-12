@@ -61,6 +61,7 @@ public abstract class CommonObserver<T> extends ResourceObserver<T> {
             mView.showErrorMsg(e.getMessage());
         }
         if (isShowErrorState) {
+            mView.stateError();
         }
     }
 }

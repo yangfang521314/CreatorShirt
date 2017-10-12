@@ -6,7 +6,7 @@
     <EditText
         android:id="@+id/edit_signature"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
@@ -14,7 +14,6 @@
         android:gravity="center"
         android:inputType="textCapWords"
         android:maxLength="10"
-        android:padding="10dp"
         android:textColor="@color/outerspace"
         android:textSize="24sp" />
 

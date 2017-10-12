@@ -176,9 +176,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             saveStyleEntity.setSize(Integer.parseInt(size));
             saveStyleEntity.setHeight(Integer.parseInt(size));
             saveStyleEntity.setTexture(textUre);
-        } else {
-            //分享不传size;
         }
+        //分享不传size;
         imageBackUrl = map.get("B");
         imageFrontUrl = map.get("A");
         String baseColor = mOrderBaseInfo.getColor();

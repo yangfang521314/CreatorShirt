@@ -531,7 +531,9 @@ public class MyRelativeLayout extends RelativeLayout {
             dialog.setMessage(message);
         }
         Window win = dialog.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, 0);
+        if (win != null) {
+            win.getDecorView().setPadding(0, 0, 0, 0);
+        }
         WindowManager.LayoutParams lp = win.getAttributes();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         win.setAttributes(lp);
@@ -820,7 +822,11 @@ public class MyRelativeLayout extends RelativeLayout {
 
     public void saveText() {
         if (!TextUtils.isEmpty(currentText) && textEntities != null) {
-            textEntities.remove(currentText);
+            for (TextEntity t : textEntities) {
+                if (t.getText().equals(currentText)) {
+                    textEntities.remove(t);
+                }
+            }
         }
         TextEntity textEntity;
         if (textView != null) {

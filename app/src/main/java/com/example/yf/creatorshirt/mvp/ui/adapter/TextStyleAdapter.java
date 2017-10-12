@@ -17,7 +17,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder
 
 public class TextStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
-    private static View preView;
+    private View preView;
     private int prePosition;
 
     public TextStyleAdapter(Context context) {
@@ -52,8 +52,8 @@ public class TextStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVie
                 preView = v;
                 preView.setSelected(true);
                 mData.get(prePosition).setSelect(true);
-                if(clickListener != null)
-                clickListener.onItemClick(holder.mCommonStyle, position);
+                if (clickListener != null)
+                    clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });
         holder.mStyleImageView.setOutColor(Color.parseColor("#" + mData.get(position).getValue()));

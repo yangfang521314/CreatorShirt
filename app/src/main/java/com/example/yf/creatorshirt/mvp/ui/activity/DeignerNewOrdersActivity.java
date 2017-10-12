@@ -146,7 +146,9 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
         if (getIntent().getExtras() != null) {
             mHotDesignsBean = getIntent().getExtras().getParcelable("hotDesigner");
         }
-        mPresenter.setUserId(mHotDesignsBean.getUserid());
+        if (mHotDesignsBean != null) {
+            mPresenter.setUserId(mHotDesignsBean.getUserid());
+        }
         mPresenter.getTotalDesigner();
     }
 
@@ -180,7 +182,9 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
         if (mFirstStyleEntity != null) {
             mFirstStyleEntity.clear();
         }
-        mFirstStyleEntity.addAll(orderStyle);
+        if(orderStyle != null) {
+            mFirstStyleEntity.addAll(orderStyle);
+        }
         mAdapter.setData(mFirstStyleEntity);
         mAdapter.notifyDataSetChanged();
         Flowable.interval(0, 1, TimeUnit.SECONDS)

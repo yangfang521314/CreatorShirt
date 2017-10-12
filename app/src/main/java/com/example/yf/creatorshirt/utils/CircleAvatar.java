@@ -46,9 +46,6 @@ public class CircleAvatar extends BitmapTransformation {
         Log.e("TAG", "circle" + x + "：：：" + y);
         Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
         Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        }
         Canvas canvas = new Canvas(result);
         Paint paint = new Paint();
         //画布中背景图片与绘制图片交集部分

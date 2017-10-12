@@ -70,7 +70,7 @@ public class GenerateValueFiles {
                 System.out.println("skip invalidate params : w,h = " + val);
                 continue;
             }
-            sb.append(w + "," + h + ";");
+            sb.append(w).append(",").append(h).append(";");
         }
 
         return sb.toString();

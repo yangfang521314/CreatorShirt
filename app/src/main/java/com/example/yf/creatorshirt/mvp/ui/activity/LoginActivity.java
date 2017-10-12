@@ -259,18 +259,18 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (platform == SHARE_MEDIA.WEIXIN) {
                     Set<String> keys = data.keySet();
                     for (String key : keys) {
-                        if (key == "name") {
+                        if (key.equals("name")) {
                             nickName = data.get(key);
                             Log.e("TAG", "NICK" + nickName);
                         }
-                        if (key == "uid") {
+                        if (key.equals("uid")) {
                             userId = data.get(key);
                             Log.e("TAG", "uid" + userId);
                         }
-                        if (key == "iconurl") {
+                        if (key.equals("iconurl")) {
                             imgUrl = data.get(key);
                         }
-                        if (key == "openid") {
+                        if (key.equals("openid")) {
                             openId = data.get(key);
                         }
                     }

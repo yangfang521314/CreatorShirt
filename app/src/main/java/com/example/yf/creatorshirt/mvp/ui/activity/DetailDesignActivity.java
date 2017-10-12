@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
+import com.example.yf.creatorshirt.mvp.presenter.CommonAvatarPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -47,6 +50,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.DetailStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
+import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
@@ -58,6 +62,7 @@ import com.example.yf.creatorshirt.widget.stickerview.StickerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +115,10 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     ClothesBackView mContainerBackBackground;//背面背景
     @BindView(R.id.rl_bg)
     RelativeLayout mRelative;
+    @BindView(R.id.rl_design)
+    RelativeLayout mDesign;
 
+    CommonAvatarPresenter mAvatarPresenter;
     //总的样式
     private View mBeforeView;
     private View mCurrentView;
@@ -239,6 +247,8 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
             type = getIntent().getExtras().getString("type");
         }
         mPresenter.getDetailDesign(gender, type);
+        mAvatarPresenter = new CommonAvatarPresenter(this);
+        mAvatarPresenter.attachView(this);
 
     }
 
@@ -262,6 +272,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
 
     }
 
+
     /**
      * 形成数组
      *
@@ -272,13 +283,13 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
         StyleBean styleBean;
         String name;
         if (newList != null) {
-            newList.removeAll(newList);
+            newList.clear();
         }
         if (NewDetailData != null) {
             NewDetailData.clear();
         }
         if (clotheKey != null) {
-            clotheKey.removeAll(clotheKey);
+            clotheKey.clear();
         }
         if (flag.equals("front")) {
             if (mData.getNeck() != null) {
@@ -585,7 +596,7 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
                         mContainerFrontBackground.getList();
                         break;
                 }
-                if (mDesCurrentView != null && mDesCurrentView.isSelected()) {
+                if (mDesCurrentView != null ) {
                     mRecyclerStyle.setVisibility(View.VISIBLE);
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mBtnFinish.setVisibility(View.VISIBLE);
@@ -984,7 +995,36 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     private class ChoiceAvatarListener implements ItemClickListener.OnItemComClickListener {
         @Override
         public void onItemClick(Object o, View view) {
-            ToastUtil.showToast(App.getInstance(),"ddd",0);
+            EditUserPopupWindow mPopupWindow = mAvatarPresenter.initPopupWindow();
+            mPopupWindow.showAtLocation(mDesign, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+            mAvatarPresenter.setParams(Constants.CHANGE_ALPHA);
+//            mFileAvatar = mAvatarPresenter.getFileUpdate();
+//            setPatternUrl(mFileAvatar.getPath());
+            mDesCurrentView = view;
         }
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mAvatarPresenter.callback(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void showSuccessAvatar(File cover) {
+        if (cover != null) {
+            setPatternAvatar(cover.getPath());
+        }
+    }
+
+    private void setPatternAvatar(String path) {
+        if (mContainerFrontBackground.getVisibility() == View.VISIBLE) {
+            addStickerView(path);
+        }
+        if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
+            mContainerBackBackground.addStickerView(path);
+        }
+    }
+
 }

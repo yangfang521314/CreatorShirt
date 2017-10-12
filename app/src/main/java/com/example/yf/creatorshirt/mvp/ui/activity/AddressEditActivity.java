@@ -148,11 +148,10 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
     private void parseAddress(Intent data) {
         ArrayList<City> cityList = AddressCheckActivity.parse(data);
 
-        String tvAddress = "", lastId = "";
+        String tvAddress = "";
         if (cityList != null) {
             for (int i = 0; i < cityList.size(); i++) {
                 City city = cityList.get(i);
-                lastId = city.getId();
                 tvAddress += city.getName();
             }
         }

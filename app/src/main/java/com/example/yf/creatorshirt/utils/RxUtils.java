@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.utils;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.yf.creatorshirt.http.HttpResponse;

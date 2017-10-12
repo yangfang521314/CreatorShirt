@@ -41,20 +41,19 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (root != null) {
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
-            addSubscribe(manager.getDetailDesign(requestBody)
-                    .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
-                    .compose(RxUtils.<DetailStyleBean>handleResult())
-                    .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
-                        @Override
-                        public void onNext(DetailStyleBean detailStyleBean) {
-                            if(detailStyleBean != null)
-                            mView.showSuccessData(detailStyleBean);
-                        }
-                    })
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
+        addSubscribe(manager.getDetailDesign(requestBody)
+                .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
+                .compose(RxUtils.<DetailStyleBean>handleResult())
+                .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView, "请求数据失败") {
+                    @Override
+                    public void onNext(DetailStyleBean detailStyleBean) {
+                        if(detailStyleBean != null)
+                        mView.showSuccessData(detailStyleBean);
+                    }
+                })
 
-            );
+        );
 //            TestRequestServer.getInstance().getDetailDesign(requestBody).enqueue(new Callback<HttpResponse>() {
 //                @Override
 //                public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
@@ -67,7 +66,6 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
 //
 //                }
 //            });
-        }
 
 
     }

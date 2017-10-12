@@ -78,7 +78,6 @@ public class DisplayUtil {
      */
     public static void calculateItem2Width(Context context, LinearLayout linearLayout) {
         int width = getScreenW(context);
-        int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
         layoutParams.width = width / 3;
         linearLayout.setLayoutParams(layoutParams);

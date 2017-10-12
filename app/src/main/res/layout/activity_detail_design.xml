@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:id="@+id/rl_design"
     tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity">
 
     <include
