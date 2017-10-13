@@ -1,9 +1,7 @@
 package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
-import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.ArmData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.ColorData;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.NeckData;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.OrnamentData;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.CommonData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.PatternData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.SignatureData;
 
@@ -15,34 +13,34 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.styles.SignatureData;
 
 public class DetailCommonData {
 
-    private NeckData neck;
-    private ArmData arm;
-    private OrnamentData ornament;
+    private CommonData neck;
+    private CommonData arm;
+    private CommonData ornament;
     private ColorData color;
     private PatternData pattern;
     private SignatureData text;
 
-    public NeckData getNeck() {
+    public CommonData getNeck() {
         return neck;
     }
 
-    public void setNeck(NeckData neck) {
+    public void setNeck(CommonData neck) {
         this.neck = neck;
     }
 
-    public ArmData getArm() {
+    public CommonData getArm() {
         return arm;
     }
 
-    public void setArm(ArmData arm) {
+    public void setArm(CommonData arm) {
         this.arm = arm;
     }
 
-    public OrnamentData getOrnament() {
+    public CommonData getOrnament() {
         return ornament;
     }
 
-    public void setOrnament(OrnamentData ornament) {
+    public void setOrnament(CommonData ornament) {
         this.ornament = ornament;
     }
 
@@ -69,6 +67,7 @@ public class DetailCommonData {
     public void setText(SignatureData text) {
         this.text = text;
     }
+
 
     @Override
     public String toString() {

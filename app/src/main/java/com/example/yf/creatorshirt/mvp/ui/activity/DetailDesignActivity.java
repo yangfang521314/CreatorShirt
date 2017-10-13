@@ -140,9 +140,6 @@ public class DetailDesignActivity extends BaseActivity<DetailDesignPresenter> im
     //处于编辑的贴纸
     private StickerView mCurrentStickerView;
 
-    //是否要编辑标签
-    private boolean isEditSign = false;
-
     // 存储贴纸列表
     private ArrayList<View> mViews = new ArrayList<>();
 

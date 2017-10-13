@@ -5,11 +5,10 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import java.util.List;
 
 /**
- * Created by yangfang on 2017/8/20.
- * ornamentData style
+ * Created by yangfang on 2017/10/13.
  */
 
-public class OrnamentData {
+public class CommonData {
     private String name;
     private List<DetailOtherStyle> fileList;
 
@@ -31,7 +30,7 @@ public class OrnamentData {
 
     @Override
     public String toString() {
-        return "OrnamentData{" +
+        return "CommonData{" +
                 "name='" + name + '\'' +
                 ", fileList=" + fileList +
                 '}';

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.UserInfoCache;
+import com.example.yf.creatorshirt.common.cache.UserInfoCache;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 
 /**

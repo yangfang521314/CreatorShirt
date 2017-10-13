@@ -1,6 +1,8 @@
-package com.example.yf.creatorshirt.mvp.model;
+package com.example.yf.creatorshirt.common.cache;
 
 import android.content.Context;
+
+import com.example.yf.creatorshirt.mvp.model.LoginBean;
 
 import java.io.File;
 import java.io.FileInputStream;
