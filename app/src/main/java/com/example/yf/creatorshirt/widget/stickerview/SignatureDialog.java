@@ -107,7 +107,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         listType.add(FontCache.getTypeface("Mala's_Handwriting.otf", mContext));
         listType.add(FontCache.getTypeface("orange_juice_2.0.ttf", mContext));
         listType.add(FontCache.getTypeface("HeartExplosion.otf", mContext));
-        listType.add(FontCache.getTypeface("Font_untuk_Ibu.ttf", mContext));
+        listType.add(FontCache.getTypeface("chinese_style_1.ttf", mContext));
         for (int i = 0; i < 5; i++) {
             TextEntity text = new TextEntity();
             text.setText("style" + (i + 1));
