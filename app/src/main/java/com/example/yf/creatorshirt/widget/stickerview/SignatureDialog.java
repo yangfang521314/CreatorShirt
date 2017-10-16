@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static com.example.yf.creatorshirt.utils.FontCache.getTypeface;
 
 /**
  * Created by yang on 22/06/2017.
@@ -103,11 +102,11 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
     private void initData() {
         List<Typeface> listType = new ArrayList<>();
-        listType.add(getTypeface("mellony_dry_brush.ttf", mContext));
-        listType.add(FontCache.getTypeface("Mala's_Handwriting.otf", mContext));
-        listType.add(FontCache.getTypeface("orange_juice_2.0.ttf", mContext));
-        listType.add(FontCache.getTypeface("HeartExplosion.otf", mContext));
-        listType.add(FontCache.getTypeface("chinese_style_1.ttf", mContext));
+        listType.add(FontCache.getTypeface("font_style_5.ttf", mContext));
+        listType.add(FontCache.getTypeface("font_style_4.ttf", mContext));
+        listType.add(FontCache.getTypeface("font_style_3.ttf", mContext));
+        listType.add(FontCache.getTypeface("font_style_2.ttf", mContext));
+        listType.add(FontCache.getTypeface("font_style_1.ttf", mContext));
         for (int i = 0; i < 5; i++) {
             TextEntity text = new TextEntity();
             text.setText("style" + (i + 1));
