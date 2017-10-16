@@ -84,7 +84,7 @@ import butterknife.OnClick;
 public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
 
-    private static final String TAG = DetailDesignActivity.class.getSimpleName();
+    private static final String TAG = NewDetailDesignActivity.class.getSimpleName();
     public static final String NECK = "neck";
     public static final String ARM = "arm";
     public static final String COLOR = "color";
@@ -141,8 +141,10 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     private ArrayMap<String, List<DetailColorStyle>> mColorData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mSignatureData = new ArrayMap<>();
 
-    //总样式的集合
+    //    总样式的集合
     List<StyleBean> newList = new ArrayList<>();
+    private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
+
 
     //定制完成后图片的路径
     private String imageFrontPath;
@@ -155,7 +157,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     private DetailCommonData mDetailStyleFrontData;//正面数据
     private DetailCommonData mDetailStyleBackData;//背面数据
     private BaseStyleAdapter mBaseDesignAdapter;
-    private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
     private CommonStyleData commonStyleData;//保存样式设计的url和颜色值
     private CommonStyleData mBackStyleData;//保存样式设计的url和颜色值
 
@@ -189,6 +190,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         } else {
             DisplayUtil.calculateBigRelative(this, mRelative);
         }
+        mButtonFront.setSelected(true);
         //默认显示正面
         initFrontBg();
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -279,221 +281,49 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         mPresenter.getDetailDesign(gender, type);
         mAvatarPresenter = new CommonAvatarPresenter(this);
         mAvatarPresenter.attachView(this);
+        mPresenter.setFront(false);
     }
 
 
     @Override
-    public void showSuccessData(DetailStyleBean detailStyleBean) {
-        if (detailStyleBean != null) {
-            if (detailStyleBean.getData() == null)
-                return;
-            if (detailStyleBean.getData().getA() == null) {
-                return;
-            }
-            if (detailStyleBean.getData().getB() == null) {
-                return;
-            }
-            mDetailStyleBackData = detailStyleBean.getData().getB();
-            mDetailStyleFrontData = detailStyleBean.getData().getA();
-            getNameDeign(mDetailStyleFrontData, "front");
-            mButtonFront.setSelected(true);
-        }
-
-    }
-
-
-    /**
-     * 形成数组
-     *
-     * @param mData
-     * @param flag
-     */
-    private void getNameDeign(DetailCommonData mData, String flag) {
-        StyleBean styleBean;
-        String name;
-        if (newList != null) {
-            newList.clear();
-        }
-        if (NewDetailData != null) {
-            NewDetailData.clear();
-        }
-        if (clotheKey != null) {
-            clotheKey.clear();
-        }
-        if (flag.equals("front")) {
-            if (mData.getNeck() != null) {
-                if (mData.getNeck().getFileList() != null && mData.getNeck().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getNeck().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(NECK);
-                    addNewData(name, mData.getNeck().getFileList());
-                    if (!isFront) {
-                        setNeckImage(mData.getNeck().getFileList().get(0).getFile());//初始化显示
-                        commonStyleData.setNeckUrl(mData.getNeck().getFileList().get(0).getFile());
-                    }
-                }
-            }
-            if (mData.getArm() != null) {
-                if (mData.getArm().getFileList().size() != 0 && mData.getArm().getFileList() != null) {
-                    styleBean = new StyleBean();
-                    name = mData.getArm().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ARM);
-                    addNewData(name, mData.getArm().getFileList());
-                    if (!isFront) {
-                        setArmImage(mData.getArm().getFileList().get(0).getFile());//初始化显示
-                        commonStyleData.setArmUrl(mData.getArm().getFileList().get(0).getFile());
-                    }
-                }
-            }
-            if (mData.getOrnament() != null) {
-                if (mData.getOrnament().getFileList() != null && mData.getOrnament().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getOrnament().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ORNAMENT);
-                    addNewData(name, mData.getOrnament().getFileList());
-                    if (!isFront) {
-                        setOrnametUrl(mData.getOrnament().getFileList().get(0).getFile());//初始化显示
-                        commonStyleData.setOrnametUrl(mData.getOrnament().getFileList().get(0).getFile());
-                    }
-                }
-            }
-            if (mData.getColor() != null) {
-                if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getColor().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(COLOR);
-                    addColorData(name, mData.getColor().getFileList());
-                }
-            }
-            if (mData.getPattern() != null) {
-                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getPattern().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(PATTERN);
-                    addPatternData(name, mData.getPattern().getFileList());
-                }
-            }
-            if (mData.getText() != null) {
-                if (mData.getText().getFileList() != null) {
-                    if (mData.getText().getFileList().size() != 0) {
-                        styleBean = new StyleBean();
-                        name = mData.getText().getName();
-                        styleBean.setTitle(name);
-                        newList.add(styleBean);
-                        clotheKey.add(SIGNATURE);
-                        addTextData(name, mData.getText().getFileList());
-                    }
-                }
-            }
-        }
-
-        if (flag.equals("back")) {
-            if (mData.getNeck() != null) {
-                if (mData.getNeck().getFileList() != null && mData.getNeck().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getNeck().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(NECK);
-                    addNewData(name, mData.getNeck().getFileList());
-                }
-            }
-            if (mData.getArm() != null) {
-                if (mData.getArm().getFileList().size() != 0 && mData.getArm().getFileList() != null) {
-                    styleBean = new StyleBean();
-                    name = mData.getArm().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ARM);
-                    addNewData(name, mData.getArm().getFileList());
-                }
-            }
-            if (mData.getOrnament() != null) {
-                if (mData.getOrnament().getFileList() != null && mData.getOrnament().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getOrnament().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ORNAMENT);
-                    addNewData(name, mData.getOrnament().getFileList());
-                }
-            }
-
-            if (mData.getPattern() != null) {
-                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getPattern().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(PATTERN);
-                    addPatternData(name, mData.getPattern().getFileList());
-                }
-            }
-            if (mData.getText() != null) {
-                if (mData.getText().getFileList() != null) {
-                    if (mData.getText().getFileList().size() != 0) {
-                        styleBean = new StyleBean();
-                        name = mData.getText().getName();
-                        styleBean.setTitle(name);
-                        newList.add(styleBean);
-                        clotheKey.add(SIGNATURE);
-                        addTextData(name, mData.getText().getFileList());
-                    }
-                }
-            }
-        }
-
+    public void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<DetailOtherStyle>> newDetailData, ArrayMap<String, List<DetailColorStyle>> mColorData, ArrayMap<String, List<DetailPatterStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mSignatureData) {
+        this.newList = newList;
+        this.NewDetailData = newDetailData;
+        this.mPatternData = mPatternData;
+        this.mColorData = mColorData;
+        this.mSignatureData = mSignatureData;
+        this.clotheKey = clotheKey;
         mBaseDesignAdapter.setItemClickListener(this);
         mBaseDesignAdapter.setData(newList);
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
         mBaseDesignAdapter.notifyDataSetChanged();
-
     }
 
-    private void addTextData(String name, List<DetailColorStyle> fileList) {
-        mSignatureData.put(name, fileList);
+
+    @Override
+    public void setArm(String file) {
+        setArmImage(file);
+        commonStyleData.setNeckUrl(file);
     }
 
-    /**
-     * color data
-     *
-     * @param s
-     * @param fileList
-     */
-    private void addColorData(String s, List<DetailColorStyle> fileList) {
-        mColorData.put(s, fileList);
+    @Override
+    public void setNeck(String file) {
+        setNeckImage(file);
+        commonStyleData.setNeckUrl(file);
     }
 
-    /**
-     * patter data
-     *
-     * @param title
-     * @param fileList
-     */
-    private void addPatternData(String title, List<DetailPatterStyle> fileList) {
-        mPatternData.put(title, fileList);
+    @Override
+    public void setOrnament(String file) {
+        setOrnametUrl(file);
+        commonStyleData.setOrnametUrl(file);
     }
 
-    /**
-     * ornamet/arm/neck
-     *
-     * @param title
-     * @param fileList
-     */
-    private void addNewData(String title, List<DetailOtherStyle> fileList) {
-        if (!NewDetailData.containsKey(title) && fileList != null) {
-            NewDetailData.put(title, fileList);
-        }
+    @Override
+    public void showBackData(String neck, String arm, String ornament) {
+        mBackStyleData.setNeckUrl(neck);
+        mBackStyleData.setArmUrl(arm);
+        mBackStyleData.setOrnametUrl(ornament);
+        mContainerBackBackground.setBackData(mBackStyleData);
     }
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back,
@@ -580,7 +410,8 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     case ARM:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setArmUrl(imageUrl);
-                            isFront = true;
+//                            isFront = true;
+                            mPresenter.setFront(true);
 
                         }
                         if (mButtonBack.isSelected()) {
@@ -590,7 +421,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     case NECK:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setNeckUrl(imageUrl);
-                            isFront = true;
+                            mPresenter.setFront(true);
 
                         }
                         if (mButtonBack.isSelected()) {
@@ -606,7 +437,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     case ORNAMENT:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setOrnametUrl(imageUrl);
-                            isFront = true;
+                            mPresenter.setFront(true);
 
                         }
                         if (mButtonBack.isSelected()) {
@@ -656,14 +487,14 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     showErrorMsg("无网络连接，请重试");
                     return;
                 }
-                isFront = true;
+                mPresenter.setFront(true);
                 mContainerFrontBackground.setVisibility(View.VISIBLE);
                 mContainerBackBackground.setVisibility(View.GONE);
                 mButtonFront.setSelected(true);
                 mButtonBack.setSelected(false);
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
                 Glide.with(this).load(imageUrl).into(mClothes);
-                getNameDeign(mDetailStyleFrontData, "front");
+                mPresenter.getFrontDeign("front");
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -676,14 +507,14 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 }
                 mContainerFrontBackground.setVisibility(View.GONE);
                 mContainerBackBackground.setVisibility(View.VISIBLE);
-                mButtonBack.setSelected(true);
                 mButtonFront.setSelected(false);
+                mButtonBack.setSelected(true);
                 String imageBackUrl = Constants.ImageUrl + gender + type + "B" + ".png";
                 mContainerBackBackground.setImageUrl(imageBackUrl);
                 if (!isBack) {
-                    initShowStyle();
+                    mPresenter.initShowStyle();
                 }
-                getNameDeign(mDetailStyleBackData, "back");
+                mPresenter.getBackDeign("back");
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -710,20 +541,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
             textEntities.add(textEntity);
         }
     }
-
-    private void initShowStyle() {
-        if (mDetailStyleBackData.getNeck().getFileList() != null && mDetailStyleBackData.getNeck().getFileList().size() != 0) {
-            mBackStyleData.setNeckUrl(mDetailStyleBackData.getNeck().getFileList().get(0).getFile());
-        }
-        if (mDetailStyleBackData.getArm().getFileList().size() != 0 && mDetailStyleBackData.getArm().getFileList() != null) {
-            mBackStyleData.setArmUrl(mDetailStyleBackData.getArm().getFileList().get(0).getFile());
-        }
-        if (mDetailStyleBackData.getOrnament().getFileList().size() != 0 && mDetailStyleBackData.getOrnament().getFileList().size() != 0) {
-            mBackStyleData.setOrnametUrl(mDetailStyleBackData.getOrnament().getFileList().get(0).getFile());
-        }
-        mContainerBackBackground.setBackData(mBackStyleData);
-    }
-
 
     private void startNewActivity() {
         Bundle bundle = new Bundle();
@@ -1029,6 +846,11 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().post(new ChangeSelectEvent(true));
+    }
+
+    @Override
+    public void showSuccessData(DetailStyleBean detailStyleBean) {
+
     }
 
     private class ChoiceAvatarListener implements ItemClickListener.OnItemComClickListener {

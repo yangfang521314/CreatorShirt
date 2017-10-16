@@ -161,7 +161,7 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
                     public void onNext(List<BombStyleBean> orderStyleBeen) {
                         if (orderStyleBeen != null) {
                             if (orderStyleBeen.size() == 0) {
-                                mView.showErrorMsg("没有更新设计");
+                                mView.showUpdateZero(0);
                             } else {
                                 mView.showRefreshData(orderStyleBeen);
                             }

@@ -61,7 +61,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
     private DesignerOrdersAdapter mAdapter;
     private TextView heardTextView;
     private List<BombStyleBean> mFirstStyleEntity = new ArrayList<>();
-
+    private String flag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +99,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
             @Override
             public void onRefresh() {
                 refreshOrdersData();
+                flag = "refresh";
             }
 
             @Override
@@ -119,6 +120,7 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
     public void UpDateOrders(UpdateOrdersEvent event) {
         if (event.getFlag()) {
             refreshOrdersData();
+            flag = "back";
         }
     }
 
@@ -182,11 +184,15 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
         if (mFirstStyleEntity != null) {
             mFirstStyleEntity.clear();
         }
-        if(orderStyle != null) {
+        if (orderStyle != null) {
             mFirstStyleEntity.addAll(orderStyle);
         }
         mAdapter.setData(mFirstStyleEntity);
         mAdapter.notifyDataSetChanged();
+        if (flag.equals("back")) {
+            return;
+        }
+        showUpdateZero(0);
         Flowable.interval(0, 1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -228,7 +234,8 @@ public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresent
 
     @Override
     public void showUpdateZero(int i) {
-        updateNewsToast(i);
+//        updateNewsToast(i);
+        heardTextView.setText("更新完成");
     }
 
 
