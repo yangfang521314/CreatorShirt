@@ -17,7 +17,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder
 
 public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
-    private static View preView;
+    private View preView;
     private int prePosition;
 
     public ColorStyleAdapter(Context context) {

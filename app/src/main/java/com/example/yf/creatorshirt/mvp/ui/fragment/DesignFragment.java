@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.presenter.DesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DesignBaseContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DesignAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 
@@ -83,7 +83,7 @@ public class DesignFragment extends BaseFragment<DesignPresenter> implements Des
                         bundle.putString("gender", listW.get(currentPosition).getGender());
                         bundle.putString("type", listW.get(currentPosition).getBaseId());
                     }
-                    startCommonActivity(getActivity(), bundle, DetailDesignActivity.class);
+                    startCommonActivity(getActivity(), bundle, NewDetailDesignActivity.class);
                 }
                 break;
             case R.id.choice_man:

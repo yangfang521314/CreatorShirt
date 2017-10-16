@@ -24,5 +24,6 @@ public class Constants {
     public static final String USER_NAME = "username";
     public static final String  LOGIN = "login";
     public static final String  share = "Share";
-    public static final String  check = "Check";
+    public static final String check = "Check";
+    public static final String ADD_TEXT = "添加文字";
 }

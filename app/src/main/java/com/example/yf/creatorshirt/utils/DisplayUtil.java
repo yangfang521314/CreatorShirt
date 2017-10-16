@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
+
 import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
@@ -161,5 +163,19 @@ public class DisplayUtil {
         layoutParams.height = 592;
         layoutParams.width = 592;
         relativeLayout.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateSmallRl(StickerView stickerView) {
+        ViewGroup.LayoutParams layoutParams = stickerView.getLayoutParams();
+        layoutParams.height = 592;
+        layoutParams.width = 592;
+        stickerView.setLayoutParams(layoutParams);
+    }
+
+    public static void calculateRl(StickerView stickerView) {
+        ViewGroup.LayoutParams layoutParams = stickerView.getLayoutParams();
+        layoutParams.height = 750;
+        layoutParams.width = 750;
+        stickerView.setLayoutParams(layoutParams);
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_design"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:id="@+id/rl_design"
     tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity">
 
     <include
@@ -18,25 +19,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar">
 
-        <com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout
+        <com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView
             android:id="@+id/rl_clothes_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:background="@null">
+            android:background="@null"
+            app:showBorder="true"
+            app:showIcons="true">
 
             <include layout="@layout/clothes_front_layout" />
-        </com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout>
+        </com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView>
 
         <com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView
             android:id="@+id/rl_clothes_back_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:background="@null"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:showBorder="true"
+            app:showIcons="true" />
     </RelativeLayout>
 
 
@@ -47,6 +52,7 @@
         android:layout_below="@id/rl_bg"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <TextView

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FontCache;
 
@@ -44,6 +45,8 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
     private Typeface typeface;
     private Typeface typeUpdate;
     private LinearLayout mLinearLayout;
+    private View mCurrentView;
+
 
     public SignatureDialog(@NonNull Context context, Typeface typeFace) {
         super(context, R.style.shareDialog_style);
@@ -85,9 +88,13 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (mCurrentView != null) {
+                        mCurrentView.setSelected(false);
+                    }
+                    v.setSelected(true);
                     typeUpdate = fontName.get(finalI).getTypeface();
                     mEditSignature.setTypeface(typeUpdate);
-
+                    mCurrentView = v;
                 }
             });
             mLinearLayout.addView(textView);
@@ -128,7 +135,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
         if (completeCallBack != null) {
             if (TextUtils.isEmpty(mEditSignature.getText())) {
-                str = "";
+                str = Constants.ADD_TEXT;
             } else {
                 str = mEditSignature.getText().toString();
             }
@@ -169,6 +176,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         InputMethodManager m = (InputMethodManager) mEditSignature.getContext().getSystemService(INPUT_METHOD_SERVICE);
         m.hideSoftInputFromWindow(mEditSignature.getWindowToken(), 0);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (null != this.getCurrentFocus()) {

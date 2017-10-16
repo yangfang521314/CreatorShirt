@@ -1,10 +1,10 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,13 +17,10 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
-import com.example.yf.creatorshirt.mvp.ui.activity.DetailDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.view.sticker.DrawableSticker;
+import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
-import com.example.yf.creatorshirt.widget.stickerview.MyRelativeLayout;
-import com.example.yf.creatorshirt.widget.stickerview.StickerView;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +29,7 @@ import butterknife.ButterKnife;
  * Creatd by yangfang on 2017/8/26.
  */
 
-public class ClothesBackView extends MyRelativeLayout {
+public class ClothesBackView extends com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView {
     private Context mContext;
     @BindView(R.id.choice_ornament)
     ImageView mBackOrnament;
@@ -46,10 +43,6 @@ public class ClothesBackView extends MyRelativeLayout {
     ImageView mBackClothes;
     @BindView(R.id.rl_back_root)
     RelativeLayout mContainerBackBackground;
-    // 存储贴纸列表
-    private ArrayList<View> mViews = new ArrayList<>();
-    //处于编辑的贴纸
-    private StickerView mCurrentStickerView;
 
     public ClothesBackView(Context context) {
         super(context);
@@ -69,6 +62,9 @@ public class ClothesBackView extends MyRelativeLayout {
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.clothes_back_layout, this);
         ButterKnife.bind(this, view);
+        setBackgroundColor(Color.WHITE);
+        setLocked(false);
+        setConstrained(true);
     }
 
     public void setImageUrl(String imageBackUrl) {
@@ -142,88 +138,28 @@ public class ClothesBackView extends MyRelativeLayout {
      * @param patternUrl
      */
     public void addStickerView(String patternUrl) {
-        final StickerView stickerView = new StickerView(mContext);
         RequestOptions options = new RequestOptions();
-        Glide.with(App.getInstance()).asBitmap().apply(options).load(patternUrl).into(new SimpleTarget<Bitmap>() {
+        Glide.with(App.getInstance()).asDrawable().apply(options).load(patternUrl).into(new SimpleTarget<Drawable>() {
             @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                stickerView.setImageBitmap(resource);
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                addSticker(new DrawableSticker(resource), Sticker.Position.CENTER);
             }
         });
 
-        stickerView.setOperationListener(new StickerView.OperationListener() {
-            @Override
-            public void onDeleteClick() {
-                mViews.remove(stickerView);
-                mContainerBackBackground.removeView(stickerView);
-            }
-
-            @Override
-            public void onEdit(StickerView stickerView) {
-                mCurrentStickerView.setInEdit(false);
-                mCurrentStickerView = stickerView;
-                mCurrentStickerView.setInEdit(true);
-            }
-
-            @Override
-            public void onTop(StickerView stickerView) {
-                int position = mViews.indexOf(stickerView);
-                if (position == mViews.size() - 1) {
-                    return;
-                }
-                StickerView stickerTemp = (StickerView) mViews.remove(position);
-                mViews.add(mViews.size(), stickerTemp);
-            }
-        });
-        //反面
-        //// TODO: 2017/8/27 设计高度
-        RelativeLayout.LayoutParams lp;
-        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
-            //正面
-            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp.height = 592;
-            lp.width = 592;
-        } else {
-            //正面
-            lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT);
-        }
-        mContainerBackBackground.addView(stickerView, lp);
-        mViews.add(stickerView);
-        setStickerViewEdit(stickerView);
     }
 
-    private void setStickerViewEdit(StickerView stickerView) {
-        if (mCurrentStickerView != null) {
-            mCurrentStickerView.setInEdit(false);
-        }
-        mCurrentStickerView = stickerView;
-        stickerView.setInEdit(true);
-    }
-
-    public void setContext(DetailDesignActivity detailDesignActivity) {
-        mContext = detailDesignActivity;
-    }
-
-    public void removeStickerView() {
-        if (mCurrentStickerView != null) {
-            mViews.remove(mCurrentStickerView);
-            mContainerBackBackground.removeView(mCurrentStickerView);
-        }
-
+    public void setContext(Context context) {
+        mContext = context;
     }
 
     public void setChoiceDone() {
-        if (mCurrentStickerView != null) {
-            mCurrentStickerView.setInEdit(false);
-            // TODO: 22/06/2017 完成后禁止StickerView的点击事件
-            mCurrentStickerView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
+        setLocked(true);
+    }
+
+    public void removeStickerView() {
+        if (getCurrentSticker() != null) {
+            removeCurrentSticker();
+            setLocked(true);
         }
     }
 }
