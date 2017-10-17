@@ -103,6 +103,7 @@ public class DisplayUtil {
     public static void calculateHHWidth(Context context, RelativeLayout mContainerBackground) {
         ViewGroup.LayoutParams layoutParams = mContainerBackground.getLayoutParams();
         layoutParams.width = getScreenW(context) / 3;
+        layoutParams.height = getScreenW(context) / 3;
         mContainerBackground.setLayoutParams(layoutParams);
     }
 

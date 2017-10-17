@@ -32,7 +32,6 @@
 -keepattributes SourceFile,SourceDir,LineNumberTable
 -keepattributes Signature
 -keepattributes *Annotation*
--keepattributes *JavascriptInterface*
 -keepattributes EnclosingMethod
 -keepattributes Exceptions, InnerClasses
 
@@ -42,10 +41,10 @@
  public <fields>;
  private <fields>;
 }
-
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
+-keep public class * extends android.view.View
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
 
@@ -65,14 +64,61 @@
 -dontnote com.google.vending.licensing.ILicensingService
 -dontnote **ILicensingService
 
+###fastjson###
 
--keepattributes Signature
+-keep public class * implements java.io.Serializable {
+        public *;
+}
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+-dontwarn android.support.**
+-dontwarn com.alibaba.fastjson.**
+
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+
+-keepclassmembers class * {
+public <methods>;
+}
+#-libraryjars libs/fastjson-1.2.5.jar
+
+-keep class com.alibaba.fastjson.** { *; }
+####
+
+#不混淆资源类
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+#保持 Parcelable 不被混淆
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+ public <fields>;
+ private <fields>;
+}
+
 ##########################自定义控件不混淆#####################
 -keep public class * extends android.view.View {
-    public <init>(android.content.Context);
-    public <init>(android.content.Context, android.util.AttributeSet);
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-    public void set*(...);
+     *** get*();
+        void set*(***);
+        public <init>(android.content.Context);
+        public <init>(android.content.Context, android.util.AttributeSet);
+        public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# 保留枚举类不被混淆
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
 }
 
 -keep public class * extends android.widget.* {
@@ -96,11 +142,17 @@
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
+-keepclassmembers class * {
+    void *(**On*Event);
+    void *(**On*Listener);
+}
 
 ################自定义数据模型类不混淆（评论不过滤会出错，其他暂未发现）#############################
 -keep class com.example.yf.creatorshirt.mvp.model.address.**{*;}
 -keep class com.example.yf.creatorshirt.mvp.model.basechoice.**{*;}
 -keep class com.example.yf.creatorshirt.mvp.model.detaildesign.**{*;}
+-keep class com.example.yf.creatorshirt.mvp.model.detaildesign.styles.**{*;}
 -keep class com.example.yf.creatorshirt.mvp.model.orders.**{*;}
 -keep class com.example.yf.creatorshirt.mvp.model.**{*;}
 -keep class com.example.yf.creatorshirt.common.cache.**{*;}
@@ -114,10 +166,11 @@
 -keep public class * extends android.widget.BaseAdapter {*;}
 -keep public class * extends android.support.v4.view.PagerAdapter {*;}
 
-#event-bus callback
--keepclassmembers class * {
-    void onEventMainThread(***);
-}
+#data parse
+-keep class com.google.gson.**{*;}
+-dontwarn com.google.gson.**
+-keep class org.json.**{*;}
+-dontwarn org.json.**
 
 #retrofit
 -keep class retrofit2.**{*;}
@@ -226,13 +279,8 @@
    *;
 }
 
--keepnames class * implements android.os.Parcelable {
-    public static final ** CREATOR;
-}
-
 -keep class com.linkedin.** { *; }
 -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
--keepattributes Signature
 #####
 
 #####支付宝####
@@ -256,9 +304,11 @@
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
 
-###fastjson###
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** { *;}
+#butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
 
 ###七牛###
 -keep class com.qiniu.**{*;}

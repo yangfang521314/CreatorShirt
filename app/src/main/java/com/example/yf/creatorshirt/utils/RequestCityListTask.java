@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.yf.creatorshirt.mvp.model.address;
+package com.example.yf.creatorshirt.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.alibaba.fastjson.JSON;
+import com.example.yf.creatorshirt.mvp.model.address.City;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

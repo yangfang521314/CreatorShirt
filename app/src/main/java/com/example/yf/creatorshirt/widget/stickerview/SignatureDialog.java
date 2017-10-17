@@ -21,7 +21,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
-import com.example.yf.creatorshirt.utils.FontCache;
+import com.example.yf.creatorshirt.common.cache.FontCache;
 
 import java.util.ArrayList;
 import java.util.List;

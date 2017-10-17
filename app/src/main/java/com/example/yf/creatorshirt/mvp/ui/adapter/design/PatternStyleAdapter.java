@@ -47,11 +47,21 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
 
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
-        if (position != 0) {
-            if (mData.get(position - 1).isSelect()) {
+        if (position == 0) {
+            holder.mStyleImageView.setImageResource(R.mipmap.add);
+            holder.mStyleTextView.setText("添加本地图片");
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comClickListener.onItemClick(null, v);
+                }
+            });
+        } else {
+            final int currentPosition = position - 1;
+            if (mData.get(currentPosition).isSelect()) {
                 holder.itemView.setSelected(true);
                 preView = holder.itemView;
-                prePosition = position;
+                prePosition = currentPosition;
             } else {
                 holder.itemView.setSelected(false);
             }
@@ -59,14 +69,14 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickListener.onItemClick(holder.mCommonStyle, position);
+                        clickListener.onItemClick(holder.mCommonStyle, currentPosition);
                         if (preView != null) {
                             preView.setSelected(false);
                             if (prePosition >= 0 && prePosition < mData.size()) {
                                 mData.get(prePosition).setSelect(false);
                             }
                         }
-                        prePosition = position;
+                        prePosition = currentPosition;
                         preView = v;
                         preView.setSelected(true);
                         mData.get(prePosition).setSelect(true);
@@ -85,23 +95,9 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
             holder.mStyleImageView.setLayoutParams(params);
             RequestOptions options = new RequestOptions();
             options.fitCenter();
-            Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(position).getFile()).
+            Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(currentPosition).getFile()).
                     into(holder.mStyleImageView);
-        } else {
-            holder.mStyleImageView.setImageResource(R.mipmap.add);
-            holder.mStyleTextView.setText("添加本地图片");
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (preView != null) {
-                        preView.setSelected(false);
-                        mData.get(prePosition).setSelect(false);
-                    }
-                    comClickListener.onItemClick(null, v);
-                }
-            });
         }
-
     }
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {

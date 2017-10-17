@@ -25,7 +25,7 @@ import android.view.View;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.address.City;
-import com.example.yf.creatorshirt.mvp.model.address.RequestCityListTask;
+import com.example.yf.creatorshirt.utils.RequestCityListTask;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AddressListAdapter;
 
