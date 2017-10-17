@@ -93,7 +93,7 @@ dependencies {
     debugCompile rootProject.ext.dependencies["debugCompile"]
     releaseCompile rootProject.ext.dependencies["releaseCompile"]
     //微信支付
-    compile files('libs/alipaySdk-20170725.jar')
+
     //微信登录
     compile files('libs/SocialSDK_QQ_Simplify.jar')
     compile files('libs/SocialSDK_Sina_Simplify.jar')
@@ -103,13 +103,11 @@ dependencies {
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_social_shareboard.jar')
     compile files('libs/umeng_social_shareview.jar')
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
     compile 'com.alibaba:fastjson:1.1.63.android'
-    compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
 }
