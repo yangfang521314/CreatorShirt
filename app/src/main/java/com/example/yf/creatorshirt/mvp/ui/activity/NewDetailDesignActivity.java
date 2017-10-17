@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -36,7 +35,6 @@ import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailOtherStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
@@ -63,7 +61,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
-import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.NetworkUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
@@ -154,17 +151,13 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     private String type;//类型
     private String mBackgroundUrl;//背景url
 
-    private DetailCommonData mDetailStyleFrontData;//正面数据
-    private DetailCommonData mDetailStyleBackData;//背面数据
     private BaseStyleAdapter mBaseDesignAdapter;
     private CommonStyleData commonStyleData;//保存样式设计的url和颜色值
     private CommonStyleData mBackStyleData;//保存样式设计的url和颜色值
-
     private OrderBaseInfo mOrderBaseInfo;//保存正面和反面图片
 
     private String imageUrl = null;//图片url
     private String mImagecolor = "#FFFFFF";//背景颜色 默认白色
-    private boolean isFront = false;
     private boolean isBack = false;
     private String content;
     private TextSticker sticker;//文字贴图
@@ -206,7 +199,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         mContainerFrontBackground.setOnStickerOperationListener(new StickerView.OnStickerOperationListener() {
             @Override
             public void onStickerAdded(@NonNull Sticker sticker) {
-                Log.d(TAG, "onStickerAdded");
             }
 
             @Override
@@ -219,27 +211,22 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
 
             @Override
             public void onStickerDeleted(@NonNull Sticker sticker) {
-                Log.d(TAG, "onStickerDeleted");
             }
 
             @Override
             public void onStickerDragFinished(@NonNull Sticker sticker) {
-                Log.d(TAG, "onStickerDragFinished");
             }
 
             @Override
             public void onStickerZoomFinished(@NonNull Sticker sticker) {
-                Log.d(TAG, "onStickerZoomFinished");
             }
 
             @Override
             public void onStickerFlipped(@NonNull Sticker sticker) {
-                Log.d(TAG, "onStickerFlipped");
             }
 
             @Override
             public void onStickerDoubleTapped(@NonNull Sticker sticker) {
-                Log.d(TAG, "onDoubleTapped: double tap will be with two click");
             }
         });
     }
@@ -334,7 +321,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 if (mContainerBackBackground.getWidth() <= 0) {
                     ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
                 } else {
-                    //// TODO: 2017/8/27 没有图片时会报null
                     generateBitmap();//生成衣服的图片
                     if (imageBackPath != null && imageFrontPath != null) {
                         startNewActivity();
@@ -410,7 +396,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     case ARM:
                         if (mButtonFront.isSelected()) {
                             commonStyleData.setArmUrl(imageUrl);
-//                            isFront = true;
                             mPresenter.setFront(true);
 
                         }
@@ -567,9 +552,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
             mClothes.setBackgroundColor(colorN);
 
         }
-//        if (mContainerBackBackground.getVisibility() == View.VISIBLE) {
         mContainerBackBackground.setColorResources(colorN);
-//        }
     }
 
     /**
@@ -663,9 +646,8 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         view.setSelected(true);
         mCurrentView = view;
         mCurrentPosition = position;
-        LogUtil.e(TAG, "currentPosition" + mCurrentPosition);
         mBeforeView = view;
-        if (mCurrentView != null && mCurrentView.isSelected()) {
+        if (mCurrentView.isSelected()) {
             clickItem(mCurrentPosition);//点击进入详情设计界面
         }
 
@@ -687,7 +669,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
             case NECK:
                 String neck = newList.get(mCurrentPosition).getTitle();
                 imageUrl = NewDetailData.get(neck).get(position).getFile();
-                Log.e(TAG, "image" + imageUrl);
                 setNeckImage(imageUrl);
                 break;
             case ARM:
@@ -700,7 +681,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 break;
             case COLOR:
                 mImagecolor = "#" + mColorData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                Log.e(TAG, "COLOR:" + mImagecolor);
                 setColorBg(mImagecolor);
                 break;
             case PATTERN:
@@ -709,7 +689,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 break;
             case SIGNATURE://签名处理
                 mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                Log.e(TAG, "COLOR:" + mImagecolor);
                 int color = Color.parseColor(mImagecolor);
                 sticker.setTextColor(color);
                 TextSticker sticker = (TextSticker) mContainerFrontBackground.getCurrentSticker();
@@ -874,6 +853,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     public void showSuccessAvatar(File cover) {
         if (cover != null) {
             setPatternAvatar(cover.getPath());
+//            mPresenter.sa
         }
     }
 

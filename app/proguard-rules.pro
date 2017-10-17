@@ -88,6 +88,14 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
     public void set*(...);
 }
+
+################自定义数据模型类不混淆（评论不过滤会出错，其他暂未发现）#############################
+-keep class com.example.yf.creatorshirt.mvp.model.address.**{*;}
+-keep class com.example.yf.creatorshirt.mvp.model.basechoice.**{*;}
+-keep class com.example.yf.creatorshirt.mvp.model.address.detaildesign.**{*;}
+-keep class com.example.yf.creatorshirt.mvp.model.address.orders.**{*;}
+-keep class com.example.yf.creatorshirt.common.cache.**{*;}
+
 ############################自定义数据适配器不混淆############################
 -keep public class * extends android.widget.BaseAdapter {*;}
 -keep public class * extends android.support.v4.view.PagerAdapter {*;}
@@ -163,3 +171,20 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+###fastjson###
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** { *;}
+
+###七牛###
+-keep class com.qiniu.**{*;}
+-keep class com.qiniu.**{public <init>();}
+-ignorewarnings
+
+###glide###
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
