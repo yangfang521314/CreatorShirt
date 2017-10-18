@@ -38,12 +38,20 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 
 /**
@@ -55,6 +63,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     private static final int WHAT_SUCCESS = 1;
     private static final int WHAT_SUCCESS2 = 2;
+    private static final int WHAT_SUCCESS_PATTERN = 3;
     private DataManager manager;
     private String QiniuToken;
     private UploadManager uploadManager = new UploadManager();
@@ -70,8 +79,11 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private OrderType mOrderType;
     private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
+    private AsyncTask<String, Integer, Void> asyncTask2;
 
     private Map<String, String> map = new HashMap<>();
+    private List<String> mapAvatar = new ArrayList<>();
+    private List<String> totalNum = new ArrayList<>();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -85,17 +97,21 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     asyncTask.cancel(true);
                     asyncTask = null;
                 }
+                if (asyncTask2 != null) {
+                    asyncTask2.cancel(true);
+                    asyncTask2 = null;
+                }
                 sendOrderData();
             }
         }
     };
 
     @Inject
-    public SizeOrSharePresenter(DataManager manager) {
+    SizeOrSharePresenter(DataManager manager) {
         this.manager = manager;
     }
 
-    public void getList(final String kewWord, final String imageUrl) {
+    private void getList(final String kewWord, final String imageUrl) {
         if (TextUtils.isEmpty(QiniuToken)) {
             Log.e("TAG", "没有取到token");
             return;
@@ -108,7 +124,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             public void complete(String key, ResponseInfo info, JSONObject response) {
 
                 if (info.isOK()) {
-                    Log.e("qiniu_back", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
+                    Log.e("qiniu_clothes", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
                     if (kewWord.equals("A")) {
                         try {
                             String imageFrontUrl = Constants.ImageUrl + response.get("key");
@@ -132,7 +148,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     }
 
                 } else {
-                    Log.e("qiniu_back", "UPLOAD fail");
+                    Log.e("qiniu_clothes", "UPLOAD fail");
                     mView.showErrorMsg("保存图片失败");
                     if (asyncTask != null) {
                         asyncTask.cancel(true);
@@ -168,7 +184,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     }
 
     //直接生成订单
-    public void sendOrderData() {
+    private void sendOrderData() {
         SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
         if (size != null) {
             String[] newSize = size.split("c");
@@ -238,8 +254,14 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      *
      * @param key
      * @param value
+     * @param avatarList
      */
-    public void request(final String key, final String value) {
+    public void request(final String key, final String value, final ArrayList<String> avatarList) {
+        if (avatarList != null) {
+            mapAvatar = avatarList;
+            getAvatarList(mapAvatar.get(0), 0);
+
+        }
         asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
             protected Void doInBackground(String... params) {
@@ -386,26 +408,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             e.printStackTrace();
         }
 
-//       TestRequestServer.getInstance().getTexture(GsonUtils.getGson(jsonObject)).enqueue(new Callback<HttpResponse>() {
-//           @Override
-//           public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//               if(response.isSuccessful()){
-//                   if (response.body().getStatus() == 1){
-//                      mView.showSuccessTextUre();
-//                   }else {
-//                       mView.showErrorMsg(App.getInstance().getString(R.string.load_failure));
-//                   }
-//               }
-//           }
-//
-//           @Override
-//           public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//           }
-//       });
-//    }
-
-
     }
 
     public void setTextUre(String textUre) {
@@ -413,4 +415,51 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
             this.textUre = textUre;
         }
     }
+
+    private void getAvatarList(final String s, final int i) {
+        Flowable.create(new FlowableOnSubscribe<String>() {
+            @Override
+            public void subscribe(@NonNull final FlowableEmitter<String> e) throws Exception {
+                String kewWord = "pattern";
+                if (TextUtils.isEmpty(QiniuToken)) {
+                    Log.e("TAG", "没有取到token");
+                    return;
+                }
+                UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
+                String key = UserId + Utils.getTime() + kewWord + i;
+                uploadManager.put(s, key, QiniuToken, new UpCompletionHandler() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+
+                        if (info.isOK()) {
+                            try {
+                                String url = Constants.ImageUrl + response.get("key");
+                                e.onNext(url);
+                                Log.e("TAG", "avatar_url:" + url);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Log.e("qiniu_avatar", "UPLOAD fail" + key + ":" + info + ":" + response);
+                            mView.showErrorMsg("保存图片失败");
+                        }
+
+                    }
+                }, null);
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new CommonSubscriber<String>(mView) {
+                    @Override
+                    public void onNext(String s) {
+                        totalNum.add(s);
+                        if (totalNum.size() < mapAvatar.size()) {
+                            getAvatarList(mapAvatar.get(totalNum.size()), totalNum.size());
+                        }
+                    }
+                });
+    }
+
 }

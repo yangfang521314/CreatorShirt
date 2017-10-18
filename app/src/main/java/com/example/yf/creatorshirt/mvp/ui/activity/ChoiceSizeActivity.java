@@ -61,6 +61,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private String styleContext;//正面背面json数据
     private OrderType mOrderType;
     private List<TextureEntity> textureEntityList = new ArrayList<>();
+    private ArrayList<String> avatarList = new ArrayList<>();
 
     @Override
     public void initData() {
@@ -68,12 +69,14 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
             styleContext = getIntent().getExtras().getString("styleContext");
+            avatarList = getIntent().getExtras().getStringArrayList("avatar");
             if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
                 mBackImageUrl = mOrderBaseInfo.getBackUrl();
             }
             if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
+
             mPresenter.getTexture(mOrderBaseInfo);
 
         }
@@ -209,14 +212,23 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
             mPresenter.setTextUre(mPopupWindow.getTextUre());
-            mPresenter.request("A", mFrontImageUrl);
+            if (avatarList != null) {
+                mPresenter.request("A", mFrontImageUrl, avatarList);
+            } else {
+                mPresenter.request("A", mFrontImageUrl, null);
+            }
+
         }
         if (type.equals(Constants.share)) {
             mPresenter.setClothesData(mOrderBaseInfo, null);
             mPresenter.setStyleContext(styleContext);
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
-            mPresenter.request("A", mFrontImageUrl);
+            if (avatarList != null) {
+                mPresenter.request("A", mFrontImageUrl, avatarList);
+            } else {
+                mPresenter.request("A", mFrontImageUrl, null);
+            }
         }
 
     }

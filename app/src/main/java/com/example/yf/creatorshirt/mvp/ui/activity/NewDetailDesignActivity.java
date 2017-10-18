@@ -139,9 +139,9 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     private ArrayMap<String, List<DetailColorStyle>> mSignatureData = new ArrayMap<>();
 
     //    总样式的集合
-    List<StyleBean> newList = new ArrayList<>();
+    private List<StyleBean> newList = new ArrayList<>();
     private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
-
+    private ArrayList<String> avatarList = new ArrayList<>();
 
     //定制完成后图片的路径
     private String imageFrontPath;
@@ -540,6 +540,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         orderData.setFrontData(commonStyleData);
         String styleContext = orderData.getJsonObject();
         bundle.putString("styleContext", styleContext);
+        bundle.putStringArrayList("avatar", avatarList);
         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
     }
 
@@ -702,7 +703,6 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
-
     }
 
     /**
@@ -851,9 +851,10 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
 
     @Override
     public void showSuccessAvatar(File cover) {
+
         if (cover != null) {
             setPatternAvatar(cover.getPath());
-//            mPresenter.sa
+            avatarList.add(cover.getPath());
         }
     }
 
