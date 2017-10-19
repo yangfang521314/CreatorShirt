@@ -172,9 +172,11 @@
             android:name=".mvp.ui.activity.AddressCheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.DeignerNewOrdersActivity"
+            android:name=".mvp.ui.activity.DesignerNewOrdersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.ui.activity.NewDetailDesignActivity"></activity>
+        <activity
+            android:name=".mvp.ui.activity.NewDetailDesignActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

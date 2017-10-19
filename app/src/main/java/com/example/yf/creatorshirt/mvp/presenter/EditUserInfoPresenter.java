@@ -58,6 +58,11 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
         this.manager = manager;
     }
 
+    //微信直接保存
+    public void setWeixinURL(String mWexinUrl) {
+        userAvatar = mWexinUrl;
+    }
+
     private class EditUserHandler extends WeakReferenceHandler<EditUserInfoPresenter> {
 
         public EditUserHandler(EditUserInfoPresenter reference) {
@@ -81,10 +86,10 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
     @Override
     public void saveUserInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("mobile", SharedPreferencesUtil.getUserPhone());
+        map.put("mobile", UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
         map.put("headimage", userAvatar);
         map.put("name", mUserName);
-        addSubscribe(manager.saveUserInfo(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(map))
+        addSubscribe(manager.saveUserInfo(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(map))
                 .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
@@ -157,7 +162,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
      * 获取七牛token
      */
     public void getToken() {
-        addSubscribe(manager.getQiToken(SharedPreferencesUtil.getUserToken())
+        addSubscribe(manager.getQiToken(UserInfoManager.getInstance().getToken())
                 .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
                 .compose(RxUtils.<String>handleResult())
                 .subscribeWith(new CommonSubscriber<String>(mView, "没有TOKEN") {

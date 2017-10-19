@@ -21,7 +21,7 @@ public interface EditUserInfoContract {
     interface Presenter extends BasePresenter<EditUserInfoView> {
         void saveUserInfo();
 
-        void setImageFile(File file);
+        void setImageFile(File cover);
 
         void saveUserAvatar();
 

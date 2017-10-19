@@ -92,6 +92,18 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         } else {
             mAppBarTitle.setText("编辑用户");
             mTextFilter.setVisibility(View.VISIBLE);
+            //微信登录时候
+            if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage() != null) {
+                mAvatarUrl = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage();
+                RequestOptions options = new RequestOptions()
+                        .error(R.mipmap.mm)
+                        .transform(new CircleAvatar(this))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+                Glide.with(this).load(mAvatarUrl).apply(options).into(mEditUser);
+                mEditName.setText(UserInfoManager.getInstance().getUserName());
+                mPresenter.setWeixinURL(mAvatarUrl);
+            }
         }
         mAppBarBack.setVisibility(View.VISIBLE);
     }
@@ -122,6 +134,12 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_tv_filter:
+                //微信登录的
+                if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage() != null) {
+                    mPresenter.setWeixinURL(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage());
+                    mPresenter.setUserName(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getName());
+                    mPresenter.saveUserInfo();
+                }
                 this.finish();
                 EventBus.getDefault().post(new UpdateUserInfoEvent(true));
                 break;
@@ -234,6 +252,13 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
         if (cover != null) {
             mPresenter.setImageFile(cover);
             mPresenter.saveUserAvatar();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (update != null) {
+            super.onBackPressed();
         }
     }
 }

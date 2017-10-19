@@ -46,7 +46,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-public class DeignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresenter> implements
+public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresenter> implements
         DesignerOrdersContract.DesignerDesignView, ItemClickListener.OnItemObjectClickListener {
     @BindView(R.id.designer_avatar)
     ImageView mImageAvatar;

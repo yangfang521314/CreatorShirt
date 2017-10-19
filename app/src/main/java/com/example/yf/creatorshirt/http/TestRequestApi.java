@@ -58,4 +58,7 @@ public interface TestRequestApi {
 
     @POST("fDesigns/GetTexture")
     Call<HttpResponse> getTexture(RequestBody gson);
+
+    @POST("f-Users/userLogin")
+    Call<HttpResponse> login(@Body RequestBody gson);
 }

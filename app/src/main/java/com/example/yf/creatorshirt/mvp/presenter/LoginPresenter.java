@@ -11,12 +11,14 @@ import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
+import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -110,8 +112,38 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
     }
 
     @Override
-    public void wenxinLogin(String openId) {
+    public void wenxinLogin(String id, final String nickName, final String imageUrl) {
+        if (id != null) {
+            Map<String, String> map = new HashMap<>();
+            map.put("openId", id);
+            addSubscribe(mDataManager.login(GsonUtils.getGson(map))
+                    .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
+                    .compose(RxUtils.<LoginBean>handleResult())
+                    .subscribeWith(new CommonSubscriber<LoginBean>(mView, "登录失败，请重试") {
 
+                        @Override
+                        public void onNext(LoginBean loginBean) {
+                            if (loginBean == null) {
+                                mView.showErrorMsg("登录失败");
+                                return;
+                            }
+                            SharedPreferencesUtil.saveUserId(loginBean.getUserInfo().getUserid());
+                            SharedPreferencesUtil.saveUserToken(loginBean.getToken());
+                            SharedPreferencesUtil.saveUserPhone(null);
+                            if (loginBean.getUserInfo().getNew()) {
+                                loginBean.getUserInfo().setHeadImage(imageUrl);
+                                loginBean.getUserInfo().setName(nickName);
+                                UserInfoManager.getInstance().setLoginSuccess(loginBean, nickName,
+                                        loginBean.getToken(), null);
+                            } else {
+                                UserInfoManager.getInstance().setLoginSuccess(loginBean, loginBean.getUserInfo().getName(),
+                                        loginBean.getToken(), null);
+                            }
+                            mView.LoginSuccess(loginBean);
+
+                        }
+                    }));
+        }
     }
 
 }

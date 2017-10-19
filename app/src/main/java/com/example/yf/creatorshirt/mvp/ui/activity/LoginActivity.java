@@ -53,6 +53,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private SHARE_MEDIA platform = null;
     private int countTime;
     private Handler mHandler;
+    private String nickName;
+    private String userId;
+    private String imgUrl;
 
     @Override
     protected void inject() {
@@ -146,14 +149,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void LoginSuccess(LoginBean loginBean) {
-        if (!loginBean.getUserInfo().getNew()) {
-            ToastUtil.showToast(mContext, "登录成功", 0);
-            EventBus.getDefault().post(new UpdateUserInfoEvent(true));
-            finish();
-        } else {
+        if (loginBean.getUserInfo().getNew()) {
             startCommonActivity(this, null, EditUserActivity.class);
             ToastUtil.showToast(mContext, "登录成功", 0);
             this.finish();
+        } else {
+            ToastUtil.showToast(mContext, "登录成功", 0);
+            EventBus.getDefault().post(new UpdateUserInfoEvent(true));
+            finish();
         }
     }
 
@@ -215,31 +218,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private UMAuthListener umAuthListener = new UMAuthListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-            Log.e("ff", "kkkkkkkkkkkkk");
         }
 
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT);
 
             mShareAPI.getPlatformInfo(LoginActivity.this, platform, umGetInfoListener);
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText(getApplicationContext(), "授权 失败", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getApplicationContext(), "授权 失败", Toast.LENGTH_SHORT);
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText(getApplicationContext(), "授权 取消", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getApplicationContext(), "授权 取消", Toast.LENGTH_SHORT);
         }
     };
-
-    private String nickName;
-    private String userId;
-    private String imgUrl;
-    private String openId;
     /**
      * getUserInfo
      **/
@@ -268,13 +265,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                         }
                         if (key.equals("iconurl")) {
                             imgUrl = data.get(key);
-                        }
-                        if (key.equals("openid")) {
-                            openId = data.get(key);
+                            Log.e("TAG", "img" + imgUrl);
                         }
                     }
 
-                    loginByThirdpart(openId);
+                    loginByThirdpart(userId, nickName, imgUrl);
                 }
 
                 LogUtil.d("auth callbacl", "getting data");
@@ -284,17 +279,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT);
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(getApplicationContext(), "获取用户信息失败", Toast.LENGTH_SHORT);
         }
     };
 
-    private void loginByThirdpart(String openId) {
-        mPresenter.wenxinLogin(openId);
+    private void loginByThirdpart(String id, String nickName, String imgUrl) {
+        mPresenter.wenxinLogin(id, nickName, imgUrl);
     }
 
 }

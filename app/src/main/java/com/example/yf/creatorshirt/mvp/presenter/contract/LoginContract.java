@@ -29,7 +29,7 @@ public interface LoginContract{
         void getVerifyCode();
 
         //微信登录
-        void wenxinLogin(String openId);
+        void wenxinLogin(String id, String nickName, String openId);
     }
 
 }

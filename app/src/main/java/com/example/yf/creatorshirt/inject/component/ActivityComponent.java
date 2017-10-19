@@ -7,7 +7,7 @@ import com.example.yf.creatorshirt.inject.scope.AcitivityScope;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressEditActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.ChoiceSizeActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.DeignerNewOrdersActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.DesignerNewOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
@@ -46,7 +46,7 @@ public interface ActivityComponent {
 
     void inject(DetailClothesActivity detailClothesActivity);
 
-    void inject(DeignerNewOrdersActivity detailOrders22Activity);
+    void inject(DesignerNewOrdersActivity detailOrders22Activity);
 
     void inject(NewDetailDesignActivity newDetailDesignActivity);
 }
