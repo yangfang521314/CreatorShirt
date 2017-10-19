@@ -79,7 +79,7 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
                 GsonUtils.getGson(map))
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView,"订单生成出错") {
                     @Override
                     public void onNext(OrderType orderType) {
                         if(orderType != null)
