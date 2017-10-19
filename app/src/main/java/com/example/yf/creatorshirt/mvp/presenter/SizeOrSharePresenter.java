@@ -63,7 +63,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     private static final int WHAT_SUCCESS = 1;
     private static final int WHAT_SUCCESS2 = 2;
-    private static final int WHAT_SUCCESS_PATTERN = 3;
     private DataManager manager;
     private String QiniuToken;
     private UploadManager uploadManager = new UploadManager();
@@ -79,7 +78,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private OrderType mOrderType;
     private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
-    private AsyncTask<String, Integer, Void> asyncTask2;
 
     private Map<String, String> map = new HashMap<>();
     private List<String> mapAvatar = new ArrayList<>();
@@ -96,10 +94,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 if (asyncTask != null) {
                     asyncTask.cancel(true);
                     asyncTask = null;
-                }
-                if (asyncTask2 != null) {
-                    asyncTask2.cancel(true);
-                    asyncTask2 = null;
                 }
                 sendOrderData();
             }
@@ -311,7 +305,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         ShareContentUtil shareContentUtil = new ShareContentUtil(mActivity);
         ShareInfoEntity infoEntity = new ShareInfoEntity();
         infoEntity.setPicUrl(imageFrontUrl);
-//        http://styleweb.man-kang.com?orderid=321
         infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
 
         infoEntity.setContent("衣秀，做自己的设计师");
