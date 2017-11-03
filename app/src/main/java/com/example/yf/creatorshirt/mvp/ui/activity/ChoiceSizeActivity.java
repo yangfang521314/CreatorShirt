@@ -69,20 +69,19 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
             styleContext = getIntent().getExtras().getString("styleContext");
-            avatarList = getIntent().getExtras().getStringArrayList("avatar");
             if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
                 mBackImageUrl = mOrderBaseInfo.getBackUrl();
             }
             if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
-
+            if (getIntent().hasExtra("avatar")) {
+                avatarList = getIntent().getExtras().getStringArrayList("avatar");
+            }
             mPresenter.getTexture(mOrderBaseInfo);
-
         }
 
     }
-
 
     @Override
     protected void inject() {
@@ -125,7 +124,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 finish();
                 break;
             case R.id.share_weixin:
-                //// TODO: 30/06/2017 微信分享
                 if (App.isLogin) {
                     if (mOrderType == null) {
                         mPresenter.getShareToken();
@@ -212,23 +210,20 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
             mPresenter.setTextUre(mPopupWindow.getTextUre());
-            if (avatarList != null) {
-                mPresenter.request("A", mFrontImageUrl, avatarList);
-            } else {
-                mPresenter.request("A", mFrontImageUrl, null);
+            if (!avatarList.isEmpty()) {
+                mPresenter.saveAvatar(avatarList);
             }
-
+            mPresenter.request("A", mFrontImageUrl);
         }
         if (type.equals(Constants.share)) {
             mPresenter.setClothesData(mOrderBaseInfo, null);
             mPresenter.setStyleContext(styleContext);
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
-            if (avatarList != null) {
-                mPresenter.request("A", mFrontImageUrl, avatarList);
-            } else {
-                mPresenter.request("A", mFrontImageUrl, null);
+            if (!avatarList.isEmpty()) {
+                mPresenter.saveAvatar(avatarList);
             }
+            mPresenter.request("A", mFrontImageUrl);
         }
 
     }

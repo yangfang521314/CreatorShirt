@@ -19,9 +19,11 @@ ext {
     ]
     dependencies = [
             //Android
+
             "appcompat-v7"              : "com.android.support:appcompat-v7:${dependVersion.support}",
             "design"                    : "com.android.support:design:${dependVersion.support}",
             "support-v4"                : "com.android.support:support-v4:${dependVersion.support}",
+            "cardview"                  : "com.android.support:cardview-v7:${dependVersion.support}",
             "junit"                     : "junit:junit:4.12",
             /*dagger2*/
             "dagger"                    : "com.google.dagger:dagger:${dependVersion.dagger2}",

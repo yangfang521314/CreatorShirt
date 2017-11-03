@@ -248,14 +248,9 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      *
      * @param key
      * @param value
-     * @param avatarList
      */
-    public void request(final String key, final String value, final ArrayList<String> avatarList) {
-        if (avatarList != null) {
-            mapAvatar = avatarList;
-            getAvatarList(mapAvatar.get(0), 0);
+    public void request(final String key, final String value) {
 
-        }
         asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
             protected Void doInBackground(String... params) {
@@ -448,11 +443,17 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     @Override
                     public void onNext(String s) {
                         totalNum.add(s);
-                        if (totalNum.size() < mapAvatar.size()) {
-                            getAvatarList(mapAvatar.get(totalNum.size()), totalNum.size());
+                        if(mapAvatar.size() >=2) {
+                            if (totalNum.size() < mapAvatar.size()) {
+                                getAvatarList(mapAvatar.get(totalNum.size()), totalNum.size());
+                            }
                         }
                     }
                 });
     }
 
+    public void saveAvatar(List<String> avatarList) {
+        mapAvatar = avatarList;
+        getAvatarList(avatarList.get(0), 0);
+    }
 }

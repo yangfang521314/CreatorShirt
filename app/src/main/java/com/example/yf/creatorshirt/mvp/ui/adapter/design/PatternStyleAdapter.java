@@ -54,6 +54,10 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
                 @Override
                 public void onClick(View v) {
                     comClickListener.onItemClick(null, v);
+                    if (preView != null) {
+                        preView.setSelected(false);
+                        mData.get(prePosition).setSelect(false);
+                    }
                 }
             });
         } else {

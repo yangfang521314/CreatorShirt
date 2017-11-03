@@ -20,8 +20,8 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.mvp.ui.fragment.DesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
     private SquareFragment mSquareFragment;
     private MineFragment mMineFragment;
-    private DesignFragment mDesignFragment;
+    private NewDesignFragment mDesignFragment;
     private String showFragment;
     private String hideFragment;
     private long mExitTime = 0;
@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
         mPermissionsChecker = new PermissionChecker(this);
         mSquareFragment = new SquareFragment();
         mMineFragment = new MineFragment();
-        mDesignFragment = new DesignFragment();
+        mDesignFragment = new NewDesignFragment();
         showFragment = TYPE_SQUARE;
         hideFragment = TYPE_SQUARE;
         mTransaction = getSupportFragmentManager().beginTransaction();
@@ -189,7 +189,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateUserViewByLogin(ChangeSelectEvent event) {
         if (mMineFragment != null && mMineFragment.isAdded()) {
-            mDesignFragment.updateChoiceSelect();
+//            mDesignFragment.updateChoiceSelect();
         }
     }
 

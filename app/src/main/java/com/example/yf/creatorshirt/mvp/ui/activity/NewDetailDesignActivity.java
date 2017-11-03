@@ -162,7 +162,8 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
     private String content;
     private TextSticker sticker;//文字贴图
     private Typeface mUpdateType;
-
+    private int prePosition;
+    private PatternStyleAdapter patternStyleAdapter;
 
     private List<TextEntity> textEntities = new ArrayList<>();
 
@@ -472,6 +473,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     showErrorMsg("无网络连接，请重试");
                     return;
                 }
+
                 mPresenter.setFront(true);
                 mContainerFrontBackground.setVisibility(View.VISIBLE);
                 mContainerBackBackground.setVisibility(View.GONE);
@@ -480,6 +482,9 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 String imageUrl = Constants.ImageUrl + gender + type + "A" + ".png";
                 Glide.with(this).load(imageUrl).into(mClothes);
                 mPresenter.getFrontDeign("front");
+                if (mContainerBackBackground.getCurrentSticker() != null) {
+                    mContainerBackBackground.setLocked(true);
+                }
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -500,6 +505,9 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                     mPresenter.initShowStyle();
                 }
                 mPresenter.getBackDeign("back");
+                if (mContainerFrontBackground.getCurrentSticker() != null) {
+                    mContainerFrontBackground.setLocked(true);
+                }
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -540,7 +548,11 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
         orderData.setFrontData(commonStyleData);
         String styleContext = orderData.getJsonObject();
         bundle.putString("styleContext", styleContext);
-        bundle.putStringArrayList("avatar", avatarList);
+        if (avatarList != null) {
+            if (avatarList.size() != 0) {
+                bundle.putStringArrayList("avatar", avatarList);
+            }
+        }
         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
     }
 
@@ -700,6 +712,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 }
                 break;
         }
+        prePosition = position;
         currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
@@ -739,11 +752,11 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
                 detailAdapter.notifyDataSetChanged();
         }
         if (mColorData.containsKey((newList.get(position).getTitle()))) {
-            ColorStyleAdapter adapter = new ColorStyleAdapter(this);
-            adapter.setData(mColorData.get(newList.get(position).getTitle()));
-            adapter.setOnClickListener(this);
-            mRecyclerDetailStyle.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            ColorStyleAdapter colorStyleAdapter = new ColorStyleAdapter(this);
+            colorStyleAdapter.setData(mColorData.get(newList.get(position).getTitle()));
+            colorStyleAdapter.setOnClickListener(this);
+            mRecyclerDetailStyle.setAdapter(colorStyleAdapter);
+            colorStyleAdapter.notifyDataSetChanged();
         }
         if (mSignatureData.containsKey((newList.get(position).getTitle()))) {
             TextStyleAdapter adapter = new TextStyleAdapter(this);
@@ -755,7 +768,7 @@ public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter>
             setSignatureText(null, false);//文字贴图
         }
         if (mPatternData.containsKey(newList.get(position).getTitle())) {
-            PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
+            patternStyleAdapter = new PatternStyleAdapter(this);
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
             patternStyleAdapter.setOnClickListener(this);
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());

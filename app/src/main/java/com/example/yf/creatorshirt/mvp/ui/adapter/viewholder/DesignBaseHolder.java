@@ -21,9 +21,15 @@ public class DesignBaseHolder extends BaseViewHolder {
 
     public DesignBaseHolder(ViewGroup parent, @LayoutRes int resId) {
         super(parent, resId);
-        llClothes = getView(R.id.rl_clothes);
-        mClothesName = getView(R.id.clothes_name);
-        mClothesT = getView(R.id.clothes_total_iv);
-        DisplayUtil.calculateHHWidth(getContext(),llClothes);
+        if(resId == R.layout.item_base_design) {
+            llClothes = getView(R.id.rl_clothes);
+            mClothesName = getView(R.id.clothes_name);
+            mClothesT = getView(R.id.clothes_total_iv);
+            DisplayUtil.calculateHHWidth(getContext(), llClothes);
+        }else if(resId ==R.layout.item_new_design) {
+            mClothesName = getView(R.id.tv_new_title);
+        }else if(resId == R.layout.item_new_clothes){
+            mClothesT = getView(R.id.clothes_image);
+        }
     }
 }

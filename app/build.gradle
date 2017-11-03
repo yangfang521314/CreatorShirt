@@ -70,6 +70,7 @@ dependencies {
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
     compile rootProject.ext.dependencies["support-v4"]
+    compile rootProject.ext.dependencies["cardview"]
     /* dagger2 && butterKnife*/
     compile rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
@@ -93,7 +94,6 @@ dependencies {
     debugCompile rootProject.ext.dependencies["debugCompile"]
     releaseCompile rootProject.ext.dependencies["releaseCompile"]
     //微信支付
-
     //微信登录
     compile files('libs/SocialSDK_QQ_Simplify.jar')
     compile files('libs/SocialSDK_Sina_Simplify.jar')
