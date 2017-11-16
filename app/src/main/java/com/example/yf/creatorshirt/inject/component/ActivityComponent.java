@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity;
 
 import dagger.Component;
 
@@ -48,5 +48,9 @@ public interface ActivityComponent {
 
     void inject(DesignerNewOrdersActivity detailOrders22Activity);
 
-    void inject(NewDetailDesignActivity newDetailDesignActivity);
+
+
+//    void inject(NewDetailDesignActivity newDetailDesignActivity);
+
+    void inject(NewsDesignActivity newsDesignActivity);
 }

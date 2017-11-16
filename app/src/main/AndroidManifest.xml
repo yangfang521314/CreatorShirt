@@ -174,9 +174,10 @@
         <activity
             android:name=".mvp.ui.activity.DesignerNewOrdersActivity"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".mvp.ui.activity.NewDetailDesignActivity"
-            android:screenOrientation="portrait" />
+            android:name=".mvp.ui.activity.NewsDesignActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

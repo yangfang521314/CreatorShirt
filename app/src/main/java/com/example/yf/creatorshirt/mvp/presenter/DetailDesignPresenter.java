@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.support.v4.util.ArrayMap;
 
+import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
@@ -26,12 +27,9 @@ import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.ARM;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.COLOR;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.NECK;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.ORNAMENT;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.PATTERN;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewDetailDesignActivity.SIGNATURE;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.COLOR;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.MASK;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.PATTERN;
 
 
 /**
@@ -52,6 +50,8 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
     private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
     //总样式的集合
     List<StyleBean> newList = new ArrayList<>();
+    private boolean isFont;
+    private int[] maskList = {R.mipmap.quan};
     private boolean isFront;
 
 
@@ -121,46 +121,14 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         if (clotheKey != null) {
             clotheKey.clear();
         }
+        List<DetailColorStyle> fileList = new ArrayList<>();
+        DetailColorStyle colorStyle;
+        for (int i = 0; i < 5; i++) {
+            colorStyle = new DetailColorStyle();
+            colorStyle.setImage(R.mipmap.quan);
+            fileList.add(colorStyle);
+        }
         if (flag.equals("front")) {
-            if (mData.getNeck() != null) {
-                if (mData.getNeck().getFileList() != null && mData.getNeck().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getNeck().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(NECK);
-                    addNewData(name, mData.getNeck().getFileList());
-                    if (!isFront) {
-                        mView.setNeck(mData.getNeck().getFileList().get(0).getFile());//初始化显示
-                    }
-                }
-            }
-            if (mData.getArm() != null) {
-                if (mData.getArm().getFileList().size() != 0 && mData.getArm().getFileList() != null) {
-                    styleBean = new StyleBean();
-                    name = mData.getArm().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ARM);
-                    addNewData(name, mData.getArm().getFileList());
-                    if (!isFront) {
-                        mView.setArm(mData.getArm().getFileList().get(0).getFile());//初始化显示
-                    }
-                }
-            }
-            if (mData.getOrnament() != null) {
-                if (mData.getOrnament().getFileList() != null && mData.getOrnament().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getOrnament().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ORNAMENT);
-                    addNewData(name, mData.getOrnament().getFileList());
-                    if (!isFront) {
-                        mView.setOrnament(mData.getOrnament().getFileList().get(0).getFile());//初始化显示
-                    }
-                }
-            }
             if (mData.getColor() != null) {
                 if (mData.getColor().getFileList() != null && mData.getColor().getFileList().size() != 0) {
                     styleBean = new StyleBean();
@@ -188,74 +156,40 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                         name = mData.getText().getName();
                         styleBean.setTitle(name);
                         newList.add(styleBean);
-                        clotheKey.add(SIGNATURE);
-                        addTextData(name, mData.getText().getFileList());
+                        clotheKey.add(MASK);
+                        addTextData(name, fileList);
                     }
                 }
             }
         }
-
-        if (flag.equals("back")) {
-            if (mData.getNeck() != null) {
-                if (mData.getNeck().getFileList() != null && mData.getNeck().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getNeck().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(NECK);
-                    addNewData(name, mData.getNeck().getFileList());
-                }
-            }
-            if (mData.getArm() != null) {
-                if (mData.getArm().getFileList().size() != 0 && mData.getArm().getFileList() != null) {
-                    styleBean = new StyleBean();
-                    name = mData.getArm().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ARM);
-                    addNewData(name, mData.getArm().getFileList());
-                }
-            }
-            if (mData.getOrnament() != null) {
-                if (mData.getOrnament().getFileList() != null && mData.getOrnament().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getOrnament().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(ORNAMENT);
-                    addNewData(name, mData.getOrnament().getFileList());
-                }
-            }
-
-            if (mData.getPattern() != null) {
-                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getPattern().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(PATTERN);
-                    addPatternData(name, mData.getPattern().getFileList());
-                }
-            }
-            if (mData.getText() != null) {
-                if (mData.getText().getFileList() != null) {
-                    if (mData.getText().getFileList().size() != 0) {
-                        styleBean = new StyleBean();
-                        name = mData.getText().getName();
-                        styleBean.setTitle(name);
-                        newList.add(styleBean);
-                        clotheKey.add(SIGNATURE);
-                        addTextData(name, mData.getText().getFileList());
-                    }
-                }
-            }
-        }
-
-//        mBaseDesignAdapter.setItemClickListener(this);
-//        mBaseDesignAdapter.setData(newList);
-//        mRecyclerStyle.setAdapter(mBaseDesignAdapter);
-//        mBaseDesignAdapter.notifyDataSetChanged();
-        mView.showSuccessData(newList,clotheKey,NewDetailData, mColorData, mPatternData, mSignatureData);
+//
+//        if (flag.equals("back")) {
+//
+//
+//            if (mData.getPattern() != null) {
+//                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
+//                    styleBean = new StyleBean();
+//                    name = mData.getPattern().getName();
+//                    styleBean.setTitle(name);
+//                    newList.add(styleBean);
+//                    clotheKey.add(PATTERN);
+//                    addPatternData(name, mData.getPattern().getFileList());
+//                }
+//            }
+//            if (mData.getText() != null) {
+//                if (mData.getText().getFileList() != null) {
+//                    if (mData.getText().getFileList().size() != 0) {
+//                        styleBean = new StyleBean();
+//                        name = mData.getText().getName();
+//                        styleBean.setTitle(name);
+//                        newList.add(styleBean);
+//                        clotheKey.add(SIGNATURE);
+//                        addTextData(name, mData.getText().getFileList());
+//                    }
+//                }
+//            }
+//        }
+        mView.showSuccessData(newList, clotheKey, mColorData, mPatternData, mSignatureData);
     }
 
     /**

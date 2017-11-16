@@ -1,14 +1,17 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
+import com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewsDesignAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
@@ -29,6 +32,7 @@ import butterknife.OnClick;
  * Created by yangfang on 2017/11/2.
  */
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class NewDesignFragment extends BaseFragment {
     @BindView(R.id.base_recyclerview)
     RecyclerView mStyleRecyclerView;
@@ -69,7 +73,6 @@ public class NewDesignFragment extends BaseFragment {
     }
 
     private void putImage(String s) {
-        Log.e("TAG", "ssss" + s);
         map.put(s, styleImage);
 
     }
@@ -105,7 +108,6 @@ public class NewDesignFragment extends BaseFragment {
         scale2LayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
         scale2LayoutManager.setMoveSpeed(1);
 
-
     }
 
     private void initClothesName() {
@@ -121,11 +123,11 @@ public class NewDesignFragment extends BaseFragment {
             @Override
             public void onItemClick(Object o, View view) {
                 ToastUtil.showToast(mContext, "" + o, 0);
-
-                if(map.containsKey((String) o)) {
+                if (map.containsKey((String) o)) {
                     mRelative.setVisibility(View.VISIBLE);
                     designAdapter = new NewClothesAdapter(mContext);
                     designAdapter.setData(map.get(o));
+                    designAdapter.setOnItemClickListener(new OnObjectClickListener());
                     mDetailRecyclerView.setAdapter(designAdapter);
                     designAdapter.notifyDataSetChanged();
                 }
@@ -133,5 +135,15 @@ public class NewDesignFragment extends BaseFragment {
             }
         });
         mStyleRecyclerView.setAdapter(adapter);
+    }
+
+    private class OnObjectClickListener implements ItemClickListener.OnItemObjectClickListener {
+        @Override
+        public void onItemClick(Object o) {
+            Bundle bundle = new Bundle();
+            bundle.putString("gender", "A");
+            bundle.putString("type", "11");
+            startCommonActivity(getActivity(),bundle, NewsDesignActivity.class);
+        }
     }
 }

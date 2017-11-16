@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
@@ -22,7 +23,13 @@ public class NewClothesAdapter extends BaseAdapter<Integer,DesignBaseHolder>{
     }
 
     @Override
-    protected void bindCustomViewHolder(DesignBaseHolder holder, int position) {
+    protected void bindCustomViewHolder(DesignBaseHolder holder, final int position) {
         holder.mClothesT.setImageResource(mData.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                objectClickListener.onItemClick(mData.get(position));
+            }
+        });
     }
 }

@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.example.yf.creatorshirt.inject.module.FragmentModule;
 import com.example.yf.creatorshirt.inject.scope.FragmentScope;
 import com.example.yf.creatorshirt.mvp.ui.fragment.BombStylesFragment;
-import com.example.yf.creatorshirt.mvp.ui.fragment.DesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.HotDesignsFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 
@@ -19,13 +18,10 @@ import dagger.Component;
 public interface FragmentComponent {
     Activity getActivity();
 
-//    void inject(SquareFragment communityFragment);
-
     void inject(MineFragment mineFragment);
 
     void inject(BombStylesFragment bombStylesFragment);
 
     void inject(HotDesignsFragment hotDesignsFragment);
 
-    void inject(DesignFragment designFragment);
 }

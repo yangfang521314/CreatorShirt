@@ -67,7 +67,7 @@ public class DisplayUtil {
         int height = getScreenH(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
         layoutParams.width = width / 3;
-        layoutParams.height = height / 5;
+        layoutParams.height = height / 6;
         linearLayout.setLayoutParams(layoutParams);
 
     }

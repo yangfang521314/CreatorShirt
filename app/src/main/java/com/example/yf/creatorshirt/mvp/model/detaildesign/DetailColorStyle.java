@@ -12,7 +12,17 @@ import com.example.yf.creatorshirt.mvp.model.BaseChoiceEntity;
 
 public class DetailColorStyle extends BaseChoiceEntity{
     private String name;
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
     private String value;
+    private int image;
 
     public String getName() {
         return name;
