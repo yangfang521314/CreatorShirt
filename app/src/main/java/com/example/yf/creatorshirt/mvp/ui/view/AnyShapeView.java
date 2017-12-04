@@ -72,9 +72,15 @@ public class AnyShapeView extends View {
         jigsawPictureModel.setBitmapPicture(source);
         postInvalidate();
     }
+    public void setImageNetSource(Bitmap res) {
+        source = res;
+        jigsawPictureModel.setBitmapPicture(source);
+        postInvalidate();
 
-    public void setImageMask(int quan) {
-        mask = BitmapFactory.decodeResource(getResources(), quan);
+    }
+
+    public void setImageMask(int maskImage) {
+        mask = BitmapFactory.decodeResource(getResources(), maskImage);
         postInvalidate();
     }
 

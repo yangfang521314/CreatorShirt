@@ -116,4 +116,5 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.63.android'
     compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
+    implementation 'com.googlecode.plist:dd-plist:1.20'
 }

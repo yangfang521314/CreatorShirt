@@ -7,6 +7,7 @@ import com.example.yf.creatorshirt.inject.scope.FragmentScope;
 import com.example.yf.creatorshirt.mvp.ui.fragment.BombStylesFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.HotDesignsFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
+import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 
 import dagger.Component;
 
@@ -24,4 +25,5 @@ public interface FragmentComponent {
 
     void inject(HotDesignsFragment hotDesignsFragment);
 
+    void inject(NewDesignFragment newDesignFragment);
 }

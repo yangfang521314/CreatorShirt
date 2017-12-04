@@ -178,6 +178,7 @@
         <activity
             android:name=".mvp.ui.activity.NewsDesignActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".mvp.ui.activity.NewDetailDesignActivity"/>
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
+import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder;
 
@@ -15,7 +15,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder
  * Created by yangfang on 2017/8/21.
  */
 
-public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
+public class ColorStyleAdapter extends BaseAdapter<VersionStyle, ColorItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
     private View preView;
     private int prePosition;
@@ -38,7 +38,7 @@ public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVi
         } else {
             holder.itemView.setSelected(false);
         }
-        holder.mStyleTextView.setText(mData.get(position).getName());
+        holder.mStyleTextView.setText(mData.get(position).getColorName());
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +55,7 @@ public class ColorStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVi
                 clickListener.onItemClick(holder.mCommonStyle, position);
             }
         });
-        holder.mStyleImageView.setOutColor(Color.parseColor("#" + mData.get(position).getValue()));
+        holder.mStyleImageView.setOutColor(Color.parseColor("#" + mData.get(position).getColor()));
     }
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {

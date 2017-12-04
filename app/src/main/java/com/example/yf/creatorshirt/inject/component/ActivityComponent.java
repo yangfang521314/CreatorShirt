@@ -31,9 +31,6 @@ public interface ActivityComponent {
 
     void inject(AddressShowActivity addressActivity);
 
-
-//    void inject(DetailDesignActivity detailDesignActivity);
-
     void inject(ChoiceSizeActivity choiceSizeActivity);
 
     void inject(MyOrderActivity myOrderActivity);
@@ -42,15 +39,11 @@ public interface ActivityComponent {
 
     void inject(AddressEditActivity editAddressActivity);
 
-//    void inject(DesignerOrdersActivity designerOrdersActivity);
-
     void inject(DetailClothesActivity detailClothesActivity);
 
     void inject(DesignerNewOrdersActivity detailOrders22Activity);
 
 
-
-//    void inject(NewDetailDesignActivity newDetailDesignActivity);
-
     void inject(NewsDesignActivity newsDesignActivity);
+
 }

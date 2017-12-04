@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -120,9 +121,9 @@ public class DisplayUtil {
         mContainerBackground.setLayoutParams(layoutParams);
     }
 
-    public static void calculateRelative(Context context, RelativeLayout mRelative) {
+    public static void calculateRelative(Context context, RecyclerView mRelative) {
         ViewGroup.LayoutParams layoutParams = mRelative.getLayoutParams();
-        layoutParams.height = 592;
+        layoutParams.height = getScreenH(context) / 2;
         mRelative.setLayoutParams(layoutParams);
     }
 

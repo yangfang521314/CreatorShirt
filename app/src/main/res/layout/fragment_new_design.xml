@@ -10,30 +10,72 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_detail_style"
+        android:id="@+id/rl_detail_style_m"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:alpha="1"
-        android:background="@color/recy_back">
+        android:layout_height="220dp"
+        android:background="@color/munsell"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/delete_rcy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/recy_delete" />
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@mipmap/recycle_delete" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detail_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="35dp"
-            android:layout_marginTop="35dp"
-            android:alpha="1"
+            android:layout_above="@+id/tv_sex_m"
+            android:layout_below="@+id/delete_rcy"
             android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_sex_m"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="男士衬衫"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_detail_style_w"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:visibility="gone"
+        android:layout_below="@+id/rl_detail_style_m"
+        android:background="@color/munsell">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_recyclerview_w"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tv_sex_w"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_sex_w"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:textSize="15sp"
+            android:paddingRight="8dp"
+            android:text="女士衬衫"
+            android:textColor="@color/black" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

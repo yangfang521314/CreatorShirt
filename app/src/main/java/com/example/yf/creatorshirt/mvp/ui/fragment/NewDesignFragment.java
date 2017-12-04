@@ -1,16 +1,19 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.os.Parcelable;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
+import com.example.yf.creatorshirt.mvp.model.VersionStyle;
+import com.example.yf.creatorshirt.mvp.presenter.ClothesPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.ClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewsDesignAdapter;
@@ -18,12 +21,9 @@ import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ScaleLayoutManager;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ViewPagerLayoutManager;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
-import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,50 +32,43 @@ import butterknife.OnClick;
  * Created by yangfang on 2017/11/2.
  */
 
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-public class NewDesignFragment extends BaseFragment {
+public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements ClothesContract.ClothesView {
     @BindView(R.id.base_recyclerview)
     RecyclerView mStyleRecyclerView;
-    @BindView(R.id.rl_detail_style)
-    RelativeLayout mRelative;
+    @BindView(R.id.rl_detail_style_m)
+    RelativeLayout mManRelative;
+    @BindView(R.id.rl_detail_style_w)
+    RelativeLayout mWomanRelative;
     @BindView(R.id.detail_recyclerview)
-    RecyclerView mDetailRecyclerView;
+    RecyclerView mDetailManRCY;
+    @BindView(R.id.detail_recyclerview_w)
+    RecyclerView mDetailWomanRCY;
     @BindView(R.id.delete_rcy)
     ImageView mDeleteCY;
+    @BindView(R.id.tv_sex_m)
+    TextView mShowM;
+    @BindView(R.id.tv_sex_w)
+    TextView mShowW;
     private ScaleLayoutManager scaleLayoutManager;
-    private ScaleLayoutManager scale2LayoutManager;
+    private ScaleLayoutManager scaleMLayoutManager;
+    private ScaleLayoutManager scaleWLayoutManager;
     private NewsDesignAdapter adapter;
     private NewClothesAdapter designAdapter;
-    private List<String> styleTitle;
-    private List<Integer> styleImage;
-    private Map<String, List<Integer>> map = new ArrayMap<>();
-
-    private String title[] = {"短袖T恤", "长袖T恤", "卫衣", "Polo杉", "童装"};
-    private int image[] = {R.mipmap.shirt0, R.mipmap.shirt1, R.mipmap.shirt2, R.mipmap.shirt2, R.mipmap.shirt1};
+    private List<String> mClothesName;
+    private ArrayMap<String, List<VersionStyle>> mManData;
+    private ArrayMap<String, List<VersionStyle>> mWomanData;
 
     @Override
     protected void initInject() {
-
+        getFragmentComponent().inject(this);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        styleTitle = new ArrayList<>();
-        styleImage = new ArrayList<>();
-        styleTitle.addAll(Arrays.asList(title));
-        for (int i = 0; i < image.length; i++) {
-            styleImage.add(image[i]);
-        }
-        for (int i = 0; i < styleTitle.size(); i++) {
-            putImage(styleTitle.get(i));
-        }
+        mPresenter.getClothesVersion();
     }
 
-    private void putImage(String s) {
-        map.put(s, styleImage);
-
-    }
 
     @Override
     protected int getLayoutId() {
@@ -84,7 +77,6 @@ public class NewDesignFragment extends BaseFragment {
 
     @Override
     protected void initViews(View mView) {
-        mRelative.setVisibility(View.GONE);
         initClothesName();
         initClothesImage();
     }
@@ -92,21 +84,26 @@ public class NewDesignFragment extends BaseFragment {
     @OnClick({R.id.delete_rcy})
     void onClick(View view) {
         if (view.getId() == R.id.delete_rcy) {
-            mRelative.setVisibility(View.GONE);
+            mManRelative.setVisibility(View.GONE);
+            mStyleRecyclerView.setVisibility(View.VISIBLE);
+            mWomanRelative.setVisibility(View.GONE);
         }
     }
-
 
     /**
      * 初始化衣服
      */
     private void initClothesImage() {
-        scale2LayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
-        mDetailRecyclerView.setLayoutManager(scale2LayoutManager);
-        scale2LayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 10));
-        scale2LayoutManager.setCenterScale(1.4f);
-        scale2LayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
-        scale2LayoutManager.setMoveSpeed(1);
+        scaleMLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
+        mDetailManRCY.setLayoutManager(scaleMLayoutManager);
+        scaleMLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 10));
+        scaleMLayoutManager.setCenterScale(1.3f);
+        scaleMLayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
+        scaleWLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
+        mDetailWomanRCY.setLayoutManager(scaleWLayoutManager);
+        scaleWLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 10));
+        scaleWLayoutManager.setCenterScale(1.3f);
+        scaleWLayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
 
     }
 
@@ -114,36 +111,61 @@ public class NewDesignFragment extends BaseFragment {
         scaleLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
         mStyleRecyclerView.setLayoutManager(scaleLayoutManager);
         scaleLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 15));
-        scaleLayoutManager.setCenterScale(1.4f);
+        scaleLayoutManager.setCenterScale(1.3f);
         scaleLayoutManager.setOrientation(ViewPagerLayoutManager.VERTICAL);
-        scaleLayoutManager.setMoveSpeed(1);
         adapter = new NewsDesignAdapter(mContext);
-        adapter.setData(styleTitle);
+        adapter.setData(mClothesName);
+        mStyleRecyclerView.setAdapter(adapter);
         adapter.setOnComClickListener(new ItemClickListener.OnItemComClickListener() {
             @Override
             public void onItemClick(Object o, View view) {
-                ToastUtil.showToast(mContext, "" + o, 0);
-                if (map.containsKey((String) o)) {
-                    mRelative.setVisibility(View.VISIBLE);
+                if (mManData.containsKey(o)) {
+                    mManRelative.setVisibility(View.VISIBLE);
                     designAdapter = new NewClothesAdapter(mContext);
-                    designAdapter.setData(map.get(o));
+                    designAdapter.setGender("m");
+                    designAdapter.setData(mManData.get(o));
                     designAdapter.setOnItemClickListener(new OnObjectClickListener());
-                    mDetailRecyclerView.setAdapter(designAdapter);
+                    mDetailManRCY.setAdapter(designAdapter);
                     designAdapter.notifyDataSetChanged();
+                    mShowM.setText(mManData.get(o).get(1).getGender());
                 }
-
+                if (mWomanData.containsKey(o)) {
+                    mWomanRelative.setVisibility(View.VISIBLE);
+                    designAdapter = new NewClothesAdapter(mContext);
+                    designAdapter.setGender("w");
+                    designAdapter.setData(mWomanData.get(o));
+                    designAdapter.setOnItemClickListener(new OnObjectClickListener());
+                    mDetailWomanRCY.setAdapter(designAdapter);
+                    designAdapter.notifyDataSetChanged();
+                    mShowW.setText(mWomanData.get(o).get(1).getGender());
+                }
+                mStyleRecyclerView.setVisibility(View.GONE);
             }
+
+
         });
-        mStyleRecyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void showTotalClothes(ArrayMap<String, List<VersionStyle>> totalManMap, ArrayMap<String, List<VersionStyle>> totalWomanMap, List<String> mListVerName) {
+        mClothesName = mListVerName;
+        mManData = totalManMap;
+        mWomanData = totalWomanMap;
+    }
+
 
     private class OnObjectClickListener implements ItemClickListener.OnItemObjectClickListener {
         @Override
         public void onItemClick(Object o) {
             Bundle bundle = new Bundle();
-            bundle.putString("gender", "A");
-            bundle.putString("type", "11");
-            startCommonActivity(getActivity(),bundle, NewsDesignActivity.class);
+            bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) o);
+            startCommonActivity(getActivity(), bundle, NewsDesignActivity.class);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        designAdapter.setBitmapDestory();
     }
 }

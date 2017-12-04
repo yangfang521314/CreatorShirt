@@ -14,26 +14,36 @@
         layout="@layout/app_bar" />
 
     <RelativeLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/rl_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar">
 
-        <ImageView
-            android:id="@+id/clothes"
+        <com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView
+            android:id="@+id/rl_clothes_root"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/short_gray" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            app:showBorder="true"
+            app:showIcons="true">
 
-        <com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView
-            android:id="@+id/source"
-            android:layout_width="200dp"
-            android:layout_height="250dp"
-            android:layout_centerInParent="true" />
+            <ImageView
+                android:id="@+id/clothes"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/short_gray" />
 
-
-
+            <com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView
+                android:id="@+id/source"
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center" />
+        </com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView>
     </RelativeLayout>
 
 
@@ -44,6 +54,7 @@
         android:layout_below="@id/rl_bg"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView

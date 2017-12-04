@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
-import com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 
@@ -39,7 +38,7 @@ public class MaskStyleAdapter extends BaseAdapter<DetailColorStyle,ItemViewHolde
         });
     }
 
-    public void setOnClickListener(NewsDesignActivity onClickListener) {
+    public void setOnClickListener(ItemClickListener.OnItemClickListener onClickListener) {
         this.clickListener = onClickListener;
     }
 }

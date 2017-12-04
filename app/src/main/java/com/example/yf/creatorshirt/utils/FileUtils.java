@@ -139,6 +139,24 @@ public class FileUtils {
     }
 
     /**
+     * 压缩图片工具
+     *
+     * @param context
+     * @param resid
+     * @return
+     */
+    public static Bitmap getSmallBitmap(Context context, int resid) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), resid);
+        options.inSampleSize = 5;
+        options.inJustDecodeBounds = false;
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);
+        return img;
+
+    }
+
+    /**
      * 设置压缩的图片的大小设置的参数
      *
      * @param options

@@ -43,9 +43,7 @@
 //import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 //import com.example.yf.creatorshirt.mvp.model.orders.OrderData;
 //import com.example.yf.creatorshirt.mvp.presenter.CommonAvatarPresenter;
-//import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 //import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
-//import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 //import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 //import com.example.yf.creatorshirt.mvp.ui.adapter.TextStyleAdapter;
 //import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
@@ -55,6 +53,7 @@
 //import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 //import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 //import com.example.yf.creatorshirt.mvp.ui.view.sticker.DrawableSticker;
+//import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 //import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 //import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 //import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
@@ -63,7 +62,6 @@
 //import com.example.yf.creatorshirt.utils.FileUtils;
 //import com.example.yf.creatorshirt.utils.NetworkUtils;
 //import com.example.yf.creatorshirt.utils.ToastUtil;
-//import com.example.yf.creatorshirt.widget.stickerview.SignatureDialog;
 //
 //import org.greenrobot.eventbus.EventBus;
 //
@@ -78,8 +76,8 @@
 ///**
 // * 衣服具体设计样式界面
 // */
-//public class NewDetailDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
-//        ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
+//public class NewDetailDesignActivity extends BaseActivity<DetailDesign2Presenter> implements ItemClickListener.OnItemClickListener,
+//        ItemClickListener.OnClickListener, DetailDesignContract2.DetailDesignView, CommonAvatarContract.CommonAvatarView {
 //
 //    private static final String TAG = NewDetailDesignActivity.class.getSimpleName();
 //    public static final String NECK = "neck";
