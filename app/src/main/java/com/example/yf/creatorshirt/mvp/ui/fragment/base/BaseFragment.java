@@ -37,7 +37,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContext = App.getInstance();
+        mContext = getActivity();
         if (mView == null) {
             mView = inflater.inflate(getLayoutId(), null);
             ButterKnife.bind(this, mView);

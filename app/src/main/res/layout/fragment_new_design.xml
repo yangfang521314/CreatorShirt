@@ -8,29 +8,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:id="@+id/delete_rcy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:src="@mipmap/recycle_delete"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_detail_style_m"
         android:layout_width="match_parent"
         android:layout_height="220dp"
+        android:layout_below="@+id/delete_rcy"
         android:background="@color/munsell"
         android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/delete_rcy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:src="@mipmap/recycle_delete" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detail_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/tv_sex_m"
-            android:layout_below="@+id/delete_rcy"
             android:background="@color/white" />
 
         <TextView
@@ -40,8 +41,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="男士衬衫"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -51,9 +52,9 @@
         android:id="@+id/rl_detail_style_w"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:visibility="gone"
         android:layout_below="@+id/rl_detail_style_m"
-        android:background="@color/munsell">
+        android:background="@color/munsell"
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detail_recyclerview_w"
@@ -71,10 +72,10 @@
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:paddingLeft="8dp"
-            android:textSize="15sp"
             android:paddingRight="8dp"
             android:text="女士衬衫"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 

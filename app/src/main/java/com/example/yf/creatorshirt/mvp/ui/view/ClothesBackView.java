@@ -1,26 +1,15 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.CommonStyleData;
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.DrawableSticker;
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
-import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,20 +18,13 @@ import butterknife.ButterKnife;
  * Creatd by yangfang on 2017/8/26.
  */
 
-public class ClothesBackView extends com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView {
+public class ClothesBackView extends StickerView {
     private Context mContext;
-    @BindView(R.id.choice_ornament)
-    ImageView mBackOrnament;
-    @BindView(R.id.choice_select_arm)
-    ImageView mBackArm;
-    //    @BindView(R.id.clothes_pattern_bounds)
-//    RelativeLayout mBackBounds;
-    @BindView(R.id.choice_select_neck)
-    ImageView mBackNeck;
-    @BindView(R.id.clothes_container_background)
-    ImageView mBackClothes;
-    @BindView(R.id.rl_back_root)
-    RelativeLayout mContainerBackBackground;
+    @BindView(R.id.clothes)
+    ImageView mClothes;
+    @BindView(R.id.source)
+    AnyShapeView mSource;
+
 
     public ClothesBackView(Context context) {
         super(context);
@@ -67,86 +49,6 @@ public class ClothesBackView extends com.example.yf.creatorshirt.mvp.ui.view.sti
         setConstrained(true);
     }
 
-    public void setImageUrl(String imageBackUrl) {
-        if (DisplayUtil.getScreenW(App.getInstance()) < 1080) {
-            ViewGroup.LayoutParams params = mBackClothes.getLayoutParams();
-            params.width = 592;
-            params.height = 592;
-            mBackClothes.setLayoutParams(params);
-            DisplayUtil.calculateBackSize(mBackArm);
-            DisplayUtil.calculateBackSize(mBackNeck);
-            DisplayUtil.calculateBackSize(mBackOrnament);
-            Glide.with(this).load(imageBackUrl).into(mBackClothes);
-        } else {
-            Glide.with(this).load(imageBackUrl).into(mBackClothes);
-        }
-    }
-
-    public void setArmVisibility(int visibility) {
-        mBackArm.setVisibility(visibility);
-    }
-
-    public void setNeckVisibility(int visibility) {
-        mBackNeck.setVisibility(visibility);
-    }
-
-    public void setOrnamentVisibility(int visibility) {
-        mBackOrnament.setVisibility(visibility);
-    }
-
-    public void setNeckUrl(String neckUrl) {
-        Glide.with(App.getInstance()).load(neckUrl).into(mBackNeck);
-        mBackNeck.setVisibility(VISIBLE);
-    }
-
-    public void setOrnameUrl(String ornametUrl) {
-        mBackOrnament.setVisibility(VISIBLE);
-        Glide.with(App.getInstance()).load(ornametUrl).into(mBackOrnament);
-    }
-
-    public void setArmUrl(String armUrl) {
-        mBackArm.setVisibility(VISIBLE);
-        Glide.with(App.getInstance()).load(armUrl).into(mBackArm);
-    }
-
-    public void setColor(int color) {
-        mBackClothes.setBackgroundResource(color);
-    }
-
-    public void setBackData(CommonStyleData mBackStyleData) {
-        if (mBackStyleData.getNeckUrl() != null) {
-            setNeckUrl(Constants.ImageUrl + mBackStyleData.getNeckUrl());
-        }
-        if (mBackStyleData.getOrnametUrl() != null) {
-            setOrnameUrl(Constants.ImageUrl + mBackStyleData.getOrnametUrl());
-        }
-        if (mBackStyleData.getArmUrl() != null) {
-            setArmUrl(Constants.ImageUrl + mBackStyleData.getArmUrl());
-        }
-        if (mBackStyleData.getPattern() != null) {
-            addStickerView(Constants.ImageUrl + mBackStyleData.getPattern());
-        }
-    }
-
-    public void setColorResources(int color) {
-        mBackClothes.setBackgroundColor(color);
-    }
-
-    /**
-     * add Pattern
-     *
-     * @param patternUrl
-     */
-    public void addStickerView(String patternUrl) {
-        RequestOptions options = new RequestOptions();
-        Glide.with(App.getInstance()).asDrawable().apply(options).load(patternUrl).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                addSticker(new DrawableSticker(resource), Sticker.Position.CENTER);
-            }
-        });
-
-    }
 
     public void setContext(Context context) {
         mContext = context;
@@ -161,5 +63,17 @@ public class ClothesBackView extends com.example.yf.creatorshirt.mvp.ui.view.sti
             removeCurrentSticker();
             setLocked(true);
         }
+    }
+
+    public void setColorBg(int resource) {
+        mClothes.setImageResource(resource);
+    }
+
+    public void setImageNetSource(Bitmap resource) {
+        mSource.setImageNetSource(resource);
+    }
+
+    public void setImageMask(int gao) {
+        mSource.setImageMask(gao);
     }
 }

@@ -38,7 +38,7 @@ public class ColorStyleAdapter extends BaseAdapter<VersionStyle, ColorItemViewHo
         } else {
             holder.itemView.setSelected(false);
         }
-        holder.mStyleTextView.setText(mData.get(position).getColorName());
+        holder.mStyleTextView.setVisibility(View.GONE);
         holder.mCommonStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

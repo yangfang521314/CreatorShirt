@@ -14,11 +14,11 @@
         layout="@layout/app_bar" />
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/rl_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar">
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="20dp">
 
         <com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView
             android:id="@+id/rl_clothes_root"
@@ -31,19 +31,29 @@
 
             <ImageView
                 android:id="@+id/clothes"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
+                android:layout_gravity="center"
                 android:scaleType="centerInside"
-                android:src="@mipmap/short_gray" />
+                android:src="@mipmap/wshort_astronaut_a" />
 
             <com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView
                 android:id="@+id/source"
                 android:layout_width="200dp"
-                android:layout_height="250dp"
+                android:layout_height="230dp"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center" />
         </com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView>
+
+        <com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView
+            android:id="@+id/rl_clothes_root_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:visibility="gone"
+            app:showBorder="true"
+            app:showIcons="true" />
     </RelativeLayout>
 
 
@@ -53,12 +63,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_bg"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/clothes_front"
+            android:id="@+id/tv_front"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,7 +80,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/clothes_back"
+            android:id="@+id/tv_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/clothes_front"

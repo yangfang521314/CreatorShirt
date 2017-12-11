@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -82,6 +83,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private Map<String, String> map = new HashMap<>();
     private List<String> mapAvatar = new ArrayList<>();
     private List<String> totalNum = new ArrayList<>();
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -249,6 +251,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      * @param key
      * @param value
      */
+    @SuppressLint("StaticFieldLeak")
     public void request(final String key, final String value) {
 
         asyncTask = new AsyncTask<String, Integer, Void>() {

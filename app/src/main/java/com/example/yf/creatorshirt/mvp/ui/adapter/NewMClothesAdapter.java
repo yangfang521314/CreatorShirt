@@ -18,14 +18,14 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 
 /**
- * Created by yangfang on 2017/11/2.
+ * Created by yangfang on 2017/12/5.
  */
 
-public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolder> {
+public class NewMClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolder> {
     private NewDesignFragment.OnObjectClickListener onItemClickListener;
     private String gender;
 
-    public NewClothesAdapter(Context context) {
+    public NewMClothesAdapter(Context context) {
         super(context);
     }
 
@@ -38,12 +38,13 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
     protected void bindCustomViewHolder(final DesignBaseHolder holder, final int position) {
         String colorName = mData.get(position).getColorName();
         String imageName = gender + mData.get(position).getType() + "_" + colorName + "_a";
-        int resId = App.getInstance().getResources().getIdentifier(imageName, "mipmap", App.getInstance().getPackageName());
+        final int resId = App.getInstance().getResources().getIdentifier(imageName, "mipmap", App.getInstance().getPackageName());
         if (resId != 0) {
             RequestOptions options = new RequestOptions();
-            options.override(300,600);
             options.centerInside();
             options.diskCacheStrategy(DiskCacheStrategy.NONE);
+            options.override(300, 600);
+            options.centerInside();
             Glide.with(mContext).asBitmap().load(resId).apply(options).into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {

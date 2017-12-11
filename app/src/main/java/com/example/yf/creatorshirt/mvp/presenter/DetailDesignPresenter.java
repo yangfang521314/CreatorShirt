@@ -27,10 +27,10 @@ import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.COLOR;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.MASK;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.PATTERN;
-import static com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity.SIGNATURE;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.COLOR;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.MASK;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.PATTERN;
+import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.SIGNATURE;
 
 
 /**
@@ -55,14 +55,13 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
     private List<DetailColorStyle> maskList = new ArrayList<>();
 
 
-
     @Inject
     public DetailDesignPresenter(DataManager dataManager) {
         this.manager = dataManager;
     }
 
     @Override
-    public void getDetailDesign(String gender, String type, ArrayList<VersionStyle> mClothesList) {
+    public void getDetailDesign(String gender, String type, ArrayList<VersionStyle> mClothesList, final boolean b) {
         this.mTotalClothes = mClothesList;
         JSONObject root = new JSONObject();
         final JSONObject request = new JSONObject();
@@ -82,7 +81,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     public void onNext(DetailStyleBean detailStyleBean) {
                         if (detailStyleBean != null)
                             mView.showSuccessData(detailStyleBean);
-                        showSucessData(detailStyleBean);
+                        showSucessData(detailStyleBean, b);
                     }
                 })
 
@@ -90,7 +89,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
 
     }
 
-    private void showSucessData(DetailStyleBean detailStyleBean) {
+    private void showSucessData(DetailStyleBean detailStyleBean, boolean flag) {
         if (detailStyleBean != null) {
             if (detailStyleBean.getData() == null)
                 return;
@@ -98,7 +97,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 return;
             }
             mDetailStyleFrontData = detailStyleBean.getData().getA();
-            getNameDeign(mDetailStyleFrontData, "front");
+            getNameDeign(mDetailStyleFrontData, flag);
         }
     }
 
@@ -108,7 +107,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
      * @param mData
      * @param flag
      */
-    public void getNameDeign(DetailCommonData mData, String flag) {
+    public void getNameDeign(DetailCommonData mData, boolean flag) {
         StyleBean styleBean;
         String name = null;
         if (newList != null) {
@@ -118,80 +117,90 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             clotheKey.clear();
         }
         DetailColorStyle maskStyle = null;
-        for (int i = 0; i < 5; i++) {
-            maskStyle = new DetailColorStyle();
-            maskStyle.setImage(R.mipmap.quan);
-            maskList.add(maskStyle);
-        }
-        if(maskList != null){
-            name = "mask";
-            styleBean = new StyleBean();
-            styleBean.setTitle(name);
-            newList.add(styleBean);
-            clotheKey.add(MASK);
-            addMaskData(name, maskList);
-        }
-
-
-        if (mTotalClothes != null) {
-            styleBean = new StyleBean();
-            name = "颜色";
-            styleBean.setTitle(name);
-            newList.add(styleBean);
-            clotheKey.add(COLOR);
-            addColorData(name, mTotalClothes);
-        }
-
-        if (mData.getPattern() != null) {
-            if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
+        if (flag) {
+            for (int i = 0; i < 5; i++) {
+                maskStyle = new DetailColorStyle();
+                maskStyle.setImage(R.mipmap.quan);
+                maskList.add(maskStyle);
+            }
+            if (maskList != null) {
+                name = "mask";
                 styleBean = new StyleBean();
-                name = mData.getPattern().getName();
                 styleBean.setTitle(name);
                 newList.add(styleBean);
-                clotheKey.add(PATTERN);
-                addPatternData(name, mData.getPattern().getFileList());
+                clotheKey.add(MASK);
+                addMaskData(name, maskList);
             }
-        }
 
-        if (mData.getText() != null) {
-            if (mData.getText().getFileList() != null) {
-                if (mData.getText().getFileList().size() != 0) {
+
+            if (mTotalClothes != null) {
+                styleBean = new StyleBean();
+                name = "颜色";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(COLOR);
+                addColorData(name, mTotalClothes);
+            }
+
+            if (mData.getPattern() != null) {
+                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
                     styleBean = new StyleBean();
-                    name = mData.getText().getName();
+                    name = mData.getPattern().getName();
                     styleBean.setTitle(name);
                     newList.add(styleBean);
-                    clotheKey.add(SIGNATURE);
-                    addTextData(name, mData.getText().getFileList());
+                    clotheKey.add(PATTERN);
+                    addPatternData(name, mData.getPattern().getFileList());
+                }
+            }
+
+            if (mData.getText() != null) {
+                if (mData.getText().getFileList() != null) {
+                    if (mData.getText().getFileList().size() != 0) {
+                        styleBean = new StyleBean();
+                        name = mData.getText().getName();
+                        styleBean.setTitle(name);
+                        newList.add(styleBean);
+                        clotheKey.add(SIGNATURE);
+                        addTextData(name, mData.getText().getFileList());
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < 5; i++) {
+                maskStyle = new DetailColorStyle();
+                maskStyle.setImage(R.mipmap.quan);
+                maskList.add(maskStyle);
+            }
+            if (maskList != null) {
+                name = "mask";
+                styleBean = new StyleBean();
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(MASK);
+                addMaskData(name, maskList);
+            }
+
+
+            if (mTotalClothes != null) {
+                styleBean = new StyleBean();
+                name = "颜色";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(COLOR);
+                addColorData(name, mTotalClothes);
+            }
+
+            if (mData.getPattern() != null) {
+                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
+                    styleBean = new StyleBean();
+                    name = mData.getPattern().getName();
+                    styleBean.setTitle(name);
+                    newList.add(styleBean);
+                    clotheKey.add(PATTERN);
+                    addPatternData(name, mData.getPattern().getFileList());
                 }
             }
         }
-//
-//        if (flag.equals("back")) {
-//
-//
-//            if (mData.getPattern() != null) {
-//                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-//                    styleBean = new StyleBean();
-//                    name = mData.getPattern().getName();
-//                    styleBean.setTitle(name);
-//                    newList.add(styleBean);
-//                    clotheKey.add(PATTERN);
-//                    addPatternData(name, mData.getPattern().getFileList());
-//                }
-//            }
-//            if (mData.getText() != null) {
-//                if (mData.getText().getFileList() != null) {
-//                    if (mData.getText().getFileList().size() != 0) {
-//                        styleBean = new StyleBean();
-//                        name = mData.getText().getName();
-//                        styleBean.setTitle(name);
-//                        newList.add(styleBean);
-//                        clotheKey.add(SIGNATURE);
-//                        addTextData(name, mData.getText().getFileList());
-//                    }
-//                }
-//            }
-//        }
         mView.showSuccessData(newList, clotheKey, mColorData, mPatterData, mMaskData, mSignatureData);
     }
 

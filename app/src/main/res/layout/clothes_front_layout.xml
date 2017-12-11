@@ -3,62 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/clothes_pattern_bounds"-->
-    <!--android:layout_width="120dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:visibility="gone">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="120dp"-->
-    <!--android:layout_height="190dp"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:src="@drawable/shape_clothe_pattern" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="120dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:background="@drawable/shape_clothe_pattern"-->
-    <!--android:gravity="center"-->
-    <!--android:padding="2dp"-->
-    <!--android:text="图案请放在虚线框内"-->
-    <!--android:textColor="@color/manatee"-->
-    <!--android:textSize="12sp" />-->
-    <!--</RelativeLayout>-->
-
     <ImageView
-        android:id="@+id/clothes_container_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:id="@+id/clothes_back"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
         android:layout_gravity="center"
-        android:src="@mipmap/man_t_shirt" />
+        android:src="@mipmap/wshort_astronaut_a" />
 
-    <ImageView
-        android:id="@+id/choice_select_neck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView
+        android:id="@+id/source_back"
+        android:layout_width="200dp"
+        android:layout_height="230dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/icon_circle_neck"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/choice_select_arm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/choice_ornament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:src="@mipmap/ornament"
-        android:visibility="gone" />
+        android:layout_gravity="center" />
 </merge>

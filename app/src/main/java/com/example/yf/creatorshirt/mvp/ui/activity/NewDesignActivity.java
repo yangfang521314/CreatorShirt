@@ -3,8 +3,11 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +38,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.presenter.CommonAvatarPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
@@ -46,6 +50,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView;
+import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
@@ -53,6 +58,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +70,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
+public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
         ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
     public static final String COLOR = "color";
     public static final String PATTERN = "pattern";
@@ -88,12 +94,14 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
     AnyShapeView mAnyShapeView;
     @BindView(R.id.rl_clothes_root)
     StickerView mContainerFront;
-    @BindView(R.id.clothes_back)
+    @BindView(R.id.tv_back)
     TextView mButtonBack;
-    @BindView(R.id.clothes_front)
+    @BindView(R.id.tv_front)
     TextView mButtonFront;
     @BindView(R.id.rl_bg)
     RelativeLayout mRelative;
+    @BindView(R.id.rl_clothes_root_back)
+    ClothesBackView mContainerBack;
 
     CommonAvatarPresenter mAvatarPresenter;//自定义图片
 
@@ -118,7 +126,17 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
     private TextSticker textSticker;
     private String content;
     private Typeface mUpdateType;
-    private ArrayList<VersionStyle> mFirstClothes;
+    private ArrayList<VersionStyle> mListClothes;
+    private VersionStyle mInitData;//默认显示第一件衣服
+    private String imageFrontPath;
+    private String imageBackPath;
+    private OrderBaseInfo mOrderBaseInfo; //订单信息
+    private String colorClothes;
+    private String gender;//性别
+    private ArrayList<String> avatarList = new ArrayList<>();
+    private boolean isFirst;
+    private VersionStyle mCurrentClothes;
+
 
     @Override
     protected void inject() {
@@ -134,9 +152,11 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
     public void initData() {
         super.initData();
         if (getIntent() != null) {
-            mFirstClothes = getIntent().getParcelableArrayListExtra("clothes");
+            mListClothes = getIntent().getParcelableArrayListExtra("clothes");
+            mInitData = getIntent().getParcelableExtra("choice");
         }
-        mPresenter.getDetailDesign("A", "11", mFirstClothes);
+
+        mPresenter.getDetailDesign("A", "11", mListClothes, true);
         mAvatarPresenter = new CommonAvatarPresenter(this);
         mAvatarPresenter.attachView(this);
     }
@@ -146,7 +166,9 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mBaseDesignAdapter = new BaseStyleAdapter(this);
         //默认显示正面
+        isFirst = true;
         initFront();
+        initBack();
         initSignature();//默认文字编辑
     }
 
@@ -198,24 +220,35 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
             DisplayUtil.calculateRl(mContainerFront);
         }
         //初始化显示第一件正面衣服款式
-//        String imageName = mFirstClothes.get(0).
-//        setColorBg(getResource(imageName));
-
+        if (mInitData != null) {
+            getCurrentFrontClothes(mInitData,"a");
+            gender = mInitData.getGender();
+        }
+        mOrderBaseInfo = new OrderBaseInfo();
     }
 
-    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.clothes_front, R.id.clothes_back,
+    private void initBack() {
+        if (DisplayUtil.getScreenW(this) < 1080) {
+            DisplayUtil.calculateSmallRl(mContainerBack);
+        } else {
+            DisplayUtil.calculateRl(mContainerBack);
+        }
+    }
+
+
+    @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.tv_front, R.id.tv_back,
             R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-//                if (mContainerBackBackground.getWidth() <= 0) {
-//                    ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
-//                } else {
-//                    generateBitmap();//生成衣服的图片
-//                    if (imageBackPath != null && imageFrontPath != null) {
+                if (mContainerBack.getWidth() <= 0) {
+                    ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
+                } else {
+                    generateBitmap();//生成衣服的图片
+                    if (imageBackPath != null && imageFrontPath != null) {
 //                        startNewActivity();
-//                    }
-//                }
+                    }
+                }
                 break;
             case R.id.back:
                 finish();
@@ -243,6 +276,43 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 break;
+            case R.id.tv_front:
+                if (isFirst) {//默认刚进来的第一件衣服
+                    if (mInitData != null) {
+                        getCurrentFrontClothes(mInitData, "a");
+                    }
+                } else {
+                    getCurrentFrontClothes(mCurrentClothes, "a");
+                }
+                mContainerFront.setVisibility(View.VISIBLE);
+                mContainerBack.setVisibility(View.GONE);
+                mButtonFront.setSelected(true);
+                mButtonBack.setSelected(false);
+                mPresenter.getDetailDesign("A", "11", mListClothes, true);
+                mRecyclerStyle.setVisibility(View.VISIBLE);
+                mRecyclerDetailStyle.setVisibility(View.GONE);
+                mBtnFinish.setVisibility(View.VISIBLE);
+                mChoiceReturn.setVisibility(View.GONE);
+                break;
+            case R.id.tv_back:
+                if (isFirst) {//默认刚进来的第一件衣服
+                    if (mInitData != null) {
+                        getCurrentBackClothes(mInitData, "b");
+                    }
+                } else {
+                    getCurrentBackClothes(mCurrentClothes, "b");
+                }
+                mContainerBack.setVisibility(View.VISIBLE);
+                mContainerFront.setVisibility(View.GONE);
+                mButtonBack.setSelected(true);
+                mButtonFront.setSelected(false);
+                mPresenter.getDetailDesign("A", "11", mListClothes, false);
+                mRecyclerStyle.setVisibility(View.VISIBLE);
+                mRecyclerDetailStyle.setVisibility(View.GONE);
+                mBtnFinish.setVisibility(View.VISIBLE);
+                mChoiceReturn.setVisibility(View.GONE);
+                break;
+
             case R.id.choice_done://点击每个样式的完成保存到数据
                 switch (clotheKey.get(mCurrentPosition)) {
 
@@ -283,6 +353,85 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
         mBtnFinish.setVisibility(View.VISIBLE);
     }
 
+    private void getCurrentBackClothes(VersionStyle data, String flag) {
+        String type = data.getType();
+        String colorName = data.getColorName();
+        String imageName = data.getSex() + type + "_" + colorName + "_" + flag;
+        mContainerBack.setColorBg(getResource(imageName));
+    }
+
+    private void getCurrentFrontClothes(VersionStyle data, String flag) {
+        String type = data.getType();
+        String colorName = data.getColorName();
+        String imageName = data.getSex() + type + "_" + colorName + "_" + flag;
+        setColorBg(getResource(imageName));
+    }
+
+    private void startNewActivity() {
+        Bundle bundle = new Bundle();
+        mOrderBaseInfo.setBackUrl(imageBackPath);
+        mOrderBaseInfo.setFrontUrl(imageFrontPath);
+        mOrderBaseInfo.setGender(gender);
+//        mOrderBaseInfo.setType(type);
+        mOrderBaseInfo.setColor(colorClothes);
+        bundle.putParcelable("allImage", mOrderBaseInfo);
+//        OrderData orderData = new OrderData();
+//        orderData.setBackData(mBackStyleData);
+//        orderData.setFrontData(commonStyleData);
+//        String styleContext = orderData.getJsonObject();
+//        bundle.putString("styleContext", styleContext);
+        if (avatarList != null) {
+            if (avatarList.size() != 0) {
+                bundle.putStringArrayList("avatar", avatarList);
+            }
+        }
+        startCommonActivity(this, bundle, ChoiceSizeActivity.class);
+    }
+
+    private void generateBitmap() {
+        Bitmap mask = getBitmapFromView(mAnyShapeView, mAnyShapeView.getWidth(), mAnyShapeView.getHeight());
+//        Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(),
+//                mContainerFront.getHeight()
+//                , Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bitmap);
+//        mContainerFront.draw(canvas);
+//        imageFrontPath = FileUtils.saveBitmap(mask, this, "front");
+        Bitmap bitmapFront = Bitmap.createBitmap(mContainerBack.getWidth(),
+                mContainerBack.getHeight()
+                , Bitmap.Config.ARGB_8888);
+        Canvas canvasFront = new Canvas(bitmapFront);
+        mContainerBack.draw(canvasFront);
+        imageBackPath = FileUtils.saveBitmap(bitmapFront, this, "back");
+    }
+
+    /**
+     * 由View得到对应的指定尺寸的Bitmap
+     *
+     * @param view
+     * @return
+     */
+    public static Bitmap getBitmapFromView(View view, int bitmapWidth, int bitmapHeight) {
+        //Define a bitmap with the same size as the view
+        Bitmap tempBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        //Bind a canvas to it
+        Canvas canvas = new Canvas(tempBitmap);
+        //Get the view's background
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null) {
+            //has background drawable, then draw it on the canvas
+            bgDrawable.draw(canvas);
+        } else {
+            //does not have background drawable, then draw white background on the canvas
+            canvas.drawColor(Color.TRANSPARENT);
+        }
+        // draw the view on the canvas
+        view.draw(canvas);
+        //return the bitmap
+        Bitmap resultBitmap = Bitmap.createScaledBitmap(tempBitmap, bitmapWidth, bitmapHeight, true);
+        tempBitmap.recycle();
+        return resultBitmap;
+    }
+
     public void saveText(TextSticker textSticker) {
         if (!TextUtils.isEmpty(textSticker.getText()) && textEntities != null) {
             for (TextEntity t : textEntities) {
@@ -307,17 +456,34 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
         }
         switch (clotheKey.get(mCurrentPosition)) {
             case COLOR:
+                colorClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getColor();
                 String type = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getType();
                 String colorName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getColorName();
-//                String imageName = m;
-//                setColorBg(getResource(imageName));
+                String imageName;
+                if (mButtonFront.isSelected()) {
+                    imageName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_a";
+                    setColorBg(getResource(imageName));
+
+                }
+                if (mButtonBack.isSelected()) {
+                    imageName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_b";
+                    mContainerBack.setColorBg(getResource(imageName));
+                }
+                isFirst = false;
+                mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 break;
             case PATTERN:
                 imageUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
                 setPatternUrl(imageUrl);
                 break;
             case MASK:
-                mAnyShapeView.setImageMask(getResource("gao"));
+                if (mButtonFront.isSelected()) {
+                    mAnyShapeView.setImageMask(getResource("gao"));
+                }
+                if (mButtonBack.isSelected()) {
+                    mContainerBack.setImageMask(getResource("gao"));
+
+                }
 
                 break;
             case SIGNATURE://签名处理
@@ -345,7 +511,12 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
         Glide.with(App.getInstance()).asBitmap().apply(options).load(Constants.ImageUrl + imageUrl).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                mAnyShapeView.setImageNetSource(resource);
+                if (mButtonBack.isSelected()) {
+                    mContainerBack.setImageNetSource(resource);
+                }
+                if (mButtonFront.isSelected()) {
+                    mAnyShapeView.setImageNetSource(resource);
+                }
             }
         });
     }
@@ -468,7 +639,7 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
                     }
 
                 } else {
-                    textSticker = new TextSticker(NewsDesignActivity.this);
+                    textSticker = new TextSticker(NewDesignActivity.this);
                     textSticker.setText(s);
                     textSticker.setTypeface(typeface);
                     textSticker.setTextColor(Color.BLACK);
@@ -491,6 +662,7 @@ public class NewsDesignActivity extends BaseActivity<DetailDesignPresenter> impl
 
         if (cover != null) {
             setPatternAvatar(cover.getPath());
+            avatarList.add(cover.getPath());
         }
     }
 

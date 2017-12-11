@@ -28,7 +28,7 @@ public interface DetailDesignContract {
     }
 
     interface Presenter extends BasePresenter<DetailDesignView> {
-        void getDetailDesign(String gender, String type,ArrayList<VersionStyle> mClothesList);
+        void getDetailDesign(String gender, String type, ArrayList<VersionStyle> mClothesList, boolean b);
 
     }
 

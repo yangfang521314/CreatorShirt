@@ -58,7 +58,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private ChoiceSizePopupWindow mPopupWindow;
     private SharePopupWindow mSharePopupWindow;
     private OrderBaseInfo mOrderBaseInfo;
-    private String styleContext;//正面背面json数据
+//    private String styleContext;//正面背面json数据
     private OrderType mOrderType;
     private List<TextureEntity> textureEntityList = new ArrayList<>();
     private ArrayList<String> avatarList = new ArrayList<>();
@@ -68,7 +68,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         super.initData();
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
-            styleContext = getIntent().getExtras().getString("styleContext");
+//            styleContext = getIntent().getExtras().getString("styleContext");
             if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
                 mBackImageUrl = mOrderBaseInfo.getBackUrl();
             }
@@ -206,7 +206,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     private void saveOrderData(String type) {
         if (type.equals(Constants.check)) {
             mPresenter.setClothesData(mOrderBaseInfo, mPopupWindow.getSize());
-            mPresenter.setStyleContext(styleContext);
+//            mPresenter.setStyleContext(styleContext);
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
             mPresenter.setTextUre(mPopupWindow.getTextUre());
@@ -217,7 +217,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         }
         if (type.equals(Constants.share)) {
             mPresenter.setClothesData(mOrderBaseInfo, null);
-            mPresenter.setStyleContext(styleContext);
+//            mPresenter.setStyleContext(styleContext);
             mPresenter.setIM(mBackImageUrl);
             mPresenter.setSaveType(type);
             if (!avatarList.isEmpty()) {

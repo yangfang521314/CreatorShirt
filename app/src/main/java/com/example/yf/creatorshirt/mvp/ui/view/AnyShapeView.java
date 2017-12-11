@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.yf.creatorshirt.mvp.model.HollowModel;
 import com.example.yf.creatorshirt.mvp.model.PictureModel;
 
 /**
@@ -31,12 +30,10 @@ public class AnyShapeView extends View {
     private Rect dstRect;
     private int width;
     private int height;
-    private Context mContext;
     private PictureModel jigsawPictureModel;
     private boolean isContain;
     private double mLastFingerDistance;
     private double mLastDegree;
-    private HollowModel hollowModel;
     private boolean mIsDoubleFinger;
     private float mLastX;
     private float mLastY;
@@ -72,6 +69,7 @@ public class AnyShapeView extends View {
         jigsawPictureModel.setBitmapPicture(source);
         postInvalidate();
     }
+
     public void setImageNetSource(Bitmap res) {
         source = res;
         jigsawPictureModel.setBitmapPicture(source);
@@ -213,9 +211,6 @@ public class AnyShapeView extends View {
                 break;
             //两手指都离开屏幕
             case MotionEvent.ACTION_UP:
-//                for (PictureModel pictureModel : mPictureModels) {
-//                    pictureModel.setSelect(false);
-//                }
                 mIsDoubleFinger = false;
                 break;
         }

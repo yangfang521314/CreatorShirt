@@ -149,7 +149,7 @@ public class FileUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resid);
-        options.inSampleSize = 5;
+        options.inSampleSize = 4;
         options.inJustDecodeBounds = false;
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);
         return img;

@@ -12,9 +12,9 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
  * Created by yangfang on 2017/11/2.
  */
 
-public class NewsDesignAdapter extends BaseAdapter<String,DesignBaseHolder> {
+public class NewDesignAdapter extends BaseAdapter<String,DesignBaseHolder> {
 
-    public NewsDesignAdapter(Context context) {
+    public NewDesignAdapter(Context context) {
         super(context);
     }
 

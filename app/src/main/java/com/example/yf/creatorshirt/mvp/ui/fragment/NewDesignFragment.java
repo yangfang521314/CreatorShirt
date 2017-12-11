@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
@@ -9,14 +10,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.presenter.ClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.ClothesContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.NewsDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.NewsDesignAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.NewDesignAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.NewMClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ScaleLayoutManager;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ViewPagerLayoutManager;
@@ -24,6 +27,8 @@ import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,11 +54,14 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     TextView mShowM;
     @BindView(R.id.tv_sex_w)
     TextView mShowW;
+    @Inject
+    Activity mActivity;
     private ScaleLayoutManager scaleLayoutManager;
     private ScaleLayoutManager scaleMLayoutManager;
     private ScaleLayoutManager scaleWLayoutManager;
-    private NewsDesignAdapter adapter;
+    private NewDesignAdapter adapter;
     private NewClothesAdapter designAdapter;
+    private NewMClothesAdapter mMClothesAdapter;
     private List<String> mClothesName;
     private ArrayMap<String, List<VersionStyle>> mManData;
     private ArrayMap<String, List<VersionStyle>> mWomanData;
@@ -87,6 +95,8 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
             mManRelative.setVisibility(View.GONE);
             mStyleRecyclerView.setVisibility(View.VISIBLE);
             mWomanRelative.setVisibility(View.GONE);
+            mDeleteCY.setVisibility(View.GONE);
+            Glide.with(mActivity).pauseRequests();
         }
     }
 
@@ -113,7 +123,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         scaleLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 15));
         scaleLayoutManager.setCenterScale(1.3f);
         scaleLayoutManager.setOrientation(ViewPagerLayoutManager.VERTICAL);
-        adapter = new NewsDesignAdapter(mContext);
+        adapter = new NewDesignAdapter(mContext);
         adapter.setData(mClothesName);
         mStyleRecyclerView.setAdapter(adapter);
         adapter.setOnComClickListener(new ItemClickListener.OnItemComClickListener() {
@@ -121,7 +131,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
             public void onItemClick(Object o, View view) {
                 if (mManData.containsKey(o)) {
                     mManRelative.setVisibility(View.VISIBLE);
-                    designAdapter = new NewClothesAdapter(mContext);
+                    designAdapter = new NewClothesAdapter(mActivity);
                     designAdapter.setGender("m");
                     designAdapter.setData(mManData.get(o));
                     designAdapter.setOnItemClickListener(new OnObjectClickListener());
@@ -131,15 +141,16 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
                 }
                 if (mWomanData.containsKey(o)) {
                     mWomanRelative.setVisibility(View.VISIBLE);
-                    designAdapter = new NewClothesAdapter(mContext);
-                    designAdapter.setGender("w");
-                    designAdapter.setData(mWomanData.get(o));
-                    designAdapter.setOnItemClickListener(new OnObjectClickListener());
-                    mDetailWomanRCY.setAdapter(designAdapter);
-                    designAdapter.notifyDataSetChanged();
+                    mMClothesAdapter = new NewMClothesAdapter(mActivity);
+                    mMClothesAdapter.setGender("w");
+                    mMClothesAdapter.setData(mWomanData.get(o));
+                    mMClothesAdapter.setOnItemClickListener(new OnObjectClickListener());
+                    mDetailWomanRCY.setAdapter(mMClothesAdapter);
+                    mMClothesAdapter.notifyDataSetChanged();
                     mShowW.setText(mWomanData.get(o).get(1).getGender());
                 }
                 mStyleRecyclerView.setVisibility(View.GONE);
+                mDeleteCY.setVisibility(View.VISIBLE);
             }
 
 
@@ -154,18 +165,19 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     }
 
 
-    private class OnObjectClickListener implements ItemClickListener.OnItemObjectClickListener {
+    public class OnObjectClickListener implements DesignOnClickListener {
+
         @Override
-        public void onItemClick(Object o) {
+        public void onItemClickListener(Object o, Object o1) {
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) o);
-            startCommonActivity(getActivity(), bundle, NewsDesignActivity.class);
+            bundle.putParcelable("choice", (Parcelable) o);
+            bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) o1);
+            startCommonActivity(getActivity(), bundle, NewDesignActivity.class);
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        designAdapter.setBitmapDestory();
+    interface DesignOnClickListener {
+        void onItemClickListener(Object o, Object o1);
     }
+
 }

@@ -12,6 +12,7 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
     private String color;
     private String colorName;
     private String gender;
+    private String sex;
 
 
 
@@ -24,6 +25,7 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         color = in.readString();
         colorName = in.readString();
         gender = in.readString();
+        sex = in.readString();
     }
 
     public static final Creator<VersionStyle> CREATOR = new Creator<VersionStyle>() {
@@ -62,6 +64,14 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         this.colorName = colorName;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     @Override
     public String toString() {
         return "VersionStyle{" +
@@ -90,5 +100,6 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         dest.writeString(color);
         dest.writeString(colorName);
         dest.writeString(gender);
+        dest.writeString(sex);
     }
 }

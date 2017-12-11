@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
@@ -57,7 +56,6 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                     mVersionStyle = new ArrayList<>();
                     NSArray nsArray = (NSArray) dictionary.objectForKey("M");
                     for (int j = 0; j < nsArray.count(); j++) {
-
                         NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
                         String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
                         String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
@@ -66,8 +64,8 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                         style.setColor(color);
                         style.setType(VerName[i]);
                         style.setColorName(colorName);
-                        Log.e("atg","d"+type);
                         style.setGender(type);
+                        style.setSex("m");
                         mVersionStyle.add(style);
 
                     }
@@ -86,8 +84,8 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                         style.setColor(color);
                         style.setType(VerName[i]);
                         style.setColorName(colorName);
-                        Log.e("atg","d"+type);
                         style.setGender(type);
+                        style.setSex("w");
                         mVersionStyle.add(style);
 
                     }

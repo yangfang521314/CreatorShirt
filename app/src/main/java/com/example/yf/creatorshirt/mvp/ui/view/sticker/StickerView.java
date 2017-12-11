@@ -43,6 +43,7 @@ public class StickerView extends FrameLayout {
     private final boolean showBorder;
     private final boolean bringToFrontCurrentSticker;
 
+
     @IntDef({
             ActionMode.NONE, ActionMode.DRAG, ActionMode.ZOOM_WITH_TWO_FINGER, ActionMode.ICON,
             ActionMode.CLICK
