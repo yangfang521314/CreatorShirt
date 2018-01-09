@@ -6,6 +6,17 @@ package com.example.yf.creatorshirt.mvp.model.orders;
 
 public class ClothesSize {
     private String size;
+    private String letter;
+    private int numbers;
+    private double prices;
+
+    public double getPrices() {
+        return prices;
+    }
+
+    public void setPrices(double prices) {
+        this.prices = prices;
+    }
 
     public String getSize() {
         return size;
@@ -20,5 +31,21 @@ public class ClothesSize {
         return "ClothesSize{" +
                 "size='" + size + '\'' +
                 '}';
+    }
+
+    public String getLetter() {
+        return letter;
+    }
+
+    public void setLetter(String letter) {
+        this.letter = letter;
+    }
+
+    public int getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(int numbers) {
+        this.numbers = numbers;
     }
 }

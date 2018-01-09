@@ -18,12 +18,14 @@ public class Constants {
     public static final String USER_TOKEN = "user_token";
     public static final String USER_MOBILE = "user_mobile";
 
-    public static final String[] size = {"160cm", "165cm", "170cm", "175cm", "180cm", "185cm"};
-//    public static final String[] letter = {"XS", "S", "S", "S", "S", "S"};
+    public static final String[] size = {"150cm", "155cm", "165cm", "175cm", "185cm"};
+    public static final String[] letter = {"XS", "S", "M", "L", "XL"};
     public static final int USER_AVATAR_MAX_SIZE = 150 ;
     public static final String USER_NAME = "username";
     public static final String  LOGIN = "login";
     public static final String  share = "Share";
     public static final String check = "Check";
     public static final String ADD_TEXT = "添加文字";
+    public static final int WIDTH_MASK = 700;
+    public static final int HEIGHT_MASK = 900;
 }

@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true">
+    android:layout_height="match_parent">
 
-    <ImageView
+    <com.example.yf.creatorshirt.mvp.ui.view.ClothesImageView
         android:id="@+id/clothes"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/wshort_astronaut_a" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        />
 
-    <com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView
+    <com.example.yf.creatorshirt.mvp.ui.view.FinishImage
         android:id="@+id/source"
-        android:layout_width="200dp"
-        android:layout_height="230dp"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <com.example.yf.creatorshirt.mvp.ui.view.MaskView
+        android:id="@+id/mask"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
         android:layout_centerInParent="true"
         android:layout_gravity="center" />
 </RelativeLayout>

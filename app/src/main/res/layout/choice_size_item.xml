@@ -11,6 +11,7 @@
         android:layout_margin="10dp"
         android:gravity="center_vertical"
         android:padding="5dp"
+        android:visibility="gone"
         android:text="尺码"
         android:textColor="@color/outerspace"
         android:textSize="18.67sp" />
@@ -18,11 +19,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:background="@color/lightgray" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_size"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -48,6 +51,7 @@
         android:id="@+id/recyclerView_texture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/choice_size_ll"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp" />

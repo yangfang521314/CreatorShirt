@@ -16,10 +16,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Creatd by yangfang on 2017/8/26.
+ * Created by yangfang on 2018/1/3.
  */
 
-public class ClothesBackView extends StickerView {
+public class ClothesFrontView extends StickerView {
     @BindView(R.id.clothes)
     ClothesImageView mClothes;
     @BindView(R.id.source)
@@ -28,18 +28,13 @@ public class ClothesBackView extends StickerView {
     MaskView mMask;
     private Bitmap mask;
 
-    public ClothesBackView(Context context) {
+    public ClothesFrontView(Context context) {
         super(context);
         initView(context);
     }
 
-    public ClothesBackView(Context context, AttributeSet attrs) {
+    public ClothesFrontView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView(context);
-    }
-
-    public ClothesBackView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         initView(context);
     }
 
@@ -62,7 +57,6 @@ public class ClothesBackView extends StickerView {
             setLocked(true);
         }
     }
-
 
     public void setColorBg(int resource) {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resource);

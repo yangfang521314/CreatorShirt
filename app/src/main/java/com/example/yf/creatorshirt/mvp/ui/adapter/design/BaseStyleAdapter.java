@@ -5,8 +5,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
@@ -69,7 +70,10 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
         try {
             result = URLEncoder.encode(name, "UTF-8");
             if (!TextUtils.isEmpty(result)) {
-                Glide.with(mContext).load(Constants.ImageDetailUrl + result + ".png").into(holder.mStyleImageView);
+                GlideApp.with(mContext).load(Constants.ImageDetailUrl + result + ".png")
+                        .centerInside()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .into(holder.mStyleImageView);
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

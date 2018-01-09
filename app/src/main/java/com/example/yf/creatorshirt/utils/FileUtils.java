@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -143,14 +144,18 @@ public class FileUtils {
      *
      * @param context
      * @param resid
-     * @return
+     * @param width
+     * @param height  @return
      */
-    public static Bitmap getSmallBitmap(Context context, int resid) {
+    public static Bitmap getSmallBitmap(Context context, int resid, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resid);
-        options.inSampleSize = 4;
+        options.inSampleSize = 1;
         options.inJustDecodeBounds = false;
+        options.outWidth = width;
+        options.outHeight = height;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);
         return img;
 
@@ -228,6 +233,14 @@ public class FileUtils {
      */
     public static boolean deleteFile(File file) {
         return file.exists() && file.isFile() && file.delete();
+    }
+
+
+    public static int getResource(String imageName,Activity context) {
+        Context ctx = context.getBaseContext();
+        int resId = ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
+        //如果没有在"mipmap"下找到imageName,将会返回0
+        return resId;
     }
 
 

@@ -123,15 +123,6 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 maskStyle.setImage(R.mipmap.quan);
                 maskList.add(maskStyle);
             }
-            if (maskList != null) {
-                name = "mask";
-                styleBean = new StyleBean();
-                styleBean.setTitle(name);
-                newList.add(styleBean);
-                clotheKey.add(MASK);
-                addMaskData(name, maskList);
-            }
-
 
             if (mTotalClothes != null) {
                 styleBean = new StyleBean();
@@ -151,6 +142,14 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     clotheKey.add(PATTERN);
                     addPatternData(name, mData.getPattern().getFileList());
                 }
+            }
+            if (maskList != null) {
+                name = "mask";
+                styleBean = new StyleBean();
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(MASK);
+                addMaskData(name, maskList);
             }
 
             if (mData.getText() != null) {
@@ -171,15 +170,6 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 maskStyle.setImage(R.mipmap.quan);
                 maskList.add(maskStyle);
             }
-            if (maskList != null) {
-                name = "mask";
-                styleBean = new StyleBean();
-                styleBean.setTitle(name);
-                newList.add(styleBean);
-                clotheKey.add(MASK);
-                addMaskData(name, maskList);
-            }
-
 
             if (mTotalClothes != null) {
                 styleBean = new StyleBean();
@@ -200,6 +190,15 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     addPatternData(name, mData.getPattern().getFileList());
                 }
             }
+            if (maskList != null) {
+                name = "mask";
+                styleBean = new StyleBean();
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(MASK);
+                addMaskData(name, maskList);
+            }
+
         }
         mView.showSuccessData(newList, clotheKey, mColorData, mPatterData, mMaskData, mSignatureData);
     }

@@ -1,12 +1,10 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
@@ -19,7 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,15 +46,14 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.TextStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
-import com.example.yf.creatorshirt.mvp.ui.view.AnyShapeView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
+import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
@@ -88,12 +84,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     Button mBtnFinish;
     @BindView(R.id.rl_design)
     RelativeLayout mDesign;
-    @BindView(R.id.clothes)
-    ImageView mClothes;
-    @BindView(R.id.source)
-    AnyShapeView mAnyShapeView;
     @BindView(R.id.rl_clothes_root)
-    StickerView mContainerFront;
+    ClothesFrontView mContainerFront;
     @BindView(R.id.tv_back)
     TextView mButtonBack;
     @BindView(R.id.tv_front)
@@ -124,18 +116,19 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private String imageUrl;
     private int prePosition;
     private TextSticker textSticker;
-    private String content;
     private Typeface mUpdateType;
     private ArrayList<VersionStyle> mListClothes;
     private VersionStyle mInitData;//默认显示第一件衣服
-    private String imageFrontPath;
-    private String imageBackPath;
+    private String maskFront;
+    private String maskBack;
     private OrderBaseInfo mOrderBaseInfo; //订单信息
     private String colorClothes;
     private String gender;//性别
     private ArrayList<String> avatarList = new ArrayList<>();
     private boolean isFirst;
     private VersionStyle mCurrentClothes;
+    private String imageFront;
+    private String imageBack;
 
 
     @Override
@@ -168,7 +161,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         //默认显示正面
         isFirst = true;
         initFront();
-        initBack();
         initSignature();//默认文字编辑
     }
 
@@ -214,27 +206,13 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     private void initFront() {
         mButtonFront.setSelected(true);
-        if (DisplayUtil.getScreenW(this) < 1080) {
-            DisplayUtil.calculateSmallRl(mContainerFront);
-        } else {
-            DisplayUtil.calculateRl(mContainerFront);
-        }
-        //初始化显示第一件正面衣服款式
         if (mInitData != null) {
-            getCurrentFrontClothes(mInitData,"a");
+            getCurrentFrontClothes(mInitData);
             gender = mInitData.getGender();
         }
         mOrderBaseInfo = new OrderBaseInfo();
-    }
 
-    private void initBack() {
-        if (DisplayUtil.getScreenW(this) < 1080) {
-            DisplayUtil.calculateSmallRl(mContainerBack);
-        } else {
-            DisplayUtil.calculateRl(mContainerBack);
-        }
     }
-
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.tv_front, R.id.tv_back,
             R.id.back})
@@ -244,9 +222,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 if (mContainerBack.getWidth() <= 0) {
                     ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
                 } else {
-                    generateBitmap();//生成衣服的图片
-                    if (imageBackPath != null && imageFrontPath != null) {
-//                        startNewActivity();
+                    generateBitmap();//生成衣服mask的图片
+                    if (imageFront != null && imageBack != null) {
+                        startNewActivity();
                     }
                 }
                 break;
@@ -258,11 +236,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                     case COLOR:
                         break;
                     case PATTERN:
-                        mAnyShapeView.setImageSource(null);
+                        mContainerFront.setImageSource(null);
                         break;
                     case MASK:
-                        mAnyShapeView.setImageMask(0);
-
+                        mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan), null);
                         break;
                     case SIGNATURE:
                         if (!mContainerFront.isNoneSticker()) {
@@ -279,10 +256,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             case R.id.tv_front:
                 if (isFirst) {//默认刚进来的第一件衣服
                     if (mInitData != null) {
-                        getCurrentFrontClothes(mInitData, "a");
+                        getCurrentFrontClothes(mInitData);
                     }
                 } else {
-                    getCurrentFrontClothes(mCurrentClothes, "a");
+                    getCurrentFrontClothes(mCurrentClothes);
                 }
                 mContainerFront.setVisibility(View.VISIBLE);
                 mContainerBack.setVisibility(View.GONE);
@@ -297,10 +274,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             case R.id.tv_back:
                 if (isFirst) {//默认刚进来的第一件衣服
                     if (mInitData != null) {
-                        getCurrentBackClothes(mInitData, "b");
+                        getCurrentBackClothes(mInitData);
                     }
                 } else {
-                    getCurrentBackClothes(mCurrentClothes, "b");
+                    getCurrentBackClothes(mCurrentClothes);
                 }
                 mContainerBack.setVisibility(View.VISIBLE);
                 mContainerFront.setVisibility(View.GONE);
@@ -353,26 +330,39 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBtnFinish.setVisibility(View.VISIBLE);
     }
 
-    private void getCurrentBackClothes(VersionStyle data, String flag) {
-        String type = data.getType();
-        String colorName = data.getColorName();
-        String imageName = data.getSex() + type + "_" + colorName + "_" + flag;
-        mContainerBack.setColorBg(getResource(imageName));
+    private void generateBitmap() {
+//        if (mAnyShapeView.getDrawable() != null) {
+//            Bitmap bitmapFront = ((BitmapDrawable) mAnyShapeView.getDrawable()).getBitmap();
+//            maskFront = FileUtils.saveBitmap(bitmapFront, this, "front");
+//
+//        }
+//        if (mContainerBack.getSource().getDrawable() != null) {
+//            Bitmap bitmapBack = ((BitmapDrawable) mContainerBack.getSource().getDrawable()).getBitmap();
+//            maskBack = FileUtils.saveBitmap(bitmapBack, this, "back");
+//        }
     }
 
-    private void getCurrentFrontClothes(VersionStyle data, String flag) {
+    private void getCurrentBackClothes(VersionStyle data) {
         String type = data.getType();
         String colorName = data.getColorName();
-        String imageName = data.getSex() + type + "_" + colorName + "_" + flag;
-        setColorBg(getResource(imageName));
+        imageBack = data.getSex() + type + "_" + colorName + "_" + "b";
+        mContainerBack.setColorBg(FileUtils.getResource(imageBack, this));
+    }
+
+    private void getCurrentFrontClothes(VersionStyle data) {
+        String type = data.getType();
+        String colorName = data.getColorName();
+        imageFront = data.getSex() + type + "_" + colorName + "_" + "a";
+        setColorBg(FileUtils.getResource(imageFront, this));
+        mCurrentClothes = data;
     }
 
     private void startNewActivity() {
         Bundle bundle = new Bundle();
-        mOrderBaseInfo.setBackUrl(imageBackPath);
-        mOrderBaseInfo.setFrontUrl(imageFrontPath);
+        mOrderBaseInfo.setBackUrl(imageBack);
+        mOrderBaseInfo.setFrontUrl(imageFront);
         mOrderBaseInfo.setGender(gender);
-//        mOrderBaseInfo.setType(type);
+        mOrderBaseInfo.setType(mCurrentClothes.getGender());
         mOrderBaseInfo.setColor(colorClothes);
         bundle.putParcelable("allImage", mOrderBaseInfo);
 //        OrderData orderData = new OrderData();
@@ -385,52 +375,15 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 bundle.putStringArrayList("avatar", avatarList);
             }
         }
+        if (maskFront != null) {
+            bundle.putString("front", maskFront);
+        }
+        if (maskBack != null) {
+            bundle.putString("back", maskBack);
+        }
         startCommonActivity(this, bundle, ChoiceSizeActivity.class);
     }
 
-    private void generateBitmap() {
-        Bitmap mask = getBitmapFromView(mAnyShapeView, mAnyShapeView.getWidth(), mAnyShapeView.getHeight());
-//        Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(),
-//                mContainerFront.getHeight()
-//                , Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        mContainerFront.draw(canvas);
-//        imageFrontPath = FileUtils.saveBitmap(mask, this, "front");
-        Bitmap bitmapFront = Bitmap.createBitmap(mContainerBack.getWidth(),
-                mContainerBack.getHeight()
-                , Bitmap.Config.ARGB_8888);
-        Canvas canvasFront = new Canvas(bitmapFront);
-        mContainerBack.draw(canvasFront);
-        imageBackPath = FileUtils.saveBitmap(bitmapFront, this, "back");
-    }
-
-    /**
-     * 由View得到对应的指定尺寸的Bitmap
-     *
-     * @param view
-     * @return
-     */
-    public static Bitmap getBitmapFromView(View view, int bitmapWidth, int bitmapHeight) {
-        //Define a bitmap with the same size as the view
-        Bitmap tempBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        //Bind a canvas to it
-        Canvas canvas = new Canvas(tempBitmap);
-        //Get the view's background
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null) {
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas);
-        } else {
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.TRANSPARENT);
-        }
-        // draw the view on the canvas
-        view.draw(canvas);
-        //return the bitmap
-        Bitmap resultBitmap = Bitmap.createScaledBitmap(tempBitmap, bitmapWidth, bitmapHeight, true);
-        tempBitmap.recycle();
-        return resultBitmap;
-    }
 
     public void saveText(TextSticker textSticker) {
         if (!TextUtils.isEmpty(textSticker.getText()) && textEntities != null) {
@@ -459,15 +412,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 colorClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getColor();
                 String type = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getType();
                 String colorName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getColorName();
-                String imageName;
                 if (mButtonFront.isSelected()) {
-                    imageName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_a";
-                    setColorBg(getResource(imageName));
+                    imageFront = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_a";
+                    setColorBg(FileUtils.getResource(imageFront, this));
 
                 }
                 if (mButtonBack.isSelected()) {
-                    imageName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_b";
-                    mContainerBack.setColorBg(getResource(imageName));
+                    imageBack = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_b";
+                    mContainerBack.setColorBg(FileUtils.getResource(imageBack, this));
                 }
                 isFirst = false;
                 mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
@@ -478,10 +430,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 break;
             case MASK:
                 if (mButtonFront.isSelected()) {
-                    mAnyShapeView.setImageMask(getResource("gao"));
+                    mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan),
+                            BitmapFactory.decodeResource(getResources(),
+                                    FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
+                                            + "_" + mCurrentClothes.getColorName() + "_a", this)));
                 }
                 if (mButtonBack.isSelected()) {
-                    mContainerBack.setImageMask(getResource("gao"));
+                    mContainerBack.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan),
+                            BitmapFactory.decodeResource(getResources(),
+                                    FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
+                                            + "_" + mCurrentClothes.getColorName() + "_a", this)));
 
                 }
 
@@ -512,17 +470,17 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 if (mButtonBack.isSelected()) {
-                    mContainerBack.setImageNetSource(resource);
+                    mContainerBack.setImageSource(resource);
                 }
                 if (mButtonFront.isSelected()) {
-                    mAnyShapeView.setImageNetSource(resource);
+                    mContainerFront.setImageSource(resource);
                 }
             }
         });
     }
 
     private void setColorBg(int image) {
-        mClothes.setImageResource(image);
+        mContainerFront.setColorBg(image);
     }
 
     @Override
@@ -628,7 +586,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
             @Override
             public void onClickChoiceOrBack(View view, String s, Typeface typeface) {
-                content = s;
                 if (isNew) {
                     if (textSticker != null) {
                         textSticker.setText(s);
@@ -659,7 +616,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     @Override
     public void showSuccessAvatar(File cover) {
-
         if (cover != null) {
             setPatternAvatar(cover.getPath());
             avatarList.add(cover.getPath());
@@ -667,7 +623,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     }
 
     private void setPatternAvatar(String path) {
-        mAnyShapeView.setImageSource(path);
+        mContainerFront.setImageSource(BitmapFactory.decodeFile(path));
     }
 
     @Override
@@ -680,13 +636,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().post(new ChangeSelectEvent(true));
-    }
-
-    public int getResource(String imageName) {
-        Context ctx = getBaseContext();
-        int resId = getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
-        //如果没有在"mipmap"下找到imageName,将会返回0
-        return resId;
     }
 
 }

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <LinearLayout
+        android:id="@+id/ll_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="性别："
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/choice_size_ll">
+
+            <TextView
+                android:id="@+id/man"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/choice_size_background"
+                android:gravity="center"
+                android:text="男子" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@color/glitter"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/woman"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/choice_size_background"
+                android:gravity="center"
+                android:text="女子" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@color/glitter"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/child"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/choice_size_background"
+                android:gravity="center"
+                android:text="儿童" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="尺码："
+            android:textColor="@color/black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/choice_size_ll" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="数量："
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/choice_size_ll">
+
+            <TextView
+                android:id="@+id/minus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="—" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@color/glitter"
+                android:gravity="center_horizontal" />
+
+
+            <EditText
+                android:id="@+id/numbers_clothes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="false" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@color/glitter"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="+" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_sure"
+        style="@style/common_start_btn"
+        android:text="确定" />
+
+</RelativeLayout>

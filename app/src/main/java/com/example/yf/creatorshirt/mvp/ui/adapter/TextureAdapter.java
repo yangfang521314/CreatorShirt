@@ -3,7 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
@@ -30,7 +30,7 @@ public class TextureAdapter extends BaseAdapter<TextureEntity, SizeViewHolder> {
     @Override
     protected void bindCustomViewHolder(SizeViewHolder holder, final int position) {
         holder.mSizeNumber.setText(mData.get(position).getTexture());
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.mSizeNumber.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.mSizeNumber.getLayoutParams();
         params.width = DisplayUtil.Dp2Px(App.getInstance(), 50);
         params.height = DisplayUtil.Dp2Px(App.getInstance(), 30);
         params.rightMargin = DisplayUtil.Dp2Px(App.getInstance(), 10);
@@ -43,6 +43,9 @@ public class TextureAdapter extends BaseAdapter<TextureEntity, SizeViewHolder> {
                 }
             }
         });
+        if (position == mData.size() - 1) {
+            holder.mDivider.setVisibility(View.GONE);
+        }
     }
 
 }

@@ -174,11 +174,12 @@
         <activity
             android:name=".mvp.ui.activity.DesignerNewOrdersActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".mvp.ui.activity.NewDesignActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.NewDetailDesignActivity"/>
+        <activity android:name=".mvp.ui.activity.NewDetailDesignActivity" />
+        <activity android:name=".mvp.ui.activity.NewOrderActivity" />
+        <activity android:name=".mvp.ui.activity.AddOrderActivity"></activity>
     </application>
 
 </manifest>

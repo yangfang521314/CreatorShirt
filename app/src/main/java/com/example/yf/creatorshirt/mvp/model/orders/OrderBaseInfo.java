@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 
 public class OrderBaseInfo implements Parcelable{
-    private String backUrl;
-    private String frontUrl;
+    private String backUrl;//正面
+    private String frontUrl;//背面
     private String gender;
-    private String type;
-    private String color;
+    private String type;//衣服类型
+    private String color;//颜色
 
 
     public OrderBaseInfo() {

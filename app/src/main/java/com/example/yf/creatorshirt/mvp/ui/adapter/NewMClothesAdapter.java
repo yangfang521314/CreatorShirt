@@ -1,17 +1,13 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
@@ -40,17 +36,11 @@ public class NewMClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHold
         String imageName = gender + mData.get(position).getType() + "_" + colorName + "_a";
         final int resId = App.getInstance().getResources().getIdentifier(imageName, "mipmap", App.getInstance().getPackageName());
         if (resId != 0) {
-            RequestOptions options = new RequestOptions();
-            options.centerInside();
-            options.diskCacheStrategy(DiskCacheStrategy.NONE);
-            options.override(300, 600);
-            options.centerInside();
-            Glide.with(mContext).asBitmap().load(resId).apply(options).into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                    holder.mClothesT.setImageBitmap(resource);
-                }
-            });
+            GlideApp.with(mContext).asBitmap().load(resId)
+                    .centerInside()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .override(300, 600).into(holder.mClothesT);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

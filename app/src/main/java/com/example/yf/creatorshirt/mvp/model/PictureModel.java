@@ -1,13 +1,15 @@
 package com.example.yf.creatorshirt.mvp.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Hendricks on 2017/6/12.
  * 一个要处理的图片的数据模型，包含镂空部分数据
  */
 
-public class PictureModel {
+public class PictureModel implements Parcelable{
     private Bitmap bitmapPicture;
     private HollowModel hollowModel;
 
@@ -16,6 +18,32 @@ public class PictureModel {
 
     private float scaleX = 1F;
     private float scaleY = 1F;
+
+    protected PictureModel(Parcel in) {
+        bitmapPicture = in.readParcelable(Bitmap.class.getClassLoader());
+        pictureX = in.readInt();
+        pictureY = in.readInt();
+        scaleX = in.readFloat();
+        scaleY = in.readFloat();
+        rotateDelta = in.readFloat();
+        isSelect = in.readByte() != 0;
+        isLastSelect = in.readByte() != 0;
+    }
+
+    public PictureModel() {
+    }
+
+    public static final Creator<PictureModel> CREATOR = new Creator<PictureModel>() {
+        @Override
+        public PictureModel createFromParcel(Parcel in) {
+            return new PictureModel(in);
+        }
+
+        @Override
+        public PictureModel[] newArray(int size) {
+            return new PictureModel[size];
+        }
+    };
 
     public float getScaleX() {
         return scaleX;
@@ -101,5 +129,22 @@ public class PictureModel {
 
     public void setHollowModel(HollowModel hollowModel) {
         this.hollowModel = hollowModel;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(bitmapPicture, flags);
+        dest.writeInt(pictureX);
+        dest.writeInt(pictureY);
+        dest.writeFloat(scaleX);
+        dest.writeFloat(scaleY);
+        dest.writeFloat(rotateDelta);
+        dest.writeByte((byte) (isSelect ? 1 : 0));
+        dest.writeByte((byte) (isLastSelect ? 1 : 0));
     }
 }

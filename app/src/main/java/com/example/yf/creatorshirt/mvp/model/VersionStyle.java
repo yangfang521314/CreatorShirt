@@ -8,12 +8,11 @@ import android.os.Parcelable;
  */
 
 public class VersionStyle extends BaseChoiceEntity implements Parcelable {
-    private String type;
-    private String color;
-    private String colorName;
-    private String gender;
-    private String sex;
-
+    private String type;//衣服总类型
+    private String color;//颜色值
+    private String colorName;//颜色name
+    private String gender;//衣服类型中文(男、女）
+    private String sex;//性别
 
 
     public VersionStyle() {

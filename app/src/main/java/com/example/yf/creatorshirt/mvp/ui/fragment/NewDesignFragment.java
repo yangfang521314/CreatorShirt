@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.presenter.ClothesPresenter;
@@ -96,7 +96,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
             mStyleRecyclerView.setVisibility(View.VISIBLE);
             mWomanRelative.setVisibility(View.GONE);
             mDeleteCY.setVisibility(View.GONE);
-            Glide.with(mActivity).pauseRequests();
+            GlideApp.with(mActivity).pauseRequests();
         }
     }
 

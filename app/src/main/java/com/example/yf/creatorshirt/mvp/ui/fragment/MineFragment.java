@@ -8,11 +8,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.UserInfoPresenter;
@@ -92,7 +90,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
             case R.id.user_avatar:
                 if (App.isLogin) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("update","update");
+                    bundle.putString("update", "update");
                     startCommonActivity(getActivity(), bundle, EditUserActivity.class);
                 } else {
                     startCommonActivity(getActivity(), null, LoginActivity.class);
@@ -118,7 +116,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
             case R.id.rl_user_info:
                 if (App.isLogin) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("update","update");
+                    bundle.putString("update", "update");
                     startCommonActivity(mActivity, bundle, EditUserActivity.class);
                 } else {
                     startCommonActivity(getActivity(), null, LoginActivity.class);
@@ -180,7 +178,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
     @Override
     public void showUserInfo(LoginBean userInfo) {
-            updateUserView();
+        updateUserView();
     }
 
     //更新视图
@@ -188,12 +186,12 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
         if (App.isLogin) {
             if (UserInfoManager.getInstance().getLoginResponse() != null) {
                 mUserName.setText(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getName());
-                RequestOptions options = new RequestOptions()
+
+                GlideApp.with(mActivity).
+                        load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage())
+                        .error(R.mipmap.mm)
                         .circleCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.mipmap.mm);
-                Glide.with(mActivity).
-                        load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage()).apply(options).into(mUserPicture);
+                        .into(mUserPicture);
                 mExitLogin.setText("退出登录");
                 mExitLogin.setVisibility(View.VISIBLE);
             }

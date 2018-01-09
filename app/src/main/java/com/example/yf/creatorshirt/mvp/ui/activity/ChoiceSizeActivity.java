@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -27,6 +28,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.SharePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
 
@@ -40,10 +42,12 @@ import butterknife.OnClick;
  * 选择设计尺寸大小页面
  */
 public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> implements SizeOrShareContract.SizeOrShareView {
-    @BindView(R.id.clothes_image)
+    @BindView(R.id.clothes_front_image)
     ImageView mImageClothes;
+    @BindView(R.id.clothes_back_image)
+    ImageView mBackClothes;
     @BindView(R.id.rl_choice_size)
-    RelativeLayout mRealChoiceSize;
+    LinearLayout mRealChoiceSize;
     @BindView(R.id.btn_choice_order)
     Button mCreateOrder;
     @BindView(R.id.share_weixin)
@@ -52,16 +56,26 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
     TextView mButtonFront;
+    @BindView(R.id.mask_front_image)
+    ImageView mFrontMask;
+    @BindView(R.id.mask_back_image)
+    ImageView mBackMask;
+    @BindView(R.id.rl_front)
+    RelativeLayout mRlFront;
+    @BindView(R.id.rl_back)
+    RelativeLayout mRlBack;
     private String mBackImageUrl;
     private String mFrontImageUrl;
 
     private ChoiceSizePopupWindow mPopupWindow;
     private SharePopupWindow mSharePopupWindow;
     private OrderBaseInfo mOrderBaseInfo;
-//    private String styleContext;//正面背面json数据
+    //    private String styleContext;//正面背面json数据
     private OrderType mOrderType;
     private List<TextureEntity> textureEntityList = new ArrayList<>();
     private ArrayList<String> avatarList = new ArrayList<>();
+    private String maskFrontUrl;
+    private String maskBackUrl;
 
     @Override
     public void initData() {
@@ -69,14 +83,20 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("allImage");
 //            styleContext = getIntent().getExtras().getString("styleContext");
-            if (!TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
+            if (mOrderBaseInfo != null && !TextUtils.isEmpty(mOrderBaseInfo.getBackUrl())) {
                 mBackImageUrl = mOrderBaseInfo.getBackUrl();
             }
-            if (!TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
+            if (mOrderBaseInfo != null && !TextUtils.isEmpty(mOrderBaseInfo.getFrontUrl())) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
             if (getIntent().hasExtra("avatar")) {
                 avatarList = getIntent().getExtras().getStringArrayList("avatar");
+            }
+            if (getIntent().hasExtra("front")) {
+                maskFrontUrl = getIntent().getStringExtra("front");
+            }
+            if (getIntent().hasExtra("back")) {
+                maskBackUrl = getIntent().getStringExtra("back");
             }
             mPresenter.getTexture(mOrderBaseInfo);
         }
@@ -90,20 +110,20 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
 
     @Override
     protected void initView() {
-        RequestOptions options = new RequestOptions()
-                .error(R.mipmap.ic_launcher)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(this).load(mFrontImageUrl).apply(options).into(mImageClothes);
         mAppBarTitle.setText(R.string.design);
         mAppBarBack.setVisibility(View.VISIBLE);
         mButtonFront.setSelected(true);
+        GlideApp.with(this)
+                .load(FileUtils.getResource(mFrontImageUrl, this))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageClothes);
+        if (maskFrontUrl != null) {
+            Glide.with(this).load(maskFrontUrl).into(mFrontMask);
+        }
     }
 
     @OnClick({R.id.share_weixin, R.id.btn_choice_order, R.id.back, R.id.clothes_back, R.id.clothes_front})
     public void onClick(View view) {
-        RequestOptions options = new RequestOptions()
-                .error(R.mipmap.ic_launcher)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
@@ -137,14 +157,27 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 }
                 break;
             case R.id.clothes_front:
+
+                mRlFront.setVisibility(View.VISIBLE);
+                mRlBack.setVisibility(View.GONE);
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
-                Glide.with(this).load(mFrontImageUrl).apply(options).into(mImageClothes);
+                GlideApp.with(this).load(FileUtils.getResource(mFrontImageUrl, this))
+                        .into(mImageClothes);
+                if (maskFrontUrl != null) {
+                    GlideApp.with(this).load(maskFrontUrl).into(mFrontMask);
+                }
                 break;
             case R.id.clothes_back:
+                mRlFront.setVisibility(View.GONE);
+                mRlBack.setVisibility(View.VISIBLE);
                 mButtonBack.setSelected(true);
                 mButtonFront.setSelected(false);
-                Glide.with(this).load(mBackImageUrl).apply(options).into(mImageClothes);
+                GlideApp.with(this).load(FileUtils.getResource(mBackImageUrl, this))
+                        .into(mBackClothes);
+                if (maskBackUrl != null) {
+                    GlideApp.with(this).load(maskBackUrl).into(mBackMask);
+                }
                 break;
         }
     }
@@ -175,10 +208,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     }
 
     private boolean isCheck() {
-        if (mPopupWindow.getBeforeView() == null) {
-            ToastUtil.showToast(mContext, "请选择尺寸", 0);
-            return false;
-        } else if (TextUtils.isEmpty(mPopupWindow.getTextUre())) {
+        if (TextUtils.isEmpty(mPopupWindow.getTextUre())) {
             ToastUtil.showToast(mContext, "请选择材质", 0);
             return false;
         }
@@ -191,11 +221,12 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
      * 保存直接生成订单
      */
     private void startNewActivity() {
-        if (mOrderType == null) {
-            saveOrderData(Constants.check);
-        } else {
-            mPresenter.saveOrdersFromShare(mOrderType.getOrderId(), mPopupWindow.getSize(), mPopupWindow.getTextUre());
-        }
+        startCommonActivity(ChoiceSizeActivity.this, null, NewOrderActivity.class);
+//        if (mOrderType == null) {
+//            saveOrderData(Constants.check);
+//        } else {
+//            mPresenter.saveOrdersFromShare(mOrderType.getOrderId(), mPopupWindow.getSize(), mPopupWindow.getTextUre());
+//        }
     }
 
     /**
@@ -248,7 +279,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
         mOrderType = data;
         Bundle bundle = new Bundle();
         bundle.putString("orderId", data.getOrderId());
-        startCommonActivity(ChoiceSizeActivity.this, bundle, MyOrderActivity.class);
+        startCommonActivity(ChoiceSizeActivity.this, bundle, NewOrderActivity.class);
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }

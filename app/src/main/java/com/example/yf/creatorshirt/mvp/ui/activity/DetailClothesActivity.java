@@ -23,7 +23,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.common.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
@@ -39,8 +38,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -345,6 +342,6 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
-        EventBus.getDefault().post(new UpdateOrdersEvent(true));
+//        EventBus.getDefault().post(new UpdateOrdersEvent(true));
     }
 }
