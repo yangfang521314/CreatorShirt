@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -235,12 +240,35 @@ public class FileUtils {
         return file.exists() && file.isFile() && file.delete();
     }
 
-
-    public static int getResource(String imageName,Activity context) {
+    public static int getResource(String imageName, Activity context) {
         Context ctx = context.getBaseContext();
         int resId = ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
         //如果没有在"mipmap"下找到imageName,将会返回0
         return resId;
+    }
+
+    public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask) {
+        Bitmap bitmap;
+        if (source != null && mask != null) {
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            Rect rectF = new Rect(0, 0, width, height);
+            Rect rectSource = new Rect(0, 0, source.getWidth(), source.getHeight());
+            int layer = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
+            canvas.drawBitmap(source, rectSource, rectF, paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            Rect maskRect = new Rect(0, 0, mask.getWidth(), mask.getHeight());
+            Rect dstRect = new Rect((width - mask.getWidth()) / 2,
+                    (height - mask.getHeight()) / 2,
+                    (width + mask.getWidth()) / 2, (height + mask.getHeight()) / 2);
+            canvas.drawBitmap(mask, maskRect, dstRect, paint);
+            paint.setXfermode(null);
+            canvas.restoreToCount(layer);
+        } else {
+            return null;
+        }
+        return bitmap;
     }
 
 

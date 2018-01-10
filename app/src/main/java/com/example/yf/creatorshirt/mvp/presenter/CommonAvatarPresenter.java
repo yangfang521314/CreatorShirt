@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -179,6 +180,7 @@ public class CommonAvatarPresenter implements BasePresenter {
     }
 
 
+    @SuppressLint("WrongConstant")
     public EditUserPopupWindow initPopupWindow() {
         mPopupWindow = new EditUserPopupWindow();
         mPopupWindow.setOnclickListener(itemsOnClickListener);

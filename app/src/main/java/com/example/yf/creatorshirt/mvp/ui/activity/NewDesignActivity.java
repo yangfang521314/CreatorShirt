@@ -21,12 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
@@ -56,6 +55,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.example.yf.creatorshirt.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -129,6 +129,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private VersionStyle mCurrentClothes;
     private String imageFront;
     private String imageBack;
+    private Bitmap currentFrontMask;
+    private Bitmap currentBackMask;
 
 
     @Override
@@ -239,7 +241,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         mContainerFront.setImageSource(null);
                         break;
                     case MASK:
-                        mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan), null);
+                        mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan));
                         break;
                     case SIGNATURE:
                         if (!mContainerFront.isNoneSticker()) {
@@ -331,11 +333,13 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     }
 
     private void generateBitmap() {
-//        if (mAnyShapeView.getDrawable() != null) {
-//            Bitmap bitmapFront = ((BitmapDrawable) mAnyShapeView.getDrawable()).getBitmap();
-//            maskFront = FileUtils.saveBitmap(bitmapFront, this, "front");
-//
-//        }
+        if (mContainerFront.getWidth() > 0) {
+//            Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(),mContainerFront.getHeight(), Bitmap.Config.ARGB_8888);
+//            Canvas canvas = new Canvas(bitmap);
+//            mContainerFront.draw(canvas);
+//            maskFront = FileUtils.saveBitmap(bitmap, this, "front");
+
+        }
 //        if (mContainerBack.getSource().getDrawable() != null) {
 //            Bitmap bitmapBack = ((BitmapDrawable) mContainerBack.getSource().getDrawable()).getBitmap();
 //            maskBack = FileUtils.saveBitmap(bitmapBack, this, "back");
@@ -430,16 +434,18 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 break;
             case MASK:
                 if (mButtonFront.isSelected()) {
-                    mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan),
-                            BitmapFactory.decodeResource(getResources(),
-                                    FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
-                                            + "_" + mCurrentClothes.getColorName() + "_a", this)));
+                    currentFrontMask = BitmapFactory.decodeResource(getResources(), R.mipmap.quan);
+                    Bitmap source = BitmapFactory.decodeResource(getResources(),
+                            FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
+                                    + "_" + mCurrentClothes.getColorName() + "_a", this));
+                    mPresenter.setImageMask(currentFrontMask, source);
                 }
                 if (mButtonBack.isSelected()) {
-                    mContainerBack.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan),
+                    currentBackMask = BitmapFactory.decodeResource(getResources(), R.mipmap.quan);
+                    mPresenter.setImageMask(currentBackMask,
                             BitmapFactory.decodeResource(getResources(),
                                     FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
-                                            + "_" + mCurrentClothes.getColorName() + "_a", this)));
+                                            + "_" + mCurrentClothes.getColorName() + "_b", this)));
 
                 }
 
@@ -464,9 +470,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     }
 
     private void setPatternUrl(String imageUrl) {
-        RequestOptions options = new RequestOptions();
-        options.error(R.mipmap.ic_launcher);
-        Glide.with(App.getInstance()).asBitmap().apply(options).load(Constants.ImageUrl + imageUrl).into(new SimpleTarget<Bitmap>() {
+        GlideApp.with(App.getInstance()).asBitmap().load(Constants.ImageUrl + imageUrl).error(R.mipmap.ic_launcher).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 if (mButtonBack.isSelected()) {
@@ -479,8 +483,18 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         });
     }
 
+    /**
+     * 分为没有mask和有mask时候的区别
+     *
+     * @param image
+     */
     private void setColorBg(int image) {
-        mContainerFront.setColorBg(image);
+        if (currentFrontMask == null) {
+            mContainerFront.setColorBg(image);
+        } else {
+            mContainerFront.setColorBg(image);
+            mPresenter.setImageMask(currentFrontMask, Utils.getBitmapResource(image));
+        }
     }
 
     @Override
@@ -501,6 +515,21 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBaseDesignAdapter.setData(newList);
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
         mBaseDesignAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 生成遮罩图片
+     *
+     * @param maskBitmap
+     */
+    @Override
+    public void showMaskView(Bitmap maskBitmap) {
+        if (mButtonFront.isSelected()) {
+            mContainerFront.setImageMask(maskBitmap);
+        }
+        if (mButtonBack.isSelected()) {
+            mContainerBack.setImageMask(maskBitmap);
+        }
     }
 
 

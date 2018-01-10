@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
+import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
@@ -25,6 +26,7 @@ public interface DetailDesignContract {
         void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<VersionStyle>> mColorData, ArrayMap<String, List<DetailPatterStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mMaskData, ArrayMap<String, List<DetailColorStyle>> mSignatureData);
 
 
+        void showMaskView(Bitmap maskBitmap);
     }
 
     interface Presenter extends BasePresenter<DetailDesignView> {

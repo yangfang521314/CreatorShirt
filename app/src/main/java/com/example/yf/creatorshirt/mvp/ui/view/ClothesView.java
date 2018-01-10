@@ -5,24 +5,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 
 /**
  * Created by yangfang on 2018/1/9.
  */
 
-public class ClothesImageView extends ImageView {
+public class ClothesView extends ImageView {
     Rect dstRect;
     Bitmap source;
     private Paint paint;
 
-    public ClothesImageView(Context context, @Nullable AttributeSet attrs) {
+    public ClothesView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
 

@@ -7,10 +7,10 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,11 +21,11 @@ import butterknife.ButterKnife;
 
 public class ClothesBackView extends StickerView {
     @BindView(R.id.clothes)
-    ClothesImageView mClothes;
+    ClothesView mClothes;
     @BindView(R.id.source)
-    FinishImage mSource;
+    PatterImage mSource;
     @BindView(R.id.mask)
-    MaskView mMask;
+    ImageView mMask;
     private Bitmap mask;
 
     public ClothesBackView(Context context) {
@@ -66,21 +66,10 @@ public class ClothesBackView extends StickerView {
 
     public void setColorBg(int resource) {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resource);
-        if (mask != null) {
-            mClothes.setImageSource(bitmap);
-            mMask.setImageSource(bitmap);
-            mMask.setImageMask(mask);
-        } else {
-            mClothes.setImageSource(bitmap);
-        }
     }
 
 
-    public void setImageMask(final Bitmap mask, final Bitmap source) {
-        DisplayUtil.calculateDesignerClothesWidth(getContext(), mMask);
-        mMask.setImageSource(source);
-        mMask.setImageMask(mask);
-        this.mask = mask;
+    public void setImageMask(final Bitmap mask) {
     }
 
     public void setImageSource(Bitmap resource) {

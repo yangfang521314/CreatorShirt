@@ -36,15 +36,6 @@
             android:name=".mvp.ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.DesignActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".mvp.ui.activity.DetailDesignActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".mvp.ui.activity.ChoiceSizeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -177,9 +168,12 @@
         <activity
             android:name=".mvp.ui.activity.NewDesignActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.ui.activity.NewDetailDesignActivity" />
-        <activity android:name=".mvp.ui.activity.NewOrderActivity" />
-        <activity android:name=".mvp.ui.activity.AddOrderActivity"></activity>
+        <activity
+            android:name=".mvp.ui.activity.NewOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.activity.AddOrderActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

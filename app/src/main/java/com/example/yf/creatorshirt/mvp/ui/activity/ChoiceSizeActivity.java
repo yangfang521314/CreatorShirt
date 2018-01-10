@@ -56,8 +56,6 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
     TextView mButtonBack;
     @BindView(R.id.clothes_front)
     TextView mButtonFront;
-    @BindView(R.id.mask_front_image)
-    ImageView mFrontMask;
     @BindView(R.id.mask_back_image)
     ImageView mBackMask;
     @BindView(R.id.rl_front)
@@ -118,7 +116,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE).into(mImageClothes);
         if (maskFrontUrl != null) {
-            Glide.with(this).load(maskFrontUrl).into(mFrontMask);
+            Glide.with(this).load(maskFrontUrl).into(mImageClothes);
         }
     }
 
@@ -165,7 +163,7 @@ public class ChoiceSizeActivity extends BaseActivity<SizeOrSharePresenter> imple
                 GlideApp.with(this).load(FileUtils.getResource(mFrontImageUrl, this))
                         .into(mImageClothes);
                 if (maskFrontUrl != null) {
-                    GlideApp.with(this).load(maskFrontUrl).into(mFrontMask);
+//                    GlideApp.with(this).load(maskFrontUrl).into(mFrontMask);
                 }
                 break;
             case R.id.clothes_back:

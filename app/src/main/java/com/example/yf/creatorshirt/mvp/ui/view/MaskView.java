@@ -29,9 +29,7 @@ public class MaskView extends ImageView {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         paint = new Paint();
         paint.setAntiAlias(true);
-
     }
-
 
     public void setImageSource(Bitmap source) {
         this.source = source;
@@ -49,6 +47,8 @@ public class MaskView extends ImageView {
         super.onDraw(canvas);
         Rect rectF = new Rect((getMeasuredWidth() - Constants.WIDTH_MASK) / 2, 0, Constants.WIDTH_MASK + ((getMeasuredWidth() - Constants.WIDTH_MASK) / 2), Constants.HEIGHT_MASK);
         if (source != null && mask != null) {
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvas.setBitmap(bitmap);
             dstRect = new Rect(0, 0, source.getWidth(), source.getHeight());
             int layer = canvas.saveLayer(null, null, Canvas.ALL_SAVE_FLAG);
             canvas.drawBitmap(source, dstRect, rectF, paint);
@@ -59,6 +59,7 @@ public class MaskView extends ImageView {
             canvas.drawBitmap(mask, maskRect, dstRect, paint);
             paint.setXfermode(null);
             canvas.restoreToCount(layer);
+            setImageBitmap(bitmap);
         } else if (source == null && mask != null) {
             Rect maskRect = new Rect(0, 0, mask.getWidth(), mask.getHeight());
             Rect dstRect = new Rect(width / 2 - mask.getWidth() / 2, height / 2 - mask.getHeight() / 2,

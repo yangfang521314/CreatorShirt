@@ -23,12 +23,6 @@
             android:layout_height="300dp"
             android:scaleType="centerInside" />
 
-        <ImageView
-            android:id="@+id/mask_front_image"
-            android:layout_width="200dp"
-            android:layout_height="230dp"
-            android:layout_centerInParent="true" />
-
     </RelativeLayout>
 
     <RelativeLayout

@@ -1,8 +1,12 @@
 package com.example.yf.creatorshirt.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.example.yf.creatorshirt.app.App;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -177,7 +181,6 @@ public class Utils {
      * 解决InputManager内存泄露现象
      *
      * @param destContext
-     * @param <T>
      */
     public static void fixInputMethodManagerLeak(Context destContext) {
         if (destContext == null) {
@@ -216,6 +219,14 @@ public class Utils {
             } catch (Throwable t) {
                 t.printStackTrace();
             }
+        }
+    }
+
+    public static Bitmap getBitmapResource(int resource){
+        if(resource != 0){
+            return BitmapFactory.decodeResource(App.getInstance().getResources(),resource);
+        }else {
+            return null;
         }
     }
 }

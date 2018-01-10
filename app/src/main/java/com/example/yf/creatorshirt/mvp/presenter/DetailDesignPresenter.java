@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.R;
@@ -13,7 +14,10 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
+import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
+import com.example.yf.creatorshirt.widget.CommonObserver;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import org.json.JSONException;
@@ -24,6 +28,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -238,4 +245,19 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         mSignatureData.put(name, fileList);
     }
 
+    public void setImageMask(final Bitmap mask, final Bitmap source) {
+        Observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
+                Bitmap bitmap = FileUtils.getMaskBitmap(Constants.WIDTH_MASK,Constants.HEIGHT_MASK,source,mask);
+                e.onNext(bitmap);
+            }
+        }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
+        .subscribe(new CommonObserver<Bitmap>(mView) {
+            @Override
+            public void onNext(Bitmap bitmap) {
+                mView.showMaskView(bitmap);
+            }
+        });
+    }
 }

@@ -11,8 +11,6 @@ import okhttp3.RequestBody;
  */
 
 public class GsonUtils {
-//    private volatile static GsonUtils instance;
-
     public static RequestBody getGson(Object data) {
         Gson gson = new Gson();
         String entity = gson.toJson(data);
@@ -20,16 +18,5 @@ public class GsonUtils {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), entity);
         return body;
     }
-
-//    public static GsonUtils getInstance() {
-//        if (instance == null) {
-//            synchronized (GsonUtils.class) {
-//                if (instance == null) {
-//                    instance = new GsonUtils();
-//                }
-//            }
-//        }
-//        return instance;
-//    }
 
 }

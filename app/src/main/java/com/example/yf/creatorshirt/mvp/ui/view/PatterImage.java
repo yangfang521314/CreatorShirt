@@ -18,7 +18,7 @@ import com.example.yf.creatorshirt.mvp.model.PictureModel;
  * Created by yangfang on 2018/1/3.
  */
 
-public class FinishImage extends android.support.v7.widget.AppCompatImageView{
+public class PatterImage extends android.support.v7.widget.AppCompatImageView {
     private Bitmap source;
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mColorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -39,7 +39,7 @@ public class FinishImage extends android.support.v7.widget.AppCompatImageView{
     private float mDownY;
 
 
-    public FinishImage(Context context) {
+    public PatterImage(Context context) {
         super(context);
         init();
     }
@@ -51,12 +51,12 @@ public class FinishImage extends android.support.v7.widget.AppCompatImageView{
         mColorPaint.setStyle(Paint.Style.STROKE);
     }
 
-    public FinishImage(Context context, @Nullable AttributeSet attrs) {
+    public PatterImage(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public FinishImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PatterImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -103,41 +103,30 @@ public class FinishImage extends android.support.v7.widget.AppCompatImageView{
             case MotionEvent.ACTION_POINTER_DOWN:
                 //双指模式
                 if (event.getPointerCount() == 2) {
-                    //mPicModelTouch为当前触摸到的操作图片模型
-//                    if (isContain) {
-                    Log.e("TGA","two"+"：");
                     //两手指的距离
                     mLastFingerDistance = distanceBetweenFingers(event);
                     //两手指间的角度
                     mLastDegree = rotation(event);
                     mIsDoubleFinger = true;
                     invalidate();
-//                    }
                 }
                 break;
             //单指模式
             case MotionEvent.ACTION_DOWN:
-                Log.e("down","DDD"+event.getX());
+                Log.e("down", "DDD" + event.getX());
                 //记录上一次事件的位置
                 mLastX = event.getX();
                 mLastY = event.getY();
                 //记录Down事件的位置
                 mDownX = event.getX();
                 mDownY = event.getY();
-                //获取被点击的图片模型
-//                isContain = getHandlePicModel(event);
-//                if (isContain) {
-                //每次down重置其他picture选中状态
                 invalidate();
-                Log.e("TGA","ONE"+"：");
-//                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 switch (event.getPointerCount()) {
                     //单指模式
                     case 1:
                         if (!mIsDoubleFinger) {
-//                            if (isContain) {
                             //记录每次事件在x,y方向上移动
                             int dx = (int) (event.getX() - mLastX);
                             int dy = (int) (event.getY() - mLastY);
@@ -154,12 +143,10 @@ public class FinishImage extends android.support.v7.widget.AppCompatImageView{
                                 //修改了mPicModelTouch的位置后刷新View
                                 invalidate();
                             }
-//                            }
                         }
                         break;
                     //双指模式
                     case 2:
-//                        if (isContain) {
                         //算出两根手指的距离
                         double fingerDistance = distanceBetweenFingers(event);
                         //当前的旋转角度
@@ -182,8 +169,6 @@ public class FinishImage extends android.support.v7.widget.AppCompatImageView{
                             //记录上次的角度以便下一个事件计算出角度变化值
                         }
                         mLastDegree = currentDegree;
-
-//                        }
                         break;
                 }
                 break;
