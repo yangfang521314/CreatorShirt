@@ -1,17 +1,13 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
@@ -20,7 +16,6 @@ import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,12 +28,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 订单详情页面
+ * 付款详情页面
  */
 
-public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements MyOrderContract.MyOrderView {
+public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements MyOrderContract.MyOrderView {
 
-    private static final String TAG = MyOrderActivity.class.getSimpleName();
+    private static final String TAG = ChoicePayActivity.class.getSimpleName();
     @BindView(R.id.order_receiver_address)
     TextView mOrderAddress;
     @BindView(R.id.order_receiver_mobile)
@@ -51,26 +46,6 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     CheckBox mPayAlipay;
     @BindView(R.id.pay_weixin)
     CheckBox mPayWeixin;
-    @BindView(R.id.pay_clothes_id)
-    TextView mPayClothesId;
-    @BindView(R.id.pay_clothes_prices)
-    TextView mPayClothesPrices;
-    @BindView(R.id.pay_clothes_size)
-    TextView mPayClothesSize;
-    @BindView(R.id.pay_order_clothes_numbers)
-    TextView mPayClothesNumbers;
-    @BindView(R.id.pay_clothes_color)
-    CircleView mPayClothesColor;
-    @BindView(R.id.pay_clothes_add)
-    ImageView mPayClothesAdd;
-    @BindView(R.id.pay_clothes_minus)
-    ImageView mPayClothesMinus;
-    @BindView(R.id.pay_clothes_sex_style)
-    TextView mPayClothesSex;
-    @BindView(R.id.pay_freight)
-    TextView mPayClothesFreight;
-    @BindView(R.id.pay_total)
-    TextView mPayClothesTotal;
     @BindView(R.id.pay_clothes_picture)
     ImageView mPayClothesImage;
     @BindView(R.id.choice_iv)
@@ -97,12 +72,11 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     protected void initView() {
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
-        mPayWeixin.setVisibility(View.GONE);
 
     }
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
-            R.id.pay_clothes_add, R.id.pay_clothes_minus, R.id.back, R.id.choice_iv})
+            R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -137,20 +111,6 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
                 if (mPayWeixin.isChecked()) {
                     payType = "wxPay";
                 }
-                break;
-            case R.id.pay_clothes_add:
-                ++number;
-                mPayClothesNumbers.setText(String.valueOf(number));
-                mPayClothesTotal.setText("¥" + (number * orderData.getFee()));
-                break;
-            case R.id.pay_clothes_minus:
-                if (number > 1) {
-                    --number;
-                } else {
-                    number = 1;
-                }
-                mPayClothesNumbers.setText(String.valueOf(number));
-                mPayClothesTotal.setText("¥" + (number * orderData.getFee()));
                 break;
             case R.id.back:
                 finish();
@@ -195,44 +155,6 @@ public class MyOrderActivity extends BaseActivity<MyOrderPresenter> implements M
     @Override
     public void showSuccessOrderData(OrderStyleBean orderStyleBean) {
         this.orderData = orderStyleBean;
-        if (!isCheck()) {
-            if (orderData.getGender() != null) {
-                if (orderData.getGender().equals("W")) {
-                    mPayClothesSex.setText("女" + orderData.getBaseName());
-
-                } else if (orderData.getGender().equals("M")) {
-                    mPayClothesSex.setText("男" + orderData.getBaseName());
-                } else {
-                    mPayClothesSex.setText(orderData.getBaseName());
-
-                }
-            }
-            int colorN = Color.parseColor("#" + orderData.getColor());
-            mPayClothesColor.setOutColor(colorN);
-            mPayClothesPrices.setText("¥" + orderData.getFee());
-            Glide.with(this).load(orderData.getFinishimage()).into(mPayClothesImage);
-            mPayClothesNumbers.setText(String.valueOf(number));
-            mPayClothesSize.setText(orderData.getSize());
-            double totalPrice = number * orderData.getFee();//初始化价格
-            mPayClothesTotal.setText((int) totalPrice);
-        }
-    }
-
-    private boolean isCheck() {
-        if (TextUtils.isEmpty(orderData.getColor())) {
-            Log.e(TAG, "没有颜色值");
-            return true;
-        } else if (TextUtils.isEmpty(orderData.getBaseName())) {
-            Log.e(TAG, "没有衣服名字");
-            return true;
-        } else if (TextUtils.isEmpty(orderData.getHeaderImage())) {
-            Log.e(TAG, "头像缺少");
-            return true;
-        } else if (TextUtils.isEmpty(orderData.getTitle())) {
-            Log.e(TAG, "没有TITLE");
-            return true;
-        }
-        return false;
     }
 
     @Override

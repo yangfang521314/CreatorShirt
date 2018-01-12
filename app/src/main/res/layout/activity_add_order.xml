@@ -40,7 +40,7 @@
 
             <View
                 android:layout_width="0.5dp"
-                android:layout_height="45dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:background="@color/glitter"
                 android:gravity="center_horizontal" />
@@ -57,7 +57,7 @@
 
             <View
                 android:layout_width="0.5dp"
-                android:layout_height="45dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:background="@color/glitter"
                 android:gravity="center_horizontal" />
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/choice_size_ll" />
 
         <TextView

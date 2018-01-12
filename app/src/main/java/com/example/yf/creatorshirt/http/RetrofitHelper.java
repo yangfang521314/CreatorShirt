@@ -5,6 +5,7 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
+import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -148,6 +149,11 @@ public class RetrofitHelper implements HttpHelper {
     @Override
     public Flowable<HttpResponse<List<TextureEntity>>> getTextUre(RequestBody gson) {
         return mRequestApi.getTexture(gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<VersionUpdateResponse>> getVersionCode(int verCode) {
+        return mRequestApi.getVersionCode(verCode);
     }
 
 

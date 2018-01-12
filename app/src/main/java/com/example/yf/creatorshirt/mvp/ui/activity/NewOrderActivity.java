@@ -1,11 +1,16 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
@@ -26,30 +31,50 @@ public class NewOrderActivity extends BaseActivity implements ItemClickListener.
     private ClothesSize mUpdateData;
     private List<ClothesSize> mOrderInfo;
 
+    @BindView(R.id.clothes_picture)
+    ImageView mClothesImage;
     @BindView(R.id.add_order)
     TextView mOrderAdd;
     @BindView(R.id.detail_order_recy)
     RecyclerView mDetailRecycler;
     @BindView(R.id.order_clothes_prices)
     TextView mPrices;
+    @BindView(R.id.confirm_pay)
+    TextView mConfirmPay;
     private DetailOrderAdapter adapter;
-    private double prices;//价格
+    private double prices = 49.99;//价格
+    private String imageUrl;
+
+    @Override
+    public void initData() {
+        super.initData();
+        mOrderInfo = new ArrayList<>();
+        if (getIntent().hasExtra("clothes")) {
+            imageUrl = getIntent().getStringExtra("clothes");
+        }
+    }
 
     @Override
     protected void inject() {
 
     }
 
-    @OnClick({R.id.add_order})
+    @OnClick({R.id.add_order,R.id.confirm_pay})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_order:
-                startCommonActivity(this, null, AddOrderActivity.class);
+                startCommonActivity(this,null, AddOrderActivity.class);
+                break;
+            case R.id.confirm_pay:
+                if(mUpdateData != null) {
+                    startCommonActivity(this, null, ChoicePayActivity.class);
+                }
                 break;
         }
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
@@ -58,14 +83,11 @@ public class NewOrderActivity extends BaseActivity implements ItemClickListener.
         adapter = new DetailOrderAdapter(this);
         adapter.setOnItemClickListener(this);
         mDetailRecycler.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.mysetting_divider));
+        mDetailRecycler.addItemDecoration(dividerItemDecoration);
+        GlideApp.with(this).load(imageUrl).error(R.mipmap.man_t_shirt).into(mClothesImage);
 
-    }
-
-    @Override
-    public void initData() {
-        super.initData();
-        mOrderInfo = new ArrayList<>();
-        prices = Double.parseDouble(mPrices.getText().toString());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

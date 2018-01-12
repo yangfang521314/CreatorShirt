@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
@@ -95,39 +95,37 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     @BindView(R.id.rl_clothes_root_back)
     ClothesBackView mContainerBack;
 
-    CommonAvatarPresenter mAvatarPresenter;//自定义图片
+    private CommonAvatarPresenter mAvatarPresenter;//相机图片选择代码块
 
-    private BaseStyleAdapter mBaseDesignAdapter;
-    private ArrayMap<String, List<DetailPatterStyle>> mPatternData = new ArrayMap<>();
+    private ArrayMap<String, List<DetailColorStyle>> mPatternData = new ArrayMap<>();
     private ArrayMap<String, List<VersionStyle>> mClothesData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mMaskData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mSignatureData = new ArrayMap<>();
     private List<TextEntity> textEntities = new ArrayList<>();//保存字体
-    //    总样式的集合
-    private List<StyleBean> newList = new ArrayList<>();
-    private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
+    private List<StyleBean> newList = new ArrayList<>();    //总样式的集合
+    private List<String> clotheKey = new ArrayList<>();    //具体样式的字段名
+    private ArrayList<String> avatarList = new ArrayList<>();//照片集合
+
+    private ArrayList<VersionStyle> mListClothes;
     private View mBeforeView;
     private View mCurrentView;
     private int mCurrentPosition;
-    private PatternStyleAdapter patternStyleAdapter;
     private View mDesCurrentView;
     private View mDesBeforeView;
-    private String mImagecolor;
-    private String imageUrl;
+    private String mImagecolor;    //字体的颜色
+    private int imageUrl;    //自定义的贴图
     private int prePosition;
-    private TextSticker textSticker;
-    private Typeface mUpdateType;
-    private ArrayList<VersionStyle> mListClothes;
+    private TextSticker textSticker;    //自定义文字框
+    private Typeface mUpdateType;    //字体
     private VersionStyle mInitData;//默认显示第一件衣服
     private String maskFront;
     private String maskBack;
     private OrderBaseInfo mOrderBaseInfo; //订单信息
     private String colorClothes;
     private String gender;//性别
-    private ArrayList<String> avatarList = new ArrayList<>();
     private boolean isFirst;
     private VersionStyle mCurrentClothes;
-    private String imageFront;
+    private String imageFront;//背景衣服颜色字段
     private String imageBack;
     private Bitmap currentFrontMask;
     private Bitmap currentBackMask;
@@ -151,7 +149,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mInitData = getIntent().getParcelableExtra("choice");
         }
 
-        mPresenter.getDetailDesign("A", "11", mListClothes, true);
+        mPresenter.getDetailDesign(mListClothes, true);
         mAvatarPresenter = new CommonAvatarPresenter(this);
         mAvatarPresenter.attachView(this);
     }
@@ -159,7 +157,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     @Override
     protected void initView() {
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mBaseDesignAdapter = new BaseStyleAdapter(this);
         //默认显示正面
         isFirst = true;
         initFront();
@@ -238,10 +235,20 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                     case COLOR:
                         break;
                     case PATTERN:
-                        mContainerFront.setImageSource(null);
+                        if (mButtonFront.isSelected()) {
+                            mContainerFront.setImageSource(null);
+                        }
+                        if (mButtonBack.isSelected()) {
+                            mContainerBack.setImageSource(null);
+                        }
                         break;
                     case MASK:
-                        mContainerFront.setImageMask(BitmapFactory.decodeResource(getResources(), R.mipmap.quan));
+                        if (mButtonFront.isSelected()) {
+                            mContainerFront.setImageMask(null);
+                        }
+                        if (mButtonBack.isSelected()) {
+                            mContainerBack.setImageMask(null);
+                        }
                         break;
                     case SIGNATURE:
                         if (!mContainerFront.isNoneSticker()) {
@@ -267,7 +274,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 mContainerBack.setVisibility(View.GONE);
                 mButtonFront.setSelected(true);
                 mButtonBack.setSelected(false);
-                mPresenter.getDetailDesign("A", "11", mListClothes, true);
+                mPresenter.getDetailDesign(mListClothes, true);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -285,7 +292,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 mContainerFront.setVisibility(View.GONE);
                 mButtonBack.setSelected(true);
                 mButtonFront.setSelected(false);
-                mPresenter.getDetailDesign("A", "11", mListClothes, false);
+                mPresenter.getDetailDesign(mListClothes, false);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
@@ -334,30 +341,32 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     private void generateBitmap() {
         if (mContainerFront.getWidth() > 0) {
-//            Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(),mContainerFront.getHeight(), Bitmap.Config.ARGB_8888);
-//            Canvas canvas = new Canvas(bitmap);
-//            mContainerFront.draw(canvas);
-//            maskFront = FileUtils.saveBitmap(bitmap, this, "front");
+            Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(), mContainerFront.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            mContainerFront.draw(canvas);
+            maskFront = FileUtils.saveBitmap(bitmap, this, "front");
 
         }
-//        if (mContainerBack.getSource().getDrawable() != null) {
-//            Bitmap bitmapBack = ((BitmapDrawable) mContainerBack.getSource().getDrawable()).getBitmap();
-//            maskBack = FileUtils.saveBitmap(bitmapBack, this, "back");
-//        }
+        if (mContainerBack.getWidth() > 0) {
+            Bitmap bitmapBack = Bitmap.createBitmap(mContainerBack.getWidth(), mContainerBack.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmapBack);
+            mContainerBack.draw(canvas);
+            maskBack = FileUtils.saveBitmap(bitmapBack, this, "back");
+        }
     }
 
     private void getCurrentBackClothes(VersionStyle data) {
         String type = data.getType();
         String colorName = data.getColorName();
         imageBack = data.getSex() + type + "_" + colorName + "_" + "b";
-        mContainerBack.setColorBg(FileUtils.getResource(imageBack, this));
+        mContainerBack.setColorBg(FileUtils.getResource(imageBack));
     }
 
     private void getCurrentFrontClothes(VersionStyle data) {
         String type = data.getType();
         String colorName = data.getColorName();
         imageFront = data.getSex() + type + "_" + colorName + "_" + "a";
-        setColorBg(FileUtils.getResource(imageFront, this));
+        setColorBg(FileUtils.getResource(imageFront));
         mCurrentClothes = data;
     }
 
@@ -389,23 +398,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     }
 
 
-    public void saveText(TextSticker textSticker) {
-        if (!TextUtils.isEmpty(textSticker.getText()) && textEntities != null) {
-            for (TextEntity t : textEntities) {
-                if (t.getText().equals(textSticker.getText())) {
-                    textEntities.remove(t);
-                }
-            }
-        }
-        TextEntity textEntity;
-        if (!TextUtils.isEmpty(textSticker.getText())) {
-            textEntity = new TextEntity();
-            textEntity.setText(textSticker.getText());
-            textEntity.setColor(mImagecolor);
-            textEntities.add(textEntity);
-        }
-    }
-
     @Override
     public void onItemClick(View currentView, int position) {
         if (mDesBeforeView != null) {
@@ -418,40 +410,41 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 String colorName = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getColorName();
                 if (mButtonFront.isSelected()) {
                     imageFront = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_a";
-                    setColorBg(FileUtils.getResource(imageFront, this));
+                    setColorBg(FileUtils.getResource(imageFront));
 
                 }
                 if (mButtonBack.isSelected()) {
                     imageBack = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position).getSex() + type + "_" + colorName + "_b";
-                    mContainerBack.setColorBg(FileUtils.getResource(imageBack, this));
+                    setColorBackBg(FileUtils.getResource(imageBack));
                 }
                 isFirst = false;
                 mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 break;
             case PATTERN:
-                imageUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getFile();
+                String patterUrl = mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getName();
+                imageUrl = FileUtils.getResource(patterUrl);
                 setPatternUrl(imageUrl);
                 break;
             case MASK:
                 if (mButtonFront.isSelected()) {
-                    currentFrontMask = BitmapFactory.decodeResource(getResources(), R.mipmap.quan);
-                    Bitmap source = BitmapFactory.decodeResource(getResources(),
+                    currentFrontMask = Utils.getBitmapResource(R.mipmap.quan);
+                    Bitmap source = Utils.getBitmapResource(
                             FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
-                                    + "_" + mCurrentClothes.getColorName() + "_a", this));
+                                    + "_" + mCurrentClothes.getColorName() + "_a"));
                     mPresenter.setImageMask(currentFrontMask, source);
                 }
                 if (mButtonBack.isSelected()) {
-                    currentBackMask = BitmapFactory.decodeResource(getResources(), R.mipmap.quan);
+                    currentBackMask = Utils.getBitmapResource(R.mipmap.quan);
                     mPresenter.setImageMask(currentBackMask,
-                            BitmapFactory.decodeResource(getResources(),
+                            Utils.getBitmapResource(
                                     FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
-                                            + "_" + mCurrentClothes.getColorName() + "_b", this)));
+                                            + "_" + mCurrentClothes.getColorName() + "_b")));
 
                 }
 
                 break;
             case SIGNATURE://签名处理
-                mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
+                mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 int color = Color.parseColor(mImagecolor);
                 textSticker.setTextColor(color);
                 TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
@@ -469,8 +462,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mDesBeforeView = currentView;
     }
 
-    private void setPatternUrl(String imageUrl) {
-        GlideApp.with(App.getInstance()).asBitmap().load(Constants.ImageUrl + imageUrl).error(R.mipmap.ic_launcher).into(new SimpleTarget<Bitmap>() {
+
+    private void setPatternUrl(int imageUrl) {
+        GlideApp.with(App.getInstance()).asBitmap().load(imageUrl).error(R.mipmap.ic_launcher).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 if (mButtonBack.isSelected()) {
@@ -485,6 +479,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     /**
      * 分为没有mask和有mask时候的区别
+     * 正面
      *
      * @param image
      */
@@ -497,13 +492,27 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
     }
 
+    /**
+     * 分为没有mask和有mask的区别
+     *
+     * @param resource
+     */
+    private void setColorBackBg(int resource) {
+        if (currentBackMask == null) {
+            mContainerBack.setColorBg(resource);
+        } else {
+            mContainerBack.setColorBg(resource);
+            mPresenter.setImageMask(currentBackMask, Utils.getBitmapResource(resource));
+        }
+    }
+
     @Override
     public void showSuccessData(DetailStyleBean detailStyleBean) {
 
     }
 
     @Override
-    public void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<VersionStyle>> mColorData, ArrayMap<String, List<DetailPatterStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mMaskData, ArrayMap<String, List<DetailColorStyle>> mSignatureData) {
+    public void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<VersionStyle>> mColorData, ArrayMap<String, List<DetailColorStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mMaskData, ArrayMap<String, List<DetailColorStyle>> mSignatureData) {
         this.newList = newList;
         this.mPatternData = mPatternData;
         this.mClothesData = mColorData;
@@ -511,6 +520,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         this.mMaskData = mMaskData;
         this.mSignatureData = mSignatureData;
         mRecyclerStyle.setVisibility(View.VISIBLE);
+        BaseStyleAdapter mBaseDesignAdapter = new BaseStyleAdapter(this);
         mBaseDesignAdapter.setItemClickListener(this);
         mBaseDesignAdapter.setData(newList);
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
@@ -550,7 +560,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     private void clickItem(int position) {
         mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
         if (mClothesData.containsKey((newList.get(position).getTitle()))) {
             ColorStyleAdapter colorStyleAdapter = new ColorStyleAdapter(this);
             colorStyleAdapter.setData(mClothesData.get(newList.get(position).getTitle()));
@@ -559,7 +568,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             colorStyleAdapter.notifyDataSetChanged();
         }
         if (mPatternData.containsKey(newList.get(position).getTitle())) {
-            patternStyleAdapter = new PatternStyleAdapter(this);
+            PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
             patternStyleAdapter.setOnClickListener(this);
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
@@ -598,6 +607,12 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
     }
 
+    /**
+     * 设置自定义字体
+     *
+     * @param message
+     * @param isNew
+     */
     private void setSignatureText(String message, final boolean isNew) {
         final SignatureDialog dialog = new SignatureDialog(this, mUpdateType);
         dialog.show();
@@ -635,6 +650,23 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 }
             }
         });
+    }
+
+    public void saveText(TextSticker textSticker) {
+        if (!TextUtils.isEmpty(textSticker.getText()) && textEntities != null) {
+            for (TextEntity t : textEntities) {
+                if (t.getText().equals(textSticker.getText())) {
+                    textEntities.remove(t);
+                }
+            }
+        }
+        TextEntity textEntity;
+        if (!TextUtils.isEmpty(textSticker.getText())) {
+            textEntity = new TextEntity();
+            textEntity.setText(textSticker.getText());
+            textEntity.setColor(mImagecolor);
+            textEntities.add(textEntity);
+        }
     }
 
     @Override

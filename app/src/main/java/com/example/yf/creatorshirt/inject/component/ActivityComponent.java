@@ -6,12 +6,12 @@ import com.example.yf.creatorshirt.inject.module.ActivityModule;
 import com.example.yf.creatorshirt.inject.scope.AcitivityScope;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressEditActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.AddressShowActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.ChoiceSizeActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.ChoicePayActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DesignerNewOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
-import com.example.yf.creatorshirt.mvp.ui.activity.MyOrderActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.MainActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 
 import dagger.Component;
@@ -25,15 +25,13 @@ import dagger.Component;
 public interface ActivityComponent {
     Activity getActivity();
 
-//    void inject(MainActivity mainActivity);
-
     void inject(LoginActivity loginActivity);
 
     void inject(AddressShowActivity addressActivity);
 
-    void inject(ChoiceSizeActivity choiceSizeActivity);
+//    void inject(ChoiceSizeActivity choiceSizeActivity);
 
-    void inject(MyOrderActivity myOrderActivity);
+    void inject(ChoicePayActivity myOrderActivity);
 
     void inject(EditUserActivity editUserActivity);
 
@@ -46,4 +44,5 @@ public interface ActivityComponent {
 
     void inject(NewDesignActivity newsDesignActivity);
 
+    void inject(MainActivity mainActivity);
 }

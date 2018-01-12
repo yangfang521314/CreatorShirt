@@ -86,19 +86,19 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
                 mTvWoman.setSelected(false);
                 mTvMan.setSelected(true);
                 mTvChild.setSelected(false);
-                gender = "M";
+                gender = "男";
                 break;
             case R.id.woman:
                 mTvWoman.setSelected(true);
                 mTvMan.setSelected(false);
                 mTvChild.setSelected(false);
-                gender = "W";
+                gender = "女";
                 break;
             case R.id.child:
                 mTvWoman.setSelected(false);
                 mTvMan.setSelected(false);
                 mTvChild.setSelected(true);
-                gender = "C";
+                gender = "儿童";
                 break;
             case R.id.add:
                 number++;

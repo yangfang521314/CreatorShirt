@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">衣秀</string>
     <string name="title_activity_detail_design">DetailDesign</string>
     <string name="double_click_input_text">文字</string>
     <string name="design">设计定制</string>

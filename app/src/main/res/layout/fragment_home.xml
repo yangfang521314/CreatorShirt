@@ -123,14 +123,14 @@
     <Button
         android:id="@+id/exit_login"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="50dp"
         android:background="@color/black"
         android:text="退出登录"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textSize="18sp"
         android:textColor="@color/white"
         app:layout_widthPercent="50%w" />

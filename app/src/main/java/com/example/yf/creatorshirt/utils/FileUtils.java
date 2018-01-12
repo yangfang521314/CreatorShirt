@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -240,13 +239,22 @@ public class FileUtils {
         return file.exists() && file.isFile() && file.delete();
     }
 
-    public static int getResource(String imageName, Activity context) {
-        Context ctx = context.getBaseContext();
+    public static int getResource(String imageName) {
+        Context ctx = App.getInstance().getBaseContext();
         int resId = ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
         //如果没有在"mipmap"下找到imageName,将会返回0
         return resId;
     }
 
+    /**
+     * 形成遮罩图片
+     *
+     * @param width
+     * @param height
+     * @param source
+     * @param mask
+     * @return
+     */
     public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask) {
         Bitmap bitmap;
         if (source != null && mask != null) {

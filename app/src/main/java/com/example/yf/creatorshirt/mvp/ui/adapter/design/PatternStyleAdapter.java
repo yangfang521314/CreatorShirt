@@ -9,17 +9,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
+import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
-import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.utils.FileUtils;
 
 /**
  * Created by yangfang on 2017/8/21.
  */
 
-public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemViewHolder> {
+public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHolder> {
     private ItemClickListener.OnItemClickListener clickListener;
     private View preView;
     private int prePosition;
@@ -99,7 +99,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailPatterStyle, ItemView
             holder.mStyleImageView.setLayoutParams(params);
             RequestOptions options = new RequestOptions();
             options.fitCenter();
-            Glide.with(mContext).load(Constants.ImageDetailUrl + mData.get(currentPosition).getFile()).
+            Glide.with(mContext).load(FileUtils.getResource(mData.get(currentPosition).getName())).
                     into(holder.mStyleImageView);
         }
     }

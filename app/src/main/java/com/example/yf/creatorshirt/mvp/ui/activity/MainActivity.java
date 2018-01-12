@@ -19,10 +19,14 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
+import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
+import com.example.yf.creatorshirt.mvp.presenter.VersionUpdatePresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.VersionUpdateContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
@@ -36,7 +40,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 @TargetApi(Build.VERSION_CODES.M)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<VersionUpdatePresenter> implements VersionUpdateContract.VersionUpdateView{
     private static final String TYPE_SQUARE = "square";
     private static final String TYPE_DESIGN = "design";
     private static final String TYPE_MINE = "mine";
@@ -63,14 +67,15 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
-
     @Override
     protected void inject() {
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter.checkVersion(this, Constants.VERSION_UPDATE_INIT_REQUEST);
         EventBus.getDefault().register(this);
     }
 
@@ -261,6 +266,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public void refresh() {
+
+    }
+
+    @Override
+    public void showSuccessUpdate(VersionUpdateResponse versionUpdateResponse) {
 
     }
 }

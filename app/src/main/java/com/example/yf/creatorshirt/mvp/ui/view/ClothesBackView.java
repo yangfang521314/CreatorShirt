@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
+import com.example.yf.creatorshirt.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +26,6 @@ public class ClothesBackView extends StickerView {
     PatterImage mSource;
     @BindView(R.id.mask)
     ImageView mMask;
-    private Bitmap mask;
 
     public ClothesBackView(Context context) {
         super(context);
@@ -64,16 +63,31 @@ public class ClothesBackView extends StickerView {
     }
 
 
+    /**
+     * 背景衣服变化
+     *
+     * @param resource
+     */
     public void setColorBg(int resource) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resource);
+        mClothes.setImageSource(Utils.getBitmapResource(resource));
+
     }
 
-
-    public void setImageMask(final Bitmap mask) {
+    /**
+     * 形成遮罩图片
+     *  @param maskBitmap
+     *
+     */
+    public void setImageMask(final Bitmap maskBitmap) {
+        mMask.setImageBitmap(maskBitmap);
     }
 
+    /**
+     * 放大缩小自定义图片
+     *
+     * @param resource
+     */
     public void setImageSource(Bitmap resource) {
         mSource.setImageNetSource(resource);
     }
-
 }

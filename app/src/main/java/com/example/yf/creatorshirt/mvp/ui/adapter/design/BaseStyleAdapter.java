@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -69,9 +70,12 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
         String result;
         try {
             result = URLEncoder.encode(name, "UTF-8");
+            Log.e("Tag", "dddd" + result);
             if (!TextUtils.isEmpty(result)) {
                 GlideApp.with(mContext).load(Constants.ImageDetailUrl + result + ".png")
                         .centerInside()
+                        .error(R.mipmap.mask)
+                        .placeholder(R.mipmap.mask)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .into(holder.mStyleImageView);
             }

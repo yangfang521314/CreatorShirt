@@ -5,12 +5,9 @@ import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
@@ -18,10 +15,6 @@ import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonObserver;
-import com.example.yf.creatorshirt.widget.CommonSubscriber;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +24,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.COLOR;
 import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.MASK;
@@ -51,15 +42,17 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
     private DetailCommonData mDetailStyleFrontData;//现在只拿patter数据
     //    private DetailCommonData mDetailStyleBackData;//背面数据
     //总样式和每一个具体的样式列表形成ArrayMap;
-    private ArrayMap<String, List<DetailPatterStyle>> mPatterData = new ArrayMap<>();
+    private ArrayMap<String, List<DetailColorStyle>> mPatterData = new ArrayMap<>();
     private ArrayMap<String, List<VersionStyle>> mColorData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mSignatureData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mMaskData = new ArrayMap<>();
     private List<String> clotheKey = new ArrayList<>();//具体样式的字段名
     //总样式的集合
     private List<StyleBean> newList = new ArrayList<>();
-    private ArrayList<VersionStyle> mTotalClothes;
+    private ArrayList<VersionStyle> mTotalClothes;//衣服
     private List<DetailColorStyle> maskList = new ArrayList<>();
+    private List<DetailColorStyle> patterList = new ArrayList<>();
+    private List<DetailColorStyle> textColorList = new ArrayList<>();
 
 
     @Inject
@@ -68,53 +61,18 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
     }
 
     @Override
-    public void getDetailDesign(String gender, String type, ArrayList<VersionStyle> mClothesList, final boolean b) {
+    public void getDetailDesign(ArrayList<VersionStyle> mClothesList, final boolean b) {
         this.mTotalClothes = mClothesList;
-        JSONObject root = new JSONObject();
-        final JSONObject request = new JSONObject();
-        try {
-            request.put("Gender", gender);
-            request.put("Typeversion", type);
-            root.put("baseInfo", request);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), root.toString());
-        addSubscribe(manager.getDetailDesign(requestBody)
-                .compose(RxUtils.<HttpResponse<DetailStyleBean>>rxSchedulerHelper())
-                .compose(RxUtils.<DetailStyleBean>handleResult())
-                .subscribeWith(new CommonSubscriber<DetailStyleBean>(mView) {
-                    @Override
-                    public void onNext(DetailStyleBean detailStyleBean) {
-                        if (detailStyleBean != null)
-                            mView.showSuccessData(detailStyleBean);
-                        showSucessData(detailStyleBean, b);
-                    }
-                })
+        getNameDeign(b);
 
-        );
-
-    }
-
-    private void showSucessData(DetailStyleBean detailStyleBean, boolean flag) {
-        if (detailStyleBean != null) {
-            if (detailStyleBean.getData() == null)
-                return;
-            if (detailStyleBean.getData().getA() == null) {
-                return;
-            }
-            mDetailStyleFrontData = detailStyleBean.getData().getA();
-            getNameDeign(mDetailStyleFrontData, flag);
-        }
     }
 
     /**
      * 形成数组
      *
-     * @param mData
      * @param flag
      */
-    public void getNameDeign(DetailCommonData mData, boolean flag) {
+    public void getNameDeign(boolean flag) {
         StyleBean styleBean;
         String name = null;
         if (newList != null) {
@@ -124,13 +82,25 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             clotheKey.clear();
         }
         DetailColorStyle maskStyle = null;
+        //贴图
+        for (int i = 1; i < 48; i++) {
+            maskStyle = new DetailColorStyle();
+            maskStyle.setName("pattern_" + i);
+            patterList.add(maskStyle);
+        }
+        //文字颜色
+        for (int i = 0; i < 10; i++) {
+            maskStyle = new DetailColorStyle();
+            maskStyle.setValue("e23e2c");
+            textColorList.add(maskStyle);
+        }
+        //遮罩图片
+        for (int i = 0; i < 5; i++) {
+            maskStyle = new DetailColorStyle();
+            maskStyle.setImage(R.mipmap.quan);
+            maskList.add(maskStyle);
+        }
         if (flag) {
-            for (int i = 0; i < 5; i++) {
-                maskStyle = new DetailColorStyle();
-                maskStyle.setImage(R.mipmap.quan);
-                maskList.add(maskStyle);
-            }
-
             if (mTotalClothes != null) {
                 styleBean = new StyleBean();
                 name = "颜色";
@@ -140,18 +110,16 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 addColorData(name, mTotalClothes);
             }
 
-            if (mData.getPattern() != null) {
-                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getPattern().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(PATTERN);
-                    addPatternData(name, mData.getPattern().getFileList());
-                }
+            if (patterList != null) {
+                styleBean = new StyleBean();
+                name = "贴图";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(PATTERN);
+                addPatternData(name, patterList);
             }
             if (maskList != null) {
-                name = "mask";
+                name = "遮罩";
                 styleBean = new StyleBean();
                 styleBean.setTitle(name);
                 newList.add(styleBean);
@@ -159,24 +127,15 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 addMaskData(name, maskList);
             }
 
-            if (mData.getText() != null) {
-                if (mData.getText().getFileList() != null) {
-                    if (mData.getText().getFileList().size() != 0) {
-                        styleBean = new StyleBean();
-                        name = mData.getText().getName();
-                        styleBean.setTitle(name);
-                        newList.add(styleBean);
-                        clotheKey.add(SIGNATURE);
-                        addTextData(name, mData.getText().getFileList());
-                    }
-                }
+            if (textColorList != null) {
+                styleBean = new StyleBean();
+                name = "文字";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(SIGNATURE);
+                addTextData(name, textColorList);
             }
         } else {
-            for (int i = 0; i < 5; i++) {
-                maskStyle = new DetailColorStyle();
-                maskStyle.setImage(R.mipmap.quan);
-                maskList.add(maskStyle);
-            }
 
             if (mTotalClothes != null) {
                 styleBean = new StyleBean();
@@ -187,18 +146,16 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 addColorData(name, mTotalClothes);
             }
 
-            if (mData.getPattern() != null) {
-                if (mData.getPattern().getFileList() != null && mData.getPattern().getFileList().size() != 0) {
-                    styleBean = new StyleBean();
-                    name = mData.getPattern().getName();
-                    styleBean.setTitle(name);
-                    newList.add(styleBean);
-                    clotheKey.add(PATTERN);
-                    addPatternData(name, mData.getPattern().getFileList());
-                }
+            if (patterList != null) {
+                styleBean = new StyleBean();
+                name = "贴图";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(PATTERN);
+                addPatternData(name, patterList);
             }
             if (maskList != null) {
-                name = "mask";
+                name = "遮罩";
                 styleBean = new StyleBean();
                 styleBean.setTitle(name);
                 newList.add(styleBean);
@@ -230,7 +187,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
      * @param title
      * @param fileList
      */
-    private void addPatternData(String title, List<DetailPatterStyle> fileList) {
+    private void addPatternData(String title, List<DetailColorStyle> fileList) {
         mPatterData.put(title, fileList);
     }
 
@@ -249,15 +206,15 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
-                Bitmap bitmap = FileUtils.getMaskBitmap(Constants.WIDTH_MASK,Constants.HEIGHT_MASK,source,mask);
+                Bitmap bitmap = FileUtils.getMaskBitmap(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, source, mask);
                 e.onNext(bitmap);
             }
         }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
-        .subscribe(new CommonObserver<Bitmap>(mView) {
-            @Override
-            public void onNext(Bitmap bitmap) {
-                mView.showMaskView(bitmap);
-            }
-        });
+                .subscribe(new CommonObserver<Bitmap>(mView) {
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        mView.showMaskView(bitmap);
+                    }
+                });
     }
 }

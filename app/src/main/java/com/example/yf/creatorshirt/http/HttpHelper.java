@@ -6,6 +6,7 @@ import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
+import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -62,4 +63,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson);
 
     Flowable<HttpResponse<List<TextureEntity>>> getTextUre(RequestBody gson);
+
+    Flowable<HttpResponse<VersionUpdateResponse>> getVersionCode(int verCode);
 }

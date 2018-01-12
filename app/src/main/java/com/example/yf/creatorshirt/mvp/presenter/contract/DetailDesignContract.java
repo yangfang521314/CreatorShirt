@@ -5,7 +5,6 @@ import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailPatterStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
@@ -23,14 +22,14 @@ public interface DetailDesignContract {
     interface DetailDesignView extends BaseView {
         void showSuccessData(DetailStyleBean detailStyleBean);
 
-        void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<VersionStyle>> mColorData, ArrayMap<String, List<DetailPatterStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mMaskData, ArrayMap<String, List<DetailColorStyle>> mSignatureData);
+        void showSuccessData(List<StyleBean> newList, List<String> clotheKey, ArrayMap<String, List<VersionStyle>> mColorData, ArrayMap<String, List<DetailColorStyle>> mPatternData, ArrayMap<String, List<DetailColorStyle>> mMaskData, ArrayMap<String, List<DetailColorStyle>> mSignatureData);
 
 
         void showMaskView(Bitmap maskBitmap);
     }
 
     interface Presenter extends BasePresenter<DetailDesignView> {
-        void getDetailDesign(String gender, String type, ArrayList<VersionStyle> mClothesList, boolean b);
+        void getDetailDesign(ArrayList<VersionStyle> mClothesList, boolean b);
 
     }
 

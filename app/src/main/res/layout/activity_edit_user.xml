@@ -38,7 +38,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/choice_size_normal"
+        android:background="@drawable/choice_size_ll"
         android:gravity="center_vertical"
         android:hint="昵称"
         android:maxLines="1"

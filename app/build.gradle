@@ -45,6 +45,7 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "衣舍"
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
@@ -54,6 +55,8 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "develop 衣舍"
+
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
@@ -61,7 +64,15 @@ android {
         }
     }
     productFlavors {
-        "yixiu" {}
+        yixiu {}
+        wandoujia {}
+        baidu {}
+        c360 {}
+        uc {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
     }
     externalNativeBuild {
         cmake {
@@ -70,7 +81,6 @@ android {
     }
     buildToolsVersion '26.0.2'
 }
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //base
@@ -117,6 +127,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.googlecode.plist:dd-plist:1.20'
+    implementation files('libs/umeng_shareboard_widget.jar')
 }
 repositories {
     mavenCentral()
