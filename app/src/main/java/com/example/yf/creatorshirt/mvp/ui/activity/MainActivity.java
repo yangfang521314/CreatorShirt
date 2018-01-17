@@ -26,7 +26,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
-import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.checkVersion(this, Constants.VERSION_UPDATE_INIT_REQUEST);
+//        mPresenter.checkVersion(this, Constants.VERSION_UPDATE_INIT_REQUEST);
         EventBus.getDefault().register(this);
     }
 
@@ -98,6 +97,7 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
         choiceTabState(TYPE_SQUARE);
         String key = PackageUtil.getSignature(App.getInstance());
+        mAppBarBack.setVisibility(View.GONE);
     }
 
 
@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
                 choiceTabState(TYPE_DESIGN);
                 showFragment = TYPE_DESIGN;
                 mAppBar.setVisibility(View.VISIBLE);
+                mAppBarBack.setVisibility(View.GONE);
                 mAppBarTitle.setText("设计定制");
                 break;
             case R.id.mine_text:

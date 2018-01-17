@@ -54,7 +54,7 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/clothes_sex_style"
+                android:id="@+id/clothes_order_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -64,7 +64,7 @@
 
 
             <TextView
-                android:id="@+id/clothes_color"
+                android:id="@+id/clothes_order_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -136,6 +136,7 @@
         android:background="@color/white"
         android:padding="5dp">
 
+
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
@@ -155,6 +156,7 @@
             android:text=" ¥49.99"
             android:textColor="@color/red_e73a3d"
             android:textSize="16sp" />
+
 
         <TextView
             android:id="@+id/confirm_pay"

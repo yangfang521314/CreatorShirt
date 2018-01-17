@@ -5,7 +5,7 @@ import android.support.annotation.RequiresApi;
 import android.util.ArrayMap;
 import android.util.Log;
 
-import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;

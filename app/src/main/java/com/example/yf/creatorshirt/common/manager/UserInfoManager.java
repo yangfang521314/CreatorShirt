@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.common;
+package com.example.yf.creatorshirt.common.manager;
 
 import android.content.Context;
 

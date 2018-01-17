@@ -35,6 +35,7 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
 
     @Inject
     public ClothesPresenter() {
+
     }
 
     /**
@@ -45,8 +46,6 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
         try {
             NSDictionary ary = (NSDictionary) PropertyListParser.parse(App.getInstance().getAssets().open("version_1.plist"));
             VerName = ary.allKeys();//衣服类型
-//            NSDictionary dictionary = (NSDictionary) ary.objectForKey(VerName[0]);
-//            String pp  = dictionary.objectForKey("name").toJavaObject().toString();
             for (int i = 0; i < VerName.length; i++) {
 
                 NSDictionary dictionary = (NSDictionary) ary.objectForKey(VerName[i]);
@@ -66,8 +65,8 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                         style.setColorName(colorName);
                         style.setGender(type);
                         style.setSex("m");
+                        style.setClothesType(name);
                         mVersionStyle.add(style);
-
                     }
                     totalManMap.put(name, mVersionStyle);
                 }
@@ -86,6 +85,7 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                         style.setColorName(colorName);
                         style.setGender(type);
                         style.setSex("w");
+                        style.setClothesType(name);
                         mVersionStyle.add(style);
 
                     }
@@ -107,5 +107,4 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
         }
 
     }
-
 }

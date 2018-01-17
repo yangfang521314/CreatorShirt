@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
-import com.example.yf.creatorshirt.mvp.presenter.SizeOrSharePresenter;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -210,7 +209,7 @@ public class ShareContentUtil extends ShareContentUtilAbstract {
         }
     };
 
-    public void setOnClickListener(SizeOrSharePresenter sizeOrSharePresenter) {
-        this.commonClickListener = sizeOrSharePresenter;
-    }
+//    public void setOnClickListener(OrderInfoPresenter sizeOrSharePresenter) {
+//        this.commonClickListener = sizeOrSharePresenter;
+//    }
 }

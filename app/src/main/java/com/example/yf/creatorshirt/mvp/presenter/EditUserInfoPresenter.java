@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
-import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;

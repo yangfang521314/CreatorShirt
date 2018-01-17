@@ -22,6 +22,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="DEBUG_MODE"
+            android:value="${isDebug}">
+        </meta-data>
         <activity
             android:name=".mvp.ui.activity.MainActivity"
             android:launchMode="singleTask"
@@ -36,7 +40,7 @@
             android:name=".mvp.ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.ChoiceSizeActivity"
+            android:name=".mvp.ui.activity.ShowImageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.ChoicePayActivity"
@@ -172,10 +176,11 @@
             android:name=".mvp.ui.activity.NewDesignActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".mvp.ui.activity.NewOrderActivity"
+            android:name=".mvp.ui.activity.OrderEditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.AddOrderActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
     </application>
 

@@ -77,9 +77,9 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         for (int i = 0; i < fontName.size(); i++) {
             TextView textView = new TextView(mContext);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DisplayUtil.Dp2Px(mContext, 50), DisplayUtil.Dp2Px(mContext, 30));
-            params.rightMargin = DisplayUtil.Dp2Px(mContext, 1);
+            params.rightMargin = DisplayUtil.Dp2Px(mContext, 4);
             textView.setLayoutParams(params);
-            textView.setBackgroundResource(R.drawable.choice_size_background);
+            textView.setBackgroundResource(R.drawable.choice_type_background);
             textView.setGravity(Gravity.CENTER);
             textView.setTypeface(fontName.get(i).getTypeface());
             textView.setText(fontName.get(i).getText());

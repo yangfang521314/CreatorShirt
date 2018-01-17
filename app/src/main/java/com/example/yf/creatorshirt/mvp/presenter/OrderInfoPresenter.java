@@ -12,26 +12,25 @@ import android.util.Log;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.listener.CommonListener;
+import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
-import com.example.yf.creatorshirt.mvp.model.orders.OrderBaseInfo;
+import com.example.yf.creatorshirt.mvp.model.VersionStyle;
+import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
-import com.example.yf.creatorshirt.mvp.model.orders.SaveStyleEntity;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
-import com.example.yf.creatorshirt.mvp.presenter.contract.SizeOrShareContract;
+import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.ShareContentUtil;
-import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
-import com.google.gson.Gson;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -53,14 +52,13 @@ import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * Created by yangfang on 2017/8/28.
  */
 
-public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOrShareView> implements
-        SizeOrShareContract.Presenter, CommonListener.CommonClickListener {
+public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoView> implements
+        OrderInfoContract.Presenter {
 
     private static final int WHAT_SUCCESS = 1;
     private static final int WHAT_SUCCESS2 = 2;
@@ -69,7 +67,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private UploadManager uploadManager = new UploadManager();
     private String userToken;
     private String UserId;
-    private OrderBaseInfo mOrderBaseInfo;
+    private VersionStyle mOrderBaseInfo;
     private String imageFrontUrl;
     private String imageBackUrl;
     private String mBack;
@@ -79,10 +77,13 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     private OrderType mOrderType;
     private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
+    private SaveOrderInfo saveStyleEntity;
+    private String discount;
 
     private Map<String, String> map = new HashMap<>();
     private List<String> mapAvatar = new ArrayList<>();
     private List<String> totalNum = new ArrayList<>();
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -97,13 +98,13 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     asyncTask.cancel(true);
                     asyncTask = null;
                 }
-                sendOrderData();
+//                sendOrderData();
             }
         }
     };
 
     @Inject
-    SizeOrSharePresenter(DataManager manager) {
+    OrderInfoPresenter(DataManager manager) {
         this.manager = manager;
     }
 
@@ -162,7 +163,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
      */
     public void getToken() {
         userToken = UserInfoManager.getInstance().getToken();
-        Log.e("TAG", "CKVM" + userToken);
+        Log.e("UserToken", "UserToken" + userToken);
         if (userToken == null) {
             return;
         }
@@ -178,70 +179,59 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 })
         );
     }
-
-    //直接生成订单
-    private void sendOrderData() {
-        SaveStyleEntity saveStyleEntity = new SaveStyleEntity();
-        if (size != null) {
-            String[] newSize = size.split("c");
-            String size = newSize[0];
-            saveStyleEntity.setSize(Integer.parseInt(size));
-            saveStyleEntity.setHeight(Integer.parseInt(size));
-            saveStyleEntity.setTexture(textUre);
-        }
-        //分享不传size;
-        imageBackUrl = map.get("B");
-        imageFrontUrl = map.get("A");
-        String baseColor = mOrderBaseInfo.getColor();
-        saveStyleEntity.setGender(mOrderBaseInfo.getGender());
-        saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
-        saveStyleEntity.setColor(baseColor);
-        saveStyleEntity.setOrderType(type);
-        saveStyleEntity.setFinishImage(imageFrontUrl);
-        saveStyleEntity.setAllImage(imageFrontUrl + "," + imageBackUrl);
-        saveStyleEntity.setZipCode("");
-        saveStyleEntity.setAddress("");
-        saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
-        saveStyleEntity.setStyleContext(styleContext);
-
-        Gson gson = new Gson();
-        String postEntity = gson.toJson(saveStyleEntity);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
-        addSubscribe(manager.saveOrderData(userToken, body)
-                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
-                    @Override
-                    public void onNext(OrderType s) {
-                        if (type != null) {
-                            if (type.equals("Check")) {
-                                mView.showSuccessData(s);
-
-                            } else if (type.equals("Share")) {
-                                mView.showShareSuccessData(s);
-                            }
-                            mOrderType = s;
-                        } else {
-                            mView.showErrorMsg("生成订单失败");
-                        }
-                    }
-                }));
-        if (map.size() != 0) {
-            map.clear();
-        }
-
-    }
-
-
-    /**
-     * 设置数据的String格式
-     *
-     * @param s
-     */
-    @Override
-    public void setStyleContext(String s) {
-        this.styleContext = s;
-    }
+//
+//    //直接生成订单
+//    private void sendOrderData() {
+//        SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
+//        if (size != null) {
+//            String[] newSize = size.split("c");
+//            String size = newSize[0];
+//            saveStyleEntity.setSize(Integer.parseInt(size));
+//            saveStyleEntity.setHeight(Integer.parseInt(size));
+//            saveStyleEntity.setTexture(textUre);
+//        }
+//        //分享不传size;
+//        imageBackUrl = map.get("B");
+//        imageFrontUrl = map.get("A");
+//        String baseColor = mOrderBaseInfo.getColor();
+//        saveStyleEntity.setGender(mOrderBaseInfo.getGender());
+//        saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
+//        saveStyleEntity.setColor(baseColor);
+//        saveStyleEntity.setOrderType(type);
+//        saveStyleEntity.setFinishImage(imageFrontUrl);
+//        saveStyleEntity.setAllImage(imageFrontUrl + "," + imageBackUrl);
+//        saveStyleEntity.setZipCode("");
+//        saveStyleEntity.setAddress("");
+//        saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
+//        saveStyleEntity.setStyleContext(styleContext);
+//
+//        Gson gson = new Gson();
+//        String postEntity = gson.toJson(saveStyleEntity);
+//        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
+//        addSubscribe(manager.saveOrderData(userToken, body)
+//                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+//                .compose(RxUtils.<OrderType>handleResult())
+//                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+//                    @Override
+//                    public void onNext(OrderType s) {
+//                        if (type != null) {
+//                            if (type.equals("Check")) {
+//                                mView.showSuccessData(s);
+//
+//                            } else if (type.equals("Share")) {
+//                                mView.showShareSuccessData(s);
+//                            }
+//                            mOrderType = s;
+//                        } else {
+//                            mView.showErrorMsg("生成订单失败");
+//                        }
+//                    }
+//                }));
+//        if (map.size() != 0) {
+//            map.clear();
+//        }
+//
+//    }
 
     /**
      * 保存图片
@@ -277,13 +267,8 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
 
     }
 
-    public void setIM(String mBackImageUrl) {
+    public void setBackUrl(String mBackImageUrl) {
         mBack = mBackImageUrl;
-    }
-
-    public void setClothesData(OrderBaseInfo mOrderBaseInfo, String size) {
-        this.mOrderBaseInfo = mOrderBaseInfo;
-        this.size = size;
     }
 
     /**
@@ -306,13 +291,13 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         infoEntity.setContent("衣秀，做自己的设计师");
         infoEntity.setTitle(UserInfoManager.getInstance().getUserName() + "的原创定制");
         infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
-        shareContentUtil.setOnClickListener(this);
+//        shareContentUtil.setOnClickListener(this);
         shareContentUtil.startShare(infoEntity, 1);
 
     }
 
 
-    public void setOrderClothes(OrderBaseInfo mOrderBaseInfo) {
+    public void setOrderClothes(VersionStyle mOrderBaseInfo) {
         this.mOrderBaseInfo = mOrderBaseInfo;
     }
 
@@ -339,11 +324,6 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                 })
         );
 
-    }
-
-    @Override
-    public void onClickListener() {
-        mView.hidePopupWindow();
     }
 
     /**
@@ -375,7 +355,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
         );
     }
 
-    public void getTexture(OrderBaseInfo mOrderBaseInfo) {
+    public void getTexture(VersionStyle mOrderBaseInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("Gender", mOrderBaseInfo.getGender());
@@ -444,7 +424,7 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
                     @Override
                     public void onNext(String s) {
                         totalNum.add(s);
-                        if(mapAvatar.size() >=2) {
+                        if (mapAvatar.size() >= 2) {
                             if (totalNum.size() < mapAvatar.size()) {
                                 getAvatarList(mapAvatar.get(totalNum.size()), totalNum.size());
                             }
@@ -456,5 +436,62 @@ public class SizeOrSharePresenter extends RxPresenter<SizeOrShareContract.SizeOr
     public void saveAvatar(List<String> avatarList) {
         mapAvatar = avatarList;
         getAvatarList(avatarList.get(0), 0);
+    }
+
+    /**
+     * 计算价格
+     *
+     * @param saveStyleEntity
+     */
+    public void computerOrderPrice(SaveOrderInfo saveStyleEntity) {
+        addSubscribe(manager.getCalculateOrderPrice(GsonUtils.getGson(saveStyleEntity))
+                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
+                .compose(RxUtils.<ClothesPrice>handleResult())
+                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView) {
+                    @Override
+                    public void onNext(ClothesPrice s) {
+                        if (s != null) {
+                            if(discount == null) {
+                                mView.showPrices(s);
+                                Log.e("OrderInfo","sss"+s.getOrderPrice());
+                            }else {
+                                mView.showDiscountPrices(s);
+                                Log.e("OrderInfo","sss"+s.getOrderPrice());
+                            }
+                        }
+                    }
+                }));
+
+    }
+
+    /**
+     * 衣服和尺寸
+     *
+     * @param mOrderClothesInfo
+     * @param mOrderSizeInfo
+     */
+    public void setClothesData(VersionStyle mOrderClothesInfo, ArrayList<ClothesSize> mOrderSizeInfo) {
+        saveStyleEntity = new SaveOrderInfo();
+        saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
+        saveStyleEntity.setPicture1("true");
+        saveStyleEntity.setPicture2("true");
+        saveStyleEntity.setText("true");
+        saveStyleEntity.setDetailList(mOrderSizeInfo);
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+
+    public void getComputePrices() {
+        computerOrderPrice(saveStyleEntity);
+    }
+
+    public void getDiscountPrices() {
+        if (discount != null) {
+            saveStyleEntity.setDiscount(discount);
+        }
+        computerOrderPrice(saveStyleEntity);
     }
 }

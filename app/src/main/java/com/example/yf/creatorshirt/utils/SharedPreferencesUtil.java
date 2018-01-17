@@ -181,4 +181,15 @@ public final class SharedPreferencesUtil {
     public static boolean getIsLogin() {
         return SharedPreferencesUtil.getBoolean(Constants.USER_INFO, PrefKey.APP_USER_IS_LOGIN_KEY, false);
     }
+
+    /**
+     * 存储从服务器获得的最新版本号
+     */
+    public static void setLastVersionCodeFromServer(String versionCode) {
+        setString(PrefKey.APP_SETTING, PrefKey.VER_CODE_FROM_SERVER_KEY, versionCode);
+    }
+
+    public static String getLastVersionCodeFromServer() {
+        return getString(PrefKey.APP_SETTING, PrefKey.VER_CODE_FROM_SERVER_KEY, "");
+    }
 }

@@ -30,8 +30,8 @@ public class DetailOrderAdapter extends BaseAdapter<ClothesSize, DetailOrderHold
         holder.mTvPosition.setText(String.valueOf(position + 1));
         holder.mTvGender.setText("性别：" + mData.get(position).getLetter());
         holder.mTvSize.setText("尺码：" + mData.get(position).getSize());
-        holder.mTvNumber.setText("数量：" + mData.get(position).getNumbers());
-        holder.mTvPrice.setText("¥：" + mData.get(position).getNumbers() * mData.get(position).getPrices());
+        holder.mTvNumber.setText("数量：" + mData.get(position).getCount());
+//        holder.mTvPrice.setText("¥：" + mData.get(position).getNumbers() * mData.get(position).getPrices());
         holder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

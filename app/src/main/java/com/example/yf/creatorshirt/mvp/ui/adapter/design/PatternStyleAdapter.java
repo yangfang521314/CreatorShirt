@@ -48,7 +48,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
     @Override
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
         if (position == 0) {
-            holder.mStyleImageView.setImageResource(R.mipmap.add);
+            holder.mStyleImageView.setImageResource(R.mipmap.add_clothes);
             holder.mStyleTextView.setText("添加本地图片");
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

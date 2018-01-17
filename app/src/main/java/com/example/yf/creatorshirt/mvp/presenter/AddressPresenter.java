@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.http.TestRequestServer;

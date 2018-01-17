@@ -45,7 +45,7 @@ public class FileUtils {
      */
     public static String saveBitmap(@NonNull Bitmap bitmap, @NonNull Context context, String name) {
         String path = null;
-        File file = getFile("StickerView" + name);
+        File file = getFile("creator" + name);
         if (file != null) {
             try {
                 FileOutputStream fos = new FileOutputStream(file);
@@ -64,6 +64,7 @@ public class FileUtils {
         return path;
     }
 
+
     public static File getFile(String sticker) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
         String timeStamp = simpleDateFormat.format(new Date());
@@ -71,7 +72,7 @@ public class FileUtils {
         if (isSDAvailable()) {
             path = getFolderName(sticker) + File.separator + timeStamp + ".jpg";//卡路径
         } else {
-            path = App.getInstance().getFilesDir().getPath() + File.separator + timeStamp + ".jpg";//app包路径下面
+            path = App.getInstance().getFilesDir().getPath() + File.separator + sticker + File.separator + timeStamp + ".jpg";//app包路径下面
         }
         if (TextUtils.isEmpty(path)) {
             return null;
@@ -79,8 +80,16 @@ public class FileUtils {
         return new File(path);
     }
 
+
+
+    /**
+     * 存储到本地相册
+     *
+     * @param name
+     * @return
+     */
     private static String getFolderName(String name) {
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), name);
+        File storageDir = new File(getCachePath(App.getInstance()), name);
         if (!storageDir.exists()) {
             if (!storageDir.mkdirs()) {
                 return "";

@@ -3,7 +3,9 @@ package com.example.yf.creatorshirt.app;
 import android.support.multidex.MultiDexApplication;
 
 import com.example.yf.creatorshirt.BuildConfig;
-import com.example.yf.creatorshirt.common.UserInfoManager;
+import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
+import com.example.yf.creatorshirt.common.manager.FontTypeManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.inject.component.AppComponent;
 import com.example.yf.creatorshirt.inject.component.DaggerAppComponent;
 import com.example.yf.creatorshirt.inject.module.AppModule;
@@ -47,6 +49,9 @@ public class App extends MultiDexApplication {
         SharedPreferencesUtil.init(this);
         UMShareAPI.get(this);
         UserInfoManager.getInstance().init(this);
+        FontTypeManager.getInstance().init(this);
+        ClothesSizeManager.getInstance().init(App.getInstance());
+
         initShareConfig();
         if (SharedPreferencesUtil.getIsLogin()) {
             setIsLogin(true);

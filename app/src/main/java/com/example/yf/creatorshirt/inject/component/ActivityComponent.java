@@ -13,6 +13,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.MainActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.OrderEditActivity;
 
 import dagger.Component;
 
@@ -29,7 +30,7 @@ public interface ActivityComponent {
 
     void inject(AddressShowActivity addressActivity);
 
-//    void inject(ChoiceSizeActivity choiceSizeActivity);
+//    void inject(ShowImageActivity choiceSizeActivity);
 
     void inject(ChoicePayActivity myOrderActivity);
 
@@ -45,4 +46,6 @@ public interface ActivityComponent {
     void inject(NewDesignActivity newsDesignActivity);
 
     void inject(MainActivity mainActivity);
+
+    void inject(OrderEditActivity newOrderActivity);
 }

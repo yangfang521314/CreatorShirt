@@ -49,6 +49,7 @@ android {
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
+                    isDebug         : false,
             ]
         }
         debug {
@@ -58,17 +59,19 @@ android {
             resValue "string", "app_name", "develop 衣舍"
 
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
+            //AndroidManifest.xml文件对应的变量
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
+                    isDebug         : true,
             ]
         }
     }
     productFlavors {
         yixiu {}
-        wandoujia {}
-        baidu {}
-        c360 {}
-        uc {}
+//        wandoujia {}
+//        baidu {}
+//        c360 {}
+//        uc {}
 
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

@@ -12,11 +12,10 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,11 +23,11 @@ import butterknife.OnClick;
 /**
  * 选择设计尺寸大小页面
  */
-public class ChoiceSizeActivity extends BaseActivity {
+public class ShowImageActivity extends BaseActivity {
     @BindView(R.id.clothes_front_image)
-    ImageView mFrontClothes;
+    ImageView mFrontImage;
     @BindView(R.id.clothes_back_image)
-    ImageView mBackClothes;
+    ImageView mBackImage;
     @BindView(R.id.rl_choice_size)
     LinearLayout mRealChoiceSize;
     @BindView(R.id.btn_choice_order)
@@ -44,23 +43,18 @@ public class ChoiceSizeActivity extends BaseActivity {
 
     private String mBackImageUrl;
     private String mFrontImageUrl;
-    private ArrayList<String> avatarList;
+    private VersionStyle mOrderBaseInfo;
 
     @Override
     public void initData() {
         super.initData();
         if (getIntent().getExtras() != null) {
-            if (getIntent().hasExtra("avatar")) {
-                avatarList = getIntent().getExtras().getStringArrayList("avatar");
-            }
-            if (getIntent().hasExtra("front")) {
-                mFrontImageUrl = getIntent().getStringExtra("front");
-            }
-            if (getIntent().hasExtra("back")) {
-                mBackImageUrl = getIntent().getStringExtra("back");
+            mOrderBaseInfo = getIntent().getExtras().getParcelable("clothesInfo");
+            if (mOrderBaseInfo != null) {
+                mBackImageUrl = mOrderBaseInfo.getBackUrl();
+                mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
         }
-
     }
 
 
@@ -79,7 +73,7 @@ public class ChoiceSizeActivity extends BaseActivity {
         mAppBarBack.setVisibility(View.VISIBLE);
         mButtonFront.setSelected(true);
         if (mFrontImageUrl != null) {
-            GlideApp.with(this).load(mFrontImageUrl).into(mFrontClothes);
+            GlideApp.with(this).load(mFrontImageUrl).into(mFrontImage);
         }
     }
 
@@ -89,8 +83,8 @@ public class ChoiceSizeActivity extends BaseActivity {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("clothes", mFrontImageUrl);
-                    startCommonActivity(ChoiceSizeActivity.this, bundle, NewOrderActivity.class);
+                    bundle.putParcelable("clothesInfo", mOrderBaseInfo);
+                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
@@ -104,7 +98,7 @@ public class ChoiceSizeActivity extends BaseActivity {
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
                 GlideApp.with(this).load(mFrontImageUrl)
-                        .into(mFrontClothes);
+                        .into(mFrontImage);
                 break;
             case R.id.clothes_back:
                 mRlFront.setVisibility(View.GONE);
@@ -113,7 +107,7 @@ public class ChoiceSizeActivity extends BaseActivity {
                 mButtonFront.setSelected(false);
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
-                            .into(mBackClothes);
+                            .into(mBackImage);
                 }
                 break;
         }

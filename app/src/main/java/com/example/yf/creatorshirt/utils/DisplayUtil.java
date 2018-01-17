@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
+import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 
 /**
  * dp与px单位间的相互转换
@@ -84,26 +84,20 @@ public class DisplayUtil {
         mContainerBackground.setLayoutParams(layoutParams);
     }
 
-
-    public static void calculateItemSizeWidth(Context context, LinearLayout mll) {
+    /**
+     * 动态设置对话框的宽为屏幕四分之三
+     */
+    public static void calculateDialogWidth(Context context, LinearLayout linearLayout) {
         int width = getScreenW(context);
-        ViewGroup.LayoutParams layoutParams = mll.getLayoutParams();
-        layoutParams.width = (int) (width / 6.5);
-        mll.setLayoutParams(layoutParams);
+        ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+        layoutParams.width = width/2 + width/4;
+        linearLayout.setLayoutParams(layoutParams);
     }
 
-
-    public static void calculateSmallRl(StickerView stickerView) {
-        ViewGroup.LayoutParams layoutParams = stickerView.getLayoutParams();
-        layoutParams.height = 592;
-        layoutParams.width = 592;
-        stickerView.setLayoutParams(layoutParams);
-    }
-
-    public static void calculateRl(StickerView stickerView) {
-        ViewGroup.LayoutParams layoutParams = stickerView.getLayoutParams();
-        layoutParams.height = 750;
-        layoutParams.width = 750;
-        stickerView.setLayoutParams(layoutParams);
+    public static void calculateClothesWidth(Context context, ClothesFrontView mContainerFront) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mContainerFront.getLayoutParams();
+        layoutParams.width  = Constants.WIDTH_MASK;
+        layoutParams.height = Constants.HEIGHT_MASK;
+        mContainerFront.setLayoutParams(layoutParams);
     }
 }

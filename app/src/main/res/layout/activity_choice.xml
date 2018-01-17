@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.ChoiceSizeActivity">
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.ShowImageActivity">
 
     <include
         android:id="@+id/app_bar"

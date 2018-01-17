@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.inject.module;
 
 import android.support.compat.BuildConfig;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.http.RequestApi;
 import com.example.yf.creatorshirt.utils.NetworkUtils;
@@ -83,7 +84,7 @@ public class HttpModule {
             builder.addInterceptor(loggingInterceptor);
         }
         //配置缓存路径
-        File cacheFile = new File(FileUtils.getCacheFile() + "/NetCache");
+        File cacheFile = new File(FileUtils.getCachePath(App.getInstance()) + "/NetCache");
         final Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
         Interceptor cacheInterceptor = new Interceptor() {
             @Override

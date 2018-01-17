@@ -5,26 +5,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
+import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
+import com.example.yf.creatorshirt.mvp.presenter.ClothesSizePresenter;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ChoiceSizeAdapter;
-import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddOrderActivity extends BaseActivity implements ItemClickListener.OnItemComClickListener {
+public class AddOrderActivity extends BaseActivity implements ItemClickListener.OnItemComClickListener, ClothesSizePresenter.OrderSizeView {
 
     @BindView(R.id.recyclerView_size)
     RecyclerView mSizeRecyclerView;
@@ -35,22 +39,26 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
     @BindView(R.id.woman)
     TextView mTvWoman;
     @BindView(R.id.numbers_clothes)
-    EditText mEditN;
+    TextView mClothesNumbers;
     @BindView(R.id.child)
     TextView mTvChild;
     @BindView(R.id.minus)
-    TextView mMinus;
+    ImageView mMinus;
     @BindView(R.id.add)
-    TextView mAdd;
+    ImageView mAdd;
+    @BindView(R.id.discount)
+    EditText mEditDiscount;
+
     private String gender;
     private String size;
 
-
-    private ArrayList<ClothesSize> clothesList;
-    private ClothesSize clothesSize;
-    private ClothesSize mUpdate;
     private View mCurrentView;
     private int number = 0;
+    private ClothesSizePresenter sizePresenter;
+    private Map<String, List<ClothesSize>> listArrayMap;
+    private String type;
+    private ChoiceSizeAdapter choiceSizeAdapter;
+    private ClothesSize mUpdate;
 
     @Override
     protected void inject() {
@@ -60,14 +68,43 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
     @Override
     public void initData() {
         super.initData();
-        clothesList = new ArrayList<>();
-        for (int i = 0; i < Constants.size.length; i++) {
-            clothesSize = new ClothesSize();
-            clothesSize.setSize(Constants.size[i]);
-            clothesSize.setLetter(Constants.letter[i]);
-            clothesList.add(clothesSize);
+        if (getIntent() != null) {
+            type = getIntent().getExtras().getString("type");
         }
-        mUpdate = new ClothesSize();
+    }
+
+    @Override
+    protected int getView() {
+        return R.layout.activity_add_order;
+    }
+
+    @Override
+    protected void initView() {
+        sizePresenter = new ClothesSizePresenter();
+        sizePresenter.attachView(this);
+        mAppBarTitle.setText("新增订单");
+        mClothesNumbers.setText(String.valueOf(0));
+        mSizeRecyclerView.setLayoutManager(new LinearLayoutManager(App.getInstance(), LinearLayoutManager.HORIZONTAL, false));
+        choiceSizeAdapter = new ChoiceSizeAdapter(App.getInstance());
+        if (type.equals("kids") || type.equals("kidl")) {
+            mTvMan.setVisibility(View.GONE);
+            mTvWoman.setVisibility(View.GONE);
+        } else {
+            mTvWoman.setVisibility(View.VISIBLE);
+            mTvMan.setVisibility(View.VISIBLE);
+        }
+        if (ClothesSizeManager.getInstance().getClothesSizeList() == null) {
+            sizePresenter.getClothesSize();
+        } else {
+            listArrayMap = ClothesSizeManager.getInstance().getClothesSizeList();
+            //默认尺寸数据
+            if (listArrayMap != null) {
+                choiceSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
+                mSizeRecyclerView.setAdapter(choiceSizeAdapter);
+            }
+        }
+        //默认
+        choiceSizeAdapter.setOnItemClickListener(this);
     }
 
     @OnClick({R.id.add_sure, R.id.child, R.id.woman, R.id.man, R.id.minus, R.id.add, R.id.numbers_clothes})
@@ -75,9 +112,13 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
         switch (view.getId()) {
             case R.id.add_sure:
                 if (isCheck()) {
+                    mUpdate = new ClothesSize();
                     mUpdate.setLetter(gender);
-                    mUpdate.setNumbers(number);
+                    mUpdate.setCount(number);
                     mUpdate.setSize(size);
+                    if (PhoneUtils.notEmptyText(mEditDiscount)) {
+                        mUpdate.setSex(mEditDiscount.getText().toString());
+                    }
                     EventBus.getDefault().post(new UpdateOrdersEvent(true, mUpdate));
                     finish();
                 }
@@ -87,30 +128,36 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
                 mTvMan.setSelected(true);
                 mTvChild.setSelected(false);
                 gender = "男";
+                choiceSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
+                choiceSizeAdapter.notifyDataSetChanged();
                 break;
             case R.id.woman:
                 mTvWoman.setSelected(true);
                 mTvMan.setSelected(false);
                 mTvChild.setSelected(false);
                 gender = "女";
+                choiceSizeAdapter.setData(listArrayMap.get("commonSizeWomen"));
+                choiceSizeAdapter.notifyDataSetChanged();
                 break;
             case R.id.child:
                 mTvWoman.setSelected(false);
                 mTvMan.setSelected(false);
                 mTvChild.setSelected(true);
                 gender = "儿童";
+                choiceSizeAdapter.setData(listArrayMap.get("commonKid"));
+                choiceSizeAdapter.notifyDataSetChanged();
                 break;
             case R.id.add:
                 number++;
-                mEditN.setText(String.valueOf(number));
+                mClothesNumbers.setText(String.valueOf(number));
                 break;
             case R.id.minus:
                 if (number == 0) {
-                    mEditN.setText(String.valueOf(number));
+                    mClothesNumbers.setText(String.valueOf(number));
                     return;
                 }
                 number--;
-                mEditN.setText(String.valueOf(number));
+                mClothesNumbers.setText(String.valueOf(number));
                 break;
         }
 
@@ -133,22 +180,6 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
     }
 
     @Override
-    protected void initView() {
-        mAppBarTitle.setText("新增订单");
-        mSizeRecyclerView.setLayoutManager(new LinearLayoutManager(App.getInstance(), LinearLayoutManager.HORIZONTAL, false));
-        ChoiceSizeAdapter choiceSizeAdapter = new ChoiceSizeAdapter(App.getInstance());
-        choiceSizeAdapter.setData(clothesList);
-        choiceSizeAdapter.setOnItemClickListener(this);
-        mSizeRecyclerView.setAdapter(choiceSizeAdapter);
-        mEditN.setText(String.valueOf(0));
-    }
-
-    @Override
-    protected int getView() {
-        return R.layout.activity_add_order;
-    }
-
-    @Override
     public void onItemClick(Object o, View view) {
         if (mCurrentView != null) {
             mCurrentView.setSelected(false);
@@ -157,4 +188,14 @@ public class AddOrderActivity extends BaseActivity implements ItemClickListener.
         mCurrentView = view;
         view.setSelected(true);
     }
+
+    @Override
+    public void showSizeList(Map<String, List<ClothesSize>> list) {
+        ClothesSizeManager.getInstance().saveCache(list);
+        listArrayMap = list;
+        choiceSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
+        mSizeRecyclerView.setAdapter(choiceSizeAdapter);
+    }
+
+
 }

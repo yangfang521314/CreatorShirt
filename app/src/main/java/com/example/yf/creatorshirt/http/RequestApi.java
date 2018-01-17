@@ -2,15 +2,16 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
+import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public interface RequestApi {
     Flowable<HttpResponse<DetailStyleBean>> getDetailDesignStyle(@Body RequestBody requestBody);
 
     //上传图片衣服样式等数据
-    @POST("f-Users/saveOrders")
+    @POST("f-orders/saveOrders")
     Flowable<HttpResponse<OrderType>> saveOrderData(@Header("Token") String token, @Body RequestBody body);
 
 
@@ -109,6 +110,11 @@ public interface RequestApi {
     //材质
     @POST("fDesigns/GetTexture")
     Flowable<HttpResponse<List<TextureEntity>>> getTexture(@Body RequestBody gson);
+
     @POST("")
     Flowable<HttpResponse<VersionUpdateResponse>> getVersionCode(int verCode);
+
+    //计算价格
+    @POST("f-orders/computerOrderPrice")
+    Flowable<HttpResponse<ClothesPrice>> calculateOrderPrice(@Body RequestBody requestBody);
 }

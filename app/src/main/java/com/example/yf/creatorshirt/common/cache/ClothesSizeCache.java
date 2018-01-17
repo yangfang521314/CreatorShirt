@@ -1,9 +1,8 @@
 package com.example.yf.creatorshirt.common.cache;
 
 import android.content.Context;
-import android.graphics.Typeface;
 
-import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,41 +12,59 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by yangfang on 2017/8/23.
+ * Created by yangfang on 2018/1/14.
  */
 
-public class FontTypeCache {
+public class ClothesSizeCache {
     private Context context;
 
-    public FontTypeCache(Context _context) {
+    public ClothesSizeCache(Context _context) {
         this.context = _context;
     }
 
-    public void saveFontCache(List<Typeface> data) {
-        write(getCacheFilePath(), data);
+    public void saveUserInfo(Map<String, List<ClothesSize>> datas) {
+        write(getCacheFilePath(), datas);
     }
 
-    public List<Typeface> getFontType() {
+    public Map<String, List<ClothesSize>> getUserInfo() {
         return read(getCacheFilePath());
     }
 
+    /**
+     * 本地的缓存
+     *
+     * @return
+     */
     private String getCacheFilePath() {
-        return FileUtils.getCachePath(context) + File.separator + "cache_fonttype";
+        return context.getCacheDir().getPath() + File.separator
+                + "clothessize";
     }
 
-    private void write(String fileName, List<Typeface> _data) {
-        if (_data == null) {
+    /**
+     * 所属APP下的存储目录
+     *
+     * @return
+     */
+    private String getFilesDir() {
+        return context.getFilesDir().getPath() + File.separator
+                + "clothessize";
+    }
+
+
+    private void write(String fileName, Map<String, List<ClothesSize>> _datas) {
+        if (_datas == null) {
             return;
         }
 
         ObjectOutputStream oos = null;
         try {
             oos = new ObjectOutputStream(new FileOutputStream(fileName));
-            oos.writeObject(_data);
+            oos.writeObject(_datas);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,13 +81,14 @@ public class FontTypeCache {
         }
     }
 
-    private List<Typeface> read(String fileName) {
-        List<Typeface> data = null;
+    @SuppressWarnings("unchecked")
+    private Map<String, List<ClothesSize>> read(String fileName) {
+        Map<String, List<ClothesSize>> datas = null;
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream(fileName));
-            data = new ArrayList<>();
-            data = (List<Typeface>) ois.readObject();
+            datas = new HashMap<>();
+            datas = (Map<String, List<ClothesSize>>) ois.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (StreamCorruptedException e) {
@@ -88,10 +106,6 @@ public class FontTypeCache {
                 }
             }
         }
-        return data;
-    }
-
-    public void clearCache() {
-        FileUtils.deleteFile(new File(getCacheFilePath()));
+        return datas;
     }
 }

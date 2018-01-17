@@ -2,11 +2,15 @@ package com.example.yf.creatorshirt.mvp.model.detaildesign;
 
 import android.graphics.Typeface;
 
+import java.io.Serializable;
+
 /**
  * Created by yangfang on 2017/9/27.
  */
 
-public class TextEntity {
+public class TextEntity implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     private String color;
     private String text;
     private Typeface typeface;

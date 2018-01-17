@@ -5,4 +5,17 @@
     <dimen name="clothe_dp">320dp</dimen>
     <dimen name="back_front">150dp</dimen>
     <dimen name="my_order_padding">6dp</dimen>
+    <!-- 版本更新 -->
+    <dimen name="txt_update_title_margin">8dp</dimen>
+    <dimen name="txt_update_log_margin">16dp</dimen>
+    <dimen name="check_ignore_update_margin">8dp</dimen>
+    <dimen name="btn_update_margin">8dp</dimen>
+    <dimen name="btn_cancel_margin">8dp</dimen>
+    <dimen name="txt_update_title_size">22sp</dimen>
+    <dimen name="txt_btn_update_size">14sp</dimen>
+    <dimen name="btn_update_height">40dp</dimen>
+    <dimen name="btn_update_width">120dp</dimen>
+    <dimen name="llayout_update_width">240dp</dimen>
+    <dimen name="btn_cancel_update_height">40dp</dimen>
+    <dimen name="dialog_update_corner">6dp</dimen>
 </resources>

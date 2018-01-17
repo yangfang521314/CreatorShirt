@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.ui.adapter.design;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +13,6 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -70,7 +68,6 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
         String result;
         try {
             result = URLEncoder.encode(name, "UTF-8");
-            Log.e("Tag", "dddd" + result);
             if (!TextUtils.isEmpty(result)) {
                 GlideApp.with(mContext).load(Constants.ImageDetailUrl + result + ".png")
                         .centerInside()
@@ -87,7 +84,6 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
     @Override
     public void setData(List<StyleBean> data) {
-        LogUtil.e("TAG", "SIZE" + data.size() + data.get(1).getTitle());
         super.setData(data);
     }
 

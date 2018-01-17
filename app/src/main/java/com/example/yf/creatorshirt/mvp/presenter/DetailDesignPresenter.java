@@ -7,7 +7,6 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailCommonData;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
@@ -39,8 +38,6 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         implements DetailDesignContract.Presenter {
 
     private DataManager manager;
-    private DetailCommonData mDetailStyleFrontData;//现在只拿patter数据
-    //    private DetailCommonData mDetailStyleBackData;//背面数据
     //总样式和每一个具体的样式列表形成ArrayMap;
     private ArrayMap<String, List<DetailColorStyle>> mPatterData = new ArrayMap<>();
     private ArrayMap<String, List<VersionStyle>> mColorData = new ArrayMap<>();
@@ -72,7 +69,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
      *
      * @param flag
      */
-    public void getNameDeign(boolean flag) {
+    private void getNameDeign(boolean flag) {
         StyleBean styleBean;
         String name = null;
         if (newList != null) {
@@ -217,4 +214,5 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                     }
                 });
     }
+
 }

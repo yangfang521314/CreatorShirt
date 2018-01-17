@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.http;
 
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
+import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
@@ -158,5 +159,9 @@ public class DataManager implements HttpHelper {
 
     public Flowable<HttpResponse<VersionUpdateResponse>> getVersionCode(int verCode) {
         return mHttpHelper.getVersionCode(verCode);
+    }
+
+    public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(RequestBody requestBody) {
+        return mHttpHelper.getCalculateOrderPrice(requestBody);
     }
 }

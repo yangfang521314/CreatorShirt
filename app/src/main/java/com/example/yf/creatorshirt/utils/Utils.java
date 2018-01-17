@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 
 import java.lang.reflect.Field;
@@ -223,10 +224,9 @@ public class Utils {
     }
 
     public static Bitmap getBitmapResource(int resource){
-        if(resource != 0){
-            return BitmapFactory.decodeResource(App.getInstance().getResources(),resource);
-        }else {
-            return null;
+        if(resource == 0){
+            return BitmapFactory.decodeResource(App.getInstance().getResources(), R.mipmap.pattern_6);
         }
+        return BitmapFactory.decodeResource(App.getInstance().getResources(),resource);
     }
 }

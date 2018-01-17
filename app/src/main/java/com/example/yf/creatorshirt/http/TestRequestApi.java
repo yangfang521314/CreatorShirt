@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 public interface TestRequestApi {
 
     //上传数据
-    @POST("f-Users/saveOrders")
+    @POST("f-orders/saveOrders")
     Call<HttpResponse> saveOrderData(@Header("Token") String token, @Body RequestBody body);
 
     @POST("f-Users/requestOrdersFromOrderId")
@@ -61,4 +61,7 @@ public interface TestRequestApi {
 
     @POST("f-Users/userLogin")
     Call<HttpResponse> login(@Body RequestBody gson);
+
+    @POST("f-orders/computerOrderPrice")
+    Call<HttpResponse> getCalculateOrderPrice(@Body RequestBody gson);
 }

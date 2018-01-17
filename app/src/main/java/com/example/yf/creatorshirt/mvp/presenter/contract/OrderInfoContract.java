@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
+import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
@@ -11,9 +12,9 @@ import java.util.List;
  * Created by yangfang on 2017/8/28.
  */
 
-public interface SizeOrShareContract {
+public interface OrderInfoContract {
 
-    interface SizeOrShareView extends BaseView {
+    interface OrderInfoView extends BaseView {
 
         void showSuccessData(OrderType s);
 
@@ -23,15 +24,15 @@ public interface SizeOrShareContract {
 
         void showShareTokenSuccess(String s);
 
-        void hidePopupWindow();
-
         void showSuccessTextUre(List<TextureEntity> textureEntity);
+
+        void showPrices(ClothesPrice prcie);
+
+        void showDiscountPrices(ClothesPrice s);
     }
 
-    interface Presenter extends BasePresenter<SizeOrShareView> {
+    interface Presenter extends BasePresenter<OrderInfoView> {
 
-        //设置styleContex
-        void setStyleContext(String s);
     }
 
 }

@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.example.yf.creatorshirt.utils.Constants;
+
 /**
  * Created by yangfang on 2018/1/9.
  */
@@ -36,19 +38,13 @@ public class ClothesView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Rect rectF = new Rect((getMeasuredWidth() - 700) / 2, 0, 700 + ((getMeasuredWidth() - 700) / 2), 900);
+        int width = Constants.WIDTH_MASK;
+        int height = Constants.HEIGHT_MASK;
+        Rect rectF = new Rect((getMeasuredWidth() - width) / 2, 0, width + ((getMeasuredWidth() - width) / 2), height);
         if (source != null) {
             dstRect = new Rect(0, 0, source.getWidth(), source.getHeight());
             canvas.drawBitmap(source, dstRect, rectF, paint);
-
             paint.setXfermode(null);
         }
     }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-
 }

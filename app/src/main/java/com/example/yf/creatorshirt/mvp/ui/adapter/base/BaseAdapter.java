@@ -24,7 +24,7 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
     @Override
     public int getItemCount() {
         if (mData == null) {
-            Log.e("TAG", "数据为空");
+            Log.e("BaseAdapter", "数据为空");
             return 0;
         }
         return mData.size();

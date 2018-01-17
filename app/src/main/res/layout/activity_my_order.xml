@@ -185,11 +185,12 @@
             android:src="@mipmap/man_t_shirt" />
 
         <TextView
+            android:id="@+id/agent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="代理人：15868178345" />
+           />
 
         <TextView
             android:id="@+id/freight"
@@ -198,7 +199,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="3dp"
             android:gravity="left"
-            android:text="运费  ¥：300" />
+             />
 
         <TextView
             android:id="@+id/total"
@@ -207,7 +208,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="3dp"
             android:gravity="left"
-            android:text="总计  ¥：6660.00" />
+             />
 
     </LinearLayout>
 

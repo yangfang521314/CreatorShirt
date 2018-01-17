@@ -77,5 +77,9 @@
   <color name="slategray">#717789</color>
   <color name="line_dialog">#808080</color>
   <color name="recy_back">#99000000</color>
+  <!-- 版本更新 -->
+  <color name="txt_update_title">#328FEA</color>
+  <color name="bg_btn_update">#2786c8</color>
+  <color name="bg_btn_cancel_update">#c8c8c8</color>
 </resources>
 

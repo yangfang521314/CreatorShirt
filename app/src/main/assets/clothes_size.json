@@ -1,0 +1,114 @@
+[
+  {
+    "name":"commonSizeMan",
+    "type": [
+      {
+        "size": "S",
+        "value": "160~170"
+      },
+      {
+        "size": "M",
+        "value": "165~175"
+      },
+      {
+        "size": "L",
+        "value": "170~180"
+      },
+      {
+        "size": "XL",
+        "value": "175~185"
+      },
+      {
+        "size": "2XL",
+        "value": "180~190"
+      },
+      {
+        "size": "3XL",
+        "value": "185~195"
+      }
+    ]
+  },
+  {
+    "name":"commonSizeWomen",
+    "type": [
+      {
+        "size": "S",
+        "value": "145~150"
+      },
+      {
+        "size": "M",
+        "value": "150~155"
+      },
+      {
+        "size": "L",
+        "value": "155~160"
+      },
+      {
+        "size": "XL",
+        "value": "160~165"
+      },
+      {
+        "size": "2XL",
+        "value": "165~170"
+      }
+    ]
+  },
+  {
+    "name":"commonPolo",
+    "type": [
+      {
+        "size": "S",
+        "value": "155~160"
+      },
+      {
+        "size": "M",
+        "value": "160~165"
+      },
+      {
+        "size": "L",
+        "value": "165~170"
+      },
+      {
+        "size": "XL",
+        "value": "170~175"
+      },
+      {
+        "size": "2XL",
+        "value": "175~180"
+      },
+      {
+        "size": "3XL",
+        "value": "180~185"
+      }
+    ]
+  },
+  {
+    "name": "commonKid",
+    "type": [
+      {
+        "size": "S",
+        "value": "90"
+      },
+      {
+        "size": "M",
+        "value": "100"
+      },
+      {
+        "size": "L",
+        "value": "110"
+      },
+      {
+        "size": "XL",
+        "value": "120"
+      },
+      {
+        "size": "2XL",
+        "value": "130"
+      },
+      {
+        "size": "3XL",
+        "value": "140"
+      }
+    ]
+  }
+]
