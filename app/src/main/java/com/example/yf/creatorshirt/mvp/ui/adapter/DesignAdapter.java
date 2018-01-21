@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignBaseHolder;
@@ -17,7 +16,6 @@ import com.example.yf.creatorshirt.utils.Constants;
  */
 
 public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder> {
-    private ItemClickListener.OnItemClickListener clickListener;
     private int oldPosition;
     private View oldContainer;
 
@@ -56,7 +54,7 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
                 oldContainer.setSelected(true);
                 mData.get(oldPosition).setSelect(true);
                 if(clickListener != null)
-                clickListener.onItemClick(v, position);
+                clickListener.onItemClick(v, position,null);
             }
         });
 
@@ -66,8 +64,4 @@ public class DesignAdapter extends BaseAdapter<DesignBaseBean, DesignBaseHolder>
 
     }
 
-    public void setItemClickListener(ItemClickListener.OnItemClickListener clickListener) {
-        this.clickListener = clickListener;
-
-    }
 }

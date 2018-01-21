@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.AllOrderBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.OrderViewHolder;
@@ -16,7 +15,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.OrderViewHolder;
  */
 
 public class AllOrderAdapter extends BaseAdapter<AllOrderBean, OrderViewHolder> {
-    private ItemClickListener.OnItemClickListener onClickListener;
 
     public AllOrderAdapter(Context context) {
         super(context);
@@ -33,8 +31,8 @@ public class AllOrderAdapter extends BaseAdapter<AllOrderBean, OrderViewHolder> 
         holder.mRlOrderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onClickListener != null)
-                onClickListener.onItemClick(v,position);
+                if(clickListener != null)
+                clickListener.onItemClick(v,position,null);
             }
         });
     }
@@ -44,7 +42,4 @@ public class AllOrderAdapter extends BaseAdapter<AllOrderBean, OrderViewHolder> 
         return 5;
     }
 
-    public void setOnClickListener(ItemClickListener.OnItemClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
 }

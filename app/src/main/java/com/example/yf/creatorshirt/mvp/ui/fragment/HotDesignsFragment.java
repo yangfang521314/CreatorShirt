@@ -59,7 +59,7 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
         mGridManager = new GridLayoutManager(mActivity, 3);
         mRecyclerView.setLayoutManager(mGridManager);
         adapter = new HotDesignStyleAdapter(mActivity);
-        adapter.setOnclicklistener(this);
+        adapter.setOnItemClickListener(this);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -156,20 +156,20 @@ public class HotDesignsFragment extends BaseFragment<HotDesignPresenter> impleme
     @Override
     public void showErrorMsg(String msg) {
         ToastUtil.showToast(getActivity(), msg, 0);
-        if(mSwipeRefresh.isRefreshing()){
+        if (mSwipeRefresh.isRefreshing()) {
             mSwipeRefresh.setRefreshing(false);
         }
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("hotDesigner", hotDesignsBeen.get(position));
-        startCommonActivity(getActivity(), bundle, DesignerNewOrdersActivity.class);
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onItemClick(View view, int position, Object object) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("hotDesigner", hotDesignsBeen.get(position));
+        startCommonActivity(getActivity(), bundle, DesignerNewOrdersActivity.class);
     }
 }

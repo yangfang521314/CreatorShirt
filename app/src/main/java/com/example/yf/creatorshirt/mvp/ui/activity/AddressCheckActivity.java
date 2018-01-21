@@ -140,7 +140,7 @@ public class AddressCheckActivity extends BaseActivity {
      */
     private ItemClickListener.OnItemClickListener mProvinceItemClickListener = new ItemClickListener.OnItemClickListener() {
         @Override
-        public void onItemClick(View view, int position) {
+        public void onItemClick(View view, int position,Object O) {
             if (mCurrentOneSelect == position) {
                 return;
             }
@@ -176,7 +176,7 @@ public class AddressCheckActivity extends BaseActivity {
      */
     private ItemClickListener.OnItemClickListener mCityItemClickListener = new ItemClickListener.OnItemClickListener() {
         @Override
-        public void onItemClick(View view, int position) {
+        public void onItemClick(View view, int position,Object O) {
             if (mCurrentTwoSelect == position) {
                 return;
             }
@@ -207,7 +207,7 @@ public class AddressCheckActivity extends BaseActivity {
      */
     private ItemClickListener.OnItemClickListener mDistrictItemClickListener = new ItemClickListener.OnItemClickListener() {
         @Override
-        public void onItemClick(View view, int position) {
+        public void onItemClick(View view, int position,Object o) {
             setResultFinish(mOneList.get(mCurrentOneSelect), mTwoList.get(mCurrentTwoSelect), mThreeList.get(position));
         }
     };

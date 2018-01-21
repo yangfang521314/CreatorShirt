@@ -39,10 +39,11 @@ public class SaveOrderInfo implements Parcelable {
     private String baseId;
     private String picture1;
     private String picture2;//自定义的图片
-    private String text;
+    private String text1;
+    private String text2;
     private String finishAimage;
     private String finishBimage;
-    private double orderPrice;
+//    private double orderPrice;
     private String partner;
     private String discount;
     private String address;
@@ -63,10 +64,11 @@ public class SaveOrderInfo implements Parcelable {
         baseId = in.readString();
         picture1 = in.readString();
         picture2 = in.readString();
-        text = in.readString();
+        text1 = in.readString();
+        text2 = in.readString();
         finishAimage = in.readString();
         finishBimage = in.readString();
-        orderPrice = in.readDouble();
+//        orderPrice = in.readDouble();
         partner = in.readString();
         discount = in.readString();
         address = in.readString();
@@ -85,10 +87,11 @@ public class SaveOrderInfo implements Parcelable {
         dest.writeString(baseId);
         dest.writeString(picture1);
         dest.writeString(picture2);
-        dest.writeString(text);
+        dest.writeString(text1);
+        dest.writeString(text2);
         dest.writeString(finishAimage);
         dest.writeString(finishBimage);
-        dest.writeDouble(orderPrice);
+//        dest.writeDouble(orderPrice);
         dest.writeString(partner);
         dest.writeString(discount);
         dest.writeString(address);
@@ -143,12 +146,20 @@ public class SaveOrderInfo implements Parcelable {
         this.picture2 = picture2;
     }
 
-    public String getText() {
-        return text;
+    public String getText1() {
+        return text1;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setText1(String text1) {
+        this.text1 = text1;
+    }
+
+    public String getText2() {
+        return text2;
+    }
+
+    public void setText2(String text2) {
+        this.text2 = text2;
     }
 
     public String getFinishAimage() {
@@ -167,13 +178,13 @@ public class SaveOrderInfo implements Parcelable {
         this.finishBimage = finishBimage;
     }
 
-    public double getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(double orderPrice) {
-        this.orderPrice = orderPrice;
-    }
+//    public double getOrderPrice() {
+//        return orderPrice;
+//    }
+//
+//    public void setOrderPrice(double orderPrice) {
+//        this.orderPrice = orderPrice;
+//    }
 
     public String getPartner() {
         return partner;
@@ -269,10 +280,11 @@ public class SaveOrderInfo implements Parcelable {
                 "baseId='" + baseId + '\'' +
                 ", picture1='" + picture1 + '\'' +
                 ", picture2='" + picture2 + '\'' +
-                ", text='" + text + '\'' +
+                ", text1='" + text1 + '\'' +
+                ", text2='" + text2 + '\'' +
                 ", finishAimage='" + finishAimage + '\'' +
                 ", finishBimage='" + finishBimage + '\'' +
-                ", orderPrice=" + orderPrice +
+//                ", orderPrice=" + orderPrice +
                 ", partner='" + partner + '\'' +
                 ", discount='" + discount + '\'' +
                 ", address='" + address + '\'' +

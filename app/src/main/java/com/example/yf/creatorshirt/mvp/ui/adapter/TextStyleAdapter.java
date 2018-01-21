@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder;
@@ -16,7 +15,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.ColorItemViewHolder
  */
 
 public class TextStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemViewHolder> {
-    private ItemClickListener.OnItemClickListener clickListener;
     private View preView;
     private int prePosition;
 
@@ -53,13 +51,10 @@ public class TextStyleAdapter extends BaseAdapter<DetailColorStyle, ColorItemVie
                 preView.setSelected(true);
                 mData.get(prePosition).setSelect(true);
                 if (clickListener != null)
-                    clickListener.onItemClick(holder.mCommonStyle, position);
+                    clickListener.onItemClick(holder.mCommonStyle, position,null);
             }
         });
         holder.mStyleImageView.setOutColor(Color.parseColor("#" + mData.get(position).getValue()));
     }
 
-    public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
 }

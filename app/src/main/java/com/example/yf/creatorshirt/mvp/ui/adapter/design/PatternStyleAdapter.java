@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
+import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
@@ -20,7 +21,8 @@ import com.example.yf.creatorshirt.utils.FileUtils;
  */
 
 public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHolder> {
-    private ItemClickListener.OnItemClickListener clickListener;
+    private NewDesignActivity.ChoiceAvatarListener choiceAvatarListener;
+
     private View preView;
     private int prePosition;
 
@@ -53,7 +55,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    comClickListener.onItemClick(null, v);
+                    choiceAvatarListener.onItemClick(v, 0, null);
                     if (preView != null) {
                         preView.setSelected(false);
                         mData.get(prePosition).setSelect(false);
@@ -73,7 +75,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickListener.onItemClick(holder.mCommonStyle, currentPosition);
+                        clickListener.onItemClick(holder.mCommonStyle, currentPosition,null);
                         if (preView != null) {
                             preView.setSelected(false);
                             if (prePosition >= 0 && prePosition < mData.size()) {
@@ -106,5 +108,9 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
 
     public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public void setOnComClickListener(NewDesignActivity.ChoiceAvatarListener choiceAvatarListener) {
+           this. choiceAvatarListener = choiceAvatarListener;
     }
 }

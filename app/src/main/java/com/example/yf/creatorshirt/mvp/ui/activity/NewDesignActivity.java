@@ -7,16 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -46,9 +41,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
-import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
@@ -64,8 +56,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> implements ItemClickListener.OnItemClickListener,
-        ItemClickListener.OnClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
+public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> implements
+        ItemClickListener.OnItemClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
     public static final String COLOR = "color";
     public static final String PATTERN = "pattern";
     public static final String MASK = "mask";
@@ -157,48 +149,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         //默认显示正面
         isFirst = true;
         initFront();
-        initSignature();//默认文字编辑
+        mContainerFront.setContext(this);
+        mContainerBack.setContext(this);
     }
 
-    private void initSignature() {
-        textSticker = new TextSticker(this);
-        mContainerFront.setBackgroundColor(Color.WHITE);
-        mContainerFront.setLocked(false);
-        mContainerFront.setConstrained(true);
-        mContainerFront.setOnStickerOperationListener(new StickerView.OnStickerOperationListener() {
-            @Override
-            public void onStickerAdded(@NonNull Sticker sticker) {
-            }
-
-            @Override
-            public void onStickerClicked(@NonNull Sticker sticker) {
-                if (sticker instanceof TextSticker) {
-                    mUpdateType = ((TextSticker) sticker).getTypeface();
-                    setSignatureText(((TextSticker) sticker).getText(), true);
-                }
-            }
-
-            @Override
-            public void onStickerDeleted(@NonNull Sticker sticker) {
-            }
-
-            @Override
-            public void onStickerDragFinished(@NonNull Sticker sticker) {
-            }
-
-            @Override
-            public void onStickerZoomFinished(@NonNull Sticker sticker) {
-            }
-
-            @Override
-            public void onStickerFlipped(@NonNull Sticker sticker) {
-            }
-
-            @Override
-            public void onStickerDoubleTapped(@NonNull Sticker sticker) {
-            }
-        });
-    }
 
     private void initFront() {
         mButtonFront.setSelected(true);
@@ -206,7 +160,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             getCurrentFrontClothes(mInitData);
         }
         mOrderBaseInfo = new VersionStyle();
-
     }
 
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.tv_front, R.id.tv_back,
@@ -293,9 +246,17 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         }
                         break;
                     case SIGNATURE:
-                        if (!mContainerFront.isNoneSticker()) {
-                            mContainerFront.removeCurrentSticker();
-                            mContainerFront.setLocked(true);
+                        if (mButtonFront.isSelected()) {
+                            if (!mContainerFront.isNoneSticker()) {
+                                mContainerFront.removeCurrentSticker();
+                                mContainerFront.setLocked(true);
+                            }
+                        }
+                        if (mButtonBack.isSelected()) {
+                            if (!mContainerBack.isNoneSticker()) {
+                                mContainerBack.removeCurrentSticker();
+                                mContainerBack.setLocked(true);
+                            }
                         }
                         break;
 
@@ -318,12 +279,24 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 //                        }
                         break;
                     case SIGNATURE:
-                        if (mContainerFront.getCurrentSticker() != null) {
-                            TextSticker textSticker = (TextSticker) mContainerFront.getCurrentSticker();
-                            if (!Constants.ADD_TEXT.equals(textSticker.getText())) {
-                                saveText(textSticker);
-                            } else {
-                                return;
+                        if (mButtonFront.isSelected()) {
+                            if (mContainerFront.getCurrentSticker() != null) {
+                                TextSticker textSticker = (TextSticker) mContainerFront.getCurrentSticker();
+                                if (!Constants.ADD_TEXT.equals(textSticker.getText())) {
+                                    mContainerFront.saveText(textSticker);
+                                } else {
+                                    return;
+                                }
+                            }
+                        }
+                        if (mButtonBack.isSelected()) {
+                            if (mContainerBack.getCurrentSticker() != null) {
+                                TextSticker textSticker = (TextSticker) mContainerBack.getCurrentSticker();
+                                if (!Constants.ADD_TEXT.equals(textSticker.getText())) {
+                                    mContainerBack.saveText(textSticker);
+                                } else {
+                                    return;
+                                }
                             }
                         }
                         if (mDesCurrentView == null) {
@@ -388,13 +361,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         if (patternBackUrl != null) {
             mOrderBaseInfo.setPicture2(patternBackUrl);
         }
+        if(mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0){
+//            mOrderBaseInfo.set
+        }
         bundle.putParcelable("clothesInfo", mOrderBaseInfo);
         startCommonActivity(this, bundle, ShowImageActivity.class);
     }
 
 
     @Override
-    public void onItemClick(View currentView, int position) {
+    public void onItemClick(View currentView, int position, Object O) {
         if (mDesBeforeView != null) {
             mDesBeforeView.setSelected(false);
         }
@@ -442,15 +418,28 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 }
 
                 break;
-            case SIGNATURE://签名处理
-                mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                int color = Color.parseColor(mImagecolor);
-                textSticker.setTextColor(color);
-                TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
-                if (sticker != null) {
-                    sticker.setTextColor(color);
-                    mContainerFront.replace(sticker);
-                    mContainerFront.invalidate();
+            case SIGNATURE://字体处理
+                if (mButtonFront.isSelected()) {
+                    mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
+                    int color = Color.parseColor(mImagecolor);
+                    mContainerFront.setTextColor(color, mImagecolor);
+                    TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
+                    if (sticker != null) {
+                        sticker.setTextColor(color);
+                        mContainerFront.replace(sticker);
+                        mContainerFront.invalidate();
+                    }
+                }
+                if (mButtonBack.isSelected()) {
+                    mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
+                    int color = Color.parseColor(mImagecolor);
+                    mContainerBack.setTextColor(color, mImagecolor);
+                    TextSticker sticker = (TextSticker) mContainerBack.getCurrentSticker();
+                    if (sticker != null) {
+                        sticker.setTextColor(color);
+                        mContainerBack.replace(sticker);
+                        mContainerBack.invalidate();
+                    }
                 }
                 break;
 
@@ -514,7 +503,21 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         this.mSignatureData = mSignatureData;
         mRecyclerStyle.setVisibility(View.VISIBLE);
         BaseStyleAdapter mBaseDesignAdapter = new BaseStyleAdapter(this);
-        mBaseDesignAdapter.setItemClickListener(this);
+        mBaseDesignAdapter.setItemClickListener(new ItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, Object object) {
+                if (mBeforeView != null) {
+                    mBeforeView.setSelected(false);
+                }
+                view.setSelected(true);
+                mCurrentView = view;
+                mCurrentPosition = position;
+                mBeforeView = view;
+                if (mCurrentView.isSelected()) {
+                    clickItem(mCurrentPosition);//点击进入详情设计界面
+                }
+            }
+        });
         mBaseDesignAdapter.setData(newList);
         mRecyclerStyle.setAdapter(mBaseDesignAdapter);
         mBaseDesignAdapter.notifyDataSetChanged();
@@ -535,35 +538,19 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
     }
 
-
-    @Override
-    public void onClick(View view, int position) {
-        if (mBeforeView != null) {
-            mBeforeView.setSelected(false);
-        }
-        view.setSelected(true);
-        mCurrentView = view;
-        mCurrentPosition = position;
-        mBeforeView = view;
-        if (mCurrentView.isSelected()) {
-            clickItem(mCurrentPosition);//点击进入详情设计界面
-        }
-
-    }
-
     private void clickItem(int position) {
         mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         if (mClothesData.containsKey((newList.get(position).getTitle()))) {
             ColorStyleAdapter colorStyleAdapter = new ColorStyleAdapter(this);
             colorStyleAdapter.setData(mClothesData.get(newList.get(position).getTitle()));
-            colorStyleAdapter.setOnClickListener(this);
+            colorStyleAdapter.setOnItemClickListener(this);
             mRecyclerDetailStyle.setAdapter(colorStyleAdapter);
             colorStyleAdapter.notifyDataSetChanged();
         }
         if (mPatternData.containsKey(newList.get(position).getTitle())) {
             PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
-            patternStyleAdapter.setOnClickListener(this);
+            patternStyleAdapter.setOnItemClickListener(this);
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
             mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
             patternStyleAdapter.notifyDataSetChanged();
@@ -571,18 +558,22 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         if (mMaskData.containsKey(newList.get(position).getTitle())) {
             MaskStyleAdapter adapter = new MaskStyleAdapter(this);
             adapter.setData(mMaskData.get(newList.get(position).getTitle()));
-            adapter.setOnClickListener(this);
+            adapter.setOnItemClickListener(this);
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
         if (mSignatureData.containsKey((newList.get(position).getTitle()))) {
             TextStyleAdapter adapter = new TextStyleAdapter(this);
             adapter.setData(mSignatureData.get(newList.get(position).getTitle()));
-            adapter.setOnClickListener(this);
+            adapter.setOnItemClickListener(this);
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            mContainerFront.setLocked(false);
-            setSignatureText(null, false);//文字贴图
+            if (mButtonFront.isSelected()) {
+                mContainerFront.setSignatureText(null, false);//文字贴图
+            }
+            if (mButtonBack.isSelected()) {
+                mContainerBack.setSignatureText(null, false);//文字贴图
+            }
         }
         mRecyclerStyle.setVisibility(View.GONE);
         mRecyclerDetailStyle.setVisibility(View.VISIBLE);
@@ -590,75 +581,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mChoiceReturn.setVisibility(View.VISIBLE);
     }
 
-    private class ChoiceAvatarListener implements ItemClickListener.OnItemComClickListener {
+    public class ChoiceAvatarListener implements ItemClickListener.OnItemClickListener {
+
         @Override
-        public void onItemClick(Object o, View view) {
+        public void onItemClick(View view, int position, Object object) {
             EditUserPopupWindow mPopupWindow = mAvatarPresenter.initPopupWindow();
             mPopupWindow.showAtLocation(mDesign, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
             mAvatarPresenter.setParams(Constants.CHANGE_ALPHA);
             mDesCurrentView = view;
-        }
-    }
-
-    /**
-     * 设置自定义字体
-     *
-     * @param message
-     * @param isNew
-     */
-    private void setSignatureText(String message, final boolean isNew) {
-        final SignatureDialog dialog = new SignatureDialog(this, mUpdateType);
-        dialog.show();
-        if (message != null) {
-            dialog.setMessage(message);
-        }
-        Window win = dialog.getWindow();
-        if (win == null) {
-            return;
-        }
-        win.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        win.setAttributes(lp);
-        dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
-            @Override
-            public void onClickChoiceOrBack(View view, String s, Typeface typeface) {
-                if (isNew) {
-                    if (textSticker != null) {
-                        textSticker.setText(s);
-                        textSticker.resizeText();
-                        textSticker.setTypeface(typeface);
-                        mContainerFront.replace(textSticker);
-                        mContainerFront.invalidate();
-                    }
-
-                } else {
-                    textSticker = new TextSticker(NewDesignActivity.this);
-                    textSticker.setText(s);
-                    textSticker.setTypeface(typeface);
-                    textSticker.setTextColor(Color.BLACK);
-                    textSticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                    textSticker.resizeText();
-                    mContainerFront.addSticker(textSticker);
-                }
-            }
-        });
-    }
-
-    public void saveText(TextSticker textSticker) {
-        if (!TextUtils.isEmpty(textSticker.getText()) && textEntities != null) {
-            for (TextEntity t : textEntities) {
-                if (t.getText().equals(textSticker.getText())) {
-                    textEntities.remove(t);
-                }
-            }
-        }
-        TextEntity textEntity;
-        if (!TextUtils.isEmpty(textSticker.getText())) {
-            textEntity = new TextEntity();
-            textEntity.setText(textSticker.getText());
-            textEntity.setColor(mImagecolor);
-            textEntities.add(textEntity);
         }
     }
 

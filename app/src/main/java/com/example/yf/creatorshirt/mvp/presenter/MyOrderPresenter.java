@@ -113,7 +113,6 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         saveOrderInfo.setZipcode("");
         saveOrderInfo.setAddress(mView.getReceiverAddress());
         saveOrderInfo.setMobile(mView.getReceiverMobile());
-        saveOrderInfo.setText("aaaaa");
         saveOrderInfo.setPicture1(map.get("A"));
         saveOrderInfo.setPicture2(map.get("B"));
         saveOrderInfo.setPayorderid("");

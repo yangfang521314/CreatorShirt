@@ -14,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.MainActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.OrderEditActivity;
+import com.example.yf.creatorshirt.mvp.ui.activity.ShowImageActivity;
 
 import dagger.Component;
 
@@ -48,4 +49,6 @@ public interface ActivityComponent {
     void inject(MainActivity mainActivity);
 
     void inject(OrderEditActivity newOrderActivity);
+
+    void inject(ShowImageActivity showImageActivity);
 }

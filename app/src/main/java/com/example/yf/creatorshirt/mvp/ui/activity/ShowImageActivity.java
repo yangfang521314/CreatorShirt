@@ -12,10 +12,17 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
+import com.example.yf.creatorshirt.mvp.presenter.OrderInfoPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,7 +30,7 @@ import butterknife.OnClick;
 /**
  * 选择设计尺寸大小页面
  */
-public class ShowImageActivity extends BaseActivity {
+public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implements OrderInfoContract.OrderInfoView {
     @BindView(R.id.clothes_front_image)
     ImageView mFrontImage;
     @BindView(R.id.clothes_back_image)
@@ -44,6 +51,7 @@ public class ShowImageActivity extends BaseActivity {
     private String mBackImageUrl;
     private String mFrontImageUrl;
     private VersionStyle mOrderBaseInfo;
+    private List<String> arrayList = new ArrayList<>();
 
     @Override
     public void initData() {
@@ -54,9 +62,14 @@ public class ShowImageActivity extends BaseActivity {
                 mBackImageUrl = mOrderBaseInfo.getBackUrl();
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
             }
+            if (mOrderBaseInfo.getPicture1() != null) {
+                arrayList.add(mOrderBaseInfo.getPicture1());
+            }
+            if (mOrderBaseInfo.getPicture2() != null) {
+                arrayList.add(mOrderBaseInfo.getPicture2());
+            }
         }
     }
-
 
     @Override
     protected int getView() {
@@ -65,6 +78,7 @@ public class ShowImageActivity extends BaseActivity {
 
     @Override
     protected void inject() {
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -82,9 +96,15 @@ public class ShowImageActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
+                    mPresenter.setSaveEntity(setBaseInfo());
+                    if (arrayList != null && arrayList.size() != 0) {
+                        mPresenter.saveAvatar(arrayList);
+                    }
+                    mPresenter.setBackUrl(mOrderBaseInfo.getBackUrl());
+                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("clothesInfo", mOrderBaseInfo);
-                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
+//                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
@@ -113,6 +133,18 @@ public class ShowImageActivity extends BaseActivity {
         }
     }
 
+    private SaveOrderInfo setBaseInfo() {
+        SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
+        saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
+        saveStyleEntity.setFinishAimage(mOrderBaseInfo.getFrontUrl());
+        saveStyleEntity.setFinishBimage(mOrderBaseInfo.getBackUrl());
+        saveStyleEntity.setColor(mOrderBaseInfo.getColorName());
+        saveStyleEntity.setPicture1(mOrderBaseInfo.getPicture1());
+        saveStyleEntity.setPicture2(mOrderBaseInfo.getPicture2());
+        saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+        return saveStyleEntity;
+    }
+
     @Override
     public void showErrorMsg(String msg) {
         ToastUtil.showToast(this, msg, 0);
@@ -122,5 +154,13 @@ public class ShowImageActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (App.isLogin) {
+            mPresenter.getToken();
+        }
     }
 }

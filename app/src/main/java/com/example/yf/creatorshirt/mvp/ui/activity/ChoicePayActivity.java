@@ -95,7 +95,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
             Log.e("tga","choice"+arrayList.size());
 
         }
-        mPresenter.getToken();
+//        mPresenter.getToken();
 
     }
 
@@ -105,7 +105,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
         mAppBarBack.setVisibility(View.VISIBLE);
 
         mAgent.setText("代理人：" + mSaveOrderInfo.getMobile());
-        mTextTotal.setText("总计：" + mSaveOrderInfo.getOrderPrice());
+//        mTextTotal.setText("总计：" + mSaveOrderInfo.getOrderPrice());
         GlideApp.with(this).load(mSaveOrderInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mPayClothesImage);
     }
 

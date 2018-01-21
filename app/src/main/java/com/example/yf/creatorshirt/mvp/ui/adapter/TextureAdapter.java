@@ -38,8 +38,8 @@ public class TextureAdapter extends BaseAdapter<TextureEntity, SizeViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (comClickListener != null) {
-                    comClickListener.onItemClick(mData.get(position).getTexture(), v);
+                if (clickListener != null) {
+                    clickListener.onItemClick(v,0,mData.get(position).getTexture());
                 }
             }
         });

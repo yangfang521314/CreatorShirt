@@ -19,28 +19,9 @@ public class ItemClickListener implements RecyclerView.OnItemTouchListener {
          * @param view
          * @param position 点击的位置
          */
-        void onItemClick(View view, int position);
-
+        void onItemClick(View view, int position,Object object);
 
     }
-
-    public interface OnItemObjectClickListener {
-        void onItemClick(Object o);
-    }
-
-    public interface OnItemComClickListener {
-        void onItemClick(Object o, View view);
-    }
-
-
-    public interface OnClickListener {
-        void onClick(View view, int position);
-    }
-
-    public ItemClickListener(OnItemClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         return false;

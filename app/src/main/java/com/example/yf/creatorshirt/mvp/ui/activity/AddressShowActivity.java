@@ -31,7 +31,7 @@ import butterknife.OnClick;
  * 地址显示页面
  */
 public class AddressShowActivity extends BaseActivity<AddressPresenter> implements AddressContract.AddressView
-        , ItemClickListener.OnItemComClickListener {
+        , ItemClickListener.OnItemClickListener {
     @BindView(R.id.address_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.add_address)
@@ -74,7 +74,7 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
         mAppBarBack.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(this);
-        addressAdapter.setOnClickListener(this);
+        addressAdapter.setOnItemClickListener(this);
 
     }
 
@@ -122,9 +122,8 @@ public class AddressShowActivity extends BaseActivity<AddressPresenter> implemen
         super.onDestroy();
     }
 
-
     @Override
-    public void onItemClick(Object o, View view) {
+    public void onItemClick(View view, int position, Object o) {
 
         switch (view.getId()) {
             case R.id.edit_address_btn:

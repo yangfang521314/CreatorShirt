@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignerOrdersViewHolder;
@@ -18,7 +17,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DesignerOrdersViewH
  */
 
 public class DesignerOrdersAdapter extends BaseAdapter<BombStyleBean, DesignerOrdersViewHolder> {
-    ItemClickListener.OnItemObjectClickListener onClickListener;
 
     public DesignerOrdersAdapter(Context context) {
         super(context);
@@ -39,14 +37,10 @@ public class DesignerOrdersAdapter extends BaseAdapter<BombStyleBean, DesignerOr
             holder.mLinearDesigner.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(onClickListener != null)
-                    onClickListener.onItemClick(mData.get(position));
+                    if(clickListener != null)
+                    clickListener.onItemClick(null,0,mData.get(position));
                 }
             });
         }
-    }
-
-    public void setOnClickListener(ItemClickListener.OnItemObjectClickListener onClickListener) {
-        this.onClickListener = onClickListener;
     }
 }

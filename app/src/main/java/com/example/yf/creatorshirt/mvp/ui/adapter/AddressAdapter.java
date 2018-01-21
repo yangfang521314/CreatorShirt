@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.AddressViewHolder;
@@ -23,7 +22,6 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
         super(context);
     }
 
-    private ItemClickListener.OnItemComClickListener listener;
     private ImageView mCurrentView;
     private boolean isChoice;
 
@@ -42,13 +40,13 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
             @Override
             public void onClick(View v) {
                 mCurrentView.setImageResource(R.mipmap.choice_not_address);
-                listener.onItemClick(mData.get(position), v);
+                clickListener.onItemClick(v, position, mData.get(position));
             }
         });
         holder.mEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(mData.get(position), v);
+                clickListener.onItemClick(v, position, mData.get(position));
             }
         });
         if (position == 0) {
@@ -67,17 +65,13 @@ public class AddressAdapter extends BaseAdapter<AddressBean, AddressViewHolder> 
             holder.mAddressChoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null)
-                        listener.onItemClick(mData.get(position), view);
+                    if (clickListener != null)
+                        clickListener.onItemClick(view, position, mData.get(position));
                 }
             });
         }
     }
 
-    public void setOnClickListener(ItemClickListener.OnItemComClickListener listener) {
-        this.listener = listener;
-
-    }
 
     public void setChoice(boolean b) {
         isChoice = b;

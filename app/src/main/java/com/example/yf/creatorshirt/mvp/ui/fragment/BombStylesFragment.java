@@ -70,7 +70,7 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
         gridLayoutManager = new GridLinearLayoutManager(mActivity, 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new BombStyleAdapter(mActivity);
-        adapter.setOnClickListener(this);
+        adapter.setOnItemClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -121,18 +121,18 @@ public class BombStylesFragment extends BaseFragment<BombStylePresenter> impleme
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("detail", bombStyles.get(position));
-        startCommonActivity(getActivity(), bundle, DetailClothesActivity.class);
-    }
-
-    @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
         ToastUtil.showToast(getActivity(),msg,0);
         if(mSwipeRefresh.isRefreshing()){
             mSwipeRefresh.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object object) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("detail", bombStyles.get(position));
+        startCommonActivity(getActivity(), bundle, DetailClothesActivity.class);
     }
 }

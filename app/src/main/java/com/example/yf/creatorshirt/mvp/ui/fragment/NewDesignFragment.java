@@ -19,7 +19,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.ClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewDesignAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.NewMClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ScaleLayoutManager;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ViewPagerLayoutManager;
@@ -61,10 +60,10 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     private ScaleLayoutManager scaleWLayoutManager;
     private NewDesignAdapter adapter;
     private NewClothesAdapter designAdapter;
-    private NewMClothesAdapter mMClothesAdapter;
+    //    private NewMClothesAdapter mMClothesAdapter;
     private List<String> mClothesName;
     private ArrayMap<String, List<VersionStyle>> mManData;
-    private ArrayMap<String, List<VersionStyle>> mWomanData;
+    private List<VersionStyle> mBaseClothes = new ArrayList<>();
 
     @Override
     protected void initInject() {
@@ -123,12 +122,22 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         scaleLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 15));
         scaleLayoutManager.setCenterScale(1.3f);
         scaleLayoutManager.setOrientation(ViewPagerLayoutManager.VERTICAL);
-        adapter = new NewDesignAdapter(mContext);
-        adapter.setData(mClothesName);
+        adapter = new NewDesignAdapter(mActivity);
+        VersionStyle versionStyle;
+        for (int i = 0; i < mClothesName.size(); i++) {
+            String type = mManData.get(mClothesName.get(i)).get(0).getType();
+            String colorName = mManData.get(mClothesName.get(i)).get(0).getColorName();
+            final String current = "m" + type + "_" + colorName + "_" + "a";
+            versionStyle = new VersionStyle();
+            versionStyle.setColorName(current);
+            versionStyle.setType(mClothesName.get(i));
+            mBaseClothes.add(versionStyle);
+        }
+        adapter.setData(mBaseClothes);
         mStyleRecyclerView.setAdapter(adapter);
-        adapter.setOnComClickListener(new ItemClickListener.OnItemComClickListener() {
+        adapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(Object o, View view) {
+            public void onItemClick(View view, int position, Object o) {
                 if (mManData.containsKey(o)) {
                     mManRelative.setVisibility(View.VISIBLE);
                     designAdapter = new NewClothesAdapter(mActivity);
@@ -137,18 +146,18 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
                     designAdapter.setOnItemClickListener(new OnObjectClickListener());
                     mDetailManRCY.setAdapter(designAdapter);
                     designAdapter.notifyDataSetChanged();
-                    mShowM.setText(mManData.get(o).get(1).getGender());
+                    mShowM.setText((String) o);
                 }
-                if (mWomanData.containsKey(o)) {
-                    mWomanRelative.setVisibility(View.VISIBLE);
-                    mMClothesAdapter = new NewMClothesAdapter(mActivity);
-                    mMClothesAdapter.setGender("w");
-                    mMClothesAdapter.setData(mWomanData.get(o));
-                    mMClothesAdapter.setOnItemClickListener(new OnObjectClickListener());
-                    mDetailWomanRCY.setAdapter(mMClothesAdapter);
-                    mMClothesAdapter.notifyDataSetChanged();
-                    mShowW.setText(mWomanData.get(o).get(1).getGender());
-                }
+//                if (mWomanData.containsKey(o)) {
+//                    mWomanRelative.setVisibility(View.VISIBLE);
+//                    mMClothesAdapter = new NewMClothesAdapter(mActivity);
+//                    mMClothesAdapter.setGender("w");
+//                    mMClothesAdapter.setData(mWomanData.get(o));
+//                    mMClothesAdapter.setOnItemClickListener(new OnObjectClickListener());
+//                    mDetailWomanRCY.setAdapter(mMClothesAdapter);
+//                    mMClothesAdapter.notifyDataSetChanged();
+//                    mShowW.setText(mWomanData.get(o).get(1).getGender());
+//                }
                 mStyleRecyclerView.setVisibility(View.GONE);
                 mDeleteCY.setVisibility(View.VISIBLE);
             }
@@ -161,7 +170,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     public void showTotalClothes(ArrayMap<String, List<VersionStyle>> totalManMap, ArrayMap<String, List<VersionStyle>> totalWomanMap, List<String> mListVerName) {
         mClothesName = mListVerName;
         mManData = totalManMap;
-        mWomanData = totalWomanMap;
+//        mWomanData = totalWomanMap;
     }
 
 

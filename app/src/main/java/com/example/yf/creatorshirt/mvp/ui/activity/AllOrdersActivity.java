@@ -39,9 +39,9 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
         mAppBarTitle.setText(title);
         mAppBarBack.setVisibility(View.VISIBLE);
         AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
+        allOrderAdapter.setOnItemClickListener(this);
         mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        allOrderAdapter.setOnClickListener(this);
         mAllOrderRY.setAdapter(allOrderAdapter);
     }
 
@@ -60,8 +60,9 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
         return R.layout.activity_all_order;
     }
 
+
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, int position, Object object) {
         if (title.equals(getString(R.string.my_order))) {
             startCommonActivity(this, null, DetailOrderActivity.class);
         } else {

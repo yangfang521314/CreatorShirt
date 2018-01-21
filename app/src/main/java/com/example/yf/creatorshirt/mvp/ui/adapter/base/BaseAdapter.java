@@ -14,8 +14,6 @@ import java.util.List;
 public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapter<M, VH> {
     protected List<M> mData;
     protected ItemClickListener.OnItemClickListener clickListener;
-    protected ItemClickListener.OnItemObjectClickListener objectClickListener;
-    protected ItemClickListener.OnItemComClickListener comClickListener;
 
     public BaseAdapter(Context context) {
         super(context);
@@ -35,13 +33,6 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
         this.clickListener = clickListener;
     }
 
-    public void setOnItemClickListener(ItemClickListener.OnItemObjectClickListener clickListener) {
-        this.objectClickListener = clickListener;
-    }
-
-    public void setOnComClickListener(ItemClickListener.OnItemComClickListener clickListener) {
-        this.comClickListener = clickListener;
-    }
 
     public void setData(List<M> data) {
         this.mData = data;

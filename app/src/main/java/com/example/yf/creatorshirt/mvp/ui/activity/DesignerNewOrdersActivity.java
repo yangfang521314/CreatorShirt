@@ -47,7 +47,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresenter> implements
-        DesignerOrdersContract.DesignerDesignView, ItemClickListener.OnItemObjectClickListener {
+        DesignerOrdersContract.DesignerDesignView, ItemClickListener.OnItemClickListener {
     @BindView(R.id.designer_avatar)
     ImageView mImageAvatar;
     @BindView(R.id.designer_name)
@@ -81,7 +81,7 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
         mGridLayoutManager = new GridLinearLayoutManager(this, 3);
         mDesignerRecycler.setLayoutManager(mGridLayoutManager);
         mAdapter = new DesignerOrdersAdapter(this);
-        mAdapter.setOnClickListener(this);
+        mAdapter.setOnItemClickListener(this);
         if (!TextUtils.isEmpty(mHotDesignsBean.getHeadimage())) {
             RequestOptions options = new RequestOptions();
             options.circleCrop();
@@ -285,12 +285,6 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
                 });
     }
 
-    @Override
-    public void onItemClick(Object o) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("detail", (Parcelable) o);
-        startCommonActivity(this, bundle, DetailClothesActivity.class);
-    }
 
     @Override
     protected void onDestroy() {
@@ -304,5 +298,12 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
         ToastUtil.showToast(mContext, msg, 0);
         mDesignerRecycler.refreshComplete();
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object o) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("detail", (Parcelable) o);
+        startCommonActivity(this, bundle, DetailClothesActivity.class);
     }
 }

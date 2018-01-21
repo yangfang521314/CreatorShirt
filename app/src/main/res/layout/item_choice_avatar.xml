@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/llayout_update"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_newVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/txt_update_title_margin"
+        android:gravity="center"
+        android:text="填写数量"
+        android:textColor="@color/sand"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/glitter" />
+
+    <EditText
+        android:id="@+id/edit_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:textColorLink="@color/white" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_update_height"
+            android:layout_margin="@dimen/btn_update_margin"
+            android:layout_weight="1"
+            android:background="@color/sand"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_btn_update_size" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_cancel_update_height"
+            android:layout_margin="@dimen/btn_cancel_margin"
+            android:layout_weight="1"
+            android:background="@color/bg_btn_cancel_update"
+            android:text="取消"
+            android:textSize="@dimen/txt_btn_update_size" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -71,26 +71,26 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                     totalManMap.put(name, mVersionStyle);
                 }
 
-                if (dictionary.containsKey("W")) {
-                    mVersionStyle = new ArrayList<>();
-                    NSArray nsArray = (NSArray) dictionary.objectForKey("W");
-                    for (int j = 0; j < nsArray.count(); j++) {
-                        NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
-                        String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
-                        String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
-                        String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
-                        VersionStyle style = new VersionStyle();
-                        style.setColor(color);
-                        style.setType(VerName[i]);
-                        style.setColorName(colorName);
-                        style.setGender(type);
-                        style.setSex("w");
-                        style.setClothesType(name);
-                        mVersionStyle.add(style);
-
-                    }
-                    totalWomanMap.put(name, mVersionStyle);
-                }
+//                if (dictionary.containsKey("W")) {
+//                    mVersionStyle = new ArrayList<>();
+//                    NSArray nsArray = (NSArray) dictionary.objectForKey("W");
+//                    for (int j = 0; j < nsArray.count(); j++) {
+//                        NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
+//                        String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
+//                        String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
+//                        String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
+//                        VersionStyle style = new VersionStyle();
+//                        style.setColor(color);
+//                        style.setType(VerName[i]);
+//                        style.setColorName(colorName);
+//                        style.setGender(type);
+//                        style.setSex("w");
+//                        style.setClothesType(name);
+//                        mVersionStyle.add(style);
+//
+//                    }
+//                    totalWomanMap.put(name, mVersionStyle);
+//                }
             }
             mView.showTotalClothes(totalManMap, totalWomanMap, mListVerName);
 

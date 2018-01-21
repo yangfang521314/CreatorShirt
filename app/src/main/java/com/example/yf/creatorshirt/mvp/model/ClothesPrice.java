@@ -6,6 +6,7 @@ package com.example.yf.creatorshirt.mvp.model;
 
 public class ClothesPrice {
     private double orderPrice;
+    private double discountPrice;
 
     public double getOrderPrice() {
         return orderPrice;
@@ -13,5 +14,21 @@ public class ClothesPrice {
 
     public void setOrderPrice(int orderPrice) {
         this.orderPrice = orderPrice;
+    }
+
+    public double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "ClothesPrice{" +
+                "orderPrice=" + orderPrice +
+                ", discountPrice=" + discountPrice +
+                '}';
     }
 }

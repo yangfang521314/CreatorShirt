@@ -28,6 +28,7 @@ public class DesignBaseHolder extends BaseViewHolder {
             DisplayUtil.calculateHHWidth(getContext(), llClothes);
         }else if(resId ==R.layout.item_new_design) {
             mClothesName = getView(R.id.tv_new_title);
+            mClothesT = getView(R.id.iv_base_clothes);
         }else if(resId == R.layout.item_new_clothes){
             mClothesT = getView(R.id.clothes_image);
         }

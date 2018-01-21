@@ -15,10 +15,9 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
+import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
-import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
@@ -52,9 +51,13 @@ import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/8/28.
+ * 保存信息到服务器
  */
 
 public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoView> implements
@@ -77,8 +80,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private OrderType mOrderType;
     private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
-    private SaveOrderInfo saveStyleEntity;
-    private String discount;
+    private SaveOrderInfo saveOrderInfo;
 
     private Map<String, String> map = new HashMap<>();
     private List<String> mapAvatar = new ArrayList<>();
@@ -98,7 +100,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
                     asyncTask.cancel(true);
                     asyncTask = null;
                 }
-//                sendOrderData();
+                saveOrderInfo();
             }
         }
     };
@@ -168,70 +170,56 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             return;
         }
         addSubscribe(manager.getQiToken(userToken)
-                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult())
-                .subscribeWith(new CommonSubscriber<String>(mView) {
-                    @Override
-                    public void onNext(String s) {
-                        QiniuToken = s;
-                        mView.showTokenSuccess(s);
-                    }
-                })
+                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
+                        .compose(RxUtils.<String>handleResult())
+                        .subscribeWith(new CommonSubscriber<String>(mView) {
+                            @Override
+                            public void onNext(String s) {
+                                QiniuToken = s;
+//                        mView.showTokenSuccess(s);
+                            }
+                        })
         );
     }
-//
-//    //直接生成订单
-//    private void sendOrderData() {
-//        SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
-//        if (size != null) {
-//            String[] newSize = size.split("c");
-//            String size = newSize[0];
-//            saveStyleEntity.setSize(Integer.parseInt(size));
-//            saveStyleEntity.setHeight(Integer.parseInt(size));
-//            saveStyleEntity.setTexture(textUre);
-//        }
-//        //分享不传size;
-//        imageBackUrl = map.get("B");
-//        imageFrontUrl = map.get("A");
-//        String baseColor = mOrderBaseInfo.getColor();
-//        saveStyleEntity.setGender(mOrderBaseInfo.getGender());
-//        saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
-//        saveStyleEntity.setColor(baseColor);
-//        saveStyleEntity.setOrderType(type);
-//        saveStyleEntity.setFinishImage(imageFrontUrl);
-//        saveStyleEntity.setAllImage(imageFrontUrl + "," + imageBackUrl);
-//        saveStyleEntity.setZipCode("");
-//        saveStyleEntity.setAddress("");
-//        saveStyleEntity.setUserId(SharedPreferencesUtil.getUserId());
-//        saveStyleEntity.setStyleContext(styleContext);
-//
-//        Gson gson = new Gson();
-//        String postEntity = gson.toJson(saveStyleEntity);
-//        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), postEntity);
-//        addSubscribe(manager.saveOrderData(userToken, body)
+
+    /**
+     * 保存信息上传到服务器
+     */
+    private void saveOrderInfo() {
+        saveOrderInfo.setFinishBimage(map.get("B"));
+        saveOrderInfo.setFinishAimage(map.get("A"));
+        saveOrderInfo.setPicture1(map.get("A"));
+        saveOrderInfo.setPicture2(map.get("B"));
+        saveOrderInfo.setMaskAName("pattern_1");
+        saveOrderInfo.setMaskBName("pattern_2");
+        if (totalNum.size() > 1) {
+            saveOrderInfo.setPicture1(totalNum.get(0));
+            saveOrderInfo.setPicture2(totalNum.get(1));
+        } else if (totalNum.size() == 1) {
+            saveOrderInfo.setPicture1(totalNum.get(0));
+        }
+        Log.e("MyOrder", "dddd" + saveOrderInfo.toString());
+//        addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
 //                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
 //                .compose(RxUtils.<OrderType>handleResult())
 //                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
 //                    @Override
-//                    public void onNext(OrderType s) {
-//                        if (type != null) {
-//                            if (type.equals("Check")) {
-//                                mView.showSuccessData(s);
+//                    public void onNext(OrderType orderType) {
 //
-//                            } else if (type.equals("Share")) {
-//                                mView.showShareSuccessData(s);
-//                            }
-//                            mOrderType = s;
-//                        } else {
-//                            mView.showErrorMsg("生成订单失败");
-//                        }
 //                    }
 //                }));
-//        if (map.size() != 0) {
-//            map.clear();
-//        }
-//
-//    }
+        TestRequestServer.getInstance().saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo)).enqueue(new Callback<HttpResponse>() {
+            @Override
+            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                Log.e("MyOrder", "response" + response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<HttpResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
     /**
      * 保存图片
@@ -240,7 +228,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
      * @param value
      */
     @SuppressLint("StaticFieldLeak")
-    public void request(final String key, final String value) {
+    public void requestSave(final String key, final String value) {
 
         asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
@@ -297,31 +285,23 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     }
 
 
-    public void setOrderClothes(VersionStyle mOrderBaseInfo) {
-        this.mOrderBaseInfo = mOrderBaseInfo;
-    }
-
-    public void setSaveType(String type) {
-        this.type = type;
-    }
-
     public void getShareToken() {
         userToken = UserInfoManager.getInstance().getToken();
         if (userToken == null) {
             return;
         }
         addSubscribe(manager.getQiToken(userToken)
-                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult())
-                .subscribeWith(new CommonSubscriber<String>(mView) {
-                    @Override
-                    public void onNext(String s) {
-                        if (s != null) {
-                            QiniuToken = s;
-                            mView.showShareTokenSuccess(s);
-                        }
-                    }
-                })
+                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
+                        .compose(RxUtils.<String>handleResult())
+                        .subscribeWith(new CommonSubscriber<String>(mView) {
+                            @Override
+                            public void onNext(String s) {
+                                if (s != null) {
+                                    QiniuToken = s;
+//                            mView.showShareTokenSuccess(s);
+                                }
+                            }
+                        })
         );
 
     }
@@ -340,18 +320,18 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         map.put("texture", texture);
         addSubscribe(manager.saveOrdersFromShare(UserInfoManager.getInstance().getLoginResponse().getToken(),
                 GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单出错") {
-                    @Override
-                    public void onNext(OrderType orderType) {
-                        if (orderType == null) {
-                            mView.showErrorMsg("订单生成出错");
-                        } else {
-                            mView.showSuccessData(orderType);//生成订单
-                        }
-                    }
-                })
+                        .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+                        .compose(RxUtils.<OrderType>handleResult())
+                        .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单出错") {
+                            @Override
+                            public void onNext(OrderType orderType) {
+                                if (orderType == null) {
+                                    mView.showErrorMsg("订单生成出错");
+                                } else {
+//                            mView.showSuccessData(orderType);//生成订单
+                                }
+                            }
+                        })
         );
     }
 
@@ -368,7 +348,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
                         public void onNext(List<TextureEntity> textureEntity) {
                             if (textureEntity != null) {
                                 if (textureEntity.size() != 0) {
-                                    mView.showSuccessTextUre(textureEntity);
+//                                    mView.showSuccessTextUre(textureEntity);
                                 }
                             }
                         }
@@ -438,60 +418,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         getAvatarList(avatarList.get(0), 0);
     }
 
-    /**
-     * 计算价格
-     *
-     * @param saveStyleEntity
-     */
-    public void computerOrderPrice(SaveOrderInfo saveStyleEntity) {
-        addSubscribe(manager.getCalculateOrderPrice(GsonUtils.getGson(saveStyleEntity))
-                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
-                .compose(RxUtils.<ClothesPrice>handleResult())
-                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView) {
-                    @Override
-                    public void onNext(ClothesPrice s) {
-                        if (s != null) {
-                            if(discount == null) {
-                                mView.showPrices(s);
-                                Log.e("OrderInfo","sss"+s.getOrderPrice());
-                            }else {
-                                mView.showDiscountPrices(s);
-                                Log.e("OrderInfo","sss"+s.getOrderPrice());
-                            }
-                        }
-                    }
-                }));
-
-    }
-
-    /**
-     * 衣服和尺寸
-     *
-     * @param mOrderClothesInfo
-     * @param mOrderSizeInfo
-     */
-    public void setClothesData(VersionStyle mOrderClothesInfo, ArrayList<ClothesSize> mOrderSizeInfo) {
-        saveStyleEntity = new SaveOrderInfo();
-        saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
-        saveStyleEntity.setPicture1("true");
-        saveStyleEntity.setPicture2("true");
-        saveStyleEntity.setText("true");
-        saveStyleEntity.setDetailList(mOrderSizeInfo);
-    }
-
-    public void setDiscount(String discount) {
-        this.discount = discount;
-    }
-
-
-    public void getComputePrices() {
-        computerOrderPrice(saveStyleEntity);
-    }
-
-    public void getDiscountPrices() {
-        if (discount != null) {
-            saveStyleEntity.setDiscount(discount);
-        }
-        computerOrderPrice(saveStyleEntity);
+    public void setSaveEntity(SaveOrderInfo saveStyleEntity) {
+        saveOrderInfo = saveStyleEntity;
     }
 }

@@ -88,17 +88,17 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
         mRecyclerViewTexture.setLayoutManager(new LinearLayoutManager(App.getInstance(), LinearLayoutManager.HORIZONTAL, false));
         TextureAdapter adapter = new TextureAdapter(App.getInstance());
         adapter.setData(list);
-        adapter.setOnComClickListener(new ItemClickListener.OnItemComClickListener() {
+        adapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
 
             @Override
-            public void onItemClick(Object o, View view) {
+            public void onItemClick(View view, int position, Object object) {
                 if (mTextureView != null) {
                     mTextureView.setSelected(false);
                 }
                 //点击选择大小
                 view.setSelected(true);
                 mTextureView = view;
-                setTexture(o);
+                setTexture(object);
             }
         });
         mRecyclerViewTexture.setAdapter(adapter);
@@ -122,17 +122,6 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
         }
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-        if (mBeforeView != null) {
-            mBeforeView.setSelected(false);
-        }
-        //点击选择大小
-        view.setSelected(true);
-        mBeforeView = view;
-        setChoice(clothesList.get(position).getSize());
-    }
-
     private void setChoice(String size) {
         this.size = size;
     }
@@ -147,5 +136,16 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
 
     public View getBeforeView() {
         return mBeforeView;
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object object) {
+        if (mBeforeView != null) {
+            mBeforeView.setSelected(false);
+        }
+        //点击选择大小
+        view.setSelected(true);
+        mBeforeView = view;
+        setChoice(clothesList.get(position).getSize());
     }
 }

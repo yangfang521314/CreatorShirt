@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.yf.creatorshirt.app.App;
 public abstract class BasePopupWindow extends PopupWindow{
     public LayoutInflater layoutInflater;
 
+    @SuppressLint("WrongConstant")
     public BasePopupWindow() {
         layoutInflater = (LayoutInflater) App.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setContentView(getView());

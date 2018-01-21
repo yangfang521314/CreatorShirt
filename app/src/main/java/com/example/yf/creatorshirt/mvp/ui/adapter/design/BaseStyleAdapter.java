@@ -24,7 +24,7 @@ import java.util.List;
 
 public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
 
-    private ItemClickListener.OnClickListener onClickListener;
+    private ItemClickListener.OnItemClickListener onClickListener;
     private View preView;
     private int prePosition;
 
@@ -60,7 +60,7 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
                 preView = v;
                 preView.setSelected(true);
                 mData.get(prePosition).setSelect(true);
-                onClickListener.onClick(holder.mCommonStyle, position);
+                onClickListener.onItemClick(holder.mCommonStyle, position,null);
 
             }
         });
@@ -87,7 +87,7 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
         super.setData(data);
     }
 
-    public void setItemClickListener(ItemClickListener.OnClickListener itemClickListener) {
+    public void setItemClickListener(ItemClickListener.OnItemClickListener itemClickListener) {
         this.onClickListener = itemClickListener;
     }
 }

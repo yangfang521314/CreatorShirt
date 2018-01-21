@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.SizeViewHolder;
@@ -16,7 +15,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.SizeViewHolder;
 
 public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> {
 
-    private ItemClickListener.OnItemComClickListener clickListener;
 
     public ChoiceSizeAdapter(Context context) {
         super(context);
@@ -34,7 +32,7 @@ public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> 
             @Override
             public void onClick(View v) {
                 if(clickListener != null)
-                clickListener.onItemClick(mData.get(position).getLetter(),v);
+                clickListener.onItemClick(v,0,mData.get(position).getLetter());
             }
         });
         holder.mSize.setText(mData.get(position).getLetter());
@@ -45,7 +43,4 @@ public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> 
 
     }
 
-    public void setOnItemClickListener(ItemClickListener.OnItemComClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
 }

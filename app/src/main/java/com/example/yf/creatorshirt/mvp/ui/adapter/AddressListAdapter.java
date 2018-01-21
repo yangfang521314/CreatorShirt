@@ -85,7 +85,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null)
-                mItemClickListener.onItemClick(v, getAdapterPosition());
+                mItemClickListener.onItemClick(v, getAdapterPosition(),null);
         }
     }
 

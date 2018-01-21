@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.HotDesignViewHolder;
@@ -20,7 +19,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.HotDesignViewHolder
 public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesignViewHolder> {
     private Context mContext;
 
-    private ItemClickListener.OnItemClickListener itemClickListener;
     public HotDesignStyleAdapter(Context context) {
         super(context);
         this.mContext = context;
@@ -46,13 +44,10 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
         holder.mDesigner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(itemClickListener != null)
-                itemClickListener.onItemClick(v,position);
+                if(clickListener != null)
+                clickListener.onItemClick(v,position,null);
             }
         });
     }
 
-    public void setOnclicklistener(ItemClickListener.OnItemClickListener clickListener) {
-        itemClickListener = clickListener;
-    }
 }

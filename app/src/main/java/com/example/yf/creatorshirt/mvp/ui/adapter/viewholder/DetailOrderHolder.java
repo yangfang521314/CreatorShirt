@@ -11,20 +11,14 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseViewHolder;
  */
 
 public class DetailOrderHolder extends BaseViewHolder {
-    public TextView mTvPosition;
-    public TextView mTvGender;
-    public TextView mTvSize;
-    public TextView mTvPrice;
-    public TextView mTvNumber;
-    public TextView mDelete;
+    public TextView mSizeLetter;
+    public TextView mSizeNumber;
+    public TextView mClothesNumber;
 
     public DetailOrderHolder(ViewGroup parent, int resId) {
         super(parent, resId);
-        mTvPosition = getView(R.id.tv_order_position);
-        mTvGender = getView(R.id.tv_gender);
-        mTvSize = getView(R.id.tv_size);
-        mTvPrice = getView(R.id.tv_price);
-        mTvNumber = getView(R.id.tv_number);
-        mDelete = getView(R.id.tv_delete);
+        mSizeLetter = getView(R.id.order_size_letter);
+        mSizeNumber = getView(R.id.order_size_number);
+        mClothesNumber = getView(R.id.clothes_number);
     }
 }

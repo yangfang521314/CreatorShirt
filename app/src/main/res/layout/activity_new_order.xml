@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F4F9">
+    android:id="@+id/rl_order_edit"
+    android:background="@color/white">
 
     <include
         android:id="@+id/app_bar"
@@ -17,8 +18,8 @@
 
         <ImageView
             android:id="@+id/clothes_picture"
-            android:layout_width="120dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:scaleType="centerCrop" />
@@ -87,8 +88,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_discount"
         android:layout_below="@+id/my_order"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -97,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="我的订单"
+            android:text="选择尺码-男"
             android:textColor="@color/black_1"
             android:textSize="15sp" />
 
@@ -109,33 +111,83 @@
             android:background="@color/gainsboro" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_order_recy"
+            android:id="@+id/detail_man_recy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp" />
 
         <TextView
-            android:id="@+id/add_order"
+            android:id="@+id/tv_order_woman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawableLeft="@mipmap/add"
-            android:drawablePadding="2dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="新增订单"
-            android:textColor="@color/black"
+            android:padding="6dp"
+            android:text="选择尺码-女"
+            android:textColor="@color/black_1"
             android:textSize="15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_woman_recy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_discount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_pay"
+        android:background="#F5F4F9"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="折扣码："
+            android:textColor="@color/taupegray_2"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/discount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:background="@null"
+            android:gravity="left|center"
+            android:hint="点击输入折扣码"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:singleLine="false"
+            android:textColor="@color/taupegray_3"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/prices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textSize="15sp" />
+    </LinearLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:padding="5dp">
-
 
         <TextView
             android:id="@+id/tv_total"
@@ -143,17 +195,20 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/total_price"
             android:gravity="center"
             android:text="合计:"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/total_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_total"
-            android:text=" ¥49.99"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/confirm_pay"
             android:textColor="@color/red_e73a3d"
             android:textSize="16sp" />
 
@@ -167,6 +222,6 @@
             android:padding="10dp"
             android:text="确认并支付"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 </RelativeLayout>

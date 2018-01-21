@@ -159,6 +159,14 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 clotheKey.add(MASK);
                 addMaskData(name, maskList);
             }
+            if (textColorList != null) {
+                styleBean = new StyleBean();
+                name = "文字";
+                styleBean.setTitle(name);
+                newList.add(styleBean);
+                clotheKey.add(SIGNATURE);
+                addTextData(name, textColorList);
+            }
 
         }
         mView.showSuccessData(newList, clotheKey, mColorData, mPatterData, mMaskData, mSignatureData);
