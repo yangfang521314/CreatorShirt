@@ -1,78 +1,51 @@
 package com.example.yf.creatorshirt.mvp.model;
 
+import android.support.v4.util.ArrayMap;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yangfang on 2017/9/1.
  */
 
 public class ClothesStyleBean {
 
-    private CommonStyleEntity A;
-    private CommonStyleEntity B;
+    private List<String> mListVerName = new ArrayList<>();
+    private ArrayMap<String, List<VersionStyle>> totalManMap;
+    private ArrayMap<String, List<VersionStyle>> totalWomanMap;
 
-    private class CommonStyleEntity {
-        private String neck;
-        private String arm;
-        private String ornament;
-        private String color;
-        private String pattern;
 
-        public String getNeck() {
-            return neck;
-        }
+    public List<String> getmListVerName() {
+        return mListVerName;
+    }
 
-        public void setNeck(String neck) {
-            this.neck = neck;
-        }
+    public void setmListVerName(List<String> mListVerName) {
+        this.mListVerName = mListVerName;
+    }
 
-        public String getArm() {
-            return arm;
-        }
+    public ArrayMap<String, List<VersionStyle>> getTotalManMap() {
+        return totalManMap;
+    }
 
-        public void setArm(String arm) {
-            this.arm = arm;
-        }
+    public void setTotalManMap(ArrayMap<String, List<VersionStyle>> totalManMap) {
+        this.totalManMap = totalManMap;
+    }
 
-        public String getOrnament() {
-            return ornament;
-        }
+    public ArrayMap<String, List<VersionStyle>> getTotalWomanMap() {
+        return totalWomanMap;
+    }
 
-        public void setOrnament(String ornament) {
-            this.ornament = ornament;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-
-        public String getPattern() {
-            return pattern;
-        }
-
-        public void setPattern(String pattern) {
-            this.pattern = pattern;
-        }
-
-        @Override
-        public String toString() {
-            return "CommonStyleEntity{" +
-                    "neck='" + neck + '\'' +
-                    ", arm='" + arm + '\'' +
-                    ", ornamet='" + ornament + '\'' +
-                    ", color='" + color + '\'' +
-                    ", pattern='" + pattern + '\'' +
-                    '}';
-        }
+    public void setTotalWomanMap(ArrayMap<String, List<VersionStyle>> totalWomanMap) {
+        this.totalWomanMap = totalWomanMap;
     }
 
     @Override
     public String toString() {
         return "ClothesStyleBean{" +
-                "A=" + A +
-                ", B=" + B +
+                "mListVerName=" + mListVerName +
+                ", totalManMap=" + totalManMap +
+                ", totalWomanMap=" + totalWomanMap +
                 '}';
     }
 }

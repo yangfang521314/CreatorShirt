@@ -134,14 +134,14 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             }
         } else {
 
-            if (mTotalClothes != null) {
-                styleBean = new StyleBean();
-                name = "颜色";
-                styleBean.setTitle(name);
-                newList.add(styleBean);
-                clotheKey.add(COLOR);
-                addColorData(name, mTotalClothes);
-            }
+//            if (mTotalClothes != null) {
+//                styleBean = new StyleBean();
+//                name = "颜色";
+//                styleBean.setTitle(name);
+//                newList.add(styleBean);
+//                clotheKey.add(COLOR);
+//                addColorData(name, mTotalClothes);
+//            }
 
             if (patterList != null) {
                 styleBean = new StyleBean();

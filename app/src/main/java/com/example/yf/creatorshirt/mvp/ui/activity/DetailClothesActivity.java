@@ -33,7 +33,7 @@ import com.example.yf.creatorshirt.mvp.presenter.DetailClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailClothesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
-import com.example.yf.creatorshirt.mvp.ui.view.ChoiceSizePopupWindow;
+import com.example.yf.creatorshirt.mvp.ui.view.popupwindow.ChoiceSizePopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
 import com.example.yf.creatorshirt.utils.Constants;

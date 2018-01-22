@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.mvp.ui.view;
+package com.example.yf.creatorshirt.mvp.ui.view.popupwindow;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ChoiceSizeAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.TextureAdapter;
+import com.example.yf.creatorshirt.mvp.ui.view.BasePopupWindow;
 import com.example.yf.creatorshirt.utils.Constants;
 
 import java.util.ArrayList;

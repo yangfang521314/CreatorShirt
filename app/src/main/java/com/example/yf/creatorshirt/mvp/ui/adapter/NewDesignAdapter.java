@@ -58,7 +58,7 @@ public class NewDesignAdapter extends BaseAdapter<VersionStyle, DesignBaseHolder
                             GlideApp.with(mContext).load(bitmap)
                                     .override(700,900)
                                     .skipMemoryCache(false)
-                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                     .error(R.mipmap.mbaseball_white_a)
                                     .placeholder(R.mipmap.mpolo_azure_a)
                                     .into(holder.mClothesT);

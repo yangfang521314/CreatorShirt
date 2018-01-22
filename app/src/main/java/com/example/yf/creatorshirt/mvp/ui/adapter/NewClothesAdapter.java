@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,7 +20,6 @@ import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
 
 public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolder> {
     private NewDesignFragment.OnObjectClickListener onItemClickListener;
-    private String gender;
 
     public NewClothesAdapter(Context context) {
         super(context);
@@ -33,7 +33,8 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
     @Override
     protected void bindCustomViewHolder(final DesignBaseHolder holder, final int position) {
         String colorName = mData.get(position).getColorName();
-        String imageName = gender + mData.get(position).getType() + "_" + colorName + "_a";
+        String imageName = mData.get(position).getSex() + mData.get(position).getType() + "_" + colorName + "_a";
+        Log.e("III","ddd"+imageName);
         int resId = App.getInstance().getResources().getIdentifier(imageName, "mipmap", App.getInstance().getPackageName());
         if (resId != 0) {
             GlideApp.with(mContext).asBitmap().load(resId)
@@ -51,14 +52,6 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
 
     }
 
-    public void setGender(String sex) {
-        gender = sex;
-    }
-
-
-    public String getGender() {
-        return gender;
-    }
 
     public void setOnItemClickListener(NewDesignFragment.OnObjectClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;

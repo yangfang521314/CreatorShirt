@@ -104,7 +104,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                     mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("clothesInfo", mOrderBaseInfo);
-//                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
+                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }

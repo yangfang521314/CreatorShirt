@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
@@ -85,7 +83,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                         prePosition = currentPosition;
                         preView = v;
                         preView.setSelected(true);
-                        mData.get(prePosition).setSelect(true);
+                        mData.get(position).setSelect(true);
                     }
                 });
             }
@@ -99,15 +97,9 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 params.width = 200;
             }
             holder.mStyleImageView.setLayoutParams(params);
-            RequestOptions options = new RequestOptions();
-            options.fitCenter();
             Glide.with(mContext).load(FileUtils.getResource(mData.get(currentPosition).getName())).
                     into(holder.mStyleImageView);
         }
-    }
-
-    public void setOnClickListener(ItemClickListener.OnItemClickListener clickListener) {
-        this.clickListener = clickListener;
     }
 
     public void setOnComClickListener(NewDesignActivity.ChoiceAvatarListener choiceAvatarListener) {

@@ -48,8 +48,8 @@ public class ColorStyleAdapter extends BaseAdapter<VersionStyle, ColorItemViewHo
                 }
                 prePosition = position;
                 preView = v;
-                preView.setSelected(true);
-                mData.get(prePosition).setSelect(true);
+                v.setSelected(true);
+                mData.get(position).setSelect(true);
                 clickListener.onItemClick(holder.mCommonStyle, position,null);
             }
         });

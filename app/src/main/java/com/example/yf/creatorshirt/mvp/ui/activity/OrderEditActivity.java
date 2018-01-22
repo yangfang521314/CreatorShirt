@@ -47,7 +47,6 @@ import butterknife.OnTextChanged;
 
 public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> implements ItemClickListener.OnItemClickListener
         , CalculatePricesContract.CalculatePricesView {
-    private ClothesSize mUpdateData;
     private ArrayList<ClothesSize> mOrderSizeInfo;//计算价格的尺寸list
     private ArrayList<ClothesSize> clothesSizeList;
 
@@ -147,22 +146,20 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.confirm_pay:
-                if (mUpdateData != null) {
-                    Bundle bundle1 = new Bundle();
-                    SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
-                    saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
-                    saveStyleEntity.setDetailList(mOrderSizeInfo);
-                    saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFrontUrl());
-                    saveStyleEntity.setFinishBimage(mOrderClothesInfo.getBackUrl());
-                    saveStyleEntity.setColor(mOrderClothesInfo.getColorName());
+                Bundle bundle1 = new Bundle();
+                SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
+                saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
+                saveStyleEntity.setDetailList(mOrderSizeInfo);
+                saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFrontUrl());
+                saveStyleEntity.setFinishBimage(mOrderClothesInfo.getBackUrl());
+                saveStyleEntity.setColor(mOrderClothesInfo.getColorName());
 //                    saveStyleEntity.setOrderPrice((double) total);
-                    saveStyleEntity.setPicture1(mOrderClothesInfo.getPicture1());
-                    saveStyleEntity.setPicture2(mOrderClothesInfo.getPicture2());
-                    saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
-                    saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
-                    bundle1.putParcelable("orderInfo", saveStyleEntity);
-                    startCommonActivity(this, bundle1, ChoicePayActivity.class);
-                }
+                saveStyleEntity.setPicture1(mOrderClothesInfo.getPicture1());
+                saveStyleEntity.setPicture2(mOrderClothesInfo.getPicture2());
+                saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+                saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+                bundle1.putParcelable("orderInfo", saveStyleEntity);
+                startCommonActivity(this, bundle1, ChoicePayActivity.class);
                 break;
         }
 

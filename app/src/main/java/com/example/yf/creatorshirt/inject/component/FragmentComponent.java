@@ -25,5 +25,6 @@ public interface FragmentComponent {
 
     void inject(HotDesignsFragment hotDesignsFragment);
 
+
     void inject(NewDesignFragment newDesignFragment);
 }

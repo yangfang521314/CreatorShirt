@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.VersionUpdateContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
-import com.example.yf.creatorshirt.mvp.ui.fragment.SquareFragment;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.PermissionChecker;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
@@ -35,12 +35,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 @TargetApi(Build.VERSION_CODES.M)
-public class MainActivity extends BaseActivity<VersionUpdatePresenter> implements VersionUpdateContract.VersionUpdateView{
-    private static final String TYPE_SQUARE = "square";
+public class MainActivity extends BaseActivity<VersionUpdatePresenter> implements VersionUpdateContract.VersionUpdateView {
+    //    private static final String TYPE_SQUARE = "square";
     private static final String TYPE_DESIGN = "design";
     private static final String TYPE_MINE = "mine";
     @BindView(R.id.square_text)
@@ -52,7 +54,7 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
 
     private FragmentTransaction mTransaction;
 
-    private SquareFragment mSquareFragment;
+    //    private SquareFragment mSquareFragment;
     private MineFragment mMineFragment;
     private NewDesignFragment mDesignFragment;
     private String showFragment;
@@ -86,16 +88,17 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @Override
     protected void initView() {
         mPermissionsChecker = new PermissionChecker(this);
-        mSquareFragment = new SquareFragment();
+//        mSquareFragment = new SquareFragment();
         mMineFragment = new MineFragment();
         mDesignFragment = new NewDesignFragment();
-        showFragment = TYPE_SQUARE;
-        hideFragment = TYPE_SQUARE;
+        showFragment = TYPE_DESIGN;
+        hideFragment = TYPE_DESIGN;
         mTransaction = getSupportFragmentManager().beginTransaction();
-        mTransaction.add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
-                .add(R.id.content, mDesignFragment, "design").hide(mDesignFragment)
+        mTransaction
+//                .add(R.id.content, mSquareFragment, "square").show(mSquareFragment)
+                .add(R.id.content, mDesignFragment, "design").show(mDesignFragment)
                 .add(R.id.content, mMineFragment, "mine").hide(mMineFragment).commit();
-        choiceTabState(TYPE_SQUARE);
+        choiceTabState(TYPE_DESIGN);
         String key = PackageUtil.getSignature(App.getInstance());
         mAppBarBack.setVisibility(View.GONE);
     }
@@ -104,12 +107,12 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @OnClick({R.id.mine_text, R.id.design_text, R.id.square_text})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.square_text:
-                showFragment = TYPE_SQUARE;
-                choiceTabState(TYPE_SQUARE);
-                mAppBar.setVisibility(View.VISIBLE);
-                mAppBarTitle.setText("广场");
-                break;
+//            case R.id.square_text:
+//                showFragment = TYPE_SQUARE;
+//                choiceTabState(TYPE_SQUARE);
+//                mAppBar.setVisibility(View.VISIBLE);
+//                mAppBarTitle.setText("广场");
+//                break;
             case R.id.design_text:
                 choiceTabState(TYPE_DESIGN);
                 showFragment = TYPE_DESIGN;
@@ -131,11 +134,11 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     private void choiceTabState(String position) {
         clearSelection();
         switch (position) {
-            case TYPE_SQUARE:
-                Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_hover);
-                mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
-                mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
-                break;
+//            case TYPE_SQUARE:
+//                Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_hover);
+//                mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
+//                mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
+//                break;
             case TYPE_DESIGN:
                 Drawable drawable02 = ContextCompat.getDrawable(this, R.mipmap.icon_design_hover);
                 mDesignContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable02, null, null);
@@ -151,9 +154,9 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
 
     //清除上次的状态
     private void clearSelection() {
-        Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_normal);
-        mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
-        mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
+//        Drawable drawable01 = ContextCompat.getDrawable(this, R.mipmap.icon_square_normal);
+//        mSquareContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable01, null, null);
+//        mSquareContainer.setTextColor(ContextCompat.getColor(this, R.color.manatee_1));
 
         Drawable drawable02 = ContextCompat.getDrawable(this, R.mipmap.icon_design_normal);
         mDesignContainer.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable02, null, null);
@@ -173,14 +176,14 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
 
     private Fragment getShowFragment(String flag) {
         switch (flag) {
-            case TYPE_SQUARE:
-                return mSquareFragment;
+//            case TYPE_SQUARE:
+//                return mSquareFragment;
             case TYPE_MINE:
                 return mMineFragment;
             case TYPE_DESIGN:
                 return mDesignFragment;
         }
-        return mSquareFragment;
+        return mDesignFragment;
     }
 
 
@@ -273,5 +276,31 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @Override
     public void showSuccessUpdate(VersionUpdateResponse versionUpdateResponse) {
 
+    }
+
+    private ArrayList<MyTouchListener> myTouchListeners = new ArrayList<>();
+
+    public interface MyTouchListener {
+        boolean onTouchEvent(MotionEvent ev);
+    }
+
+    public void registerMyTouchListener(MyTouchListener listener) {
+        myTouchListeners.add(listener);
+    }
+
+    /**
+     * 提供给Fragment通过getActivity()方法来取消注册自己的触摸事件的方法
+     *
+     * @param listener
+     */
+    public void unRegisterMyTouchListener(MyTouchListener listener) {
+        myTouchListeners.remove(listener);
+    }
+
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        for (MyTouchListener listener : myTouchListeners) {
+            listener.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

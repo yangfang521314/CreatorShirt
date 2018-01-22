@@ -31,12 +31,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:baselineAligned="true"
-        android:weightSum="3">
+        android:weightSum="2">
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:layout_weight="1">
 
             <TextView

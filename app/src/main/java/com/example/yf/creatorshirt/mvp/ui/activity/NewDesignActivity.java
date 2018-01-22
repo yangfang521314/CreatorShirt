@@ -371,9 +371,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     @Override
     public void onItemClick(View currentView, int position, Object O) {
-        if (mDesBeforeView != null) {
-            mDesBeforeView.setSelected(false);
-        }
+//        if (mDesBeforeView != null) {
+//            mDesBeforeView.setSelected(false);
+//        }
         switch (clotheKey.get(mCurrentPosition)) {
             case COLOR:
                 if (mButtonFront.isSelected()) {
@@ -445,7 +445,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
         }
         prePosition = position;
-        currentView.setSelected(true);
         mDesCurrentView = currentView;
         mDesBeforeView = currentView;
     }

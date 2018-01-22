@@ -216,7 +216,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
 
             @Override
             public void onFailure(Call<HttpResponse> call, Throwable t) {
-
+                Log.e("OrderInfo","dffff"+call.toString());
             }
         });
     }
