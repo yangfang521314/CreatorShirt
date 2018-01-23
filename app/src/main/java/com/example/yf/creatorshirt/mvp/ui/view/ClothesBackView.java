@@ -21,7 +21,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
-import com.example.yf.creatorshirt.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +34,10 @@ import butterknife.ButterKnife;
 
 public class ClothesBackView extends StickerView {
     @BindView(R.id.clothes)
-    ClothesView mClothes;
+    ImageView mClothes;//衣服
     @BindView(R.id.source)
-    PatterImage mSource;
-    @BindView(R.id.mask)
+    PatterImage mSource;//自定义图
+    @BindView(R.id.mask)//遮罩
     ImageView mMask;
     private TextSticker textSticker;
     private Typeface mUpdateType;    //字体
@@ -180,9 +179,8 @@ public class ClothesBackView extends StickerView {
      *
      * @param resource
      */
-    public void setColorBg(int resource) {
-        mClothes.setImageSource(Utils.getBitmapResource(resource));
-
+    public void setColorBg(Bitmap resource) {
+        mClothes.setImageBitmap(resource);
     }
 
     /**

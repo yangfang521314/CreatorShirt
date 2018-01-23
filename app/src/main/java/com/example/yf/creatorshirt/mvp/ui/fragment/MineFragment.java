@@ -123,7 +123,9 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 }
                 break;
             case R.id.exit_login:
-                getDialog();
+                if(App.isLogin) {
+                    getDialog();
+                }
                 break;
 
         }

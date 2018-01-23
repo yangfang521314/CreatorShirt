@@ -21,7 +21,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
-import com.example.yf.creatorshirt.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 
 public class ClothesFrontView extends StickerView {
     @BindView(R.id.clothes)
-    ClothesView mClothes;
+    ImageView mClothes;
     @BindView(R.id.source)
     PatterImage mSource;
     @BindView(R.id.mask)
@@ -71,8 +70,8 @@ public class ClothesFrontView extends StickerView {
      *
      * @param resource
      */
-    public void setColorBg(int resource) {
-        mClothes.setImageSource(Utils.getBitmapResource(resource));
+    public void setColorBg(Bitmap resource) {
+        mClothes.setImageBitmap(resource);
 
     }
 

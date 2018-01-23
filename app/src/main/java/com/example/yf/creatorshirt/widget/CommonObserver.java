@@ -64,4 +64,5 @@ public abstract class CommonObserver<T> extends ResourceObserver<T> {
             mView.stateError();
         }
     }
+
 }

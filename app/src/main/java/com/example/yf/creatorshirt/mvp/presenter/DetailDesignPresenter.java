@@ -13,6 +13,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
+import com.example.yf.creatorshirt.utils.Utils;
 import com.example.yf.creatorshirt.widget.CommonObserver;
 
 import java.util.ArrayList;
@@ -223,4 +224,24 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 });
     }
 
+    /**
+     * 画背景图片
+     *
+     * @param image
+     */
+    public void setClothesBg(final int image) {
+        Observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
+                Bitmap bitmap = FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(image));
+                e.onNext(bitmap);
+            }
+        }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
+                .subscribe(new CommonObserver<Bitmap>(mView) {
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        mView.showClothesBg(bitmap);
+                    }
+                });
+    }
 }

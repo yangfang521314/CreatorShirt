@@ -31,6 +31,7 @@ public class DesignBaseHolder extends BaseViewHolder {
             mClothesT = getView(R.id.iv_base_clothes);
         }else if(resId == R.layout.item_new_clothes){
             mClothesT = getView(R.id.clothes_image);
+            mClothesName =getView(R.id.tv_show_sex);
         }
     }
 }

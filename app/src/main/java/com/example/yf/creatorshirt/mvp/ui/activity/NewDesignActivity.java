@@ -40,6 +40,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
+import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
@@ -116,8 +117,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private String finishFrontImage;
     private Bitmap currentFrontMask;
     private Bitmap currentBackMask;
-//    private String maskA;
+    private DialogAlert dialogAlert;
+    //    private String maskA;
 //    private String maskB;
+    private Bitmap backBitmap;
 
 
     @Override
@@ -137,7 +140,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mListClothes = getIntent().getParcelableArrayListExtra("clothes");
             mInitData = getIntent().getParcelableExtra("choice");
         }
-
         mPresenter.getDetailDesign(mListClothes, true);
         mAvatarPresenter = new CommonAvatarPresenter(this);
         mAvatarPresenter.attachView(this);
@@ -145,12 +147,15 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
     @Override
     protected void initView() {
+        mAppBarTitle.setText("设计定制");
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         //默认显示正面
         isFirst = true;
         initFront();
         mContainerFront.setContext(this);
         mContainerBack.setContext(this);
+        dialogAlert = new DialogAlert(this, "你确认要退出编辑吗");
+
     }
 
 
@@ -167,17 +172,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                if (mContainerBack.getWidth() <= 0) {
-                    ToastUtil.showToast(mContext, "没有定制背面,请先定制背面", 0);
-                } else {
-                    generateBitmap();//生成衣服mask的图片
-                    if (finishBackImage != null && finishFrontImage != null) {
-                        startNewActivity();
-                    }
+                generateBitmap();//生成衣服mask的图片
+                if (finishBackImage != null && finishFrontImage != null) {
+                    startNewActivity();
                 }
+
                 break;
             case R.id.back:
-                finish();
+                getDialog();
                 break;
             case R.id.tv_front:
                 if (isFirst) {//默认刚进来的第一件衣服
@@ -320,6 +322,30 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBtnFinish.setVisibility(View.VISIBLE);
     }
 
+    private void getDialog() {
+        dialogAlert.setOnDialogClickListener(itemsOnclickListener);
+        dialogAlert.show();
+    }
+
+    private View.OnClickListener itemsOnclickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.negative:
+                    dialogAlert.dismiss();
+                    break;
+                case R.id.positive:
+                    finish();
+                    dialogAlert.dismiss();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
+
+
     private void generateBitmap() {
         if (mContainerFront.getWidth() > 0) {
             Bitmap bitmap = Bitmap.createBitmap(mContainerFront.getWidth(), mContainerFront.getHeight(), Bitmap.Config.ARGB_8888);
@@ -333,12 +359,15 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             Canvas canvas = new Canvas(bitmapBack);
             mContainerBack.draw(canvas);
             finishBackImage = FileUtils.saveBitmap(bitmapBack, this, "back");
+        }else {
+            Bitmap bitmap = FileUtils.getSmallBitmap(this,getClothesBackBG(mCurrentClothes),mContainerFront.getWidth(),mContainerFront.getHeight());
+            finishBackImage = FileUtils.saveBitmap(bitmap, this, "back");
         }
 
     }
 
     private void getCurrentBackClothes(VersionStyle data) {
-        mContainerBack.setColorBg(getClothesBackBG(data));
+        mPresenter.setClothesBg(getClothesBackBG(data));
     }
 
     private void getCurrentFrontClothes(VersionStyle data) {
@@ -361,7 +390,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         if (patternBackUrl != null) {
             mOrderBaseInfo.setPicture2(patternBackUrl);
         }
-        if(mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0){
+        if (mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0) {
 //            mOrderBaseInfo.set
         }
         bundle.putParcelable("clothesInfo", mOrderBaseInfo);
@@ -471,9 +500,11 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
      */
     private void setColorBg(int image) {
         if (currentFrontMask == null) {
-            mContainerFront.setColorBg(image);
+            mPresenter.setClothesBg(image);
+//            mContainerFront.setColorBg(image);
         } else {
-            mContainerFront.setColorBg(image);
+//            mContainerFront.setColorBg(image);
+            mPresenter.setClothesBg(image);
             mPresenter.setImageMask(currentFrontMask, Utils.getBitmapResource(image));
         }
     }
@@ -485,9 +516,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
      */
     private void setColorBackBg(int resource) {
         if (currentBackMask == null) {
-            mContainerBack.setColorBg(resource);
+            mPresenter.setClothesBg(resource);
         } else {
-            mContainerBack.setColorBg(resource);
+            mPresenter.setClothesBg(resource);
             mPresenter.setImageMask(currentBackMask, Utils.getBitmapResource(resource));
         }
     }
@@ -534,6 +565,18 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
         if (mButtonBack.isSelected()) {
             mContainerBack.setImageMask(maskBitmap);
+        }
+    }
+
+    @Override
+    public void showClothesBg(Bitmap clothesBitmap) {
+        if (mButtonFront.isSelected()) {
+            mContainerFront.setColorBg(clothesBitmap);
+        }
+        if (mButtonBack.isSelected()) {
+            mContainerBack.setColorBg(clothesBitmap);
+        } else {
+            backBitmap = clothesBitmap;
         }
     }
 
@@ -648,4 +691,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         EventBus.getDefault().post(new ChangeSelectEvent(true));
     }
 
+    @Override
+    public void onBackPressed() {
+        getDialog();
+
+    }
 }

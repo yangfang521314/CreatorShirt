@@ -12,10 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/txt_update_title_margin"
         android:gravity="center"
-        android:text="填写数量"
-        android:textColor="@color/sand"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:text="填写件数"
+        android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"
@@ -36,7 +34,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -45,10 +42,15 @@
             android:layout_height="@dimen/btn_update_height"
             android:layout_margin="@dimen/btn_update_margin"
             android:layout_weight="1"
-            android:background="@color/sand"
+            android:background="@android:color/transparent"
             android:text="确定"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/txt_btn_update_size" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/line_dialog" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -56,7 +58,7 @@
             android:layout_height="@dimen/btn_cancel_update_height"
             android:layout_margin="@dimen/btn_cancel_margin"
             android:layout_weight="1"
-            android:background="@color/bg_btn_cancel_update"
+            android:background="@android:color/transparent"
             android:text="取消"
             android:textSize="@dimen/txt_btn_update_size" />
 

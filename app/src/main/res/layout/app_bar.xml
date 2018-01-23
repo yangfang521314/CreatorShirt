@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="广场"
+                android:text="设计定制"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 

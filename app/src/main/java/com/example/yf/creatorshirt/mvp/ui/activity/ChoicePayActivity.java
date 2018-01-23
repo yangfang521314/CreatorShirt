@@ -57,8 +57,6 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     TextView mTextTotal;
     @BindView(R.id.freight)
     TextView mFreight;
-    @BindView(R.id.agent)
-    TextView mAgent;
 
 
     private String payType;
@@ -104,7 +102,6 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
 
-        mAgent.setText("代理人：" + mSaveOrderInfo.getMobile());
 //        mTextTotal.setText("总计：" + mSaveOrderInfo.getOrderPrice());
         GlideApp.with(this).load(mSaveOrderInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mPayClothesImage);
     }

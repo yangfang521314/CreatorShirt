@@ -6,12 +6,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,8 +27,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.CalculatePricesContrac
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailOrderAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.EditNumberPopup;
-import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -129,8 +125,8 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             public void onItemClick(View view, int position, Object object) {
                 currentPosition = position;
                 mCurrentWomanClothesSize = (ClothesSize) object;
-                initPopupWindow(false).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-                setWindowBgAlpha(Constants.CHANGE_ALPHA);
+//                initPopupWindow(false).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+//                setWindowBgAlpha(Constants.CHANGE_ALPHA);
             }
         });
 
@@ -186,41 +182,41 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         return true;
     }
 
-    private PopupWindow initPopupWindow(final boolean flag) {
-        mPopupWindow.setWidth(DisplayUtil.getScreenW(this) * 2 / 3);
-        mPopupWindow.setHeight(DisplayUtil.getScreenH(this) / 4);
-        mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER, 0, 0);
-        if (flag) {
-            if (mCurrentManClothesSize != null) {
-                mPopupWindow.setNumber(mCurrentManClothesSize.getCount());
-            }
-        } else {
-            if (mCurrentWomanClothesSize != null) {
-                mPopupWindow.setNumber(mCurrentWomanClothesSize.getCount());
-            }
-        }
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (!mPopupWindow.isShowing()) {
-                    setWindowBgAlpha(Constants.NORMAL_ALPHA);
-                }
-            }
-        });
-        mPopupWindow.setOnPopupClickListener(new ItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, Object object) {
-                if (flag) {
-                    updateNumberClothes((String) object);
-                } else {
-                    updateNumberWomanClothes((String) object);
-                }
-            }
-
-        });
-
-        return mPopupWindow;
-    }
+//    private PopupWindow initPopupWindow(final boolean flag) {
+//        mPopupWindow.setWidth(DisplayUtil.getScreenW(this) * 2 / 3);
+//        mPopupWindow.setHeight(DisplayUtil.getScreenH(this) / 3);
+//        mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER, 0, 0);
+//        if (flag) {
+//            if (mCurrentManClothesSize != null) {
+//                mPopupWindow.setNumber(mCurrentManClothesSize.getCount());
+//            }
+//        } else {
+//            if (mCurrentWomanClothesSize != null) {
+//                mPopupWindow.setNumber(mCurrentWomanClothesSize.getCount());
+//            }
+//        }
+//        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                if (!mPopupWindow.isShowing()) {
+//                    setWindowBgAlpha(Constants.NORMAL_ALPHA);
+//                }
+//            }
+//        });
+//        mPopupWindow.setOnPopupClickListener(new ItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position, Object object) {
+//                if (flag) {
+//                    updateNumberClothes((String) object);
+//                } else {
+//                    updateNumberWomanClothes((String) object);
+//                }
+//            }
+//
+//        });
+//
+//        return mPopupWindow;
+//    }
 
     /**
      * woman
@@ -299,7 +295,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     public void onItemClick(View view, int position, Object object) {
         currentPosition = position;
         mCurrentManClothesSize = (ClothesSize) object;
-        initPopupWindow(true).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-        setWindowBgAlpha(Constants.CHANGE_ALPHA);
+//        initPopupWindow(true).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
+//        setWindowBgAlpha(Constants.CHANGE_ALPHA);
     }
 }

@@ -24,6 +24,8 @@ public interface DetailDesignContract {
 
 
         void showMaskView(Bitmap maskBitmap);
+
+        void showClothesBg(Bitmap clothesBitmap);
     }
 
     interface Presenter extends BasePresenter<DetailDesignView> {

@@ -184,13 +184,6 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/man_t_shirt" />
 
-        <TextView
-            android:id="@+id/agent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-           />
 
         <TextView
             android:id="@+id/freight"

@@ -1,10 +1,13 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.DetailOrderHolder;
@@ -25,11 +28,19 @@ public class DetailOrderAdapter extends BaseAdapter<ClothesSize, DetailOrderHold
         return new DetailOrderHolder(parent, R.layout.item_detail_order);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void bindCustomViewHolder(final DetailOrderHolder holder, final int position) {
         holder.mSizeNumber.setText(mData.get(position).getSize());
         holder.mSizeLetter.setText(mData.get(position).getLetter());
-        holder.mClothesNumber.setText("已选："+mData.get(position).getCount());
+        if(mData.get(position).getCount() == 0) {
+            holder.mClothesNumber.setTextColor(App.getInstance().getColor(R.color.taupegray_3));
+
+        }else {
+            holder.mClothesNumber.setTextColor(App.getInstance().getColor(R.color.red_e73a3d));
+        }
+        holder.mClothesNumber.setText("已选：" + mData.get(position).getCount());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

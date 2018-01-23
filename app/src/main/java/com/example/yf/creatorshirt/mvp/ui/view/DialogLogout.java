@@ -60,4 +60,5 @@ public class DialogLogout extends DialogFragment {
         mCancle.setOnClickListener(itemsOnclickListener);
         mConfirm.setOnClickListener(itemsOnclickListener);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,7 +33,18 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
     protected void bindCustomViewHolder(final DesignBaseHolder holder, final int position) {
         String colorName = mData.get(position).getColorName();
         String imageName = mData.get(position).getSex() + mData.get(position).getType() + "_" + colorName + "_a";
-        Log.e("III","ddd"+imageName);
+        if (mData.size() > 1) {
+            holder.mClothesName.setVisibility(View.VISIBLE);
+            if (mData.get(position).getSex().equals("m")) {
+                holder.mClothesName.setText("男");
+            }
+            if (mData.get(position).getSex().equals("w")) {
+                holder.mClothesName.setText("女");
+            }
+        } else {
+            holder.mClothesName.setVisibility(View.GONE);
+        }
+
         int resId = App.getInstance().getResources().getIdentifier(imageName, "mipmap", App.getInstance().getPackageName());
         if (resId != 0) {
             GlideApp.with(mContext).asBitmap().load(resId)
@@ -45,7 +55,7 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClickListener(mData.get(position), mData);
+                    onItemClickListener.onItemClickListener(mData.get(position), mData.get(position).getSex());
                 }
             });
         }

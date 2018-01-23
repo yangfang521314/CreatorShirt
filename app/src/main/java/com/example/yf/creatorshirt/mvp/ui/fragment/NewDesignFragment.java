@@ -21,13 +21,14 @@ import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewDesignAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
-import com.example.yf.creatorshirt.mvp.ui.view.popupwindow.RecyclerPopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ScaleLayoutManager;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ViewPagerLayoutManager;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -61,7 +62,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     private List<VersionStyle> mBaseClothes = new ArrayList<>();
     private ArrayMap<String, List<VersionStyle>> mWomanData;
     private List<VersionStyle> firstList = new ArrayList<>();//显示第一张图片
-    private RecyclerPopupWindow popupWindow;
+    private Map<String, List<VersionStyle>> sendMap = new HashMap<>();//到达第二个页面数据
 
     @Override
     protected void initInject() {
@@ -81,7 +82,6 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
 
     @Override
     protected void initViews(View mView) {
-        popupWindow = new RecyclerPopupWindow();
         if (((MainActivity) getActivity()) != null) {
             ((MainActivity) getActivity()).registerMyTouchListener(myOnTouchListener);
         }
@@ -117,27 +117,27 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         }
         adapter.setData(mBaseClothes);
         mStyleRecyclerView.setAdapter(adapter);
+        designAdapter = new NewClothesAdapter(mActivity);
         adapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object o) {
                 if (mManData.containsKey(o)) {
                     firstList.add(mManData.get(o).get(0));
+                    sendMap.put(mManData.get(o).get(0).getSex(), mManData.get(o));
                 }
                 if (mWomanData.containsKey(o)) {
                     firstList.add(mWomanData.get(o).get(0));
+                    sendMap.put(mWomanData.get(o).get(0).getSex(), mWomanData.get(o));
                 }
-                designAdapter = new NewClothesAdapter(mActivity);
                 designAdapter.setData(firstList);
-                designAdapter.setOnItemClickListener(new OnObjectClickListener());
                 mDetailRCY.setAdapter(designAdapter);
                 designAdapter.notifyDataSetChanged();
                 mManRelative.setVisibility(View.VISIBLE);
                 mViewBackGround.setVisibility(View.VISIBLE);
-
             }
 
-
         });
+        designAdapter.setOnItemClickListener(new OnObjectClickListener());
     }
 
 
@@ -171,7 +171,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                   return true;
+                    return true;
                 default:
                     break;
             }
@@ -186,7 +186,15 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         public void onItemClickListener(Object o, Object o1) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("choice", (Parcelable) o);
-            bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) o1);
+            if (o1 != null) {
+                if (sendMap.containsKey(o1)) {
+                    bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) sendMap.get(o1));
+                }
+                if (sendMap.containsKey(o1)) {
+                    bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) sendMap.get(o1));
+                }
+            }
+
             startCommonActivity(getActivity(), bundle, NewDesignActivity.class);
         }
     }
@@ -195,4 +203,12 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         void onItemClickListener(Object o, Object o1);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (myOnTouchListener != null) {
+            assert ((MainActivity) getActivity()) != null;
+            ((MainActivity) getActivity()).registerMyTouchListener(myOnTouchListener);
+        }
+    }
 }

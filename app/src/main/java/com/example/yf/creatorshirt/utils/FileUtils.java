@@ -81,7 +81,6 @@ public class FileUtils {
     }
 
 
-
     /**
      * 存储到本地相册
      *
@@ -164,10 +163,13 @@ public class FileUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resid);
-        options.inSampleSize = 8;
+        options.inSampleSize = 3;
+        options.outWidth = width;
+        options.outHeight = height;
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);
+        Log.e("Files", "大小：" + img.getByteCount() / 1024 / 1024);
         return img;
 
     }
@@ -287,4 +289,19 @@ public class FileUtils {
     }
 
 
+    public static Bitmap getClothesImage(int width, int height, Bitmap bitmapResource) {
+        Bitmap bitmap;
+        if (bitmapResource != null) {
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            Rect rectF = new Rect(0, 0, width, height);
+            Rect rectSource = new Rect(0, 0, bitmapResource.getWidth(), bitmapResource.getHeight());
+            canvas.drawBitmap(bitmapResource, rectSource, rectF, paint);
+            paint.setXfermode(null);
+        } else {
+            return null;
+        }
+        return bitmap;
+    }
 }

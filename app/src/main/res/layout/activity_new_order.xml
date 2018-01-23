@@ -78,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:gravity="center"
                 android:text="文字：乱输入的文字"
                 android:textSize="14sp" />
