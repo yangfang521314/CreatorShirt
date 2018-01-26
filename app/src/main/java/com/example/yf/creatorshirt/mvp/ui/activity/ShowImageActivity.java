@@ -96,12 +96,12 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
-                    mPresenter.setSaveEntity(setBaseInfo());
-                    if (arrayList != null && arrayList.size() != 0) {
-                        mPresenter.saveAvatar(arrayList);
-                    }
-                    mPresenter.setBackUrl(mOrderBaseInfo.getBackUrl());
-                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
+//                    mPresenter.setSaveEntity(setBaseInfo());
+//                    if (arrayList != null && arrayList.size() != 0) {
+//                        mPresenter.saveAvatar(arrayList);
+//                    }
+//                    mPresenter.setBackUrl(mOrderBaseInfo.getBackUrl());
+//                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("clothesInfo", mOrderBaseInfo);
                     startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);

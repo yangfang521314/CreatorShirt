@@ -10,30 +10,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/view_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/recy_back"
-        android:visibility="gone">
-
-    </View>
-
-    <RelativeLayout
-        android:id="@+id/rl_detail_style_m"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_centerInParent="true"
-        android:background="#55000000"
-        android:visibility="gone">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-    </RelativeLayout>
-
-
 </RelativeLayout>

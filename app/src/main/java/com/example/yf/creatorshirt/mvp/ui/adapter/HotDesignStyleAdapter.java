@@ -33,7 +33,7 @@ public class HotDesignStyleAdapter extends BaseAdapter<HotDesignsBean, HotDesign
     protected void bindCustomViewHolder(HotDesignViewHolder holder, final int position) {
 
         RequestOptions options = new RequestOptions()
-                .error(R.mipmap.mm)
+                .error(R.mipmap.ic_icon)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
 

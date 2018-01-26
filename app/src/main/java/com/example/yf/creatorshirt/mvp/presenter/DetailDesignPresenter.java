@@ -93,7 +93,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             textColorList.add(maskStyle);
         }
         //遮罩图片
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 8; i++) {
             maskStyle = new DetailColorStyle();
             maskStyle.setImage(R.mipmap.quan);
             maskList.add(maskStyle);
@@ -208,6 +208,11 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         mSignatureData.put(name, fileList);
     }
 
+    /**
+     * 生成遮罩
+     * @param mask
+     * @param source
+     */
     public void setImageMask(final Bitmap mask, final Bitmap source) {
         Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override

@@ -303,4 +303,6 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
         }
         return super.dispatchTouchEvent(ev);
     }
+
+
 }

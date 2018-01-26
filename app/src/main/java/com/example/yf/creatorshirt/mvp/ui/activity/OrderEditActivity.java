@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -7,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,7 +26,10 @@ import com.example.yf.creatorshirt.mvp.presenter.CalculatePricesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CalculatePricesContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.DetailOrderAdapter;
-import com.example.yf.creatorshirt.mvp.ui.view.EditNumberPopup;
+import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
+import com.example.yf.creatorshirt.mvp.ui.view.picker.LineConfig;
+import com.example.yf.creatorshirt.mvp.ui.view.picker.NumberPicker;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -58,6 +61,8 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     TextView mConfirmPay;
     @BindView(R.id.clothes_order_color)
     TextView mTextClothesColor;
+    @BindView(R.id.clothes_detail_color)
+    CircleView mCircleShape;
     @BindView(R.id.clothes_order_style)
     TextView mTextClothesType;
     @BindView(R.id.total_price)
@@ -74,10 +79,10 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     private VersionStyle mOrderClothesInfo;
     private double total;
     private Map<String, List<ClothesSize>> listArrayMap;
-    private EditNumberPopup mPopupWindow;
     private int currentPosition;
     private ClothesSize mCurrentManClothesSize;
     private ClothesSize mCurrentWomanClothesSize;
+    private NumberPicker picker;
 
     @Override
     public void initData() {
@@ -99,10 +104,13 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     @Override
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
-        GlideApp.with(this).load(mOrderClothesInfo.getFrontUrl()).error(R.mipmap.mbaseball_white_a).into(mClothesImage);
+        if (mOrderClothesInfo != null) {
+            GlideApp.with(this).load(mOrderClothesInfo.getFrontUrl()).error(R.mipmap.mbaseball_white_a).into(mClothesImage);
+            mCircleShape.setOutColor(Color.parseColor("#" + mOrderClothesInfo.getColor()));
+        }
         mDetailManRecycler.setLayoutManager(new GridLinearLayoutManager(this, 3));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.mysetting_divider));
+        dividerItemDecoration.setDrawable(mContext.getDrawable(R.drawable.mysetting_divider));
         mDetailWomanRecycler.setLayoutManager(new GridLinearLayoutManager(this, 3));
 
         mDetailWomanRecycler.addItemDecoration(dividerItemDecoration);
@@ -119,17 +127,64 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         }
         mDetailManRecycler.setAdapter(mManSizeAdapter);
         mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
-        mPopupWindow = new EditNumberPopup(this);
         mWomanSizeAdapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
+
             @Override
             public void onItemClick(View view, int position, Object object) {
                 currentPosition = position;
                 mCurrentWomanClothesSize = (ClothesSize) object;
-//                initPopupWindow(false).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-//                setWindowBgAlpha(Constants.CHANGE_ALPHA);
+                initChoiceNumber(false);
             }
         });
 
+    }
+
+    private void initChoiceNumber(final boolean flag) {
+        int number = 0;
+        if (flag) {
+            if (mCurrentManClothesSize != null) {
+                number = mCurrentManClothesSize.getCount();
+            }
+        } else {
+            if (mCurrentWomanClothesSize != null) {
+                number = mCurrentWomanClothesSize.getCount();
+            }
+        }
+        picker = new NumberPicker(OrderEditActivity.this);
+        picker.setWidth(picker.getScreenWidthPixels());
+        picker.setHeight(picker.getScreenHeightPixels() * 2 / 5);
+        picker.setItemWidth(DisplayUtil.getScreenW(this));
+        picker.setCanLoop(false);
+        picker.setLineVisible(false);
+        picker.setWheelModeEnable(true);
+        picker.setCancelTextColor(mContext.getResources().getColor(R.color.unitednationsblue));
+        picker.setCancelTextSize(18);
+        picker.setSubmitTextColor(mContext.getResources().getColor(R.color.unitednationsblue));
+        picker.setSubmitTextSize(18);
+        picker.setOffset(2);//偏移量
+        picker.setTitleText("选择数量");
+        picker.setTitleTextSize(18);
+        picker.setSelectedTextColor(0xFFEE0000);
+        picker.setUnSelectedTextColor(0xFF999999);
+        picker.setTitleTextColor(mContext.getResources().getColor(R.color.black_1));
+        picker.setRange(0, 200, 1);//数字范围
+        picker.setSelectedItem(number);
+        LineConfig config = new LineConfig();
+        config.setColor(mContext.getResources().getColor(R.color.gainsboro));//线颜色
+        config.setWidth(DisplayUtil.getScreenW(mContext));
+        config.setThick(DisplayUtil.Dp2Px(mContext, 1));//线粗
+        picker.setLineConfig(config);
+        picker.setOnNumberPickListener(new NumberPicker.OnNumberPickListener() {
+            @Override
+            public void onNumberPicked(int index, Number item) {
+                if (flag) {
+                    updateNumberClothes(String.valueOf(item.intValue()));
+                } else {
+                    updateNumberWomanClothes(String.valueOf(item.intValue()));
+                }
+            }
+        });
+        picker.show();
     }
 
 
@@ -142,21 +197,24 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.confirm_pay:
-                Bundle bundle1 = new Bundle();
-                SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
-                saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
-                saveStyleEntity.setDetailList(mOrderSizeInfo);
-                saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFrontUrl());
-                saveStyleEntity.setFinishBimage(mOrderClothesInfo.getBackUrl());
-                saveStyleEntity.setColor(mOrderClothesInfo.getColorName());
+                if (mOrderClothesInfo != null) {
+                    Bundle bundle1 = new Bundle();
+                    SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
+                    saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
+                    saveStyleEntity.setDetailList(mOrderSizeInfo);
+                    saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFrontUrl());
+                    saveStyleEntity.setFinishBimage(mOrderClothesInfo.getBackUrl());
+                    saveStyleEntity.setColor(mOrderClothesInfo.getColorName());
 //                    saveStyleEntity.setOrderPrice((double) total);
-                saveStyleEntity.setPicture1(mOrderClothesInfo.getPicture1());
-                saveStyleEntity.setPicture2(mOrderClothesInfo.getPicture2());
-                saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
-                saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
-                bundle1.putParcelable("orderInfo", saveStyleEntity);
-                startCommonActivity(this, bundle1, ChoicePayActivity.class);
+                    saveStyleEntity.setPicture1(mOrderClothesInfo.getPicture1());
+                    saveStyleEntity.setPicture2(mOrderClothesInfo.getPicture2());
+                    saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+                    saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+                    bundle1.putParcelable("orderInfo", saveStyleEntity);
+                    startCommonActivity(this, bundle1, ChoicePayActivity.class);
+                }
                 break;
+
         }
 
     }
@@ -182,41 +240,6 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         return true;
     }
 
-//    private PopupWindow initPopupWindow(final boolean flag) {
-//        mPopupWindow.setWidth(DisplayUtil.getScreenW(this) * 2 / 3);
-//        mPopupWindow.setHeight(DisplayUtil.getScreenH(this) / 3);
-//        mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER, 0, 0);
-//        if (flag) {
-//            if (mCurrentManClothesSize != null) {
-//                mPopupWindow.setNumber(mCurrentManClothesSize.getCount());
-//            }
-//        } else {
-//            if (mCurrentWomanClothesSize != null) {
-//                mPopupWindow.setNumber(mCurrentWomanClothesSize.getCount());
-//            }
-//        }
-//        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                if (!mPopupWindow.isShowing()) {
-//                    setWindowBgAlpha(Constants.NORMAL_ALPHA);
-//                }
-//            }
-//        });
-//        mPopupWindow.setOnPopupClickListener(new ItemClickListener.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position, Object object) {
-//                if (flag) {
-//                    updateNumberClothes((String) object);
-//                } else {
-//                    updateNumberWomanClothes((String) object);
-//                }
-//            }
-//
-//        });
-//
-//        return mPopupWindow;
-//    }
 
     /**
      * woman
@@ -230,9 +253,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         clothesSize.setSize(mCurrentWomanClothesSize.getSize());
         mWomanSizeAdapter.remove(currentPosition);
         mWomanSizeAdapter.add(currentPosition, clothesSize);
-        if (mPopupWindow != null) {
-            mPopupWindow.dismiss();
-        }
+
     }
 
     /**
@@ -247,18 +268,9 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         clothesSize.setSize(mCurrentManClothesSize.getSize());
         mManSizeAdapter.remove(currentPosition);
         mManSizeAdapter.add(currentPosition, clothesSize);
-        if (mPopupWindow != null) {
-            mPopupWindow.dismiss();
-        }
+
     }
 
-    private void setWindowBgAlpha(float normalAlpha) {
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = normalAlpha;
-        params.dimAmount = normalAlpha;
-        getWindow().setAttributes(params);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-    }
 
     @Override
     public void showPrices(ClothesPrice price) {
@@ -295,7 +307,6 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     public void onItemClick(View view, int position, Object object) {
         currentPosition = position;
         mCurrentManClothesSize = (ClothesSize) object;
-//        initPopupWindow(true).showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
-//        setWindowBgAlpha(Constants.CHANGE_ALPHA);
+        initChoiceNumber(true);
     }
 }

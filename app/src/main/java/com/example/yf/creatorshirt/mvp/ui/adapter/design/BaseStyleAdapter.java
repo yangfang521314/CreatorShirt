@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
@@ -59,27 +60,42 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
                 prePosition = position;
                 preView = v;
                 preView.setSelected(true);
-                mData.get(prePosition).setSelect(true);
-                onClickListener.onItemClick(holder.mCommonStyle, position,null);
+                mData.get(position).setSelect(true);
+                onClickListener.onItemClick(holder.mCommonStyle, position, null);
 
             }
         });
         String name = mData.get(position).getTitle();
         String result;
-        try {
-            result = URLEncoder.encode(name, "UTF-8");
-            if (!TextUtils.isEmpty(result)) {
-                GlideApp.with(mContext).load(Constants.ImageDetailUrl + result + ".png")
-                        .centerInside()
-                        .error(R.mipmap.mask)
-                        .placeholder(R.mipmap.mask)
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(holder.mStyleImageView);
+        if (name == null) {
+            return;
+        }
+        if (!"文字".equals(name)) {
+            try {
+                result = URLEncoder.encode(name, "UTF-8");
+                if (!TextUtils.isEmpty(result)) {
+                    GlideApp.with(mContext).load(Constants.ImageDetailUrl + result + ".png")
+                            .centerInside()
+                            .error(R.mipmap.icon_select_mask)
+                            .placeholder(R.mipmap.icon_select_mask)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .into(holder.mStyleImageView);
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } else {
+            setImage(R.mipmap.icon_select_text, holder.mStyleImageView);
         }
 
+
+    }
+
+    private void setImage(int image, ImageView mStyleImageView) {
+        GlideApp.with(mContext).load(image)
+                .centerInside()
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(mStyleImageView);
     }
 
     @Override

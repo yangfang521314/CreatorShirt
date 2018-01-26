@@ -19,7 +19,7 @@ public class GridLinearLayoutManager extends GridLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("Error", "IndexOutOfBoundsException in RecyclerView happens");
+            Log.e("Error", "IndexOutOfBoundsException in RecyclerViewPopupWindow happens");
         }
 
     }

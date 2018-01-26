@@ -191,7 +191,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
 
                 GlideApp.with(mActivity).
                         load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage())
-                        .error(R.mipmap.mm)
+                        .error(R.mipmap.ic_icon)
                         .circleCrop()
                         .into(mUserPicture);
                 mExitLogin.setText("退出登录");

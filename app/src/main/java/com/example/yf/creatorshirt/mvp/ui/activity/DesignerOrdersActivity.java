@@ -3,7 +3,7 @@
 //import android.os.Bundle;
 //import android.support.v4.widget.SwipeRefreshLayout;
 //import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.RecyclerView;
+//import android.support.v7.widget.RecyclerViewPopupWindow;
 //import android.text.TextUtils;
 //import android.view.View;
 //import android.widget.ImageView;
@@ -40,7 +40,7 @@
 //    @BindView(R.id.designer_design_number)
 //    TextView mDesignerNumber;
 //    @BindView(R.id.designer_recyclerview)
-//    RecyclerView mDesignerRecycler;
+//    RecyclerViewPopupWindow mDesignerRecycler;
 //    @BindView(R.id.designer_swipe)
 //    SwipeRefreshLayout mSwipeRefresh;
 //    private HotDesignsBean mHotDesignsBean;
@@ -81,14 +81,14 @@
 //                mPresenter.getTotalDesigner();
 //            }
 //        });
-//        mDesignerRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//        mDesignerRecycler.addOnScrollListener(new RecyclerViewPopupWindow.OnScrollListener() {
 //            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//            public void onScrollStateChanged(RecyclerViewPopupWindow recyclerView, int newState) {
 //                super.onScrollStateChanged(recyclerView, newState);
 //            }
 //
 //            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//            public void onScrolled(RecyclerViewPopupWindow recyclerView, int dx, int dy) {
 //                super.onScrolled(recyclerView, dx, dy);
 //                int lastVisibleItem = mGridLayoutManager.findLastVisibleItemPosition();
 //                int totalItemCount = mDesignerRecycler.getLayoutManager().getItemCount();//显示的total

@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -40,7 +39,6 @@ public class ClothesBackView extends StickerView {
     @BindView(R.id.mask)//遮罩
     ImageView mMask;
     private TextSticker textSticker;
-    private Typeface mUpdateType;    //字体
     private List<TextEntity> textEntities = new ArrayList<>();//保存字体
     private Context mContext;
     private String mImagecolor;
@@ -82,7 +80,6 @@ public class ClothesBackView extends StickerView {
             @Override
             public void onStickerClicked(@NonNull Sticker sticker) {
                 if (sticker instanceof TextSticker) {
-                    mUpdateType = ((TextSticker) sticker).getTypeface();
                     setSignatureText(((TextSticker) sticker).getText(), true);
                 }
             }
@@ -115,7 +112,7 @@ public class ClothesBackView extends StickerView {
      * @param isNew
      */
     public void setSignatureText(String message, final boolean isNew) {
-        final SignatureDialog dialog = new SignatureDialog(mContext, mUpdateType);
+        final SignatureDialog dialog = new SignatureDialog(mContext);
         dialog.show();
         if (message != null) {
             dialog.setMessage(message);
@@ -130,12 +127,11 @@ public class ClothesBackView extends StickerView {
         win.setAttributes(lp);
         dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
             @Override
-            public void onClickChoiceOrBack(View view, String s, Typeface typeface) {
+            public void onClickChoiceOrBack(View view, String s) {
                 if (isNew) {
                     if (textSticker != null) {
                         textSticker.setText(s);
                         textSticker.resizeText();
-                        textSticker.setTypeface(typeface);
                         replace(textSticker);
                         invalidate();
                     }
@@ -143,7 +139,6 @@ public class ClothesBackView extends StickerView {
                 } else {
                     textSticker = new TextSticker(getContext());
                     textSticker.setText(s);
-                    textSticker.setTypeface(typeface);
                     textSticker.setTextColor(Color.BLACK);
                     textSticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
                     textSticker.resizeText();

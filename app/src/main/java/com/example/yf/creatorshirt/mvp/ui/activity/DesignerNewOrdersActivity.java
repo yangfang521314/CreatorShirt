@@ -12,10 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.UpdateOrdersEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
@@ -83,11 +81,10 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
         mAdapter = new DesignerOrdersAdapter(this);
         mAdapter.setOnItemClickListener(this);
         if (!TextUtils.isEmpty(mHotDesignsBean.getHeadimage())) {
-            RequestOptions options = new RequestOptions();
-            options.circleCrop();
-            options.diskCacheStrategy(DiskCacheStrategy.ALL);
-            options.error(R.mipmap.mm);
-            Glide.with(this).load(mHotDesignsBean.getHeadimage()).apply(options).into(mImageAvatar);
+
+            GlideApp.with(this).load(mHotDesignsBean.getHeadimage()).error(R.mipmap.ic_icon)
+                    .placeholder(R.mipmap.ic_icon)
+                    .circleCrop().into(mImageAvatar);
         }
         if (!TextUtils.isEmpty(mHotDesignsBean.getName())) {
             mDesignerName.setText(mHotDesignsBean.getName());

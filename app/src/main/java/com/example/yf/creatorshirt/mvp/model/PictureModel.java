@@ -16,8 +16,8 @@ public class PictureModel implements Parcelable{
     private int pictureX;
     private int pictureY;
 
-    private float scaleX = 0.7F;
-    private float scaleY = 0.7F;
+    private float scaleX = 0.5F;
+    private float scaleY = 0.5F;
 
     protected PictureModel(Parcel in) {
         bitmapPicture = in.readParcelable(Bitmap.class.getClassLoader());

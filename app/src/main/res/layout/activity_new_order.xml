@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_order_edit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_order_edit"
     android:background="@color/white">
 
     <include
@@ -63,25 +64,43 @@
                 android:text="类型：短袖圆领"
                 android:textSize="14sp" />
 
-
-            <TextView
-                android:id="@+id/clothes_order_color"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="颜色：黑色"
-                android:textSize="14sp" />
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/clothes_order_color"
+                    android:layout_width="wrap_content"
+                    android:text="颜色："
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp" />
+
+                <com.example.yf.creatorshirt.mvp.ui.view.CircleView
+                    android:id="@+id/clothes_detail_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/clothes_order_color"
+                    app:height="20dp"
+                    app:inColor="@color/black"
+                    app:outColor="@color/gainsboro"
+                    app:stroke="2dp"
+                    app:width="20dp" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/order_clothes_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:visibility="gone"
                 android:gravity="center"
                 android:text="文字：乱输入的文字"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -141,6 +160,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_pay"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="#F5F4F9"
         android:orientation="horizontal">
 

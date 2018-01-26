@@ -51,7 +51,7 @@ public class NewClothesAdapter extends BaseAdapter<VersionStyle, DesignBaseHolde
                     .centerInside()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
-                    .override(300, 600).into(holder.mClothesT);
+                    .override(700, 900).into(holder.mClothesT);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

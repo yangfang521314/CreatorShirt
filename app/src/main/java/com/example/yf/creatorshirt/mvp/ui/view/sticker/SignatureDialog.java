@@ -7,21 +7,16 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.common.cache.FontCache;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.DisplayUtil;
-import com.example.yf.creatorshirt.common.cache.FontCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +36,11 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
     private CompleteCallBack completeCallBack;
     private String str;
     private List<TextEntity> fontName = new ArrayList<>();
-    private Typeface typeface;
-    private Typeface typeUpdate;
-    private LinearLayout mLinearLayout;
-    private View mCurrentView;
 
 
-    public SignatureDialog(@NonNull Context context, Typeface typeFace) {
+    public SignatureDialog(@NonNull Context context) {
         super(context, R.style.shareDialog_style);
         mContext = context;
-        this.typeface = typeFace;
         initView();
     }
 
@@ -67,37 +57,9 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         mEditSignature = (EditText) findViewById(R.id.edit_signature);
         choiceBack = (ImageView) findViewById(R.id.choice_back);
         choiceDone = (ImageView) findViewById(R.id.choice_done);
-        mLinearLayout = (LinearLayout) findViewById(R.id.ll_choice_font);
         choiceBack.setOnClickListener(this);
         choiceDone.setOnClickListener(this);
 
-        if (typeface != null) {
-            mEditSignature.setTypeface(typeface);
-        }
-        for (int i = 0; i < fontName.size(); i++) {
-            TextView textView = new TextView(mContext);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DisplayUtil.Dp2Px(mContext, 50), DisplayUtil.Dp2Px(mContext, 30));
-            params.rightMargin = DisplayUtil.Dp2Px(mContext, 4);
-            textView.setLayoutParams(params);
-            textView.setBackgroundResource(R.drawable.choice_type_background);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTypeface(fontName.get(i).getTypeface());
-            textView.setText(fontName.get(i).getText());
-            final int finalI = i;
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mCurrentView != null) {
-                        mCurrentView.setSelected(false);
-                    }
-                    v.setSelected(true);
-                    typeUpdate = fontName.get(finalI).getTypeface();
-                    mEditSignature.setTypeface(typeUpdate);
-                    mCurrentView = v;
-                }
-            });
-            mLinearLayout.addView(textView);
-        }
     }
 
     private void initData() {
@@ -138,7 +100,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
             } else {
                 str = mEditSignature.getText().toString();
             }
-            completeCallBack.onClickChoiceOrBack(v, str, typeUpdate);
+            completeCallBack.onClickChoiceOrBack(v, str);
         }
     }
 
@@ -148,7 +110,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
 
     public interface CompleteCallBack {
-        void onClickChoiceOrBack(View view, String s, Typeface o);
+        void onClickChoiceOrBack(View view, String s);
     }
 
     public void setCompleteCallBack(CompleteCallBack completeCallBack) {

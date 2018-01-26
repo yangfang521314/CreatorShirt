@@ -105,6 +105,7 @@
         android:layout_margin="15dp"
         android:background="@drawable/login_clothes_background"
         android:elevation="0dp"
+        android:visibility="gone"
         android:text="微信登录"
         android:textColor="@color/sand"
         android:textSize="16sp" />

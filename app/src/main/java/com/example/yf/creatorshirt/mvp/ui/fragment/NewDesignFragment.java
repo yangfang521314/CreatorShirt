@@ -1,13 +1,16 @@
 package com.example.yf.creatorshirt.mvp.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.example.yf.creatorshirt.R;
@@ -16,13 +19,13 @@ import com.example.yf.creatorshirt.mvp.model.ClothesStyleBean;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.presenter.ClothesPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.ClothesContract;
-import com.example.yf.creatorshirt.mvp.ui.activity.MainActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
-import com.example.yf.creatorshirt.mvp.ui.adapter.NewClothesAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.NewDesignAdapter;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
+import com.example.yf.creatorshirt.mvp.ui.view.popupwindow.RecyclerViewPopupWindow;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ScaleLayoutManager;
 import com.example.yf.creatorshirt.mvp.ui.view.scalelayoutmanager.ViewPagerLayoutManager;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -43,26 +46,17 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     RecyclerView mStyleRecyclerView;
     @BindView(R.id.rl_new_fragment)
     RelativeLayout mBaseNewFragment;
-    @BindView(R.id.rl_detail_style_m)
-    RelativeLayout mManRelative;
-    @BindView(R.id.detail_recyclerview)
-    RecyclerView mDetailRCY;
-    @BindView(R.id.view_background)
-    View mViewBackGround;
     @Inject
     Activity mActivity;
     private ScaleLayoutManager scaleLayoutManager;
-    private ScaleLayoutManager scaleMLayoutManager;
-
     private NewDesignAdapter adapter;
-    private NewClothesAdapter designAdapter;
-    //    private NewMClothesAdapter mMClothesAdapter;
     private List<String> mClothesName;
     private ArrayMap<String, List<VersionStyle>> mManData;
     private List<VersionStyle> mBaseClothes = new ArrayList<>();
     private ArrayMap<String, List<VersionStyle>> mWomanData;
     private List<VersionStyle> firstList = new ArrayList<>();//显示第一张图片
     private Map<String, List<VersionStyle>> sendMap = new HashMap<>();//到达第二个页面数据
+    private RecyclerViewPopupWindow mPopupWindow;
 
     @Override
     protected void initInject() {
@@ -82,27 +76,13 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
 
     @Override
     protected void initViews(View mView) {
-        if (((MainActivity) getActivity()) != null) {
-            ((MainActivity) getActivity()).registerMyTouchListener(myOnTouchListener);
-        }
-    }
-
-    /**
-     * 初始化衣服
-     */
-    private void initClothesImage() {
-        scaleMLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
-        scaleMLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 10));
-        scaleMLayoutManager.setCenterScale(1.3f);
-        scaleMLayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
-        mDetailRCY.setLayoutManager(scaleMLayoutManager);
     }
 
     private void initClothesName() {
         scaleLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
         mStyleRecyclerView.setLayoutManager(scaleLayoutManager);
         scaleLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 15));
-        scaleLayoutManager.setCenterScale(1.3f);
+        scaleLayoutManager.setCenterScale(1.4f);
         scaleLayoutManager.setOrientation(ViewPagerLayoutManager.VERTICAL);
         adapter = new NewDesignAdapter(mActivity);
         VersionStyle versionStyle;
@@ -117,7 +97,6 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         }
         adapter.setData(mBaseClothes);
         mStyleRecyclerView.setAdapter(adapter);
-        designAdapter = new NewClothesAdapter(mActivity);
         adapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, Object o) {
@@ -129,15 +108,58 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
                     firstList.add(mWomanData.get(o).get(0));
                     sendMap.put(mWomanData.get(o).get(0).getSex(), mWomanData.get(o));
                 }
-                designAdapter.setData(firstList);
-                mDetailRCY.setAdapter(designAdapter);
-                designAdapter.notifyDataSetChanged();
-                mManRelative.setVisibility(View.VISIBLE);
-                mViewBackGround.setVisibility(View.VISIBLE);
+                Log.e("TAG", "CHOICE" + firstList.size());
+                choiceDiff(firstList, o);
             }
 
         });
-        designAdapter.setOnItemClickListener(new OnObjectClickListener());
+    }
+
+    private void choiceDiff(List<VersionStyle> firstList, Object o) {
+        if (firstList.size() == 2) {
+            initPopupWindow(firstList).showAtLocation(mBaseNewFragment, Gravity.CENTER, 0, 0);
+            setParams(Constants.CHANGE_ALPHA);
+        } else {
+            if (o != null) {
+                Bundle bundle = new Bundle();
+                if (mManData.containsKey(o)) {
+                    bundle.putParcelable("choice", (Parcelable) mManData.get(o).get(0));
+                    bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) mManData.get(o));
+                }
+                if (mWomanData.containsKey(o)) {
+                    bundle.putParcelable("choice", (Parcelable) mWomanData.get(o).get(0));
+                    bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) mWomanData.get(o));
+                }
+                firstList.clear();
+                startCommonActivity(getActivity(), bundle, NewDesignActivity.class);
+            }
+
+        }
+    }
+
+    private void setParams(float f) {
+        WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
+        params.alpha = f;
+        params.dimAmount = f;
+        mActivity.getWindow().setAttributes(params);
+        mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    @SuppressLint("WrongConstant")
+    private RecyclerViewPopupWindow initPopupWindow(final List<VersionStyle> firstList) {
+        mPopupWindow = new RecyclerViewPopupWindow();
+        mPopupWindow.setData(firstList);
+        mPopupWindow.setOnClickListener(new OnObjectClickListener());
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                firstList.clear();
+                setParams(Constants.NORMAL_ALPHA);
+            }
+        });
+        mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        return mPopupWindow;
     }
 
 
@@ -147,39 +169,8 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         mManData = clothesStyleBean.getTotalManMap();
         mWomanData = clothesStyleBean.getTotalWomanMap();
         initClothesName();
-        initClothesImage();
     }
 
-    public MainActivity.MyTouchListener myOnTouchListener = new MainActivity.MyTouchListener() {
-        @Override
-        public boolean onTouchEvent(MotionEvent ev) {
-            //让GestureDetector先响应事件
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    int x = (int) ev.getX();
-                    int y = (int) ev.getY();
-                    Rect rect = new Rect(0,
-                            (DisplayUtil.getScreenH(mActivity) - mManRelative.getHeight()) / 2,
-                            mManRelative.getWidth(), (DisplayUtil.getScreenH(mActivity) + mManRelative.getHeight()) / 2);
-                    if (rect.contains(x, y)) {
-                        return true;
-                    }
-                    if (mViewBackGround.getVisibility() == View.VISIBLE && mManRelative.getVisibility() == View.VISIBLE) {
-                        mViewBackGround.setVisibility(View.GONE);
-                        mManRelative.setVisibility(View.GONE);
-                        firstList.clear();
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    return true;
-                default:
-                    break;
-            }
-            return false;
-        }
-
-
-    };
 
     public class OnObjectClickListener implements DesignOnClickListener {
         @Override
@@ -206,9 +197,5 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (myOnTouchListener != null) {
-            assert ((MainActivity) getActivity()) != null;
-            ((MainActivity) getActivity()).registerMyTouchListener(myOnTouchListener);
-        }
     }
 }

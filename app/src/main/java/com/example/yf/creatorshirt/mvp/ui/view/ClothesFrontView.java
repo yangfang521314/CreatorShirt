@@ -141,7 +141,7 @@ public class ClothesFrontView extends StickerView {
      * @param isNew
      */
     public void setSignatureText(String message, final boolean isNew) {
-        final SignatureDialog dialog = new SignatureDialog(App.getInstance(), mUpdateType);
+        final SignatureDialog dialog = new SignatureDialog(mContext);
         dialog.show();
         if (message != null) {
             dialog.setMessage(message);
@@ -156,12 +156,11 @@ public class ClothesFrontView extends StickerView {
         win.setAttributes(lp);
         dialog.setCompleteCallBack(new SignatureDialog.CompleteCallBack() {
             @Override
-            public void onClickChoiceOrBack(View view, String s, Typeface typeface) {
+            public void onClickChoiceOrBack(View view, String s) {
                 if (isNew) {
                     if (textSticker != null) {
                         textSticker.setText(s);
                         textSticker.resizeText();
-                        textSticker.setTypeface(typeface);
                         replace(textSticker);
                         invalidate();
                     }
@@ -169,7 +168,6 @@ public class ClothesFrontView extends StickerView {
                 } else {
                     textSticker = new TextSticker(getContext());
                     textSticker.setText(s);
-                    textSticker.setTypeface(typeface);
                     textSticker.setTextColor(Color.BLACK);
                     textSticker.setTextAlign(Layout.Alignment.ALIGN_CENTER);
                     textSticker.resizeText();

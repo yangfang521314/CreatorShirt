@@ -79,7 +79,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
                 if (App.isLogin) {
                     GlideApp.with(this)
                             .load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage())
-                            .error(R.mipmap.mm)
+                            .error(R.mipmap.ic_icon)
                             .circleCrop()
                             .into(mEditUser);
                     mAvatarUrl = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage();
@@ -97,7 +97,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
             if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage() != null) {
                 mAvatarUrl = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage();
                 RequestOptions options = new RequestOptions()
-                        .error(R.mipmap.mm)
+                        .error(R.mipmap.ic_icon)
                         .transform(new CircleAvatar(this))
                         .diskCacheStrategy(DiskCacheStrategy.ALL);
 
@@ -178,7 +178,7 @@ public class EditUserActivity extends BaseActivity<EditUserInfoPresenter> implem
     public void showSuccessImage(String userAvatar) {
         mAvatarUrl = userAvatar;
         RequestOptions options = new RequestOptions()
-                .error(R.mipmap.mm)
+                .error(R.mipmap.ic_icon)
                 .transform(new CircleAvatar(this))
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
 

@@ -131,10 +131,10 @@ public abstract class ViewPagerLayoutManager extends RecyclerView.LayoutManager
 
     /**
      * Returns whether LayoutManager will recycle its children when it is detached from
-     * RecyclerView.
+     * RecyclerViewPopupWindow.
      *
      * @return true if LayoutManager will recycle its children when it is detached from
-     * RecyclerView.
+     * RecyclerViewPopupWindow.
      */
     public boolean getRecycleChildrenOnDetach() {
         return mRecycleChildrenOnDetach;
@@ -142,13 +142,13 @@ public abstract class ViewPagerLayoutManager extends RecyclerView.LayoutManager
 
     /**
      * Set whether LayoutManager will recycle its children when it is detached from
-     * RecyclerView.
+     * RecyclerViewPopupWindow.
      * <p>
      * If you are using a {@link RecyclerView.RecycledViewPool}, it might be a good idea to set
      * this flag to <code>true</code> so that views will be available to other RecyclerViews
      * immediately.
      * <p>
-     * Note that, setting this flag will result in a performance drop if RecyclerView
+     * Note that, setting this flag will result in a performance drop if RecyclerViewPopupWindow
      * is restored.
      *
      * @param recycleChildrenOnDetach Whether children should be recycled in detach or not.

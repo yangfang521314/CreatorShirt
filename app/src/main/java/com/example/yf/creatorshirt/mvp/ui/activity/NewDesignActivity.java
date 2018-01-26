@@ -61,7 +61,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         ItemClickListener.OnItemClickListener, DetailDesignContract.DetailDesignView, CommonAvatarContract.CommonAvatarView {
     public static final String COLOR = "color";
     public static final String PATTERN = "pattern";
-    public static final String MASK = "mask";
+    public static final String MASK = "icon_select_mask";
     public static final String SIGNATURE = "signature";
 
 
@@ -120,8 +120,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private DialogAlert dialogAlert;
     //    private String maskA;
 //    private String maskB;
-    private Bitmap backBitmap;
-
 
     @Override
     protected void inject() {
@@ -359,8 +357,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             Canvas canvas = new Canvas(bitmapBack);
             mContainerBack.draw(canvas);
             finishBackImage = FileUtils.saveBitmap(bitmapBack, this, "back");
-        }else {
-            Bitmap bitmap = FileUtils.getSmallBitmap(this,getClothesBackBG(mCurrentClothes),mContainerFront.getWidth(),mContainerFront.getHeight());
+        } else {
+            Bitmap bitmap = FileUtils.getSmallBitmap(this, getClothesBackBG(mCurrentClothes), mContainerFront.getWidth(), mContainerFront.getHeight());
             finishBackImage = FileUtils.saveBitmap(bitmap, this, "back");
         }
 
@@ -383,6 +381,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mOrderBaseInfo.setClothesType(mCurrentClothes.getClothesType());
         mOrderBaseInfo.setColorName(mCurrentClothes.getColorName());
         mOrderBaseInfo.setType(mCurrentClothes.getType());
+        mOrderBaseInfo.setColor(mCurrentClothes.getColor());
 //        mOrderBaseInfo.setMaskA();
         if (patternFrontUrl != null) {
             mOrderBaseInfo.setPicture1(patternFrontUrl);
@@ -430,8 +429,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 }
                 break;
             case MASK:
+                currentFrontMask = Utils.getBitmapResource(R.mipmap.quan);
+//                currentFrontMask = Utils.getBitmapResource(mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(position).getImage());
                 if (mButtonFront.isSelected()) {
-                    currentFrontMask = Utils.getBitmapResource(R.mipmap.quan);
                     Bitmap source = Utils.getBitmapResource(
                             FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
                                     + "_" + mCurrentClothes.getColorName() + "_a"));
@@ -575,8 +575,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
         if (mButtonBack.isSelected()) {
             mContainerBack.setColorBg(clothesBitmap);
-        } else {
-            backBitmap = clothesBitmap;
         }
     }
 
