@@ -15,7 +15,6 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -51,9 +50,6 @@ import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by yangfang on 2017/8/28.
@@ -188,37 +184,42 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private void saveOrderInfo() {
         saveOrderInfo.setFinishBimage(map.get("B"));
         saveOrderInfo.setFinishAimage(map.get("A"));
-        saveOrderInfo.setPicture1(map.get("A"));
-        saveOrderInfo.setPicture2(map.get("B"));
-        saveOrderInfo.setMaskAName("pattern_1");
+        saveOrderInfo.setMaskAName("pattern_1");//暂时未设置替换
         saveOrderInfo.setMaskBName("pattern_2");
         if (totalNum.size() > 1) {
             saveOrderInfo.setPicture1(totalNum.get(0));
             saveOrderInfo.setPicture2(totalNum.get(1));
         } else if (totalNum.size() == 1) {
             saveOrderInfo.setPicture1(totalNum.get(0));
+            saveOrderInfo.setPicture2("");
+        }else {
+            saveOrderInfo.setPicture1("");
+            saveOrderInfo.setPicture2("");
         }
-        Log.e("MyOrder", "dddd" + saveOrderInfo.toString());
-//        addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
-//                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-//                .compose(RxUtils.<OrderType>handleResult())
-//                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
-//                    @Override
-//                    public void onNext(OrderType orderType) {
+        addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
+                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+                .compose(RxUtils.<OrderType>handleResult())
+                .subscribeWith(new CommonSubscriber<OrderType>(mView,"保存失败，请重试") {
+                    @Override
+                    public void onNext(OrderType orderType) {
+                        if(orderType != null){
+                            Log.e("Tag","orderI到"+orderType.getOrderId());
+                            mView.showOrderId(orderType);
+                        }
+                    }
+                }));
+//        TestRequestServer.getInstance().saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo)).enqueue(new Callback<HttpResponse>() {
+//            @Override
+//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//                Log.e("MyOrder", "response" + response.toString());
+//                Log.e("Tghhh","dcd"+response.body().getStatus()+":::"+response.body().getResult());
+//            }
 //
-//                    }
-//                }));
-        TestRequestServer.getInstance().saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo)).enqueue(new Callback<HttpResponse>() {
-            @Override
-            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("MyOrder", "response" + response.toString());
-            }
-
-            @Override
-            public void onFailure(Call<HttpResponse> call, Throwable t) {
-                Log.e("OrderInfo","dffff"+call.toString());
-            }
-        });
+//            @Override
+//            public void onFailure(Call<HttpResponse> call, Throwable t) {
+//                Log.e("OrderInfo","dffff"+call.toString());
+//            }
+//        });
     }
 
     /**

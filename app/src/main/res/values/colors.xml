@@ -78,6 +78,14 @@
   <color name="line_dialog">#808080</color>
   <color name="recy_back">#88000000</color>
   <color name="recy_back_in">#bb000000</color>
+  <color name="red">#FF0000</color> <!--红色 -->
+  <color name="blue">#0000FF</color> <!--蓝色 -->
+  <color name="green">#008000</color> <!--绿色 -->
+  <color name="purple">#800080</color> <!--紫色 -->
+  <color name="grey">#808080</color> <!--灰色 -->
+  <color name="yellow">#FFFF00</color> <!--黄色 -->
+  <color name="orange">#FFA500</color> <!--橙色 -->
+  <color name="cyan">#00FFFF</color> <!--青色 -->
   <!-- 版本更新 -->
   <color name="txt_update_title">#328FEA</color>
   <color name="bg_btn_update">#2786c8</color>

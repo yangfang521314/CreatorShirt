@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +13,18 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
-import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.OrderInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.example.yf.creatorshirt.utils.Utils;
+import com.example.yf.creatorshirt.widget.CommonObserver;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
@@ -26,6 +32,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * 选择设计尺寸大小页面
@@ -52,6 +61,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     private String mFrontImageUrl;
     private VersionStyle mOrderBaseInfo;
     private List<String> arrayList = new ArrayList<>();
+    private int backInit;
+    private SaveOrderInfo saveStyleEntity;
 
     @Override
     public void initData() {
@@ -59,9 +70,14 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("clothesInfo");
             if (mOrderBaseInfo != null) {
-                mBackImageUrl = mOrderBaseInfo.getBackUrl();
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
+                if (mOrderBaseInfo.getBackUrl() == null) {
+                    backInit = getIntent().getExtras().getInt("backInit");
+                } else {
+                    mBackImageUrl = mOrderBaseInfo.getBackUrl();
+                }
             }
+            assert mOrderBaseInfo != null;
             if (mOrderBaseInfo.getPicture1() != null) {
                 arrayList.add(mOrderBaseInfo.getPicture1());
             }
@@ -96,14 +112,14 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         switch (view.getId()) {
             case R.id.btn_choice_order:
                 if (App.isLogin) {
-//                    mPresenter.setSaveEntity(setBaseInfo());
+                    mPresenter.setSaveEntity(setBaseInfo());
 //                    if (arrayList != null && arrayList.size() != 0) {
 //                        mPresenter.saveAvatar(arrayList);
 //                    }
 //                    mPresenter.setBackUrl(mOrderBaseInfo.getBackUrl());
 //                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("clothesInfo", mOrderBaseInfo);
+                    bundle.putParcelable("clothesInfo", saveStyleEntity);
                     startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
@@ -128,20 +144,46 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
                             .into(mBackImage);
+                } else {
+                    Observable.create(new ObservableOnSubscribe<Bitmap>() {
+                        @Override
+                        public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
+                            Bitmap bitmap = FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(backInit));
+                            e.onNext(bitmap);
+                        }
+                    }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
+                            .subscribe(new CommonObserver<Bitmap>(null) {
+                                @Override
+                                public void onNext(Bitmap bitmap) {
+//                                    mView.showClothesBg(bitmap);
+                                    GlideApp.with(mContext)
+                                            .load(bitmap)
+                                            .into(mBackImage);
+                                }
+                            });
                 }
                 break;
         }
     }
 
     private SaveOrderInfo setBaseInfo() {
-        SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
+        saveStyleEntity = new SaveOrderInfo();
         saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
         saveStyleEntity.setFinishAimage(mOrderBaseInfo.getFrontUrl());
         saveStyleEntity.setFinishBimage(mOrderBaseInfo.getBackUrl());
-        saveStyleEntity.setColor(mOrderBaseInfo.getColorName());
+        saveStyleEntity.setColor(mOrderBaseInfo.getColor());
         saveStyleEntity.setPicture1(mOrderBaseInfo.getPicture1());
         saveStyleEntity.setPicture2(mOrderBaseInfo.getPicture2());
-        saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+        if (mOrderBaseInfo.getText() != null && mOrderBaseInfo.getText().size() != 0) {
+            saveStyleEntity.setText(mOrderBaseInfo.getText().toString());
+        } else {
+            saveStyleEntity.setText("");
+        }
+        if (mOrderBaseInfo.getBackText() != null && mOrderBaseInfo.getBackText().size() != 0) {
+            saveStyleEntity.setBackText(mOrderBaseInfo.getBackText().toString());
+        } else {
+            saveStyleEntity.setBackText("");
+        }
         return saveStyleEntity;
     }
 
@@ -162,5 +204,12 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         if (App.isLogin) {
             mPresenter.getToken();
         }
+    }
+
+    @Override
+    public void showOrderId(OrderType orderType) {//orderId
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("clothesInfo", saveStyleEntity);
+        startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
     }
 }

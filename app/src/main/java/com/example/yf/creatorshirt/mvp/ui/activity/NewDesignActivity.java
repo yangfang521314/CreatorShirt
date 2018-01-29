@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +23,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.ChangeSelectEvent;
+import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
@@ -34,7 +35,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.MaskStyleAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.TextStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
@@ -42,6 +42,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
 import com.example.yf.creatorshirt.mvp.ui.view.EditUserPopupWindow;
+import com.example.yf.creatorshirt.mvp.ui.view.TextItemView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
@@ -85,6 +86,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     RelativeLayout mRelative;
     @BindView(R.id.rl_clothes_root_back)
     ClothesBackView mContainerBack;
+    @BindView(R.id.text_size_layout)
+    TextItemView mTextColorView;
 
     private CommonAvatarPresenter mAvatarPresenter;//相机图片选择代码块
 
@@ -120,6 +123,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private DialogAlert dialogAlert;
     //    private String maskA;
 //    private String maskB;
+    private int backInit;
 
     @Override
     protected void inject() {
@@ -141,6 +145,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mPresenter.getDetailDesign(mListClothes, true);
         mAvatarPresenter = new CommonAvatarPresenter(this);
         mAvatarPresenter.attachView(this);
+
     }
 
     @Override
@@ -153,7 +158,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mContainerFront.setContext(this);
         mContainerBack.setContext(this);
         dialogAlert = new DialogAlert(this, "你确认要退出编辑吗");
-
     }
 
 
@@ -171,10 +175,13 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         switch (view.getId()) {
             case R.id.btn_choice_finish:
                 generateBitmap();//生成衣服mask的图片
-                if (finishBackImage != null && finishFrontImage != null) {
-                    startNewActivity();
+                if (finishFrontImage != null) {
+                    if (finishBackImage != null) {
+                        startNewActivity(true);
+                    } else {
+                        startNewActivity(false);
+                    }
                 }
-
                 break;
             case R.id.back:
                 getDialog();
@@ -196,6 +203,12 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceReturn.setVisibility(View.GONE);
+                if (mTextColorView.getVisibility() == View.VISIBLE) {
+                    mTextColorView.setVisibility(View.GONE);
+                    if (mContainerBack.getCurrentSticker() != null) {
+                        mContainerBack.setLocked(true);
+                    }
+                }
                 break;
             case R.id.tv_back:
                 if (isFirst) {//默认刚进来的第一件衣服
@@ -214,6 +227,12 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mBtnFinish.setVisibility(View.VISIBLE);
                 mChoiceReturn.setVisibility(View.GONE);
+                if (mTextColorView.getVisibility() == View.VISIBLE) {
+                    mTextColorView.setVisibility(View.GONE);
+                    if (mContainerFront.getCurrentSticker() != null) {
+                        mContainerFront.setLocked(true);
+                    }
+                }
                 break;
             case R.id.choice_back:
                 switch (clotheKey.get(mCurrentPosition)) {
@@ -240,6 +259,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                     case MASK:
                         if (mButtonFront.isSelected()) {
                             mContainerFront.setImageMask(null);
+
                         }
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setImageMask(null);
@@ -261,6 +281,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         break;
 
                 }
+                mTextColorView.setVisibility(View.GONE);
                 mChoiceReturn.setVisibility(View.GONE);
                 mRecyclerDetailStyle.setVisibility(View.GONE);
                 mRecyclerStyle.setVisibility(View.VISIBLE);
@@ -277,6 +298,20 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 //                        if (patternFrontUrl != null) {
 //                            avatarList.add(patternFrontUrl);
 //                        }
+                        if (mButtonFront.isSelected()) {
+                            mContainerFront.setTouchFlag(true);
+                        }
+                        if (mButtonBack.isSelected()) {
+                            mContainerBack.setTouchFlag(true);
+                        }
+                        break;
+                    case MASK:
+                        if (mButtonFront.isSelected()) {
+                            mContainerFront.setTouchFlag(true);
+                        }
+                        if (mButtonBack.isSelected()) {
+                            mContainerBack.setTouchFlag(true);
+                        }
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
@@ -288,6 +323,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                                     return;
                                 }
                             }
+
                         }
                         if (mButtonBack.isSelected()) {
                             if (mContainerBack.getCurrentSticker() != null) {
@@ -304,16 +340,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                             mRecyclerDetailStyle.setVisibility(View.GONE);
                             mBtnFinish.setVisibility(View.VISIBLE);
                             mChoiceReturn.setVisibility(View.GONE);
-                            mContainerFront.setLocked(true);
-                            mUpdateType = null;
                         }
+                        mContainerBack.setLocked(true);
+                        mContainerFront.setLocked(true);
+                        mTextColorView.setVisibility(View.GONE);
                         break;
                 }
                 if (mDesCurrentView != null) {
                     mChoiceReturn.setVisibility(View.GONE);
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mRecyclerStyle.setVisibility(View.VISIBLE);
-                    mContainerFront.setLocked(true);
                 }
                 break;
         }
@@ -358,8 +394,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mContainerBack.draw(canvas);
             finishBackImage = FileUtils.saveBitmap(bitmapBack, this, "back");
         } else {
-            Bitmap bitmap = FileUtils.getSmallBitmap(this, getClothesBackBG(mCurrentClothes), mContainerFront.getWidth(), mContainerFront.getHeight());
-            finishBackImage = FileUtils.saveBitmap(bitmap, this, "back");
+            backInit = getClothesBackBG(mCurrentClothes);
+//            finishBackImage = FileUtils.saveBitmap(bitmap, this, "back");
         }
 
     }
@@ -374,9 +410,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBeforeClothes = mCurrentClothes;
     }
 
-    private void startNewActivity() {
+    private void startNewActivity(boolean flag) {
         Bundle bundle = new Bundle();
-        mOrderBaseInfo.setBackUrl(finishBackImage);
+        if (flag) {
+            mOrderBaseInfo.setBackUrl(finishBackImage);
+        } else {
+            bundle.putInt("backInit", backInit);//没有形成ImageUrl，传Bitmap画
+        }
+        mOrderBaseInfo.setFrontUrl(finishFrontImage);
         mOrderBaseInfo.setFrontUrl(finishFrontImage);
         mOrderBaseInfo.setClothesType(mCurrentClothes.getClothesType());
         mOrderBaseInfo.setColorName(mCurrentClothes.getColorName());
@@ -390,7 +431,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mOrderBaseInfo.setPicture2(patternBackUrl);
         }
         if (mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0) {
-//            mOrderBaseInfo.set
+            mOrderBaseInfo.setText(mContainerFront.getTextEntities());
+        }
+        if (mContainerBack.getTextEntities() != null && mContainerBack.getTextEntities().size() != 0) {
+            mOrderBaseInfo.setBackText(mContainerBack.getTextEntities());
         }
         bundle.putParcelable("clothesInfo", mOrderBaseInfo);
         startCommonActivity(this, bundle, ShowImageActivity.class);
@@ -448,28 +492,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
                 break;
             case SIGNATURE://字体处理
-                if (mButtonFront.isSelected()) {
-                    mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                    int color = Color.parseColor(mImagecolor);
-                    mContainerFront.setTextColor(color, mImagecolor);
-                    TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
-                    if (sticker != null) {
-                        sticker.setTextColor(color);
-                        mContainerFront.replace(sticker);
-                        mContainerFront.invalidate();
-                    }
-                }
-                if (mButtonBack.isSelected()) {
-                    mImagecolor = "#" + mSignatureData.get(newList.get(mCurrentPosition).getTitle()).get(position).getValue();
-                    int color = Color.parseColor(mImagecolor);
-                    mContainerBack.setTextColor(color, mImagecolor);
-                    TextSticker sticker = (TextSticker) mContainerBack.getCurrentSticker();
-                    if (sticker != null) {
-                        sticker.setTextColor(color);
-                        mContainerBack.replace(sticker);
-                        mContainerBack.invalidate();
-                    }
-                }
+
                 break;
 
         }
@@ -594,6 +617,12 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
             mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
             patternStyleAdapter.notifyDataSetChanged();
+            if (mButtonFront.isSelected()) {
+                mContainerFront.setTouchFlag(true);
+            }
+            if (mButtonBack.isSelected()) {
+                mContainerBack.setTouchFlag(true);
+            }
         }
         if (mMaskData.containsKey(newList.get(position).getTitle())) {
             MaskStyleAdapter adapter = new MaskStyleAdapter(this);
@@ -601,15 +630,19 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             adapter.setOnItemClickListener(this);
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            if (mButtonFront.isSelected()) {
+                mContainerFront.setTouchFlag(true);
+            }
+            if (mButtonBack.isSelected()) {
+                mContainerBack.setTouchFlag(true);
+            }
         }
         if (mSignatureData.containsKey((newList.get(position).getTitle()))) {
-            TextStyleAdapter adapter = new TextStyleAdapter(this);
-            adapter.setData(mSignatureData.get(newList.get(position).getTitle()));
-            adapter.setOnItemClickListener(this);
-            mRecyclerDetailStyle.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            mTextColorView.setVisibility(View.VISIBLE);
+            mTextColorView.setSizeClickListener(mSizeClickListener);
             if (mButtonFront.isSelected()) {
                 mContainerFront.setSignatureText(null, false);//文字贴图
+
             }
             if (mButtonBack.isSelected()) {
                 mContainerBack.setSignatureText(null, false);//文字贴图
@@ -620,6 +653,48 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBtnFinish.setVisibility(View.GONE);
         mChoiceReturn.setVisibility(View.VISIBLE);
     }
+
+    public CommonListener.TextSizeClickListener mSizeClickListener = new CommonListener.TextSizeClickListener() {
+
+        @Override
+        public void onClickListener(int color, Typeface typeface, int textSize) {
+            if (mButtonFront.isSelected()) {
+                TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
+                Log.e("tag", "dgikd" + textSize);
+                if (sticker != null) {
+                    if (typeface != null) {
+                        sticker.setTypeface(typeface);
+                    }
+                    if (color != 0) {
+                        sticker.setTextColor(App.getInstance().getResources().getColor(color));
+                    }
+                    if (textSize != 0) {
+                        sticker.setTextSize(textSize);
+                    }
+                    mContainerFront.replace(sticker);
+                    mContainerFront.invalidate();
+                    mContainerFront.setLocked(false);
+                }
+            }
+            if (mButtonBack.isSelected()) {
+                TextSticker sticker = (TextSticker) mContainerBack.getCurrentSticker();
+                if (sticker != null) {
+                    if (typeface != null) {
+                        sticker.setTypeface(typeface);
+                    }
+                    if (color != 0) {
+                        sticker.setTextColor(App.getInstance().getResources().getColor(color));
+                    }
+                    if (textSize != 0) {
+                        sticker.setTextSize(textSize);
+                    }
+                    mContainerBack.replace(sticker);
+                    mContainerBack.invalidate();
+                    mContainerBack.setLocked(false);
+                }
+            }
+        }
+    };
 
     public class ChoiceAvatarListener implements ItemClickListener.OnItemClickListener {
 

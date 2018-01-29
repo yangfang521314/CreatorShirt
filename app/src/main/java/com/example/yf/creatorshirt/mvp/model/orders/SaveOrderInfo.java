@@ -27,29 +27,46 @@ import java.util.ArrayList;
  * <p>
  * <p>
  * <p>
+ * <p>
+ * {"baseId":"baseball",
+ * "picture1":"picture1",
+ * "picture2":"picture2",
+ * "text":"text",
+ * "backText":"text",
+ * "finishAimage":"allimage1",
+ * "finishBimage":"allimage2",
+ * "orderPrice":100,
+ * "partner":"18958064659",
+ * "discount":"654321",
+ * "payorderid":"",
+ * "color":"red",
+ * "maskAName":"",
+ * "maskBName":"",
+ * "detailList":
+ * [{"size":"s","count":30,"sex":0},
+ * {"size":"m","count":10,"sex":0},
+ * {"size":"xl","count":12,"sex":0}]}
+ * <p>
  * {"baseId":"baseball",
  * "picture1":true,
  * "picture2":true,
  * "text":true,
- * "partner":"18958064659",
- * "detailList":[{"size":"s","count":30},{"size":"m","count":10},{"size":"xl","count":12}]}
+ * "discount":"654321",
+ * "detailList":[{"size":"s","count":30},
+ * {"size":"m","count":10},
+ * {"size":"xl","count":12}]}
  */
 public class SaveOrderInfo implements Parcelable {
 
     private String baseId;
     private String picture1;
     private String picture2;//自定义的图片
-    private String text1;
-    private String text2;
+    private String text;
+    private String backText;
     private String finishAimage;
     private String finishBimage;
-//    private double orderPrice;
     private String partner;
     private String discount;
-    private String address;
-    private String zipcode;
-    private String mobile;
-    private String paymode;
     private String payorderid;
     private String color;
     private String maskAName;//遮罩名字
@@ -64,63 +81,18 @@ public class SaveOrderInfo implements Parcelable {
         baseId = in.readString();
         picture1 = in.readString();
         picture2 = in.readString();
-        text1 = in.readString();
-        text2 = in.readString();
+        text = in.readString();
+        backText = in.readString();
         finishAimage = in.readString();
         finishBimage = in.readString();
-//        orderPrice = in.readDouble();
         partner = in.readString();
         discount = in.readString();
-        address = in.readString();
-        zipcode = in.readString();
-        mobile = in.readString();
-        paymode = in.readString();
         payorderid = in.readString();
         color = in.readString();
         maskAName = in.readString();
         maskBName = in.readString();
         detailList = in.createTypedArrayList(ClothesSize.CREATOR);
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(baseId);
-        dest.writeString(picture1);
-        dest.writeString(picture2);
-        dest.writeString(text1);
-        dest.writeString(text2);
-        dest.writeString(finishAimage);
-        dest.writeString(finishBimage);
-//        dest.writeDouble(orderPrice);
-        dest.writeString(partner);
-        dest.writeString(discount);
-        dest.writeString(address);
-        dest.writeString(zipcode);
-        dest.writeString(mobile);
-        dest.writeString(paymode);
-        dest.writeString(payorderid);
-        dest.writeString(color);
-        dest.writeString(maskAName);
-        dest.writeString(maskBName);
-        dest.writeTypedList(detailList);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<SaveOrderInfo> CREATOR = new Creator<SaveOrderInfo>() {
-        @Override
-        public SaveOrderInfo createFromParcel(Parcel in) {
-            return new SaveOrderInfo(in);
-        }
-
-        @Override
-        public SaveOrderInfo[] newArray(int size) {
-            return new SaveOrderInfo[size];
-        }
-    };
 
     public String getBaseId() {
         return baseId;
@@ -146,20 +118,20 @@ public class SaveOrderInfo implements Parcelable {
         this.picture2 = picture2;
     }
 
-    public String getText1() {
-        return text1;
+    public String getText() {
+        return text;
     }
 
-    public void setText1(String text1) {
-        this.text1 = text1;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public String getText2() {
-        return text2;
+    public String getBackText() {
+        return backText;
     }
 
-    public void setText2(String text2) {
-        this.text2 = text2;
+    public void setBackText(String backText) {
+        this.backText = backText;
     }
 
     public String getFinishAimage() {
@@ -178,13 +150,6 @@ public class SaveOrderInfo implements Parcelable {
         this.finishBimage = finishBimage;
     }
 
-//    public double getOrderPrice() {
-//        return orderPrice;
-//    }
-//
-//    public void setOrderPrice(double orderPrice) {
-//        this.orderPrice = orderPrice;
-//    }
 
     public String getPartner() {
         return partner;
@@ -194,36 +159,12 @@ public class SaveOrderInfo implements Parcelable {
         this.partner = partner;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDiscount() {
+        return discount;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getPaymode() {
-        return paymode;
-    }
-
-    public void setPaymode(String paymode) {
-        this.paymode = paymode;
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
     public String getPayorderid() {
@@ -266,13 +207,17 @@ public class SaveOrderInfo implements Parcelable {
         this.detailList = detailList;
     }
 
-    public String getDiscount() {
-        return discount;
-    }
+    public static final Creator<SaveOrderInfo> CREATOR = new Creator<SaveOrderInfo>() {
+        @Override
+        public SaveOrderInfo createFromParcel(Parcel in) {
+            return new SaveOrderInfo(in);
+        }
 
-    public void setDiscount(String discount) {
-        this.discount = discount;
-    }
+        @Override
+        public SaveOrderInfo[] newArray(int size) {
+            return new SaveOrderInfo[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -280,22 +225,40 @@ public class SaveOrderInfo implements Parcelable {
                 "baseId='" + baseId + '\'' +
                 ", picture1='" + picture1 + '\'' +
                 ", picture2='" + picture2 + '\'' +
-                ", text1='" + text1 + '\'' +
-                ", text2='" + text2 + '\'' +
+                ", text='" + text + '\'' +
+                ", backText='" + backText + '\'' +
                 ", finishAimage='" + finishAimage + '\'' +
                 ", finishBimage='" + finishBimage + '\'' +
-//                ", orderPrice=" + orderPrice +
                 ", partner='" + partner + '\'' +
                 ", discount='" + discount + '\'' +
-                ", address='" + address + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", paymode='" + paymode + '\'' +
                 ", payorderid='" + payorderid + '\'' +
                 ", color='" + color + '\'' +
                 ", maskAName='" + maskAName + '\'' +
                 ", maskBName='" + maskBName + '\'' +
                 ", detailList=" + detailList +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(baseId);
+        dest.writeString(picture1);
+        dest.writeString(picture2);
+        dest.writeString(text);
+        dest.writeString(backText);
+        dest.writeString(finishAimage);
+        dest.writeString(finishBimage);
+        dest.writeString(partner);
+        dest.writeString(discount);
+        dest.writeString(payorderid);
+        dest.writeString(color);
+        dest.writeString(maskAName);
+        dest.writeString(maskBName);
+        dest.writeTypedList(detailList);
     }
 }

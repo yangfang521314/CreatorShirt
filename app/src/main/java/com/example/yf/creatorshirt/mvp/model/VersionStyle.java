@@ -3,6 +3,8 @@ package com.example.yf.creatorshirt.mvp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by yangfang on 2017/11/29.
  */
@@ -20,11 +22,11 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
     private String picture2;
     private String maskA;
     private String maskB;
-
+    private List<String> text;
+    private List<String> backText;
 
     public VersionStyle() {
     }
-
 
     protected VersionStyle(Parcel in) {
         type = in.readString();
@@ -39,6 +41,8 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         picture2 = in.readString();
         maskA = in.readString();
         maskB = in.readString();
+        text = in.createStringArrayList();
+        backText = in.createStringArrayList();
     }
 
     public static final Creator<VersionStyle> CREATOR = new Creator<VersionStyle>() {
@@ -77,6 +81,14 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         this.colorName = colorName;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getSex() {
         return sex;
     }
@@ -109,22 +121,6 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         this.frontUrl = frontUrl;
     }
 
-    public String getMaskA() {
-        return maskA;
-    }
-
-    public void setMaskA(String maskA) {
-        this.maskA = maskA;
-    }
-
-    public String getMaskB() {
-        return maskB;
-    }
-
-    public void setMaskB(String maskB) {
-        this.maskB = maskB;
-    }
-
     public String getPicture1() {
         return picture1;
     }
@@ -141,21 +137,36 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         this.picture2 = picture2;
     }
 
-    @Override
-    public String toString() {
-        return "VersionStyle{" +
-                "type='" + type + '\'' +
-                ", color='" + color + '\'' +
-                ", colorName='" + colorName + '\'' +
-                '}';
+    public String getMaskA() {
+        return maskA;
     }
 
-    public String getGender() {
-        return gender;
+    public void setMaskA(String maskA) {
+        this.maskA = maskA;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public String getMaskB() {
+        return maskB;
+    }
+
+    public void setMaskB(String maskB) {
+        this.maskB = maskB;
+    }
+
+    public List<String> getText() {
+        return text;
+    }
+
+    public void setText(List<String> text) {
+        this.text = text;
+    }
+
+    public List<String> getBackText() {
+        return backText;
+    }
+
+    public void setBackText(List<String> backText) {
+        this.backText = backText;
     }
 
     @Override
@@ -177,5 +188,7 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         dest.writeString(picture2);
         dest.writeString(maskA);
         dest.writeString(maskB);
+        dest.writeStringList(text);
+        dest.writeStringList(backText);
     }
 }

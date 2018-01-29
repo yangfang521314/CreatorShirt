@@ -9,13 +9,11 @@ import android.os.Parcelable;
 
 public class OrderType implements Parcelable{
     private String orderId;
-    private int fee;
-    private String orderType;
+    private String dispContext;
 
     protected OrderType(Parcel in) {
         orderId = in.readString();
-        fee = in.readInt();
-        orderType = in.readString();
+        dispContext = in.readString();
     }
 
     public static final Creator<OrderType> CREATOR = new Creator<OrderType>() {
@@ -38,29 +36,12 @@ public class OrderType implements Parcelable{
         this.orderId = orderId;
     }
 
-    public int getFee() {
-        return fee;
+    public String getDispContext() {
+        return dispContext;
     }
 
-    public void setFee(int fee) {
-        this.fee = fee;
-    }
-
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderType{" +
-                "orderId='" + orderId + '\'' +
-                ", fee=" + fee +
-                ", orderType='" + orderType + '\'' +
-                '}';
+    public void setDispContext(String dispContext) {
+        this.dispContext = dispContext;
     }
 
     @Override
@@ -71,7 +52,6 @@ public class OrderType implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(orderId);
-        dest.writeInt(fee);
-        dest.writeString(orderType);
+        dest.writeString(dispContext);
     }
 }

@@ -54,7 +54,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    choiceAvatarListener.onItemClick(v, 0, null);
+                    choiceAvatarListener.onItemClick(v, 0, mData.get(position));
                 }
             });
         } else {

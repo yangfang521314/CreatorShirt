@@ -1,131 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_detail_clothes"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <TextView
-        android:id="@+id/tv_design_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
-        android:text="2017-05-17 12:12:12" />
-
-    <TextView
-        android:id="@+id/tv_buy_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/app_bar"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
-        android:text="已付款"
-        android:textColor="@color/sand" />
-
-    <com.zhy.android.percent.support.PercentRelativeLayout
-        android:id="@+id/rl_clothes_iv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_buy_number"
-        android:layout_marginTop="10dp">
-
-        <ImageView
-            android:id="@+id/clothes_picture"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@mipmap/wshort_meter_a"
-            app:layout_heightPercent="50%h" />
-    </com.zhy.android.percent.support.PercentRelativeLayout>
-
     <RelativeLayout
-        android:id="@+id/rl_clothes_style"
+        android:id="@+id/rl_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_clothes_iv">
+        android:layout_below="@+id/app_bar">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_clothes"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_pager_clothes"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:paddingLeft="2dp" />
 
         <RelativeLayout
-            android:id="@+id/ll_clothes_order"
+            android:id="@+id/rl_clothes_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="30dp">
+            android:layout_height="25dp"
+            android:layout_below="@+id/ll_indicator"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_create"
+                android:id="@+id/order_receiver_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="张芷溪 的原创定制"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/order_clothes_prices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="￥49.99"
+                android:gravity="center_horizontal"
+                android:text="dssddd"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/order_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="15868178345"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
         </RelativeLayout>
 
-
-        <TextView
-            android:id="@+id/clothes_sex_style"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_clothes_order"
-            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/rl_clothes_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:text="女-上衣 T恤"
-            android:textSize="15sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/clothes_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/clothes_sex_style"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:text="商品ID: 10892473"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/order_clothes_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/clothes_id"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:text="尺寸：XL"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/clothes_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/order_clothes_size"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:text="颜色"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/order_receiver_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="重庆重庆重庆"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_check_order"
-        style="@style/common_start_btn"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="查看我的订单"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/order_clothes_number"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_detail" />
+
 </RelativeLayout>

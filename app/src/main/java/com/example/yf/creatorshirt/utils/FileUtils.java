@@ -163,9 +163,7 @@ public class FileUtils {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resid);
-        options.inSampleSize = 3;
-        options.outWidth = width;
-        options.outHeight = height;
+        options.inSampleSize = 1;
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);

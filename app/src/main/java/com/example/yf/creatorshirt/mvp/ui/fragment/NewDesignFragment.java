@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -108,7 +107,6 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
                     firstList.add(mWomanData.get(o).get(0));
                     sendMap.put(mWomanData.get(o).get(0).getSex(), mWomanData.get(o));
                 }
-                Log.e("TAG", "CHOICE" + firstList.size());
                 choiceDiff(firstList, o);
             }
 

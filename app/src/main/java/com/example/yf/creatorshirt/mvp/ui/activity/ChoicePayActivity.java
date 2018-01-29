@@ -122,7 +122,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                         && !TextUtils.isEmpty(mOrderName.getText().toString())) {
                     if (payType != null) {
                         if (mSaveOrderInfo != null) {
-                            mSaveOrderInfo.setPaymode(payType);
+//                            mSaveOrderInfo.setPaymode(payType);
                             mPresenter.setSaveEntity(mSaveOrderInfo);
                             if (arrayList != null && arrayList.size() != 0) {
                                 mPresenter.saveAvatar(arrayList);

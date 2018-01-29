@@ -19,7 +19,6 @@ import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
-import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.CalculatePricesPresenter;
@@ -32,7 +31,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.picker.NumberPicker;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
-import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -47,7 +45,7 @@ import butterknife.OnTextChanged;
 public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> implements ItemClickListener.OnItemClickListener
         , CalculatePricesContract.CalculatePricesView {
     private ArrayList<ClothesSize> mOrderSizeInfo;//计算价格的尺寸list
-    private ArrayList<ClothesSize> clothesSizeList;
+    private ArrayList<ClothesSize> clothesSizeList = new ArrayList<>();
 
     @BindView(R.id.clothes_picture)
     ImageView mClothesImage;
@@ -76,13 +74,14 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     private DetailOrderAdapter mManSizeAdapter;
     private DetailOrderAdapter mWomanSizeAdapter;
-    private VersionStyle mOrderClothesInfo;
-    private double total;
+    private SaveOrderInfo mOrderClothesInfo;
     private Map<String, List<ClothesSize>> listArrayMap;
     private int currentPosition;
     private ClothesSize mCurrentManClothesSize;
     private ClothesSize mCurrentWomanClothesSize;
     private NumberPicker picker;
+    private ClothesSize clothesManSize;
+    private ClothesSize clothesWomanSize;
 
     @Override
     public void initData() {
@@ -105,7 +104,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
         if (mOrderClothesInfo != null) {
-            GlideApp.with(this).load(mOrderClothesInfo.getFrontUrl()).error(R.mipmap.mbaseball_white_a).into(mClothesImage);
+            GlideApp.with(this).load(mOrderClothesInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mClothesImage);
             mCircleShape.setOutColor(Color.parseColor("#" + mOrderClothesInfo.getColor()));
         }
         mDetailManRecycler.setLayoutManager(new GridLinearLayoutManager(this, 3));
@@ -178,13 +177,37 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             @Override
             public void onNumberPicked(int index, Number item) {
                 if (flag) {
+                    clothesManSize = new ClothesSize();
                     updateNumberClothes(String.valueOf(item.intValue()));
+                    clothesManSize.setSize(mCurrentManClothesSize.getSize());
+                    clothesManSize.setCount(item.intValue());
+                    if(item.intValue() != 0){
+                        clothesSizeList.add(clothesManSize);
+                    }
                 } else {
+                    clothesWomanSize = new ClothesSize();
                     updateNumberWomanClothes(String.valueOf(item.intValue()));
+                    clothesWomanSize.setSize(mCurrentWomanClothesSize.getSize());
+                    clothesWomanSize.setCount(item.intValue());
+                    if(item.intValue() != 0){
+                        clothesSizeList.add(clothesWomanSize);
+                    }
                 }
+                culcaltePrcie(clothesSizeList);
+
             }
         });
         picker.show();
+    }
+
+    private void culcaltePrcie(ArrayList<ClothesSize> clothesSizeList) {
+        String dis;
+        if (PhoneUtils.notEmptyText(mEditDiscount)) {
+            dis = mEditDiscount.getText().toString();
+        } else {
+            dis = null;
+        }
+        mPresenter.setSaveEntity(mOrderClothesInfo, clothesSizeList, dis);
     }
 
 
@@ -200,18 +223,18 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
                 if (mOrderClothesInfo != null) {
                     Bundle bundle1 = new Bundle();
                     SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
-                    saveStyleEntity.setBaseId(mOrderClothesInfo.getType());
+                    saveStyleEntity.setBaseId(mOrderClothesInfo.getBaseId());
                     saveStyleEntity.setDetailList(mOrderSizeInfo);
-                    saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFrontUrl());
-                    saveStyleEntity.setFinishBimage(mOrderClothesInfo.getBackUrl());
-                    saveStyleEntity.setColor(mOrderClothesInfo.getColorName());
+                    saveStyleEntity.setFinishAimage(mOrderClothesInfo.getFinishAimage());
+                    saveStyleEntity.setFinishBimage(mOrderClothesInfo.getFinishBimage());
+                    saveStyleEntity.setColor(mOrderClothesInfo.getColor());
 //                    saveStyleEntity.setOrderPrice((double) total);
                     saveStyleEntity.setPicture1(mOrderClothesInfo.getPicture1());
                     saveStyleEntity.setPicture2(mOrderClothesInfo.getPicture2());
-                    saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+//                    saveStyleEntity.setMobile(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
                     saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
                     bundle1.putParcelable("orderInfo", saveStyleEntity);
-                    startCommonActivity(this, bundle1, ChoicePayActivity.class);
+//                    startCommonActivity(this, bundle1, ChoicePayActivity.class);
                 }
                 break;
 
@@ -221,24 +244,24 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     @OnTextChanged(R.id.discount)
     void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (check(PhoneUtils.getTextString(mEditDiscount))) {
-            mPresenter.setDiscount(PhoneUtils.getTextString(mEditDiscount));
-            mPresenter.computerOrderPrice();
+        if (PhoneUtils.notEmptyText(mEditDiscount)) {
+            if (clothesSizeList != null && clothesSizeList.size() != 0)
+                mPresenter.setSaveEntity(mOrderClothesInfo, clothesSizeList, PhoneUtils.getTextString(mEditDiscount));
         }
     }
 
 
-    private boolean check(String discount) {
-        if (discount.length() != 6) {
-            ToastUtil.showToast(this, "输入的折扣码出错", 0);
-            return false;
-        }
-        if (total == 0) {
-            ToastUtil.showToast(this, "订单数量出错", 0);
-            return false;
-        }
-        return true;
-    }
+//    private boolean check(String discount) {
+//        if (discount.length() != 6) {
+//            ToastUtil.showToast(this, "输入的折扣码出错", 0);
+//            return false;
+//        }
+//        if (total == 0) {
+//            ToastUtil.showToast(this, "订单数量出错", 0);
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     /**
@@ -253,6 +276,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         clothesSize.setSize(mCurrentWomanClothesSize.getSize());
         mWomanSizeAdapter.remove(currentPosition);
         mWomanSizeAdapter.add(currentPosition, clothesSize);
+//        mPresenter.
 
     }
 
@@ -268,13 +292,11 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         clothesSize.setSize(mCurrentManClothesSize.getSize());
         mManSizeAdapter.remove(currentPosition);
         mManSizeAdapter.add(currentPosition, clothesSize);
-
     }
 
 
     @Override
     public void showPrices(ClothesPrice price) {
-        total += price.getOrderPrice();
         if (PhoneUtils.notEmptyText(mEditDiscount)) {
             mTotalPrice.setText("合计 ¥：" + price.getDiscountPrice());
             mPrices.setText("原价 ¥：" + price.getOrderPrice());

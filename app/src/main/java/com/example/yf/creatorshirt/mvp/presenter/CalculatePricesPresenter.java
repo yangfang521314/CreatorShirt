@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
+import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -14,7 +14,6 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.CalculatePricesContrac
 import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonObserver;
-import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -28,6 +27,9 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yangfang on 2018/1/21.
@@ -39,7 +41,6 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
 
     private DataManager manager;
     private SaveOrderInfo saveOrderInfo;
-    private String discount;
 
     @Inject
     CalculatePricesPresenter(DataManager manager) {
@@ -50,33 +51,50 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
      * 衣服和尺寸
      *
      * @param mOrderClothesInfo
+     * @param discount
      */
-    public void setSaveEntity(SaveOrderInfo mOrderClothesInfo) {
-        saveOrderInfo = mOrderClothesInfo;
-
-    }
-
-    public void setDiscount(String textString) {
-        discount = textString;
+    public void setSaveEntity(SaveOrderInfo mOrderClothesInfo, ArrayList<ClothesSize> clothesSizeList, String discount) {
+        Log.e("CalculatePrices",mOrderClothesInfo.toString()+"::"+clothesSizeList.toString()+"::"+discount);
+        saveOrderInfo = new SaveOrderInfo();
+        if (discount == null) {
+            saveOrderInfo.setDiscount("");
+        }
+        saveOrderInfo.setDiscount(discount);
+        saveOrderInfo.setText("");
+        saveOrderInfo.setPicture1(mOrderClothesInfo.getPicture1());
+        saveOrderInfo.setPicture2(mOrderClothesInfo.getPicture2());
+        saveOrderInfo.setDetailList(clothesSizeList);
+        computerOrderPrice();
     }
 
     /**
      * 计算价格
      */
     public void computerOrderPrice() {
-        saveOrderInfo.setDiscount(discount);
-        addSubscribe(manager.getCalculateOrderPrice(GsonUtils.getGson(saveOrderInfo))
-                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
-                .compose(RxUtils.<ClothesPrice>handleResult())
-                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView) {
+//        addSubscribe(manager.getCalculateOrderPrice(GsonUtils.getGson(saveOrderInfo))
+//                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
+//                .compose(RxUtils.<ClothesPrice>handleResult())
+//                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView) {
+//                    @Override
+//                    public void onNext(ClothesPrice s) {
+//                        if (s != null) {
+//                            mView.showPrices(s);
+//                            Log.e("OrderInfo", "sss" + s.getOrderPrice());
+//                        }
+//                    }
+//                }));
+        TestRequestServer.getInstance().getCalculateOrderPrice(GsonUtils.getGson(saveOrderInfo))
+                .enqueue(new Callback<HttpResponse>() {
                     @Override
-                    public void onNext(ClothesPrice s) {
-                        if (s != null) {
-                            mView.showPrices(s);
-                            Log.e("OrderInfo", "sss" + s.getOrderPrice());
-                        }
+                    public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+                        Log.e(":ta","cfuclck "+response.body().toString());
                     }
-                }));
+
+                    @Override
+                    public void onFailure(Call<HttpResponse> call, Throwable t) {
+                        Log.e(":ta","cccc"+t.getMessage());
+                    }
+                });
 
     }
 

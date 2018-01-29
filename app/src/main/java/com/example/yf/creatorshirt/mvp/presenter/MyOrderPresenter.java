@@ -110,9 +110,9 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
     private void saveOrderInfo() {
         saveOrderInfo.setFinishBimage(map.get("B"));
         saveOrderInfo.setFinishAimage(map.get("A"));
-        saveOrderInfo.setZipcode("");
-        saveOrderInfo.setAddress(mView.getReceiverAddress());
-        saveOrderInfo.setMobile(mView.getReceiverMobile());
+//        saveOrderInfo.setZipcode("");
+//        saveOrderInfo.setAddress(mView.getReceiverAddress());
+//        saveOrderInfo.setMobile(mView.getReceiverMobile());
         saveOrderInfo.setPicture1(map.get("A"));
         saveOrderInfo.setPicture2(map.get("B"));
         saveOrderInfo.setPayorderid("");
@@ -126,7 +126,7 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         }
 
 
-        Log.e("MyOrder", "dddd" + saveOrderInfo.toString());
+//        Log.e("MyOrder", "dddd" + saveOrderInfo.toString());
 //        addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
 //                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
 //                .compose(RxUtils.<OrderType>handleResult())
@@ -139,7 +139,11 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         TestRequestServer.getInstance().saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo)).enqueue(new Callback<HttpResponse>() {
             @Override
             public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                Log.e("MyOrder", "response" + response.toString());
+//                Log.e("MyOrder", "response" + response.body().getResult().toString());
+
+                if(response.body().getStatus() == 200){
+
+                }
             }
 
             @Override

@@ -39,8 +39,6 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
     public ClothesPresenter() {
 
     }
-
-
     /**
      * 获取衣服的名称
      */

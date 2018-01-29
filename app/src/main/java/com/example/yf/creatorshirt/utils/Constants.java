@@ -26,8 +26,8 @@ public class Constants {
     public static final String  share = "Share";
     public static final String check = "Check";
     public static final String ADD_TEXT = "添加文字";
-    public static final int WIDTH_MASK =700;
-    public static final int HEIGHT_MASK = 900;
+    public static final int WIDTH_MASK =600;
+    public static final int HEIGHT_MASK = 800;
     public static final int VERSION_UPDATE_NO_NETWORK = 01;
     public static final int VERSION_UPDATE_INIT_REQUEST = 02;
     public static final Object VERSION_UPDATE_TIME_OUT = 03;

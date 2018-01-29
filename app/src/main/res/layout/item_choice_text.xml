@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/outerspace"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/color_linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tv_max"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/red_e73a3d"
+                android:gravity="center"
+                android:text="A+"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_min"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@color/red_e73a3d"
+                android:gravity="center"
+                android:text="A-"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tv_style_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_size"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" />
+
+</RelativeLayout>

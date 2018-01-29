@@ -34,6 +34,7 @@ public class DisplayUtil {
         DisplayMetrics metric = context.getResources().getDisplayMetrics();
         return metric.heightPixels;
     }
+
     /**
      * 设置定制布局的宽和高
      *
@@ -47,7 +48,14 @@ public class DisplayUtil {
         layoutParams.width = width / 3;
         layoutParams.height = height / 6;
         linearLayout.setLayoutParams(layoutParams);
+    }
 
+    public static void calculateItemWidth(Context context, RelativeLayout linearLayout) {
+        int width = getScreenW(context);
+        int height = getScreenH(context);
+        ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+        layoutParams.height = height / 6;
+        linearLayout.setLayoutParams(layoutParams);
     }
 
     /**
@@ -92,13 +100,13 @@ public class DisplayUtil {
     public static void calculateDialogWidth(Context context, LinearLayout linearLayout) {
         int width = getScreenW(context);
         ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
-        layoutParams.width = width/2 + width/4;
+        layoutParams.width = width / 2 + width / 4;
         linearLayout.setLayoutParams(layoutParams);
     }
 
     public static void calculateClothesWidth(Context context, ClothesFrontView mContainerFront) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mContainerFront.getLayoutParams();
-        layoutParams.width  = Constants.WIDTH_MASK;
+        layoutParams.width = Constants.WIDTH_MASK;
         layoutParams.height = Constants.HEIGHT_MASK;
         mContainerFront.setLayoutParams(layoutParams);
     }
@@ -111,6 +119,7 @@ public class DisplayUtil {
     public static ColorStateList toColorStateList(@ColorInt int normalColor, @ColorInt int pressedColor) {
         return toColorStateList(normalColor, pressedColor, pressedColor, normalColor);
     }
+
     /**
      * 对TextView、Button等设置不同状态时其文字颜色。
      * 参见：http://blog.csdn.net/sodino/article/details/6797821

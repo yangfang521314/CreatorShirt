@@ -46,8 +46,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_bg"
-        android:layout_marginTop="15dp"
         android:layout_centerInParent="true"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -75,7 +75,6 @@
             android:paddingTop="5dp"
             android:text="反面"
             android:textSize="15sp" />
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -97,6 +96,16 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
         android:visibility="gone" />
+
+    <com.example.yf.creatorshirt.mvp.ui.view.TextItemView
+        android:id="@+id/text_size_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:layout_above="@+id/ll_choice_back"
+        android:layout_below="@+id/choice_front_back" />
 
     <Button
         android:id="@+id/btn_choice_finish"

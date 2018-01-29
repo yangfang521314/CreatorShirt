@@ -93,7 +93,6 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
     private void done(View v) {
         dismiss();
-
         if (completeCallBack != null) {
             if (TextUtils.isEmpty(mEditSignature.getText())) {
                 str = Constants.ADD_TEXT;
