@@ -6,11 +6,11 @@
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
     android:background="@color/white"
-    android:paddingBottom="5dp">
+    android:paddingBottom="10dp">
 
     <RelativeLayout
         android:id="@+id/rl_order_state"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="15dp"
@@ -51,6 +51,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/show_type_clothes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -58,6 +59,7 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/show_clothes_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¥117"

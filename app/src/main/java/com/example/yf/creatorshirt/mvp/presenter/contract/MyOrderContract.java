@@ -13,11 +13,9 @@ import java.util.List;
 public interface MyOrderContract {
     interface MyOrderView extends BaseView{
 
-
         void showAddressSuccess(List<AddressBean> addressBeen);
-        String getReceiverMobile();
-        String getReceiverAddress();
-        String getReceiverName();
+
+        void showPaySuccess(String msg);
 
     }
 

@@ -75,7 +75,7 @@ public class SystemUtilsBar {
         mActivity = activity;
         mWindow = mActivity.getWindow();
         mViewGroup = (ViewGroup) mWindow.getDecorView();
-        mContentView = (ViewGroup) mActivity.findViewById(android.R.id.content);
+        mContentView = mActivity.findViewById(android.R.id.content);
         mConfig = new BarConfig(activity);
         if (!mMap.isEmpty() && !mActivityName.isEmpty()) {
             if (mMap.get(mActivityName) == null) {

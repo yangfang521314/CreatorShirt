@@ -76,10 +76,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     private void initToolbar() {
-        mAppBarTitle = (TextView) findViewById(R.id.app_bar_title);
-        mAppBarBack = (ImageView) findViewById(R.id.back);
-        mAppBar = (LinearLayout) findViewById(R.id.app_bar);
-        mSaveAddress = (TextView) findViewById(R.id.save);
+        mAppBarTitle = findViewById(R.id.app_bar_title);
+        mAppBarBack = findViewById(R.id.back);
+        mAppBar = findViewById(R.id.app_bar);
+        mSaveAddress = findViewById(R.id.save);
     }
 
     public void initData() {
@@ -126,7 +126,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (netBroadcastReceiver != null) {
             this.unregisterReceiver(netBroadcastReceiver);
         }
-        if(netInterface != null){
+        if (netInterface != null) {
             netInterface = null;
         }
         Utils.fixInputMethodManagerLeak(this);

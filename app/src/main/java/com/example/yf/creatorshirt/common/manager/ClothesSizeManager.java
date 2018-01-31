@@ -15,13 +15,20 @@ import java.util.Map;
  */
 
 public class ClothesSizeManager {
-    private static ClothesSizeManager clothesSizeManager = new ClothesSizeManager();
+    private static ClothesSizeManager clothesSizeManager;
     private ClothesSizeCache clothesSizeCache;
 
     private ClothesSizeManager() {
     }
 
     public static ClothesSizeManager getInstance() {
+        if (clothesSizeManager == null){
+            synchronized (ClothesSizeManager.class){
+                if (clothesSizeManager == null){
+                    clothesSizeManager = new ClothesSizeManager();
+                }
+            }
+        }
         return clothesSizeManager;
     }
 

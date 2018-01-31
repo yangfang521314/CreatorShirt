@@ -15,13 +15,13 @@ public class ClothesSize implements Parcelable,Serializable {
     private String size;//尺寸
     private String letter;//性别中文
     private int count;//数量
-    private String sex;//性别英文or数字代表
+    private int sex;//性别英文or数字代表
 
     protected ClothesSize(Parcel in) {
         size = in.readString();
         letter = in.readString();
         count = in.readInt();
-        sex = in.readString();
+        sex = in.readInt();
     }
 
     public ClothesSize() {
@@ -63,11 +63,11 @@ public class ClothesSize implements Parcelable,Serializable {
         this.count = count;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
@@ -91,6 +91,6 @@ public class ClothesSize implements Parcelable,Serializable {
         dest.writeString(size);
         dest.writeString(letter);
         dest.writeInt(count);
-        dest.writeString(sex);
+        dest.writeInt(sex);
     }
 }

@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
+import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
@@ -24,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,8 +59,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
 
 
     private String payType;
-    private SaveOrderInfo mSaveOrderInfo;
-    List<String> arrayList = new ArrayList<>();
+    private SaveOrderInfo mOrderClothesInfo;
 
 
     @Override
@@ -80,20 +78,12 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     public void initData() {
         super.initData();
         if (getIntent().getExtras() != null) {
-            mSaveOrderInfo = getIntent().getExtras().getParcelable("orderInfo");
-            if (mSaveOrderInfo != null) {
+            if (getIntent().hasExtra("orderInfo") && getIntent().getExtras() != null) {
                 mPresenter.getAddressData();
-                if (mSaveOrderInfo.getPicture1() != null) {
-                    arrayList.add(mSaveOrderInfo.getPicture1());
-                }
-                if (mSaveOrderInfo.getPicture2() != null) {
-                    arrayList.add(mSaveOrderInfo.getPicture2());
-                }
+                mOrderClothesInfo = getIntent().getExtras().getParcelable("orderInfo");
             }
-            Log.e("tga","choice"+arrayList.size());
 
         }
-//        mPresenter.getToken();
 
     }
 
@@ -101,10 +91,17 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     protected void initView() {
         mAppBarTitle.setText(R.string.my_order);
         mAppBarBack.setVisibility(View.VISIBLE);
-
-//        mTextTotal.setText("总计：" + mSaveOrderInfo.getOrderPrice());
-        GlideApp.with(this).load(mSaveOrderInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mPayClothesImage);
+        if (mOrderClothesInfo.getFinishAimage() != null) {
+            GlideApp.with(this).load(mOrderClothesInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mPayClothesImage);
+        }
     }
+
+
+    @Override
+    protected int getView() {
+        return R.layout.activity_my_order;
+    }
+
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
             R.id.back})
@@ -117,31 +114,28 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 startCommonActivity(this, bundle, AddressShowActivity.class);
                 break;
             case R.id.pay_for_money:
-                if (!TextUtils.isEmpty(mOrderAddress.getText().toString())
-                        && !TextUtils.isEmpty(mOrderMobile.getText().toString())
-                        && !TextUtils.isEmpty(mOrderName.getText().toString())) {
-                    if (payType != null) {
-                        if (mSaveOrderInfo != null) {
-//                            mSaveOrderInfo.setPaymode(payType);
-                            mPresenter.setSaveEntity(mSaveOrderInfo);
-                            if (arrayList != null && arrayList.size() != 0) {
-                                mPresenter.saveAvatar(arrayList);
-                            }
-                            mPresenter.setBackUrl(mSaveOrderInfo.getFinishBimage());
-                            mPresenter.requestSave("A", mSaveOrderInfo.getFinishAimage());
-                        } else {
-                            ToastUtil.showToast(mContext, "订单出错", 0);
-                        }
-                    } else {
-                        ToastUtil.showToast(mContext, "请选择支付方式", 0);
-                    }
+                if (payType == null) {
+                    ToastUtil.showToast(mContext, "请选择支付方式", 0);
+                    return;
                 }
+                mPresenter.aplipay(this);
                 break;
             case R.id.pay_alipay:
                 mPayWeixin.setChecked(false);
                 mPayAlipay.setChecked(true);
                 if (mPayAlipay.isChecked()) {
                     payType = "aliPay";
+                }
+                if (isCheck()) {
+                    PayInfoEntity payInfoEntity = new PayInfoEntity();
+                    payInfoEntity.setAddress(mOrderAddress.getText().toString());
+                    payInfoEntity.setMobile(mOrderMobile.getText().toString());
+                    payInfoEntity.setPaymode(payType);
+                    payInfoEntity.setOrderId(mOrderClothesInfo.getOrderId());
+                    payInfoEntity.setZipcode("");
+                    payInfoEntity.setUsername(mOrderName.getText().toString());
+                    mPresenter.setSaveEntity(payInfoEntity);
+                    mPresenter.payMomentOrders();//支付信息
                 }
                 break;
             case R.id.pay_weixin:
@@ -155,6 +149,23 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 finish();
                 break;
         }
+
+    }
+
+    private boolean isCheck() {
+        if (TextUtils.isEmpty(mOrderAddress.getText().toString())) {
+            ToastUtil.showToast(this, "请填写收件人的地址", 0);
+            return false;
+        }
+        if (TextUtils.isEmpty(mOrderMobile.getText().toString())) {
+            ToastUtil.showToast(this, "请填写收件人的电话", 0);
+            return false;
+        }
+        if (TextUtils.isEmpty(mOrderName.getText().toString())) {
+            ToastUtil.showToast(this, "请填写收件人姓名", 0);
+            return false;
+        }
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -171,12 +182,6 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     }
 
     @Override
-    protected int getView() {
-        return R.layout.activity_my_order;
-    }
-
-
-    @Override
     public void showAddressSuccess(List<AddressBean> addressBeen) {
         if (addressBeen != null) {
             for (AddressBean m : addressBeen) {
@@ -189,24 +194,19 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
         }
     }
 
+    /**
+     * 支付成功跳转
+     *
+     * @param msg
+     */
     @Override
-    public String getReceiverMobile() {
-        return mOrderMobile.getText().toString();
-    }
-
-    @Override
-    public String getReceiverAddress() {
-        return mOrderAddress.getText().toString();
-    }
-
-    @Override
-    public String getReceiverName() {
-        return mOrderName.getText().toString();
+    public void showPaySuccess(String msg) {
+        startCommonActivity(this, null, SuccessPayActivity.class);
     }
 
     @Override
     public void showErrorMsg(String msg) {
-        ToastUtil.showToast(mContext, msg, 0);
+        ToastUtil.showToast(this, msg, 0);
     }
 
     @Override

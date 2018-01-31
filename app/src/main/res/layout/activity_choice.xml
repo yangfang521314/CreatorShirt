@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/clothes_front_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
            />
 
     </RelativeLayout>
@@ -34,7 +34,7 @@
         <ImageView
             android:id="@+id/clothes_back_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
              />
 
     </RelativeLayout>

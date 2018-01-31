@@ -5,41 +5,51 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.AllOrderBean;
+import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
-import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.OrderViewHolder;
+import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 
 /**
  * Created by yang on 03/07/2017.
  * 订单详情页的Adapter
  */
 
-public class AllOrderAdapter extends BaseAdapter<AllOrderBean, OrderViewHolder> {
+public class AllOrderAdapter extends BaseAdapter<MyOrderInfo, ItemViewHolder> {
 
     public AllOrderAdapter(Context context) {
         super(context);
     }
 
     @Override
-    protected OrderViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        return new OrderViewHolder(parent, R.layout.item_order_layout);
+    protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
+        return new ItemViewHolder(parent, R.layout.item_order_layout);
     }
 
     @Override
-    protected void bindCustomViewHolder(OrderViewHolder holder, final int position) {
-        //// TODO: 03/07/2017 真实数据的绑定
-        holder.mRlOrderLayout.setOnClickListener(new View.OnClickListener() {
+    protected void bindCustomViewHolder(ItemViewHolder holder, final int position) {
+        GlideApp.with(mContext).load(mData.get(position).getAllimage1())
+                .into(holder.mStyleImageView);
+        holder.mShowPriceClothes.setText("¥" + mData.get(position).getOrderPrice());
+        holder.mShowTypeClothes.setText(mData.get(position).getBaseId());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(clickListener != null)
-                clickListener.onItemClick(v,position,null);
+                if (clickListener != null)
+                    clickListener.onItemClick(v, position, mData.get(position));
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return 5;
+        if (mData.get(position).getDetailList() != null && mData.get(position).getDetailList().size() != 0) {
+            if (mData.get(position).getStatus() != null) {
+                if ("new".equals(mData.get(position).getStatus())) {
+                    holder.mPayState.setText("未付款");
+                } else {
+                    holder.mPayState.setText("已付款");
+                }
+            }
+        } else {
+            holder.mPayState.setText("未选择尺寸");
+        }
     }
 
 }

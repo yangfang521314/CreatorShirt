@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,9 +39,7 @@ public class SuccessPayActivity extends BaseActivity {
         if (view.getId() == R.id.back) {
             finish();
         }
-        if (view.getId() == R.id.share_weixin) {
-            ToastUtil.showToast(mContext, "未接入", 0);
-        }
+
     }
 
     @Override

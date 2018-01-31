@@ -54,9 +54,9 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
     private void initView() {
         setContentView(R.layout.view_input_dialog);
         initData();
-        mEditSignature = (EditText) findViewById(R.id.edit_signature);
-        choiceBack = (ImageView) findViewById(R.id.choice_back);
-        choiceDone = (ImageView) findViewById(R.id.choice_done);
+        mEditSignature = findViewById(R.id.edit_signature);
+        choiceBack = findViewById(R.id.choice_back);
+        choiceDone = findViewById(R.id.choice_done);
         choiceBack.setOnClickListener(this);
         choiceDone.setOnClickListener(this);
 

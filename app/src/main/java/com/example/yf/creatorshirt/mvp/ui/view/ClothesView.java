@@ -27,13 +27,6 @@ public class ClothesView extends ImageView {
 
     }
 
-
-    public void setImageSource(Bitmap source) {
-        this.source = source;
-        invalidate();
-    }
-
-
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {

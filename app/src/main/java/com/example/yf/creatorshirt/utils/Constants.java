@@ -31,4 +31,18 @@ public class Constants {
     public static final int VERSION_UPDATE_NO_NETWORK = 01;
     public static final int VERSION_UPDATE_INIT_REQUEST = 02;
     public static final Object VERSION_UPDATE_TIME_OUT = 03;
+
+    public static final String RSA_PRIVATE = "MIICXQIBAAKBgQC7XDHL24gvRbXIPXikNCk88gmy05pdtZ3sVLnOBWRTZsatK8kI\n" +
+            " vw8OEkC0Ff0WP1tzoy6MY2SofEetyW9Pjx5bbFL8MxXrbDgHAWVeKBjGwzF0Ag6d\n" +
+            " zWyEUVepprx2Sdm+6fxelebN4SB30o47VOvqZWiJGkU9fzgqUztU+vQvPwIDAQAB\n" +
+            " AoGAKseeRyHVMpYEL7h5d2TBlbzeIgrW0FbLvE6MLlJk2fY5nwjEWk7lrRzV0UjE\n" +
+            " BPRqeTjlRADd1uqpozC/TbcsAuc03kcsq5A3vDSOJg/97bqNW6jNwH9L6mAZ4XMZ\n" +
+            " 3EU/ayZoeWs7Wsw34BAnb2z+Mk3j2nvZAIRCSyOWzwLKgYECQQD3RG3+CXvZdTt9\n" +
+            " +l8U00MYaGrqmLpMeVpyu4i3MzOJf338mU6mZL/RjrSiracb1c/vuUZONmlu58JE\n" +
+            " drPur2iRAkEAwfojP73mFJYaNDQAaENLi6o0KodQ+aen2b81CZ7CQN8AtTYsrnxF\n" +
+            " ok7VDAcuY/b6tM82Nf9s2S3b8oqOIjWCzwJBAPPTjacQ0QjpWmXqqzHM9X+vD6cQ\n" +
+            " Pb1FeVRj6vfETJDMoH6i6nSYKrLJRwSXuo5vM6GPkG11qFgNv3pllx7J55ECQCtw\n" +
+            " LHyVtfReOLf//SdcCorYLp5ndwaxOLFWVDY3SyDjz3DFFPRt99oE9UigQw83u6TJ\n" +
+            " 0kX9UQ7BakPCK1oVyZkCQQDmzJRKw8TxAY/l2KTxmMHD8GfXzTKPL4F/DfYY9yUG\n" +
+            " cm0iqj68Yy1Od9iShiBfTi4njXQ/dcGhHVhyNt4IIA/m";
 }

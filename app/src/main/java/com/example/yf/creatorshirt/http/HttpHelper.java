@@ -5,7 +5,8 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
@@ -47,7 +48,7 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId);
 
-    Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody);
+    Flowable<HttpResponse<PayTradeInfo>> payMentOrders(String userToken, RequestBody requestBody);
 
     Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody gson);
 
@@ -67,5 +68,9 @@ public interface HttpHelper {
 
     Flowable<HttpResponse<VersionUpdateResponse>> getVersionCode(int verCode);
 
-    Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(RequestBody requestBody);
+    Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(String token, RequestBody requestBody);
+
+    Flowable<HttpResponse<List<MyOrderInfo>>> requestMyOrder(String token, RequestBody gson);
+
+    Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson);
 }

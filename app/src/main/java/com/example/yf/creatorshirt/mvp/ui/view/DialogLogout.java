@@ -51,9 +51,9 @@ public class DialogLogout extends DialogFragment {
 
     private void initView(View view) {
         mLine = view.findViewById(R.id.view_line1);
-        mDialogName = (TextView) view.findViewById(R.id.tv_dialog_name);
-        mConfirm = (Button) view.findViewById(R.id.positive);
-        mCancle = (Button) view.findViewById(R.id.negative);
+        mDialogName = view.findViewById(R.id.tv_dialog_name);
+        mConfirm = view.findViewById(R.id.positive);
+        mCancle = view.findViewById(R.id.negative);
 
         mDialogName.setText(title);
         mLine.setVisibility(View.GONE);

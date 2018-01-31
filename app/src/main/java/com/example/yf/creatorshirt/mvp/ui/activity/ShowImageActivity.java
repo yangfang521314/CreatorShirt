@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
+import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.OrderInfoPresenter;
@@ -113,14 +115,11 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
             case R.id.btn_choice_order:
                 if (App.isLogin) {
                     mPresenter.setSaveEntity(setBaseInfo());
-//                    if (arrayList != null && arrayList.size() != 0) {
-//                        mPresenter.saveAvatar(arrayList);
-//                    }
-//                    mPresenter.setBackUrl(mOrderBaseInfo.getBackUrl());
-//                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("clothesInfo", saveStyleEntity);
-                    startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
+                    mPresenter.setBackUrl(mBackImageUrl);
+                    if (arrayList != null && arrayList.size() != 0) {
+                        mPresenter.saveAvatar(arrayList);
+                    }
+                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
@@ -134,6 +133,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
                 GlideApp.with(this).load(mFrontImageUrl)
+                        .override(800, 1000)
                         .into(mFrontImage);
                 break;
             case R.id.clothes_back:
@@ -143,7 +143,9 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonFront.setSelected(false);
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
+                            .override(800, 1000)
                             .into(mBackImage);
+
                 } else {
                     Observable.create(new ObservableOnSubscribe<Bitmap>() {
                         @Override
@@ -158,7 +160,9 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
 //                                    mView.showClothesBg(bitmap);
                                     GlideApp.with(mContext)
                                             .load(bitmap)
+                                            .override(800, 1000)
                                             .into(mBackImage);
+                                    mBackImageUrl = FileUtils.saveBitmap(bitmap, mContext, "back");
                                 }
                             });
                 }
@@ -184,6 +188,15 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         } else {
             saveStyleEntity.setBackText("");
         }
+        //todo 要设置 mask的name
+        saveStyleEntity.setMaskAName("pattern_1");//暂时未设置替换
+        saveStyleEntity.setMaskBName("pattern_2");
+        saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
+        saveStyleEntity.setDiscount("");
+        ArrayList<ClothesSize> list = new ArrayList<>();//这里传""
+        ClothesSize versionStyle = new ClothesSize();
+        versionStyle.setSize("");
+        saveStyleEntity.setDetailList(list);
         return saveStyleEntity;
     }
 
@@ -209,6 +222,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     @Override
     public void showOrderId(OrderType orderType) {//orderId
         Bundle bundle = new Bundle();
+        saveStyleEntity.setOrderId(orderType.getOrderId());
         bundle.putParcelable("clothesInfo", saveStyleEntity);
         startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
     }

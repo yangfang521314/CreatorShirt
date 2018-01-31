@@ -31,6 +31,12 @@ public class Utils {
         return timeStamp;
     }
 
+    public static String getTimeOther() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        String timeStamp = simpleDateFormat.format(new Date());
+        return timeStamp;
+    }
+
     /*
     * 对象转为json字符串
     */
@@ -75,6 +81,7 @@ public class Utils {
         }
         return json.toString();
     }
+
     /*
      * 数组转为json字符串
      */
@@ -92,6 +99,7 @@ public class Utils {
         }
         return json.toString();
     }
+
     /*
      * Map集合转为json字符串
      */
@@ -111,6 +119,7 @@ public class Utils {
         }
         return json.toString();
     }
+
     /*
      * Set集合转为json字符串
      */
@@ -128,6 +137,7 @@ public class Utils {
         }
         return json.toString();
     }
+
     /*
      * 字符串转为json字符串
      */
@@ -223,10 +233,10 @@ public class Utils {
         }
     }
 
-    public static Bitmap getBitmapResource(int resource){
-        if(resource == 0){
+    public static Bitmap getBitmapResource(int resource) {
+        if (resource == 0) {
             return BitmapFactory.decodeResource(App.getInstance().getResources(), R.mipmap.pattern_6);
         }
-        return BitmapFactory.decodeResource(App.getInstance().getResources(),resource);
+        return BitmapFactory.decodeResource(App.getInstance().getResources(), resource);
     }
 }

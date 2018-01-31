@@ -1,132 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_detail_clothes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailOrderActivity">
+    android:background="@color/white"
+    tools:context="com.example.yf.creatorshirt.mvp.ui.activity.DetailClothesActivity">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <LinearLayout
-        android:id="@+id/order_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:background="@color/dimgray"
-        android:orientation="vertical"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="已发货"
-            android:textColor="@color/pastelred"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="快件已签收，感谢您的购买！"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/rl_receiver"
+        android:id="@+id/rl_detail"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/order_state"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="@dimen/my_order_padding">
+        android:layout_below="@+id/app_bar">
 
-        <TextView
-            android:id="@+id/order_receiver_name"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_clothes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="张芷溪"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black"
-            android:textSize="@dimen/order_text_size"
-            android:textStyle="bold" />
+            android:layout_height="250dp" />
 
-        <TextView
-            android:id="@+id/order_receiver_email"
+        <LinearLayout
+            android:id="@+id/ll_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_below="@+id/view_pager_clothes"
             android:layout_centerInParent="true"
-            android:layout_marginRight="20dp"
-            android:text="1555555555"
-            android:textColor="@color/darkjunglegreen"
-            android:textSize="@dimen/order_text_size"
-            android:textStyle="bold" />
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:paddingLeft="2dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_clothes_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_indicator"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/order_receiver_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="dssddd"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/order_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:text="15868178345"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/order_receiver_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/order_mobile"
+                android:gravity="center_vertical"
+                android:text="重庆重庆重庆"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/order_receiver_address"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_receiver"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
-        android:drawablePadding="1dp"
-        android:drawableRight="@mipmap/address_forward"
-        android:padding="@dimen/my_order_padding"
-        android:text="中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆中国重庆"
-        android:textColor="@color/darkjunglegreen"
-        android:textSize="16sp" />
-
-    <View
-        android:id="@+id/view_line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/order_receiver_address"
+        android:layout_above="@+id/tv_price"
+        android:layout_below="@+id/rl_detail"
         android:layout_marginTop="5dp"
-        android:background="@color/platinum" />
+        android:padding="3dp" />
+
 
     <TextView
-        android:id="@+id/deliver_number"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_line1"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="@dimen/my_order_padding"
-        android:text="快递单号：顺丰速运 000000000"
+        android:layout_above="@+id/btn_start"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:text="¥:1000.00"
+        android:textColor="@color/sand"
         android:textSize="16sp" />
-
-    <View
-        android:id="@+id/view_blank"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@+id/deliver_number"
-        android:background="@color/isabelline" />
-
-    <include
-        android:id="@+id/detail_order"
-        layout="@layout/item_order_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_blank" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/detail_order"
-        android:layout_marginTop="10dp"
-        android:background="@color/isabelline" />
 
     <Button
-        android:id="@+id/pay_for_money"
+        android:id="@+id/btn_start"
         style="@style/common_start_btn"
-        android:text="确认收货" />
-
+        android:layout_margin="10dp"
+        android:background="@color/sand"
+        android:text="下单"
+        android:textSize="16sp" />
 </RelativeLayout>

@@ -3,7 +3,7 @@ package com.example.yf.creatorshirt.mvp.model.orders;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yangfang on 2017/8/31.
@@ -28,70 +28,29 @@ import java.util.ArrayList;
  * <p>
  * <p>
  * <p>
- * {"baseId":"baseball",
- * "picture1":"picture1",
- * "picture2":"picture2",
- * "text":"text",
- * "backText":"text",
- * "finishAimage":"allimage1",
- * "finishBimage":"allimage2",
- * "orderPrice":100,
- * "partner":"18958064659",
- * "discount":"654321",
- * "payorderid":"",
- * "color":"red",
- * "maskAName":"",
- * "maskBName":"",
- * "detailList":
- * [{"size":"s","count":30,"sex":0},
- * {"size":"m","count":10,"sex":0},
- * {"size":"xl","count":12,"sex":0}]}
- * <p>
- * {"baseId":"baseball",
- * "picture1":true,
- * "picture2":true,
- * "text":true,
- * "discount":"654321",
- * "detailList":[{"size":"s","count":30},
- * {"size":"m","count":10},
- * {"size":"xl","count":12}]}
- */
-public class SaveOrderInfo implements Parcelable {
+ * {
+ **/
+public class SaveOrderInfo implements Parcelable  {
 
-    private String baseId;
-    private String picture1;
-    private String picture2;//自定义的图片
-    private String text;
-    private String backText;
-    private String finishAimage;
-    private String finishBimage;
-    private String partner;
-    private String discount;
-    private String payorderid;
-    private String color;
-    private String maskAName;//遮罩名字
-    private String maskBName;
-    private ArrayList<ClothesSize> detailList;
+    protected String baseId;
+    protected String picture1;
+    protected String picture2;//自定义的图片
+    protected String text;
+    protected String backText;
+    protected String finishAimage;
+    protected String finishBimage;
+    protected String partner;
+    protected String discount;
+    protected String payorderid;
+    protected String color;
+    protected String maskAName;//遮罩名字
+    protected String maskBName;
+    protected double orderPrice;
+    protected String orderId;
+    protected List<ClothesSize> detailList;
 
 
     public SaveOrderInfo() {
-    }
-
-    protected SaveOrderInfo(Parcel in) {
-        baseId = in.readString();
-        picture1 = in.readString();
-        picture2 = in.readString();
-        text = in.readString();
-        backText = in.readString();
-        finishAimage = in.readString();
-        finishBimage = in.readString();
-        partner = in.readString();
-        discount = in.readString();
-        payorderid = in.readString();
-        color = in.readString();
-        maskAName = in.readString();
-        maskBName = in.readString();
-        detailList = in.createTypedArrayList(ClothesSize.CREATOR);
     }
 
     public String getBaseId() {
@@ -150,7 +109,6 @@ public class SaveOrderInfo implements Parcelable {
         this.finishBimage = finishBimage;
     }
 
-
     public String getPartner() {
         return partner;
     }
@@ -199,12 +157,51 @@ public class SaveOrderInfo implements Parcelable {
         this.maskBName = maskBName;
     }
 
-    public ArrayList<ClothesSize> getDetailList() {
+    public double getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(double orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public List<ClothesSize> getDetailList() {
         return detailList;
     }
 
-    public void setDetailList(ArrayList<ClothesSize> detailList) {
+    public void setDetailList(List<ClothesSize> detailList) {
         this.detailList = detailList;
+    }
+
+    public static Creator<SaveOrderInfo> getCREATOR() {
+        return CREATOR;
+    }
+
+    protected SaveOrderInfo(Parcel in) {
+        baseId = in.readString();
+        picture1 = in.readString();
+        picture2 = in.readString();
+        text = in.readString();
+        backText = in.readString();
+        finishAimage = in.readString();
+        finishBimage = in.readString();
+        partner = in.readString();
+        discount = in.readString();
+        payorderid = in.readString();
+        color = in.readString();
+        maskAName = in.readString();
+        maskBName = in.readString();
+        orderPrice = in.readDouble();
+        orderId = in.readString();
+        detailList = in.createTypedArrayList(ClothesSize.CREATOR);
     }
 
     public static final Creator<SaveOrderInfo> CREATOR = new Creator<SaveOrderInfo>() {
@@ -218,26 +215,6 @@ public class SaveOrderInfo implements Parcelable {
             return new SaveOrderInfo[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "SaveOrderInfo{" +
-                "baseId='" + baseId + '\'' +
-                ", picture1='" + picture1 + '\'' +
-                ", picture2='" + picture2 + '\'' +
-                ", text='" + text + '\'' +
-                ", backText='" + backText + '\'' +
-                ", finishAimage='" + finishAimage + '\'' +
-                ", finishBimage='" + finishBimage + '\'' +
-                ", partner='" + partner + '\'' +
-                ", discount='" + discount + '\'' +
-                ", payorderid='" + payorderid + '\'' +
-                ", color='" + color + '\'' +
-                ", maskAName='" + maskAName + '\'' +
-                ", maskBName='" + maskBName + '\'' +
-                ", detailList=" + detailList +
-                '}';
-    }
 
     @Override
     public int describeContents() {
@@ -259,6 +236,8 @@ public class SaveOrderInfo implements Parcelable {
         dest.writeString(color);
         dest.writeString(maskAName);
         dest.writeString(maskBName);
+        dest.writeDouble(orderPrice);
+        dest.writeString(orderId);
         dest.writeTypedList(detailList);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,13 +9,19 @@ import android.view.View;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.presenter.AllOrderPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.AllOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AllOrderAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AllOrdersActivity extends BaseActivity implements ItemClickListener.OnItemClickListener {
+public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implements ItemClickListener.OnItemClickListener,
+        AllOrderContract.AllOrderView {
     @BindView(R.id.all_order_recyclerView)
     RecyclerView mAllOrderRY;
 
@@ -21,7 +29,7 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
 
     @Override
     protected void inject() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -32,17 +40,20 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
         } else {
             title = getString(R.string.my_order);
         }
+        mPresenter.getMyAllOrder();
+    }
+
+
+    @Override
+    protected int getView() {
+        return R.layout.activity_all_order;
     }
 
     @Override
     protected void initView() {
         mAppBarTitle.setText(title);
         mAppBarBack.setVisibility(View.VISIBLE);
-        AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
-        allOrderAdapter.setOnItemClickListener(this);
-        mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mAllOrderRY.setAdapter(allOrderAdapter);
+
     }
 
     @OnClick({R.id.back})
@@ -56,17 +67,21 @@ public class AllOrdersActivity extends BaseActivity implements ItemClickListener
 
 
     @Override
-    protected int getView() {
-        return R.layout.activity_all_order;
-    }
-
-
-    @Override
     public void onItemClick(View view, int position, Object object) {
         if (title.equals(getString(R.string.my_order))) {
-            startCommonActivity(this, null, DetailOrderActivity.class);
-        } else {
-            startCommonActivity(this, null, MyDesignActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("orderInfo", (Parcelable) object);
+            startCommonActivity(this, bundle, DetailOrderActivity.class);
         }
+    }
+
+    @Override
+    public void showSuccess(List<MyOrderInfo> myOrderInfo) {
+        AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
+        allOrderAdapter.setOnItemClickListener(this);
+        allOrderAdapter.setData(myOrderInfo);
+        mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mAllOrderRY.setAdapter(allOrderAdapter);
     }
 }

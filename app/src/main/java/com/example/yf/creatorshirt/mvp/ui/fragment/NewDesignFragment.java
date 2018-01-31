@@ -121,11 +121,11 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
             if (o != null) {
                 Bundle bundle = new Bundle();
                 if (mManData.containsKey(o)) {
-                    bundle.putParcelable("choice", (Parcelable) mManData.get(o).get(0));
+                    bundle.putParcelable("choice", mManData.get(o).get(0));
                     bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) mManData.get(o));
                 }
                 if (mWomanData.containsKey(o)) {
-                    bundle.putParcelable("choice", (Parcelable) mWomanData.get(o).get(0));
+                    bundle.putParcelable("choice", mWomanData.get(o).get(0));
                     bundle.putParcelableArrayList("clothes", (ArrayList<? extends Parcelable>) mWomanData.get(o));
                 }
                 firstList.clear();

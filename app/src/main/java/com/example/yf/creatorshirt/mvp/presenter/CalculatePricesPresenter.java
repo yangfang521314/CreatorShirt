@@ -1,19 +1,21 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSONArray;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
+import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.http.TestRequestServer;
+import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
+import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CalculatePricesContract;
 import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonObserver;
+import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -27,9 +29,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by yangfang on 2018/1/21.
@@ -41,6 +40,7 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
 
     private DataManager manager;
     private SaveOrderInfo saveOrderInfo;
+    private List<ClothesSize> sizeList;
 
     @Inject
     CalculatePricesPresenter(DataManager manager) {
@@ -54,47 +54,53 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
      * @param discount
      */
     public void setSaveEntity(SaveOrderInfo mOrderClothesInfo, ArrayList<ClothesSize> clothesSizeList, String discount) {
-        Log.e("CalculatePrices",mOrderClothesInfo.toString()+"::"+clothesSizeList.toString()+"::"+discount);
-        saveOrderInfo = new SaveOrderInfo();
+        saveOrderInfo = mOrderClothesInfo;
         if (discount == null) {
             saveOrderInfo.setDiscount("");
         }
         saveOrderInfo.setDiscount(discount);
-        saveOrderInfo.setText("");
-        saveOrderInfo.setPicture1(mOrderClothesInfo.getPicture1());
-        saveOrderInfo.setPicture2(mOrderClothesInfo.getPicture2());
-        saveOrderInfo.setDetailList(clothesSizeList);
+        sizeList = clothesSizeList;
+        List<ClothesSize> list = new ArrayList<>();
+        ClothesSize clothesSize;
+        for (int i = 0; i < clothesSizeList.size(); i++) {
+            clothesSize = new ClothesSize();
+            clothesSize.setCount(clothesSizeList.get(i).getCount());
+            clothesSize.setSize(clothesSizeList.get(i).getSize());
+            list.add(clothesSize);
+        }
+        saveOrderInfo.setDetailList(list);
         computerOrderPrice();
+    }
+
+    public SaveOrderInfo getSaveOrderInfo() {
+        return saveOrderInfo;
     }
 
     /**
      * 计算价格
      */
     public void computerOrderPrice() {
-//        addSubscribe(manager.getCalculateOrderPrice(GsonUtils.getGson(saveOrderInfo))
-//                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
-//                .compose(RxUtils.<ClothesPrice>handleResult())
-//                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView) {
-//                    @Override
-//                    public void onNext(ClothesPrice s) {
-//                        if (s != null) {
-//                            mView.showPrices(s);
-//                            Log.e("OrderInfo", "sss" + s.getOrderPrice());
-//                        }
-//                    }
-//                }));
-        TestRequestServer.getInstance().getCalculateOrderPrice(GsonUtils.getGson(saveOrderInfo))
-                .enqueue(new Callback<HttpResponse>() {
+        addSubscribe(manager.getCalculateOrderPrice(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveOrderInfo))
+                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
+                .compose(RxUtils.<ClothesPrice>handleResult())
+                .subscribeWith(new CommonSubscriber<ClothesPrice>(mView, "访问出错") {
                     @Override
-                    public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                        Log.e(":ta","cfuclck "+response.body().toString());
+                    public void onNext(ClothesPrice s) {
+                        if (s != null) {
+                            mView.showPrices(s);
+                            if (s.getDiscountPrice() != 0) {
+                                if (s.getOrderPrice() > s.getDiscountPrice()) {
+                                    saveOrderInfo.setOrderPrice(s.getDiscountPrice());
+                                    saveOrderInfo.setDiscount(s.getDiscountcode());
+                                } else {
+                                    saveOrderInfo.setOrderPrice(s.getOrderPrice());
+                                    saveOrderInfo.setDiscount("");
+                                }
+                            }
+                        }
                     }
+                }));
 
-                    @Override
-                    public void onFailure(Call<HttpResponse> call, Throwable t) {
-                        Log.e(":ta","cccc"+t.getMessage());
-                    }
-                });
 
     }
 
@@ -125,7 +131,8 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                     @Override
                     public void onNext(Map<String, List<ClothesSize>> list) {
                         if (list != null)
-                            mView.showSizeList(list);
+                            ClothesSizeManager.getInstance().saveCache(list);
+                        mView.showSizeList(list);
                     }
                 });
     }
@@ -157,5 +164,21 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
         if (!mSizeMap.containsKey(name)) {
             mSizeMap.put(name, mClothesSizesList);
         }
+    }
+
+    public void updateOrders() {
+        saveOrderInfo.setDetailList(sizeList);
+
+        addSubscribe(manager.updateOrders(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveOrderInfo))
+        .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+        .compose(RxUtils.<OrderType>handleResult())
+        .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+            @Override
+            public void onNext(OrderType orderType) {
+                if(orderType != null)
+                mView.showPay(orderType);
+            }
+        }));
+
     }
 }

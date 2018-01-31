@@ -72,8 +72,8 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
         AddressViewHolder(View itemView) {
             super(itemView);
-            mTvAddress = (TextView) itemView.findViewById(R.id.tv_area_name);
-            mRadioButton = (ImageView) itemView.findViewById(R.id.radio_btn);
+            mTvAddress = itemView.findViewById(R.id.tv_area_name);
+            mRadioButton = itemView.findViewById(R.id.radio_btn);
             itemView.setOnClickListener(this);
         }
 

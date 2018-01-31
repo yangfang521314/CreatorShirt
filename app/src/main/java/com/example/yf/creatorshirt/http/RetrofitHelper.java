@@ -5,7 +5,8 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
@@ -108,7 +109,7 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody) {
+    public Flowable<HttpResponse<PayTradeInfo>> payMentOrders(String userToken, RequestBody requestBody) {
         return mRequestApi.payMentOrders(userToken,requestBody);
     }
 
@@ -158,8 +159,18 @@ public class RetrofitHelper implements HttpHelper {
     }
 
     @Override
-    public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(RequestBody requestBody) {
-        return mRequestApi.calculateOrderPrice(requestBody);
+    public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(String token, RequestBody requestBody) {
+        return mRequestApi.calculateOrderPrice(token,requestBody);
+    }
+
+    @Override
+    public Flowable<HttpResponse<List<MyOrderInfo>>> requestMyOrder(String token, RequestBody gson) {
+        return mRequestApi.requestOrderInfo(token,gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson) {
+        return mRequestApi.updateOrders(token,gson);
     }
 
 

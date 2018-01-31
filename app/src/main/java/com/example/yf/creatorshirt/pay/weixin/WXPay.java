@@ -1,11 +1,8 @@
 package com.example.yf.creatorshirt.pay.weixin;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
 import com.tencent.mm.opensdk.constants.Build;
-import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -17,7 +14,7 @@ public class WXPay {
 
     private static WXPay mWXPay;
     private IWXAPI mWXApi;
-    private PayOrderEntity mPayParam;
+//    private PayOrderEntity mPayParam;
     private WXPayResultCallBack mCallback;
 
     public static final int NO_OR_LOW_WX = 1;   //未安装微信或微信版本过低
@@ -54,37 +51,37 @@ public class WXPay {
     /**
      * 发起微信支付
      */
-    public void doPay(PayOrderEntity pay_param, WXPayResultCallBack callback) {
-        mPayParam = pay_param;
-        mCallback = callback;
-
-        if (!check()) {
-            if (mCallback != null) {
-                mCallback.onError(NO_OR_LOW_WX);
-            }
-            return;
-        }
-
-        if (TextUtils.isEmpty(mPayParam.getAppId()) ||
-                TextUtils.isEmpty(mPayParam.getMch_id()) || TextUtils.isEmpty(mPayParam.getPrepay_id()) ||
-                TextUtils.isEmpty(mPayParam.getTimeStamp()) || TextUtils.isEmpty(mPayParam.getNonceStr()) ||
-                TextUtils.isEmpty(mPayParam.getPaySign())) {
-            if (mCallback != null) {
-                mCallback.onError(ERROR_PAY_PARAM);
-            }
-        }
-
-        PayReq req = new PayReq();
-        req.appId = mPayParam.getAppId();
-        req.partnerId = mPayParam.getMch_id();
-        req.prepayId = mPayParam.getPrepay_id();
-        req.packageValue = "Sign=WXPay";
-        req.nonceStr = mPayParam.getNonceStr();
-        req.timeStamp = mPayParam.getTimeStamp();
-        req.sign = mPayParam.getPaySign();
-
-        mWXApi.sendReq(req);
-    }
+//    public void doPay(PayOrderEntity pay_param, WXPayResultCallBack callback) {
+//        mPayParam = pay_param;
+//        mCallback = callback;
+//
+//        if (!check()) {
+//            if (mCallback != null) {
+//                mCallback.onError(NO_OR_LOW_WX);
+//            }
+//            return;
+//        }
+//
+//        if (TextUtils.isEmpty(mPayParam.getAppId()) ||
+//                TextUtils.isEmpty(mPayParam.getMch_id()) || TextUtils.isEmpty(mPayParam.getPrepay_id()) ||
+//                TextUtils.isEmpty(mPayParam.getTimeStamp()) || TextUtils.isEmpty(mPayParam.getNonceStr()) ||
+//                TextUtils.isEmpty(mPayParam.getPaySign())) {
+//            if (mCallback != null) {
+//                mCallback.onError(ERROR_PAY_PARAM);
+//            }
+//        }
+//
+//        PayReq req = new PayReq();
+//        req.appId = mPayParam.getAppId();
+//        req.partnerId = mPayParam.getMch_id();
+//        req.prepayId = mPayParam.getPrepay_id();
+//        req.packageValue = "Sign=WXPay";
+//        req.nonceStr = mPayParam.getNonceStr();
+//        req.timeStamp = mPayParam.getTimeStamp();
+//        req.sign = mPayParam.getPaySign();
+//
+//        mWXApi.sendReq(req);
+//    }
 
     //支付回调响应
     public void onResp(int error_code) {

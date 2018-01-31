@@ -21,7 +21,7 @@ public interface TestRequestApi {
     @POST("f-Users/requestOrdersFromOrderId")
     Call<HttpResponse> getOrderId(@Header("Token") String token, @Body RequestBody body);
 
-    @POST("f-Users/paymentOrders")
+    @POST("f-orders/paymentOrders")
     Call<HttpResponse> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
 
     //保存用户信息
@@ -63,5 +63,11 @@ public interface TestRequestApi {
     Call<HttpResponse> login(@Body RequestBody gson);
 
     @POST("f-orders/computerOrderPrice")
-    Call<HttpResponse> getCalculateOrderPrice(@Body RequestBody gson);
+    Call<HttpResponse> getCalculateOrderPrice(@Header("Token") String token, @Body RequestBody gson);
+
+    @POST("f-orders/requestOrders")
+    Call<HttpResponse> getMyOrder(@Header("Token") String token, @Body RequestBody gson);
+
+    @POST("f-orders/updateOrders")
+    Call<HttpResponse> updateOrders(@Header("Token") String token, @Body RequestBody gson);
 }

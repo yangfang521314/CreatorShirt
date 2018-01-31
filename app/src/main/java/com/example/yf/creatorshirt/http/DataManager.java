@@ -5,7 +5,8 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
@@ -35,8 +36,8 @@ public class DataManager implements HttpHelper {
     /**
      * phone 登录
      *
-     * @return
      * @param body
+     * @return
      */
     @Override
     public Flowable<HttpResponse<LoginBean>> login(RequestBody body) {
@@ -94,6 +95,7 @@ public class DataManager implements HttpHelper {
 
     /**
      * 保存数据
+     *
      * @param userToken
      * @param body
      * @return
@@ -108,17 +110,17 @@ public class DataManager implements HttpHelper {
     }
 
     public Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId) {
-        return mHttpHelper.getOrdersFromOrderId(userToken,orderId);
+        return mHttpHelper.getOrdersFromOrderId(userToken, orderId);
     }
 
 
-    public Flowable<HttpResponse<PayOrderEntity>> payMentOrders(String userToken, RequestBody requestBody) {
-        return mHttpHelper.payMentOrders(userToken,requestBody);
+    public Flowable<HttpResponse<PayTradeInfo>> payMentOrders(String userToken, RequestBody requestBody) {
+        return mHttpHelper.payMentOrders(userToken, requestBody);
     }
 
     @Override
     public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
-        return mHttpHelper.saveUserInfo(userToken,requestBody);
+        return mHttpHelper.saveUserInfo(userToken, requestBody);
     }
 
     @Override
@@ -128,27 +130,27 @@ public class DataManager implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
-        return mHttpHelper.saveAddress(userToKen,requestbody);
+        return mHttpHelper.saveAddress(userToKen, requestbody);
     }
 
     @Override
     public Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody) {
-        return mHttpHelper.requestOrdersPraise(userToKen,requestbody);
+        return mHttpHelper.requestOrdersPraise(userToKen, requestbody);
     }
 
     @Override
     public Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson) {
-        return mHttpHelper.OrderPraise(token,gson);
+        return mHttpHelper.OrderPraise(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody gson) {
-        return mHttpHelper.saveOrdersFromShare(token,gson);
+        return mHttpHelper.saveOrdersFromShare(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody gson) {
-        return mHttpHelper.setDefaultAddress(token,gson);
+        return mHttpHelper.setDefaultAddress(token, gson);
     }
 
     @Override
@@ -161,7 +163,19 @@ public class DataManager implements HttpHelper {
         return mHttpHelper.getVersionCode(verCode);
     }
 
-    public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(RequestBody requestBody) {
-        return mHttpHelper.getCalculateOrderPrice(requestBody);
+    public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(String token, RequestBody requestBody) {
+        return mHttpHelper.getCalculateOrderPrice(token, requestBody);
     }
+
+    @Override
+    public Flowable<HttpResponse<List<MyOrderInfo>>> requestMyOrder(String token, RequestBody gson) {
+        return mHttpHelper.requestMyOrder(token, gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson) {
+        return mHttpHelper.updateOrders(token,gson);
+    }
+
+
 }

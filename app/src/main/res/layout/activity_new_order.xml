@@ -72,10 +72,10 @@
                 <TextView
                     android:id="@+id/clothes_order_color"
                     android:layout_width="wrap_content"
-                    android:text="颜色："
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:text="颜色："
                     android:textSize="14sp" />
 
                 <com.example.yf.creatorshirt.mvp.ui.view.CircleView
@@ -105,71 +105,86 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_discount"
         android:layout_below="@+id/my_order"
-        android:layout_marginTop="5dp"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_marginTop="5dp">
 
-        <TextView
-            android:id="@+id/tv_my_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:text="选择尺码-男"
-            android:textColor="@color/black_1"
-            android:textSize="15sp" />
-
-        <View
-            android:id="@+id/view_line2"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="3dp"
-            android:background="@color/gainsboro" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_man_recy"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp" />
+            android:background="@color/white"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_order_woman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:text="选择尺码-女"
-            android:textColor="@color/black_1"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_order_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="选择尺码-男"
+                android:textColor="@color/black_1"
+                android:textSize="15sp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/detail_woman_recy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp">
+            <View
+                android:id="@+id/view_line2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/gainsboro" />
 
-        </android.support.v7.widget.RecyclerView>
+            <com.example.yf.creatorshirt.mvp.ui.view.ScrollRecycleView
+                android:id="@+id/detail_man_recy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_order_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="选择尺码-女"
+                android:textColor="@color/black_1"
+                android:textSize="15sp" />
+
+            <com.example.yf.creatorshirt.mvp.ui.view.ScrollRecycleView
+                android:id="@+id/detail_woman_recy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp" />
+
+            <TextView
+                android:id="@+id/tv_order_kid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="选择尺码-儿童"
+                android:textColor="@color/black_1"
+                android:textSize="15sp" />
+
+            <com.example.yf.creatorshirt.mvp.ui.view.ScrollRecycleView
+                android:id="@+id/detail_kid_recy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/ll_discount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_pay"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:background="#F5F4F9"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
             android:text="折扣码："
@@ -181,14 +196,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:background="@null"
             android:gravity="left|center"
+            android:lines="1"
             android:hint="点击输入折扣码"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:singleLine="false"
-            android:textColor="@color/taupegray_3"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -200,6 +217,7 @@
             android:gravity="center|left"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
+            android:textColor="@color/red_e73a3d"
             android:textSize="15sp" />
     </LinearLayout>
 

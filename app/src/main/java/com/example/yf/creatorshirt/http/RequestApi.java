@@ -5,7 +5,8 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.PayOrderEntity;
+import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
@@ -78,8 +79,8 @@ public interface RequestApi {
     Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(@Header("Token") String userToken, @Body RequestBody orderId);
 
     //查找支付订单信息
-    @POST("f-Users/paymentOrders")
-    Flowable<HttpResponse<PayOrderEntity>> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
+    @POST("f-orders/paymentOrders")
+    Flowable<HttpResponse<PayTradeInfo>> payMentOrders(@Header("Token") String userToken, @Body RequestBody requestBody);
 
     //保存用户信息
     @POST("f-Users/userModify")
@@ -116,5 +117,11 @@ public interface RequestApi {
 
     //计算价格
     @POST("f-orders/computerOrderPrice")
-    Flowable<HttpResponse<ClothesPrice>> calculateOrderPrice(@Body RequestBody requestBody);
+    Flowable<HttpResponse<ClothesPrice>> calculateOrderPrice(@Header("Token") String token, @Body RequestBody requestBody);
+
+    @POST("f-orders/requestOrders")
+    Flowable<HttpResponse<List<MyOrderInfo>>> requestOrderInfo(@Header("Token") String token, @Body RequestBody requestBody);
+
+    @POST("f-orders/updateOrders")
+    Flowable<HttpResponse<OrderType>> updateOrders(@Header("Token") String token, @Body RequestBody gson);
 }

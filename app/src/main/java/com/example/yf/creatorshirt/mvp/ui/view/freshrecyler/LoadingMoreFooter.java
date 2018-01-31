@@ -38,8 +38,8 @@ public class LoadingMoreFooter extends LinearLayout {
 
     public void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.recy_refresh_footer, this);
-        mText = (TextView) findViewById(R.id.msg);
-        mIvProgress = (ImageView) findViewById(R.id.iv_progress);
+        mText = findViewById(R.id.msg);
+        mIvProgress = findViewById(R.id.iv_progress);
         mAnimationDrawable = (AnimationDrawable) mIvProgress.getDrawable();
         if (!mAnimationDrawable.isRunning()) {
             mAnimationDrawable.start();

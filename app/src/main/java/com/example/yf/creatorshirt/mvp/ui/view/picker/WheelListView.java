@@ -344,7 +344,7 @@ public class WheelListView extends ListView implements ListView.OnScrollListener
             if (itemView == null) {
                 continue;
             }
-            TextView textView = (TextView) itemView.findViewWithTag(ITEM_TAG_TEXT);
+            TextView textView = itemView.findViewWithTag(ITEM_TAG_TEXT);
             refreshTextView(i, curPosition, itemView, textView);
         }
     }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 
@@ -42,6 +43,7 @@ public class Alipay {
             @Override
             public void run() {
                 final Map<String, String> pay_result = mPayTask.payV2(mParams,true);
+                Log.e("Alipay","Alipay"+pay_result);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -53,7 +55,6 @@ public class Alipay {
                             mCallback.onError(ERROR_RESULT);
                             return;
                         }
-
                         String resultStatus = pay_result.get("resultStatus");
                         if(TextUtils.equals(resultStatus, "9000")) {    //支付成功
                             mCallback.onSuccess();

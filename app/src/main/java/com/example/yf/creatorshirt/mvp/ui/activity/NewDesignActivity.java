@@ -28,7 +28,6 @@ import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.StyleBean;
-import com.example.yf.creatorshirt.mvp.model.detaildesign.TextEntity;
 import com.example.yf.creatorshirt.mvp.presenter.CommonAvatarPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
@@ -95,7 +94,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private ArrayMap<String, List<VersionStyle>> mClothesData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mMaskData = new ArrayMap<>();
     private ArrayMap<String, List<DetailColorStyle>> mSignatureData = new ArrayMap<>();
-    private List<TextEntity> textEntities = new ArrayList<>();//保存字体
     private List<StyleBean> newList = new ArrayList<>();    //总样式的集合
     private List<String> clotheKey = new ArrayList<>();    //具体样式的字段名
 
@@ -395,7 +393,20 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             finishBackImage = FileUtils.saveBitmap(bitmapBack, this, "back");
         } else {
             backInit = getClothesBackBG(mCurrentClothes);
-//            finishBackImage = FileUtils.saveBitmap(bitmap, this, "back");
+//            io.reactivex.Observable.create(new ObservableOnSubscribe<String>() {
+//                @Override
+//                public void subscribe(ObservableEmitter<String> e) throws Exception {
+//                    String url = FileUtils.saveBitmap(BitmapFactory.decodeResource(getResources(), getClothesBackBG(mCurrentClothes)), mContext, "back");
+//                    e.onNext(url);
+//                }
+//            }).compose(RxUtils.<String>rxObScheduleHelper())
+//                    .compose(RxUtils.<String>rxObScheduleHelper())
+//                    .subscribeWith(new CommonObserver<String>(null) {
+//                        @Override
+//                        public void onNext(String s) {
+//                            finishBackImage = s;
+//                        }
+//                    });
         }
 
     }
@@ -455,9 +466,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 if (mButtonBack.isSelected()) {
                     setColorBackBg(getClothesBackBG(mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position)));
                 }
+                mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 mBeforeClothes = mCurrentClothes;
                 isFirst = false;
-                mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 break;
             case PATTERN:
                 int resourcePattern;

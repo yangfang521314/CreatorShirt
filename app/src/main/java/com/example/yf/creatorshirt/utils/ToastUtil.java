@@ -53,11 +53,11 @@ public class ToastUtil {
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.custom_toast, null);
 
-        ProgressBar pro = (ProgressBar) layout.findViewById(R.id.progressIconToast);
+        ProgressBar pro = layout.findViewById(R.id.progressIconToast);
         pro.setVisibility(View.GONE);
 
         // 设置toast文字
-        TextView tv = (TextView) layout.findViewById(R.id.tvTextToast);
+        TextView tv = layout.findViewById(R.id.tvTextToast);
         tv.setText(cs);
 
         mToast = new Toast(context);
@@ -80,12 +80,12 @@ public class ToastUtil {
         View layout = inflater.inflate(R.layout.custom_toast, null);
 
         // 设置ProgressBar的Icon
-        ProgressBar pro = (ProgressBar) layout.findViewById(R.id.progressIconToast);
+        ProgressBar pro = layout.findViewById(R.id.progressIconToast);
         pro.setVisibility(View.VISIBLE);
         pro.setIndeterminateDrawable(context.getResources().getDrawable(icon));
 
         // 设置toast文字
-        TextView tv = (TextView) layout.findViewById(R.id.tvTextToast);
+        TextView tv = layout.findViewById(R.id.tvTextToast);
         tv.setText(text);
 
         mToast = new Toast(context);

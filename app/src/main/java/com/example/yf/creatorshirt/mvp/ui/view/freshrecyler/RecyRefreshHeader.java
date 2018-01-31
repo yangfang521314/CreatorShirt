@@ -39,17 +39,17 @@ public class RecyRefreshHeader extends LinearLayout implements BaseRefreshHeader
 
     private void initView() {
         LayoutInflater.from(mContext).inflate(R.layout.recy_refresh_header, this);
-        ImageView img = (ImageView) findViewById(R.id.img);
+        ImageView img = findViewById(R.id.img);
 
         animationDrawable = (AnimationDrawable) img.getDrawable();
         if (animationDrawable.isRunning()) {
             animationDrawable.stop();
         }
-        msg = (TextView) findViewById(R.id.msg);
+        msg = findViewById(R.id.msg);
         measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mMeasuredHeight = getMeasuredHeight();
         setGravity(Gravity.CENTER_HORIZONTAL);
-        mContainer = (LinearLayout) findViewById(R.id.container);
+        mContainer = findViewById(R.id.container);
         mContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 0));
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }

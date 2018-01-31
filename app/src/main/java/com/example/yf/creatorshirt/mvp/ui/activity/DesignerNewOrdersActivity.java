@@ -108,7 +108,7 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
         LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         newsListNum.setLayoutParams(layoutParams1);
         newsListNum.setPadding(20, 0, 20, 0);
-        heardTextView = (TextView) newsListNum.findViewById(R.id.updateNewsNum);
+        heardTextView = newsListNum.findViewById(R.id.updateNewsNum);
         heardTextView.setVisibility(View.GONE);
         mDesignerRecycler.addHeaderView(newsListNum);
     }

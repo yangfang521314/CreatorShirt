@@ -86,7 +86,6 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
             if (msg.what == WHAT_SUCCESS) {
                 getList("B", mBack);
             }
@@ -111,10 +110,12 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             Log.e("TAG", "没有取到token");
             return;
         }
+        if(imageUrl == null){
+            return;
+        }
         UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
         String key = UserId + Utils.getTime() + kewWord;
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
 
@@ -184,8 +185,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private void saveOrderInfo() {
         saveOrderInfo.setFinishBimage(map.get("B"));
         saveOrderInfo.setFinishAimage(map.get("A"));
-        saveOrderInfo.setMaskAName("pattern_1");//暂时未设置替换
-        saveOrderInfo.setMaskBName("pattern_2");
+
         if (totalNum.size() > 1) {
             saveOrderInfo.setPicture1(totalNum.get(0));
             saveOrderInfo.setPicture2(totalNum.get(1));
