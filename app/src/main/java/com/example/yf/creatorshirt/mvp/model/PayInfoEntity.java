@@ -11,7 +11,7 @@ public class PayInfoEntity {
     private String address;
     private String zipcode;
     private String mobile;
-    private String username;
+    private String userName;
 
 
     public String getOrderId() {
@@ -55,11 +55,11 @@ public class PayInfoEntity {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class PayInfoEntity {
                 ", address='" + address + '\'' +
                 ", zipcode='" + zipcode + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + userName + '\'' +
                 '}';
     }
 }

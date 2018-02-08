@@ -94,6 +94,8 @@ public class BaseStyleAdapter extends BaseAdapter<StyleBean, ItemViewHolder> {
     private void setImage(int image, ImageView mStyleImageView) {
         GlideApp.with(mContext).load(image)
                 .centerInside()
+                .skipMemoryCache(true)
+                .override(300,300)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(mStyleImageView);
     }

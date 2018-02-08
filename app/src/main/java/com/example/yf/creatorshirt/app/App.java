@@ -53,11 +53,7 @@ public class App extends MultiDexApplication {
         ClothesSizeManager.getInstance().init(App.getInstance());
 
         initShareConfig();
-        if (SharedPreferencesUtil.getIsLogin()) {
-            setIsLogin(true);
-        } else {
-            setIsLogin(false);
-        }
+        setIsLogin(SharedPreferencesUtil.getIsLogin());
         if(BuildConfig.DEBUG) {
             refWatcher = LeakCanary.install(this);
         }

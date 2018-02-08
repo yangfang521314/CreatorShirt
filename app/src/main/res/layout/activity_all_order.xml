@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gainsboro"
     tools:context="com.example.yf.creatorshirt.mvp.ui.activity.AllOrdersActivity">
 
     <include layout="@layout/app_bar" />
 
     <android.support.v7.widget.RecyclerView
+        android:background="@color/gainsboro"
         android:id="@+id/all_order_recyclerView"
         android:layout_width="match_parent"
         android:layout_marginBottom="15dp"

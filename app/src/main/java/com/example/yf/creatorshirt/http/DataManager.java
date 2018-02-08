@@ -9,6 +9,7 @@ import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
+import com.example.yf.creatorshirt.mvp.model.WechatInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -175,6 +176,11 @@ public class DataManager implements HttpHelper {
     @Override
     public Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson) {
         return mHttpHelper.updateOrders(token,gson);
+    }
+
+    @Override
+    public Flowable<HttpResponse<WechatInfo>> payMomentWeChatOrders(String userToken, RequestBody gson) {
+        return mHttpHelper.payMomentWeChatOrders(userToken,gson);
     }
 
 

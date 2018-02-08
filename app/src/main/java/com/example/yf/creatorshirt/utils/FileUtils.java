@@ -153,21 +153,20 @@ public class FileUtils {
 
     /**
      * 压缩图片工具
-     *
      * @param context
-     * @param resid
      * @param width
      * @param height  @return
      */
-    public static Bitmap getSmallBitmap(Context context, int resid, int width, int height) {
+    public static Bitmap getSmallBitmap(Context context, int res, int width, int height) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), resid);
-        options.inSampleSize = 1;
+        BitmapFactory.decodeResource(context.getResources(),res,options);
+        options.inSampleSize = calculateInSampleSize(options, width, height);
+        Log.i("COMPRESS", "options.inSampleSize-->" + options.inSampleSize);
         options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resid, options);
-        Log.e("Files", "大小：" + img.getByteCount() / 1024 / 1024);
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(),res,options);
+//        String filename = context.getFilesDir() + File.separator + "video-" + img.hashCode() + ".jpg";
+//        saveBitmap2File(img, filename);
         return img;
 
     }
@@ -183,12 +182,14 @@ public class FileUtils {
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         int height = options.outHeight;
         int width = options.outWidth;
+        Log.e("atg","he"+height+"wi:"+width+"re:"+reqWidth+"reh:"+reqHeight);
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
             int heightRatio = Math.round(height) / reqHeight;
             int widthRatio = Math.round(width) / reqWidth;
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
+        Log.e("tag","dfcuk"+inSampleSize);
         return inSampleSize;
     }
 
@@ -259,12 +260,13 @@ public class FileUtils {
      * @param width
      * @param height
      * @param source
-     * @param mask
+     * @param mask1
      * @return
      */
-    public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask) {
+    public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask1) {
         Bitmap bitmap;
-        if (source != null && mask != null) {
+        if (source != null && mask1 != null) {
+            Bitmap mask = FileUtils.getZoomImage(mask1,600,800);
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint();

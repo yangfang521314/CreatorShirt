@@ -29,6 +29,8 @@ public class AllOrderAdapter extends BaseAdapter<MyOrderInfo, ItemViewHolder> {
     @Override
     protected void bindCustomViewHolder(ItemViewHolder holder, final int position) {
         GlideApp.with(mContext).load(mData.get(position).getAllimage1())
+                .placeholder(R.mipmap.mcshort_orange_a)
+                .error(R.mipmap.mcshort_orange_a)
                 .into(holder.mStyleImageView);
         holder.mShowPriceClothes.setText("¥" + mData.get(position).getOrderPrice());
         holder.mShowTypeClothes.setText(mData.get(position).getBaseId());

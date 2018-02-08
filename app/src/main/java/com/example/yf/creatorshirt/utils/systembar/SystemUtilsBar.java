@@ -36,6 +36,7 @@ public class SystemUtilsBar {
     private ViewGroup mContentView;
     private BarConfig mConfig;
     private BarParams mBarParams;
+    private static SystemUtilsBar systemUtilsBar;
 
     private SystemUtilsBar(Activity activity) {
         mActivityName = activity.getClass().getName();
@@ -62,7 +63,19 @@ public class SystemUtilsBar {
      * @return the immersion bar
      */
     public static SystemUtilsBar with(Fragment fragment) {
-        return new SystemUtilsBar(fragment);
+        if (systemUtilsBar == null) {
+            systemUtilsBar = new SystemUtilsBar(fragment);
+        }
+        return systemUtilsBar;
+    }
+
+    /**
+     * 销毁对象
+     */
+    public static void destroyObject() {
+        if (systemUtilsBar != null) {
+            systemUtilsBar = null;
+        }
     }
 
     /**
@@ -105,7 +118,10 @@ public class SystemUtilsBar {
      * @return the immersion bar
      */
     public static SystemUtilsBar with(Activity activity) {
-        return new SystemUtilsBar(activity);
+        if (systemUtilsBar == null) {
+            systemUtilsBar = new SystemUtilsBar(activity);
+        }
+        return systemUtilsBar;
     }
 
 

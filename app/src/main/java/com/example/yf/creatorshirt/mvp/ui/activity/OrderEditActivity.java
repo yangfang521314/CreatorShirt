@@ -1,9 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.common.UpdateStateEvent;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
@@ -141,7 +141,6 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initView() {
         mAppBarTitle.setText(R.string.design);
@@ -153,7 +152,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             mCircleShape.setOutColor(Color.parseColor("#" + mOrderClothesInfo.getColor()));
         }
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        dividerItemDecoration.setDrawable(mContext.getDrawable(R.drawable.mysetting_divider));
+        dividerItemDecoration.setDrawable(App.getInstance().getResources().getDrawable(R.drawable.mysetting_divider));
 
         mDetailWomanRecycler.setLayoutManager(new GridLinearLayoutManager(this, 3));
         mDetailManRecycler.setLayoutManager(new GridLinearLayoutManager(this, 3));
@@ -307,13 +306,13 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     @Override
     public void showPrices(ClothesPrice price) {
         mPrices.setText("原价 ¥：" + price.getOrderPrice());
-        int intPrice;
+        double intPrice;
         if (price.getOrderPrice() > price.getDiscountPrice()) {
             double d = price.getDiscountPrice();
-            intPrice = (int) d;
+            intPrice = d;
             finishPrices = price.getDiscountPrice();
         } else {
-            intPrice = (int) price.getOrderPrice();
+            intPrice = price.getOrderPrice();
             finishPrices = price.getOrderPrice();
         }
         mTotalPrice.setText("¥：" + intPrice);
@@ -333,6 +332,9 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     @Override
     public void showPay(OrderType orderType) {
+        if (orderType.getDispContext() != null) {
+            ToastUtil.showToast(this, orderType.getDispContext(), 0);
+        }
         if (mPresenter.getSaveOrderInfo() != null) {
             Bundle bundle1 = new Bundle();
             SaveOrderInfo saveStyleEntity = mPresenter.getSaveOrderInfo();
@@ -405,5 +407,11 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         currentPosition = position;
         mCurrentManClothesSize = (ClothesSize) object;
         initChoiceNumber("man");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new UpdateStateEvent(true));
     }
 }

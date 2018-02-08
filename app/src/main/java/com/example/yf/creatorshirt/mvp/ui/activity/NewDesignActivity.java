@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +21,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
-import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.CommonListener;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
@@ -33,9 +31,9 @@ import com.example.yf.creatorshirt.mvp.presenter.DetailDesignPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
 import com.example.yf.creatorshirt.mvp.presenter.contract.DetailDesignContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.mvp.ui.adapter.MaskStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.adapter.design.MaskStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
@@ -47,8 +45,6 @@ import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,6 +69,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     LinearLayout mChoiceReturn;
     @BindView(R.id.btn_choice_finish)
     Button mBtnFinish;
+    @BindView(R.id.btn_choice_other)
+    Button mBtnFinishOther;
     @BindView(R.id.rl_design)
     RelativeLayout mDesign;
     @BindView(R.id.rl_clothes_root)
@@ -102,13 +100,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private View mCurrentView;
     private int mCurrentPosition;
     private View mDesCurrentView;
-    private View mDesBeforeView;
-    private String mImagecolor;    //字体的颜色
     private String patternFrontUrl;    //自定义的贴图
     private String patternBackUrl;    //自定义的贴图
     private int prePosition;
-    private TextSticker textSticker;    //自定义文字框
-    private Typeface mUpdateType;    //字体
     private VersionStyle mInitData;//默认显示第一件衣服
     private VersionStyle mOrderBaseInfo; //衣服信息
     private boolean isFirst;
@@ -119,9 +113,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private Bitmap currentFrontMask;
     private Bitmap currentBackMask;
     private DialogAlert dialogAlert;
-    //    private String maskA;
-//    private String maskB;
-    private int backInit;
+    private String maskA;
+    private String maskB;
+    private boolean isClick = false;
 
     @Override
     protected void inject() {
@@ -158,7 +152,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         dialogAlert = new DialogAlert(this, "你确认要退出编辑吗");
     }
 
-
     private void initFront() {
         mButtonFront.setSelected(true);
         if (mInitData != null) {
@@ -167,17 +160,42 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mOrderBaseInfo = new VersionStyle();
     }
 
+    public void clickBack() {
+        if (isFirst) {//默认刚进来的第一件衣服
+            if (mInitData != null) {
+                getCurrentBackClothes(mInitData);
+            }
+        } else {
+            getCurrentBackClothes(mCurrentClothes);
+        }
+        mContainerBack.setVisibility(View.VISIBLE);
+        mContainerFront.setVisibility(View.GONE);
+        mButtonBack.setSelected(true);
+        mButtonFront.setSelected(false);
+        mPresenter.getDetailDesign(mListClothes, false);
+        mRecyclerStyle.setVisibility(View.VISIBLE);
+        mRecyclerDetailStyle.setVisibility(View.GONE);
+        mBtnFinish.setVisibility(View.VISIBLE);
+        mChoiceReturn.setVisibility(View.GONE);
+        if (mTextColorView.getVisibility() == View.VISIBLE) {
+            mTextColorView.setVisibility(View.GONE);
+            if (mContainerFront.getCurrentSticker() != null) {
+                mContainerFront.setLocked(true);
+            }
+        }
+    }
+
     @OnClick({R.id.btn_choice_finish, R.id.choice_done, R.id.choice_back, R.id.tv_front, R.id.tv_back,
             R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_choice_finish:
-                generateBitmap();//生成衣服mask的图片
-                if (finishFrontImage != null) {
-                    if (finishBackImage != null) {
-                        startNewActivity(true);
-                    } else {
-                        startNewActivity(false);
+                if (!isClick) {
+                    clickBack();
+                } else {
+                    generateBitmap();//生成衣服mask的图片
+                    if (finishFrontImage != null && finishBackImage != null) {
+                        startNewActivity();
                     }
                 }
                 break;
@@ -209,28 +227,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 }
                 break;
             case R.id.tv_back:
-                if (isFirst) {//默认刚进来的第一件衣服
-                    if (mInitData != null) {
-                        getCurrentBackClothes(mInitData);
-                    }
-                } else {
-                    getCurrentBackClothes(mCurrentClothes);
-                }
-                mContainerBack.setVisibility(View.VISIBLE);
-                mContainerFront.setVisibility(View.GONE);
-                mButtonBack.setSelected(true);
-                mButtonFront.setSelected(false);
-                mPresenter.getDetailDesign(mListClothes, false);
-                mRecyclerStyle.setVisibility(View.VISIBLE);
-                mRecyclerDetailStyle.setVisibility(View.GONE);
-                mBtnFinish.setVisibility(View.VISIBLE);
-                mChoiceReturn.setVisibility(View.GONE);
-                if (mTextColorView.getVisibility() == View.VISIBLE) {
-                    mTextColorView.setVisibility(View.GONE);
-                    if (mContainerFront.getCurrentSticker() != null) {
-                        mContainerFront.setLocked(true);
-                    }
-                }
+                isClick = true;
+                clickBack();
                 break;
             case R.id.choice_back:
                 switch (clotheKey.get(mCurrentPosition)) {
@@ -245,6 +243,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                                 }
                             }
                         }
+                        mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
                     case PATTERN:
                         if (mButtonFront.isSelected()) {
@@ -253,6 +252,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setImageSource(null);
                         }
+                        mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+
                         break;
                     case MASK:
                         if (mButtonFront.isSelected()) {
@@ -262,6 +263,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setImageMask(null);
                         }
+                        mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
@@ -288,20 +291,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 switch (clotheKey.get(mCurrentPosition)) {
                     case COLOR:
                         mOrderBaseInfo.setColor(mCurrentClothes.getColor());
+                        mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
                     case PATTERN:
-//                        if (patternBackUrl != null) {
-//                            avatarList.add(patternBackUrl);
-//                        }
-//                        if (patternFrontUrl != null) {
-//                            avatarList.add(patternFrontUrl);
-//                        }
                         if (mButtonFront.isSelected()) {
                             mContainerFront.setTouchFlag(true);
                         }
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setTouchFlag(true);
                         }
+                        mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
                     case MASK:
                         if (mButtonFront.isSelected()) {
@@ -310,6 +309,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setTouchFlag(true);
                         }
+                        mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
@@ -348,6 +348,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                     mChoiceReturn.setVisibility(View.GONE);
                     mRecyclerDetailStyle.setVisibility(View.GONE);
                     mRecyclerStyle.setVisibility(View.VISIBLE);
+                    mDesCurrentView.setSelected(false);
                 }
                 break;
         }
@@ -391,24 +392,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             Canvas canvas = new Canvas(bitmapBack);
             mContainerBack.draw(canvas);
             finishBackImage = FileUtils.saveBitmap(bitmapBack, this, "back");
-        } else {
-            backInit = getClothesBackBG(mCurrentClothes);
-//            io.reactivex.Observable.create(new ObservableOnSubscribe<String>() {
-//                @Override
-//                public void subscribe(ObservableEmitter<String> e) throws Exception {
-//                    String url = FileUtils.saveBitmap(BitmapFactory.decodeResource(getResources(), getClothesBackBG(mCurrentClothes)), mContext, "back");
-//                    e.onNext(url);
-//                }
-//            }).compose(RxUtils.<String>rxObScheduleHelper())
-//                    .compose(RxUtils.<String>rxObScheduleHelper())
-//                    .subscribeWith(new CommonObserver<String>(null) {
-//                        @Override
-//                        public void onNext(String s) {
-//                            finishBackImage = s;
-//                        }
-//                    });
         }
-
     }
 
     private void getCurrentBackClothes(VersionStyle data) {
@@ -421,20 +405,20 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mBeforeClothes = mCurrentClothes;
     }
 
-    private void startNewActivity(boolean flag) {
+    private void startNewActivity() {
         Bundle bundle = new Bundle();
-        if (flag) {
-            mOrderBaseInfo.setBackUrl(finishBackImage);
-        } else {
-            bundle.putInt("backInit", backInit);//没有形成ImageUrl，传Bitmap画
-        }
-        mOrderBaseInfo.setFrontUrl(finishFrontImage);
+        mOrderBaseInfo.setBackUrl(finishBackImage);
         mOrderBaseInfo.setFrontUrl(finishFrontImage);
         mOrderBaseInfo.setClothesType(mCurrentClothes.getClothesType());
         mOrderBaseInfo.setColorName(mCurrentClothes.getColorName());
         mOrderBaseInfo.setType(mCurrentClothes.getType());
         mOrderBaseInfo.setColor(mCurrentClothes.getColor());
-//        mOrderBaseInfo.setMaskA();
+        if (maskA != null) {
+            mOrderBaseInfo.setMaskA(maskA);
+        }
+        if (maskB != null) {
+            mOrderBaseInfo.setMaskB(maskB);
+        }
         if (patternFrontUrl != null) {
             mOrderBaseInfo.setPicture1(patternFrontUrl);
         }
@@ -453,10 +437,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
 
     @Override
-    public void onItemClick(View currentView, int position, Object O) {
-//        if (mDesBeforeView != null) {
-//            mDesBeforeView.setSelected(false);
-//        }
+    public void onItemClick(View currentView, int position, Object o) {
+
         switch (clotheKey.get(mCurrentPosition)) {
             case COLOR:
                 if (mButtonFront.isSelected()) {
@@ -473,32 +455,32 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             case PATTERN:
                 int resourcePattern;
                 if (mButtonFront.isSelected()) {
-                    resourcePattern = FileUtils.getResource(mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getName());
+                    resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
                     patternFrontUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
                 }
                 if (mButtonBack.isSelected()) {
-                    resourcePattern = FileUtils.getResource(mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(position).getName());
+                    resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
                     patternBackUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
                 }
                 break;
             case MASK:
-                currentFrontMask = Utils.getBitmapResource(R.mipmap.quan);
-//                currentFrontMask = Utils.getBitmapResource(mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(position).getImage());
                 if (mButtonFront.isSelected()) {
+                    currentFrontMask = Utils.getBitmapResource(FileUtils.getResource((String) o));
                     Bitmap source = Utils.getBitmapResource(
                             FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
                                     + "_" + mCurrentClothes.getColorName() + "_a"));
                     mPresenter.setImageMask(currentFrontMask, source);
+                    maskA = (String) o;
                 }
                 if (mButtonBack.isSelected()) {
-                    currentBackMask = Utils.getBitmapResource(R.mipmap.quan);
+                    currentBackMask = Utils.getBitmapResource(FileUtils.getResource((String) o));
                     mPresenter.setImageMask(currentBackMask,
                             Utils.getBitmapResource(
                                     FileUtils.getResource(mCurrentClothes.getSex() + mCurrentClothes.getType()
                                             + "_" + mCurrentClothes.getColorName() + "_b")));
-
+                    maskB = (String) o;
                 }
 
                 break;
@@ -509,7 +491,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
         prePosition = position;
         mDesCurrentView = currentView;
-        mDesBeforeView = currentView;
     }
 
     private void setPatternUrl(int imageUrl) {
@@ -535,9 +516,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private void setColorBg(int image) {
         if (currentFrontMask == null) {
             mPresenter.setClothesBg(image);
-//            mContainerFront.setColorBg(image);
         } else {
-//            mContainerFront.setColorBg(image);
             mPresenter.setClothesBg(image);
             mPresenter.setImageMask(currentFrontMask, Utils.getBitmapResource(image));
         }
@@ -609,7 +588,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
         if (mButtonBack.isSelected()) {
             mContainerBack.setColorBg(clothesBitmap);
+            if (!isClick) {
+                generateBitmap();
+                if (finishBackImage != null && finishFrontImage != null) {
+                    startNewActivity();
+                }
+            }
         }
+
     }
 
     private void clickItem(int position) {
@@ -671,7 +657,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         public void onClickListener(int color, Typeface typeface, int textSize) {
             if (mButtonFront.isSelected()) {
                 TextSticker sticker = (TextSticker) mContainerFront.getCurrentSticker();
-                Log.e("tag", "dgikd" + textSize);
                 if (sticker != null) {
                     if (typeface != null) {
                         sticker.setTypeface(typeface);
@@ -766,18 +751,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     @Override
     public void showErrorMsg(String msg) {
         super.showErrorMsg(msg);
-        ToastUtil.showToast(mContext, msg, 0);
+        ToastUtil.showToast(this, msg, 0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().post(new ChangeSelectEvent(true));
     }
 
     @Override
     public void onBackPressed() {
         getDialog();
-
     }
 }

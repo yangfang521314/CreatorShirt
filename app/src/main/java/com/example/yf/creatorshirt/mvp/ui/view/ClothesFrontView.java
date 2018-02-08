@@ -214,9 +214,6 @@ public class ClothesFrontView extends StickerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        if (textSticker != null) {
-//            return false;
-//        }
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_POINTER_DOWN:
                 //双指模式

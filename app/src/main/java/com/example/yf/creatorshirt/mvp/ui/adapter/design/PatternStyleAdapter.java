@@ -69,23 +69,24 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickListener.onItemClick(holder.mCommonStyle, position, null);
+                        clickListener.onItemClick(holder.mCommonStyle, position, mData.get(position - 1).getName());
                         if (preView != null) {
                             preView.setSelected(false);
-                            if (prePosition >= 0 && prePosition < mData.size()) {
+                            if (prePosition >= 1 && prePosition < mData.size()) {
                                 mData.get(prePosition).setSelect(false);
                             }
                         }
                         prePosition = position;
                         preView = v;
-                        preView.setSelected(true);
+                        v.setSelected(true);
                         mData.get(position).setSelect(true);
                     }
                 });
             }
             holder.mStyleTextView.setVisibility(View.GONE);
-            GlideApp.with(mContext).load(FileUtils.getResource(mData.get(position).getName()))
+            GlideApp.with(mContext).load(FileUtils.getResource(mData.get(position - 1).getName()))
                     .override(140, 140)
+                    .skipMemoryCache(true)
                     .into(holder.mStyleImageView);
         }
     }

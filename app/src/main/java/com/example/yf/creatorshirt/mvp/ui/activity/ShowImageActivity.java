@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.common.UpdateStateEvent;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
@@ -21,22 +21,18 @@ import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.OrderInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
-import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.FileUtils;
-import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
-import com.example.yf.creatorshirt.utils.Utils;
-import com.example.yf.creatorshirt.widget.CommonObserver;
 import com.umeng.socialize.UMShareAPI;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 /**
  * 选择设计尺寸大小页面
@@ -63,19 +59,17 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     private String mFrontImageUrl;
     private VersionStyle mOrderBaseInfo;
     private List<String> arrayList = new ArrayList<>();
-    private int backInit;
     private SaveOrderInfo saveStyleEntity;
 
     @Override
     public void initData() {
         super.initData();
+        EventBus.getDefault().register(this);
         if (getIntent().getExtras() != null) {
             mOrderBaseInfo = getIntent().getExtras().getParcelable("clothesInfo");
             if (mOrderBaseInfo != null) {
                 mFrontImageUrl = mOrderBaseInfo.getFrontUrl();
-                if (mOrderBaseInfo.getBackUrl() == null) {
-                    backInit = getIntent().getExtras().getInt("backInit");
-                } else {
+                if (mOrderBaseInfo.getBackUrl() != null) {
                     mBackImageUrl = mOrderBaseInfo.getBackUrl();
                 }
             }
@@ -120,6 +114,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                         mPresenter.saveAvatar(arrayList);
                     }
                     mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
+                    mCreateOrder.setEnabled(false);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
                 }
@@ -133,7 +128,6 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
                 GlideApp.with(this).load(mFrontImageUrl)
-                        .override(800, 1000)
                         .into(mFrontImage);
                 break;
             case R.id.clothes_back:
@@ -143,28 +137,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonFront.setSelected(false);
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
-                            .override(800, 1000)
                             .into(mBackImage);
 
-                } else {
-                    Observable.create(new ObservableOnSubscribe<Bitmap>() {
-                        @Override
-                        public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
-                            Bitmap bitmap = FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(backInit));
-                            e.onNext(bitmap);
-                        }
-                    }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
-                            .subscribe(new CommonObserver<Bitmap>(null) {
-                                @Override
-                                public void onNext(Bitmap bitmap) {
-//                                    mView.showClothesBg(bitmap);
-                                    GlideApp.with(mContext)
-                                            .load(bitmap)
-                                            .override(800, 1000)
-                                            .into(mBackImage);
-                                    mBackImageUrl = FileUtils.saveBitmap(bitmap, mContext, "back");
-                                }
-                            });
                 }
                 break;
         }
@@ -219,11 +193,32 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUserViewByLogin(UpdateStateEvent event) {
+        if (event.getFlag()) {
+            mCreateOrder.setEnabled(true);
+        }
+    }
+
     @Override
     public void showOrderId(OrderType orderType) {//orderId
+        if (orderType.getDispContext() != null) {
+            ToastUtil.showToast(this, orderType.getDispContext(), 0);
+        }
         Bundle bundle = new Bundle();
         saveStyleEntity.setOrderId(orderType.getOrderId());
         bundle.putParcelable("clothesInfo", saveStyleEntity);
         startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
+    }
+
+    @Override
+    public void showPreExecute(String info) {
+        ToastUtil.showProgressToast(this, info, R.drawable.progress_icon);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

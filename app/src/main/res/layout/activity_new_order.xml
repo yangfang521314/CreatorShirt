@@ -238,7 +238,7 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/total_price"
             android:gravity="center"
-            android:text="合计:"
+            android:text="合计"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -247,7 +247,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/confirm_pay"
             android:textColor="@color/red_e73a3d"
             android:textSize="16sp" />

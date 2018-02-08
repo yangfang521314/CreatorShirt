@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
@@ -109,7 +110,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 if (App.isLogin) {
                     startCommonActivity(mActivity, null, AllOrdersActivity.class);
                 } else {
-                    startCommonActivity(getActivity(), null, LoginActivity.class);
+                    startCommonActivity(mActivity, null, LoginActivity.class);
                 }
                 break;
             case R.id.update_user_info:
@@ -192,6 +193,8 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 GlideApp.with(mActivity).
                         load(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage())
                         .error(R.mipmap.ic_icon)
+                        .skipMemoryCache(false)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .circleCrop()
                         .into(mUserPicture);
                 mExitLogin.setText("退出登录");
@@ -203,4 +206,5 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
             mUserPicture.setImageResource(R.mipmap.user_default_avatar);
         }
     }
+
 }

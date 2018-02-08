@@ -9,6 +9,7 @@ import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
+import com.example.yf.creatorshirt.mvp.model.WechatInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -73,4 +74,6 @@ public interface HttpHelper {
     Flowable<HttpResponse<List<MyOrderInfo>>> requestMyOrder(String token, RequestBody gson);
 
     Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson);
+
+    Flowable<HttpResponse<WechatInfo>> payMomentWeChatOrders(String userToken, RequestBody gson);
 }

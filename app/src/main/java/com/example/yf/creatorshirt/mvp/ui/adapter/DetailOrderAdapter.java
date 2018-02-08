@@ -1,8 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,16 +26,15 @@ public class DetailOrderAdapter extends BaseAdapter<ClothesSize, DetailOrderHold
         return new DetailOrderHolder(parent, R.layout.item_detail_order);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void bindCustomViewHolder(final DetailOrderHolder holder, final int position) {
         holder.mSizeNumber.setText(mData.get(position).getSize());
         holder.mSizeLetter.setText(mData.get(position).getLetter());
         if(mData.get(position).getCount() == 0) {
-            holder.mClothesNumber.setTextColor(App.getInstance().getColor(R.color.taupegray_3));
+            holder.mClothesNumber.setTextColor(App.getInstance().getResources().getColor(R.color.taupegray_3));
 
         }else {
-            holder.mClothesNumber.setTextColor(App.getInstance().getColor(R.color.red_e73a3d));
+            holder.mClothesNumber.setTextColor(App.getInstance().getResources().getColor(R.color.red_e73a3d));
         }
         holder.mClothesNumber.setText("已选：" + mData.get(position).getCount());
 

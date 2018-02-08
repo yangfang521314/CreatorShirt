@@ -8,12 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.AllOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AllOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AllOrderAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -37,10 +41,10 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
         super.initData();
         if (getIntent().getExtras() != null) {
             title = getIntent().getExtras().getString("title");
-        } else {
-            title = getString(R.string.my_order);
         }
-        mPresenter.getMyAllOrder();
+        if (App.isLogin) {
+            mPresenter.getMyAllOrder();
+        }
     }
 
 
@@ -51,7 +55,7 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
 
     @Override
     protected void initView() {
-        mAppBarTitle.setText(title);
+        mAppBarTitle.setText("我的订单");
         mAppBarBack.setVisibility(View.VISIBLE);
 
     }
@@ -60,6 +64,10 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
+                if (title != null) {
+                    startCommonActivity(AllOrdersActivity.this, null, MainActivity.class);
+                    EventBus.getDefault().post(new ChangeSelectEvent(true));
+                }
                 finish();
                 break;
         }
@@ -68,11 +76,9 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
 
     @Override
     public void onItemClick(View view, int position, Object object) {
-        if (title.equals(getString(R.string.my_order))) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("orderInfo", (Parcelable) object);
-            startCommonActivity(this, bundle, DetailOrderActivity.class);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("orderInfo", (Parcelable) object);
+        startCommonActivity(this, bundle, DetailOrderActivity.class);
     }
 
     @Override
@@ -83,5 +89,15 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
         mAllOrderRY.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAllOrderRY.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mAllOrderRY.setAdapter(allOrderAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (title != null) {
+            startCommonActivity(this, null, MainActivity.class);
+            EventBus.getDefault().post(new ChangeSelectEvent(true));
+        }
+        finish();
     }
 }

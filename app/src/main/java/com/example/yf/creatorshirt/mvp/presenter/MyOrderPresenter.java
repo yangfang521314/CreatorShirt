@@ -2,18 +2,20 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
+import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
+import com.example.yf.creatorshirt.mvp.model.WechatInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.pay.alipay.Alipay;
+import com.example.yf.creatorshirt.pay.alipay.demo.util.OrderInfoUtil2_0;
+import com.example.yf.creatorshirt.pay.weixin.WXPay;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.GsonUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
-import com.example.yf.creatorshirt.utils.demo.util.OrderInfoUtil2_0;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
 
 import java.util.List;
@@ -32,47 +34,12 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
 
     public static final String APPID = "2017082308338778";
     private PayTradeInfo tradeInfo;
+    private WechatInfo wechatInfo;
 
     @Inject
     public MyOrderPresenter(DataManager manager) {
         this.manager = manager;
     }
-
-    //微信支付
-//    public void payForWeiChat(PayTradeInfo value) {
-//        Log.e("TAG", "VALUE" + value);
-//        String wx_appid = value.getAppId();
-//        WXPay.init(App.getInstance(), wx_appid);
-//        //要在支付前调用
-//        WXPay.getInstance().doPay(value, new WXPay.WXPayResultCallBack() {
-//            @Override
-//            public void onSuccess() {
-//                mView.showErrorMsg("支付成功");
-//            }
-//
-//            @Override
-//            public void onError(int error_code) {
-//                switch (error_code) {
-//                    case WXPay.NO_OR_LOW_WX:
-//                        mView.showErrorMsg("未安装微信或微信版本过低");
-//                        break;
-//
-//                    case WXPay.ERROR_PAY_PARAM:
-//                        mView.showErrorMsg("参数错误");
-//                        break;
-//
-//                    case WXPay.ERROR_PAY:
-//                        mView.showErrorMsg("支付失败");
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                mView.showErrorMsg("支付取消");
-//            }
-//        });
-//    }
 
 
     public void getAddressData() {
@@ -163,11 +130,58 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         }).doPay();
     }
 
+    /**
+     * appid: "wxb4ba3c02aa476ea1",
+     * partnerid: "1900006771",
+     * package: "Sign=WXPay",
+     * noncestr: "96fcaacaf8ae63a30faac206c3c309c2",
+     * timestamp: 1517744491,
+     * prepayid: "wx20180204194131642e96c9f80073045971",
+     * sign: "33CBCF4C04DD245AF28C8CF501AAD5C5"
+     *
+     * @param activity
+     */
+
+    public void payForWeiChat(BaseActivity activity) {
+        WXPay.init(activity, Constants.APP_ID);
+
+        //要在支付前调用
+        WXPay.getInstance().doPay(wechatInfo, new WXPay.WXPayResultCallBack() {
+            @Override
+            public void onSuccess() {
+                mView.showPaySuccess("支付成功");
+            }
+
+            @Override
+            public void onError(int error_code) {
+                switch (error_code) {
+                    case WXPay.NO_OR_LOW_WX:
+                        mView.showErrorMsg("未安装微信或微信版本过低");
+                        break;
+
+                    case WXPay.ERROR_PAY_PARAM:
+                        mView.showErrorMsg("参数错误");
+                        break;
+
+                    case WXPay.ERROR_PAY:
+                        mView.showErrorMsg("支付失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                mView.showErrorMsg("支付取消");
+            }
+        });
+    }
+
 
     /**
      * 选择支付获取到支付订单的详细信息
      */
     public void payMomentOrders() {
+
         addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
                 .compose(RxUtils.<HttpResponse<PayTradeInfo>>rxSchedulerHelper())
                 .compose(RxUtils.<PayTradeInfo>handleResult())
@@ -189,10 +203,50 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                 })
 
         );
+//        TestRequestServer.getInstance().payMentOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
+//                .enqueue(new Callback<HttpResponse>() {
+//                    @Override
+//                    public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
+//                        Log.e("tga", "fuck" + response.body().getResult());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<HttpResponse> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
+    /**
+     * 微信支付信息
+     */
+    public void payMomentWeChatOrders() {
+        addSubscribe(manager.payMomentWeChatOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
+                .compose(RxUtils.<HttpResponse<WechatInfo>>rxSchedulerHelper())
+                .compose(RxUtils.<WechatInfo>handleResult())
+                .subscribeWith(new CommonSubscriber<WechatInfo>(mView) {
+                    @Override
+                    public void onNext(WechatInfo chatInfo) {
+                        if (chatInfo == null) {
+                            mView.showErrorMsg("数据为空");
+                        } else {
+                            wechatInfo = chatInfo;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mView.showErrorMsg(e.getMessage());
+                    }
+                })
+
+        );
+
+    }
 
     public void setSaveEntity(PayInfoEntity payInfoEntity) {
         this.payInfoEntity = payInfoEntity;
     }
+
 }

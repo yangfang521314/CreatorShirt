@@ -190,15 +190,19 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     //login success update view
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateUserViewByLogin(UpdateUserInfoEvent event) {
-        if (mMineFragment != null && mMineFragment.isAdded()) {
-            mMineFragment.updateUserView();
+        if (event.getFlag()) {
+            if (mMineFragment != null && mMineFragment.isAdded()) {
+                mMineFragment.updateUserView();
+            }
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateUserViewByLogin(ChangeSelectEvent event) {
-        if (mMineFragment != null && mMineFragment.isAdded()) {
-//            mDesignFragment.updateChoiceSelect();
+    public void update(ChangeSelectEvent event) {
+        if (event.getFlag()) {
+            if (mMineFragment != null && mMineFragment.isAdded()) {
+                mMineFragment.updateUserView();
+            }
         }
     }
 

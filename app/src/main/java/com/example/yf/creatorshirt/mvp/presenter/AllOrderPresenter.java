@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -32,20 +30,21 @@ public class AllOrderPresenter extends RxPresenter<AllOrderContract.AllOrderView
 
     public void getMyAllOrder() {
         Map<String, String> keyValues = new HashMap<>();
-        keyValues.put("partner", String.valueOf(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile()));
-        addSubscribe(manager.requestMyOrder(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(keyValues))
-                .compose(RxUtils.<HttpResponse<List<MyOrderInfo>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<MyOrderInfo>>handleResult())
-                .subscribeWith(new CommonSubscriber<List<MyOrderInfo>>(mView) {
-                    @Override
-                    public void onNext(List<MyOrderInfo> myOrderInfo) {
-                        if (myOrderInfo != null) {
-                            Log.e("all","ddd"+myOrderInfo.get(0));
-                            mView.showSuccess(myOrderInfo);
+        if(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile() != null) {
+            keyValues.put("partner", String.valueOf(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile()));
+            addSubscribe(manager.requestMyOrder(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(keyValues))
+                    .compose(RxUtils.<HttpResponse<List<MyOrderInfo>>>rxSchedulerHelper())
+                    .compose(RxUtils.<List<MyOrderInfo>>handleResult())
+                    .subscribeWith(new CommonSubscriber<List<MyOrderInfo>>(mView) {
+                        @Override
+                        public void onNext(List<MyOrderInfo> myOrderInfo) {
+                            if (myOrderInfo != null) {
+                                mView.showSuccess(myOrderInfo);
+                            }
                         }
-                    }
-                })
-        );
+                    })
+            );
+        }
 
     }
 

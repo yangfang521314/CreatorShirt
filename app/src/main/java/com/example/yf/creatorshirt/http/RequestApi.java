@@ -9,6 +9,7 @@ import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
+import com.example.yf.creatorshirt.mvp.model.WechatInfo;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
@@ -124,4 +125,7 @@ public interface RequestApi {
 
     @POST("f-orders/updateOrders")
     Flowable<HttpResponse<OrderType>> updateOrders(@Header("Token") String token, @Body RequestBody gson);
+
+    @POST("f-orders/paymentOrders")
+    Flowable<HttpResponse<WechatInfo>> payMomentWeChatOrders(@Header("Token") String token, @Body RequestBody gson);
 }

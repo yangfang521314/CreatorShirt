@@ -32,12 +32,6 @@ public class ItemViewHolder extends BaseViewHolder {
             mCommonStyle = getView(R.id.common_style);
             DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
         }
-        if(resId == R.layout.item_mask_layout){
-            mStyleImageView = getView(R.id.design_icon_style);
-            mStyleTextView = getView(R.id.design_text_style);
-            mCommonStyle = getView(R.id.common_style);
-            DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
-        }
         if(resId == R.layout.item_order_layout){
             mStyleImageView = getView(R.id.clothes_picture);
             mStyleTextView = getView(R.id.pay_state);

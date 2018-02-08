@@ -63,9 +63,6 @@
             android:name=".mvp.ui.activity.DetailOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.activity.MyDesignActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".mvp.ui.activity.PermissionActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -92,23 +89,22 @@
         <activity-alias
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:targetActivity=".pay.weixin.WXPayCallbackActivity" />
 
         <!-- 支付宝支付 -->
-
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:screenOrientation="behind" >
         </activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
-
+            android:screenOrientation="behind" >
+        </activity>
 
         <!-- 友盟登录 -->
 
@@ -183,6 +179,7 @@
         <activity
             android:name=".mvp.ui.activity.OrderEditActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".mvp.ui.activity.AddOrderActivity"

@@ -1,4 +1,4 @@
-package com.example.yf.creatorshirt.utils.demo;
+package com.example.yf.creatorshirt.pay.alipay.demo;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;
@@ -22,7 +22,8 @@ public class SignUtils {
 		try {
 			PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(
 					Base64.decode(privateKey));
-			KeyFactory keyf = KeyFactory.getInstance(ALGORITHM);
+			KeyFactory keyf = KeyFactory.getInstance(ALGORITHM, "BC");
+//			KeyFactory keyf = KeyFactory.getInstance(ALGORITHM);
 			PrivateKey priKey = keyf.generatePrivate(priPKCS8);
 
 			java.security.Signature signature = java.security.Signature

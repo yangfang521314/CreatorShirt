@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
@@ -147,6 +148,8 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     private RecyclerViewPopupWindow initPopupWindow(final List<VersionStyle> firstList) {
         mPopupWindow = new RecyclerViewPopupWindow();
         mPopupWindow.setData(firstList);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         mPopupWindow.setOnClickListener(new OnObjectClickListener());
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

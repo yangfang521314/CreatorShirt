@@ -5,7 +5,14 @@ package com.example.yf.creatorshirt.utils;
  */
 
 public class Constants {
+    // APP_ID 替换为你的应用从官方网站申请到的合法appId
+    public static final String APP_ID = "wxd930ea5d5a258f4f";
 
+    public static class ShowMsgActivity {
+        public static final String STitle = "showmsg_title";
+        public static final String SMessage = "showmsg_message";
+        public static final String BAThumbData = "showmsg_thumb_data";
+    }
     //透明度
     public static final float NORMAL_ALPHA = 1.0f;
     public static final float CHANGE_ALPHA = 0.4f;
@@ -45,4 +52,8 @@ public class Constants {
             " LHyVtfReOLf//SdcCorYLp5ndwaxOLFWVDY3SyDjz3DFFPRt99oE9UigQw83u6TJ\n" +
             " 0kX9UQ7BakPCK1oVyZkCQQDmzJRKw8TxAY/l2KTxmMHD8GfXzTKPL4F/DfYY9yUG\n" +
             " cm0iqj68Yy1Od9iShiBfTi4njXQ/dcGhHVhyNt4IIA/m";
+    public static final  String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkr\n" +
+            "IvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsra\n" +
+            "prwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUr\n" +
+            "CmZYI/FCEa3/cNMW0QIDAQAB";
 }

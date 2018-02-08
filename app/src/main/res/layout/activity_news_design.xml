@@ -101,11 +101,11 @@
         android:id="@+id/text_size_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_choice_back"
+        android:layout_below="@+id/choice_front_back"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
-        android:layout_above="@+id/ll_choice_back"
-        android:layout_below="@+id/choice_front_back" />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_choice_finish"
@@ -118,6 +118,18 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_choice_other"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        android:gravity="center"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 
     <LinearLayout

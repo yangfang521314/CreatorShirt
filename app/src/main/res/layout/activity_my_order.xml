@@ -200,7 +200,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="3dp"
-            android:text="价格:¥100.00"
             android:gravity="left"
              />
 

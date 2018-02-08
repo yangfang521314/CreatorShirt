@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -15,17 +14,14 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.ShareInfoEntity;
-import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
-import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.GsonUtils;
+import com.example.yf.creatorshirt.utils.NetworkUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
-import com.example.yf.creatorshirt.utils.ShareContentUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
@@ -66,15 +62,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private UploadManager uploadManager = new UploadManager();
     private String userToken;
     private String UserId;
-    private VersionStyle mOrderBaseInfo;
-    private String imageFrontUrl;
-    private String imageBackUrl;
     private String mBack;
-    private String size;
-    private String styleContext;
-    private String type;
-    private OrderType mOrderType;
-    private String textUre;
     private AsyncTask<String, Integer, Void> asyncTask;
     private SaveOrderInfo saveOrderInfo;
 
@@ -110,7 +98,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             Log.e("TAG", "没有取到token");
             return;
         }
-        if(imageUrl == null){
+        if (imageUrl == null) {
             return;
         }
         UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
@@ -118,7 +106,6 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
-
                 if (info.isOK()) {
                     Log.e("qiniu_clothes", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
                     if (kewWord.equals("A")) {
@@ -151,8 +138,8 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
                         asyncTask = null;
                     }
                 }
-
             }
+
         }, null);
     }
 
@@ -192,34 +179,23 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         } else if (totalNum.size() == 1) {
             saveOrderInfo.setPicture1(totalNum.get(0));
             saveOrderInfo.setPicture2("");
-        }else {
+        } else {
             saveOrderInfo.setPicture1("");
             saveOrderInfo.setPicture2("");
         }
         addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
                 .compose(RxUtils.<OrderType>handleResult())
-                .subscribeWith(new CommonSubscriber<OrderType>(mView,"保存失败，请重试") {
+                .subscribeWith(new CommonSubscriber<OrderType>(mView, "保存失败，请检查网络") {
                     @Override
                     public void onNext(OrderType orderType) {
-                        if(orderType != null){
-                            Log.e("Tag","orderI到"+orderType.getOrderId());
+                        if (orderType != null) {
+                            Log.e("OrderInfo", "orderId" + orderType.getOrderId());
                             mView.showOrderId(orderType);
                         }
                     }
+
                 }));
-//        TestRequestServer.getInstance().saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo)).enqueue(new Callback<HttpResponse>() {
-//            @Override
-//            public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                Log.e("MyOrder", "response" + response.toString());
-//                Log.e("Tghhh","dcd"+response.body().getStatus()+":::"+response.body().getResult());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<HttpResponse> call, Throwable t) {
-//                Log.e("OrderInfo","dffff"+call.toString());
-//            }
-//        });
     }
 
     /**
@@ -230,7 +206,10 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
      */
     @SuppressLint("StaticFieldLeak")
     public void requestSave(final String key, final String value) {
-
+        if (!NetworkUtils.isNetWorkConnected()) {
+            mView.showErrorMsg(App.getInstance().getString(R.string.no_upload_net));
+            return;
+        }
         asyncTask = new AsyncTask<String, Integer, Void>() {
             @Override
             protected Void doInBackground(String... params) {
@@ -240,7 +219,7 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
 
             @Override
             protected void onPreExecute() {
-                ToastUtil.showProgressToast(App.getInstance(), "正在生成订单", R.drawable.progress_icon);
+                mView.showPreExecute("正在生成订单");
             }
 
             @Override
@@ -260,113 +239,58 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         mBack = mBackImageUrl;
     }
 
-    /**
-     * 分享方法
-     *
-     * @param mActivity
-     */
-    public void getShare(final Activity mActivity) {
-        if (mOrderBaseInfo.getFrontUrl() == null) {
-            return;
-        }
-        if (UserInfoManager.getInstance().getUserName() == null) {
-            return;
-        }
-        ShareContentUtil shareContentUtil = new ShareContentUtil(mActivity);
-        ShareInfoEntity infoEntity = new ShareInfoEntity();
-        infoEntity.setPicUrl(imageFrontUrl);
-        infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
-
-        infoEntity.setContent("衣秀，做自己的设计师");
-        infoEntity.setTitle(UserInfoManager.getInstance().getUserName() + "的原创定制");
-        infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
-//        shareContentUtil.setOnClickListener(this);
-        shareContentUtil.startShare(infoEntity, 1);
-
-    }
-
-
-    public void getShareToken() {
-        userToken = UserInfoManager.getInstance().getToken();
-        if (userToken == null) {
-            return;
-        }
-        addSubscribe(manager.getQiToken(userToken)
-                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                        .compose(RxUtils.<String>handleResult())
-                        .subscribeWith(new CommonSubscriber<String>(mView) {
-                            @Override
-                            public void onNext(String s) {
-                                if (s != null) {
-                                    QiniuToken = s;
-//                            mView.showShareTokenSuccess(s);
-                                }
-                            }
-                        })
-        );
-
-    }
-
-    /**
-     * 分享的保存订单
-     *
-     * @param texture
-     * @param orderId
-     * @param size
-     */
-    public void saveOrdersFromShare(String orderId, String size, String texture) {
-        Map<String, String> map = new HashMap<>();
-        map.put("orderId", orderId);
-        map.put("height", size);
-        map.put("texture", texture);
-        addSubscribe(manager.saveOrdersFromShare(UserInfoManager.getInstance().getLoginResponse().getToken(),
-                GsonUtils.getGson(map))
-                        .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                        .compose(RxUtils.<OrderType>handleResult())
-                        .subscribeWith(new CommonSubscriber<OrderType>(mView, "生成订单出错") {
-                            @Override
-                            public void onNext(OrderType orderType) {
-                                if (orderType == null) {
-                                    mView.showErrorMsg("订单生成出错");
-                                } else {
-//                            mView.showSuccessData(orderType);//生成订单
-                                }
-                            }
-                        })
-        );
-    }
-
-    public void getTexture(VersionStyle mOrderBaseInfo) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("Gender", mOrderBaseInfo.getGender());
-            jsonObject.put("Typeversion", mOrderBaseInfo.getType());
-            addSubscribe(manager.getTextUre(GsonUtils.getGson(jsonObject))
-                    .compose(RxUtils.<HttpResponse<List<TextureEntity>>>rxSchedulerHelper())
-                    .compose(RxUtils.<List<TextureEntity>>handleResult())
-                    .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
-                        @Override
-                        public void onNext(List<TextureEntity> textureEntity) {
-                            if (textureEntity != null) {
-                                if (textureEntity.size() != 0) {
-//                                    mView.showSuccessTextUre(textureEntity);
-                                }
-                            }
-                        }
-                    }));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void setTextUre(String textUre) {
-        if (textUre != null) {
-            this.textUre = textUre;
-        }
-    }
+//    /**
+//     * 分享方法
+//     *
+//     * @param mActivity
+//     */
+//    public void getShare(final Activity mActivity) {
+//        if (mOrderBaseInfo.getFrontUrl() == null) {
+//            return;
+//        }
+//        if (UserInfoManager.getInstance().getUserName() == null) {
+//            return;
+//        }
+//        ShareContentUtil shareContentUtil = new ShareContentUtil(mActivity);
+//        ShareInfoEntity infoEntity = new ShareInfoEntity();
+//        infoEntity.setPicUrl(imageFrontUrl);
+//        infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
+//
+//        infoEntity.setContent("衣秀，做自己的设计师");
+//        infoEntity.setTitle(UserInfoManager.getInstance().getUserName() + "的原创定制");
+//        infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
+////        shareContentUtil.setOnClickListener(this);
+//        shareContentUtil.startShare(infoEntity, 1);
+//
+//    }
+//
+//
+//    public void getShareToken() {
+//        userToken = UserInfoManager.getInstance().getToken();
+//        if (userToken == null) {
+//            return;
+//        }
+//        addSubscribe(manager.getQiToken(userToken)
+//                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
+//                        .compose(RxUtils.<String>handleResult())
+//                        .subscribeWith(new CommonSubscriber<String>(mView) {
+//                            @Override
+//                            public void onNext(String s) {
+//                                if (s != null) {
+//                                    QiniuToken = s;
+////                            mView.showShareTokenSuccess(s);
+//                                }
+//                            }
+//                        })
+//        );
+//
+//    }
 
     private void getAvatarList(final String s, final int i) {
+        if (!NetworkUtils.isNetWorkConnected()) {
+            mView.showErrorMsg(App.getInstance().getString(R.string.no_upload_net));
+            return;
+        }
         Flowable.create(new FlowableOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull final FlowableEmitter<String> e) throws Exception {

@@ -37,7 +37,7 @@ public class SuccessPayActivity extends BaseActivity {
             startCommonActivity(this, bundle, AllOrdersActivity.class);
         }
         if (view.getId() == R.id.back) {
-            finish();
+            startCommonActivity(this, null, MainActivity.class);
         }
 
     }

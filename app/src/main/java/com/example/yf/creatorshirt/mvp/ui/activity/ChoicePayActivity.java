@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
-import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
+import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
@@ -94,6 +94,9 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
         if (mOrderClothesInfo.getFinishAimage() != null) {
             GlideApp.with(this).load(mOrderClothesInfo.getFinishAimage()).error(R.mipmap.mbaseball_white_a).into(mPayClothesImage);
         }
+        if (mOrderClothesInfo.getOrderPrice() != 0) {
+            mTextTotal.setText("价格：" + "¥" + mOrderClothesInfo.getOrderPrice());
+        }
     }
 
 
@@ -118,7 +121,11 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                     ToastUtil.showToast(mContext, "请选择支付方式", 0);
                     return;
                 }
-                mPresenter.aplipay(this);
+                if (payType.equals("aliPay")) {
+                    mPresenter.aplipay(this);
+                } else {
+                    mPresenter.payForWeiChat(this);
+                }
                 break;
             case R.id.pay_alipay:
                 mPayWeixin.setChecked(false);
@@ -127,15 +134,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                     payType = "aliPay";
                 }
                 if (isCheck()) {
-                    PayInfoEntity payInfoEntity = new PayInfoEntity();
-                    payInfoEntity.setAddress(mOrderAddress.getText().toString());
-                    payInfoEntity.setMobile(mOrderMobile.getText().toString());
-                    payInfoEntity.setPaymode(payType);
-                    payInfoEntity.setOrderId(mOrderClothesInfo.getOrderId());
-                    payInfoEntity.setZipcode("");
-                    payInfoEntity.setUsername(mOrderName.getText().toString());
-                    mPresenter.setSaveEntity(payInfoEntity);
-                    mPresenter.payMomentOrders();//支付信息
+                    paMomentOrders();
                 }
                 break;
             case R.id.pay_weixin:
@@ -144,12 +143,34 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 if (mPayWeixin.isChecked()) {
                     payType = "wxPay";
                 }
+                if (isCheck()) {
+                    paMomentOrders();
+                }
                 break;
             case R.id.back:
                 finish();
                 break;
         }
 
+    }
+
+    /**
+     * 支付上传
+     */
+    private void paMomentOrders() {
+        PayInfoEntity payInfoEntity = new PayInfoEntity();
+        payInfoEntity.setAddress(mOrderAddress.getText().toString());
+        payInfoEntity.setMobile(mOrderMobile.getText().toString());
+        payInfoEntity.setPaymode(payType);
+        payInfoEntity.setOrderId(mOrderClothesInfo.getOrderId());
+        payInfoEntity.setZipcode("");
+        payInfoEntity.setUsername(mOrderName.getText().toString());
+        mPresenter.setSaveEntity(payInfoEntity);
+        if ("aliPay".equals(payType)) {
+            mPresenter.payMomentOrders();//支付信息
+        } else {
+            mPresenter.payMomentWeChatOrders();
+        }
     }
 
     private boolean isCheck() {

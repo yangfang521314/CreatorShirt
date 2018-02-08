@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
 
-import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
@@ -81,7 +80,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         }
         DetailColorStyle maskStyle = null;
         //贴图
-        for (int i = 1; i < 48; i++) {
+        for (int i = 1; i < 151; i++) {
             maskStyle = new DetailColorStyle();
             maskStyle.setName("pattern_" + i);
             patterList.add(maskStyle);
@@ -93,9 +92,9 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
             textColorList.add(maskStyle);
         }
         //遮罩图片
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 16; i++) {
             maskStyle = new DetailColorStyle();
-            maskStyle.setImage(R.mipmap.quan);
+            maskStyle.setName("template"+i);
             maskList.add(maskStyle);
         }
         if (flag) {

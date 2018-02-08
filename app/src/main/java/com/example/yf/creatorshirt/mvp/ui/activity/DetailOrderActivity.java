@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
@@ -103,14 +102,17 @@ public class DetailOrderActivity extends BaseActivity {
         ImageViewAdapter adapter = new ImageViewAdapter(this);
         final ImageView imageView = new ImageView(this);
         if (mAllImage != null) {
-            GlideApp.with(this).load(mAllImage[0]).
-                    skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE).
-                    into(imageView);
+            GlideApp.with(this).load(mAllImage[0])
+                    .placeholder(R.mipmap.mcshort_orange_a)
+                    .error(R.mipmap.mcshort_orange_a)
+                    .into(imageView);
             mViewList.add(imageView);
             final ImageView imageView2 = new ImageView(this);
-            GlideApp.with(this).load(mAllImage[1]).
-                    skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.RESOURCE).
-                    into(imageView2);
+            GlideApp.with(this).asBitmap()
+                    .placeholder(R.mipmap.mcshort_orange_a)
+                    .error(R.mipmap.mcshort_orange_a)
+                    .load(mAllImage[1])
+                    .into(imageView2);
             mViewList.add(imageView2);
             if (mViewList.size() == 2 && mViewList != null) {
                 adapter.setData(mViewList);
@@ -139,5 +141,10 @@ public class DetailOrderActivity extends BaseActivity {
             });
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

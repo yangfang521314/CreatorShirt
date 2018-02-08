@@ -13,6 +13,8 @@ public interface OrderInfoContract {
     interface OrderInfoView extends BaseView {
 
         void showOrderId(OrderType orderType);
+
+        void showPreExecute(String info);
     }
 
     interface Presenter extends BasePresenter<OrderInfoView> {
