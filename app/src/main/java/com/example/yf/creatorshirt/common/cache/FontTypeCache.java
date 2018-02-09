@@ -91,7 +91,4 @@ public class FontTypeCache {
         return data;
     }
 
-    public void clearCache() {
-        FileUtils.deleteFile(new File(getCacheFilePath()));
-    }
 }

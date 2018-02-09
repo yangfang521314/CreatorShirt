@@ -16,6 +16,7 @@ import com.example.yf.creatorshirt.mvp.presenter.AllOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AllOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AllOrderAdapter;
+import com.example.yf.creatorshirt.utils.systembar.SystemUtilsBar;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,6 +56,7 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
 
     @Override
     protected void initView() {
+        SystemUtilsBar.with(this);
         mAppBarTitle.setText("我的订单");
         mAppBarBack.setVisibility(View.VISIBLE);
 

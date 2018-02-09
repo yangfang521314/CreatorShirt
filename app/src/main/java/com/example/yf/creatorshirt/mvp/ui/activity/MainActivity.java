@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mPresenter.checkVersion(this, Constants.VERSION_UPDATE_INIT_REQUEST);
         EventBus.getDefault().register(this);
     }
 

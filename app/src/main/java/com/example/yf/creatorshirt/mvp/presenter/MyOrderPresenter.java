@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.content.Context;
+
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
@@ -41,6 +43,10 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
         this.manager = manager;
     }
 
+    @Override
+    public void detachView(MyOrderContract.MyOrderView view) {
+        super.detachView(view);
+    }
 
     public void getAddressData() {
         addSubscribe(manager.getAddressData(SharedPreferencesUtil.getUserToken())
@@ -142,7 +148,7 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
      * @param activity
      */
 
-    public void payForWeiChat(BaseActivity activity) {
+    public void payForWeiChat(Context activity) {
         WXPay.init(activity, Constants.APP_ID);
 
         //要在支付前调用

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.FileUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;

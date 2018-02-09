@@ -50,10 +50,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SystemUtilsBar.with(this).init();
-        setContentView(getView());
         SystemUtilsBar.with(this)
                 .statusBarDarkFont(true, 0.2f)
                 .init();
+        setContentView(getView());
         ButterKnife.bind(this);
         inject();
         if (mPresenter != null)
@@ -129,7 +129,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (netInterface != null) {
             netInterface = null;
         }
-        SystemUtilsBar.destroyObject();
         Utils.fixInputMethodManagerLeak(this);
     }
 

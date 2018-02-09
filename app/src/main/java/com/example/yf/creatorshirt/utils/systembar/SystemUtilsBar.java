@@ -63,19 +63,7 @@ public class SystemUtilsBar {
      * @return the immersion bar
      */
     public static SystemUtilsBar with(Fragment fragment) {
-        if (systemUtilsBar == null) {
-            systemUtilsBar = new SystemUtilsBar(fragment);
-        }
-        return systemUtilsBar;
-    }
-
-    /**
-     * 销毁对象
-     */
-    public static void destroyObject() {
-        if (systemUtilsBar != null) {
-            systemUtilsBar = null;
-        }
+        return new SystemUtilsBar(fragment);
     }
 
     /**
@@ -118,10 +106,7 @@ public class SystemUtilsBar {
      * @return the immersion bar
      */
     public static SystemUtilsBar with(Activity activity) {
-        if (systemUtilsBar == null) {
-            systemUtilsBar = new SystemUtilsBar(activity);
-        }
-        return systemUtilsBar;
+        return new SystemUtilsBar(activity);
     }
 
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.DefaultAddressEvent;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
@@ -18,6 +19,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -124,7 +126,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 if (payType.equals("aliPay")) {
                     mPresenter.aplipay(this);
                 } else {
-                    mPresenter.payForWeiChat(this);
+                    mPresenter.payForWeiChat(App.getInstance());
                 }
                 break;
             case R.id.pay_alipay:

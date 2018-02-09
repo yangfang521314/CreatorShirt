@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -179,9 +180,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mChoiceReturn.setVisibility(View.GONE);
         if (mTextColorView.getVisibility() == View.VISIBLE) {
             mTextColorView.setVisibility(View.GONE);
-            if (mContainerFront.getCurrentSticker() != null) {
-                mContainerFront.setLocked(true);
-            }
+//            if (mContainerFront.getCurrentSticker() != null) {
+//                mContainerFront.setLocked(true);
+//            }
         }
     }
 
@@ -221,9 +222,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 mChoiceReturn.setVisibility(View.GONE);
                 if (mTextColorView.getVisibility() == View.VISIBLE) {
                     mTextColorView.setVisibility(View.GONE);
-                    if (mContainerBack.getCurrentSticker() != null) {
-                        mContainerBack.setLocked(true);
-                    }
+//                    if (mContainerFront.getCurrentSticker() != null) {
+//                        mContainerFront.setLocked(true);
+//                    }
                 }
                 break;
             case R.id.tv_back:
@@ -441,6 +442,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
 
         switch (clotheKey.get(mCurrentPosition)) {
             case COLOR:
+                mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 if (mButtonFront.isSelected()) {
                     setColorBg(getClothesFrontBG(mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position)));
 
@@ -448,7 +450,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 if (mButtonBack.isSelected()) {
                     setColorBackBg(getClothesBackBG(mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position)));
                 }
-                mCurrentClothes = mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(position);
                 mBeforeClothes = mCurrentClothes;
                 isFirst = false;
                 break;
@@ -530,6 +531,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private void setColorBackBg(int resource) {
         if (currentBackMask == null) {
             mPresenter.setClothesBg(resource);
+            Log.e("ya", "dvvf");
         } else {
             mPresenter.setClothesBg(resource);
             mPresenter.setImageMask(currentBackMask, Utils.getBitmapResource(resource));
@@ -588,6 +590,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         }
         if (mButtonBack.isSelected()) {
             mContainerBack.setColorBg(clothesBitmap);
+            if (currentBackMask != null) {
+                mPresenter.setImageMask(currentBackMask, clothesBitmap);
+            }
             if (!isClick) {
                 generateBitmap();
                 if (finishBackImage != null && finishFrontImage != null) {

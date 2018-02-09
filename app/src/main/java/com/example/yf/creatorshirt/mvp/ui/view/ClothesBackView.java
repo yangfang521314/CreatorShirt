@@ -243,22 +243,22 @@ public class ClothesBackView extends StickerView {
                 switch (event.getPointerCount()) {
                     //单指模式
                     case 1:
-                        if (!mIsDoubleFinger) {
-                            //记录每次事件在x,y方向上移动
-                            int dx = (int) (event.getX() - mLastX);
-                            int dy = (int) (event.getY() - mLastY);
-                            int tempX = jigsawPictureModel.getPictureX() + dx;
-                            int tempY = jigsawPictureModel.getPictureY() + dy;
-                            Log.e("Tag", "dx" + dx + "::::" + dy);
-                            if (checkPictureLocation(jigsawPictureModel, tempX, tempY)) {
-                                //检查到没有越出镂空部分才真正赋值给mPicModelTouch
-                                jigsawPictureModel.setPictureX(tempX);
-                                jigsawPictureModel.setPictureY(tempY);
-                                //保存上一次的位置，以便下次事件算出相对位移
-                                mLastX = event.getX();
-                                mLastY = event.getY();
-                                //修改了mPicModelTouch的位置后刷新View
-                                if (isFlag) {
+                        if (isFlag) {
+                            if (!mIsDoubleFinger) {
+                                //记录每次事件在x,y方向上移动
+                                int dx = (int) (event.getX() - mLastX);
+                                int dy = (int) (event.getY() - mLastY);
+                                int tempX = jigsawPictureModel.getPictureX() + dx;
+                                int tempY = jigsawPictureModel.getPictureY() + dy;
+                                Log.e("Tag", "dx" + dx + "::::" + dy);
+                                if (checkPictureLocation(jigsawPictureModel, tempX, tempY)) {
+                                    //检查到没有越出镂空部分才真正赋值给mPicModelTouch
+                                    jigsawPictureModel.setPictureX(tempX);
+                                    jigsawPictureModel.setPictureY(tempY);
+                                    //保存上一次的位置，以便下次事件算出相对位移
+                                    mLastX = event.getX();
+                                    mLastY = event.getY();
+                                    //修改了mPicModelTouch的位置后刷新View
                                     mSource.invalidateMode(jigsawPictureModel);
                                 }
                             }
@@ -267,30 +267,30 @@ public class ClothesBackView extends StickerView {
                     //双指模式
                     case 2:
                         //算出两根手指的距离
-                        double fingerDistance = distanceBetweenFingers(event);
-                        //当前的旋转角度
-                        double currentDegree = rotation(event);
-                        //当前手指距离和上一次的手指距离的比即为图片缩放比
-                        float scaleRatioDelta = (float) (fingerDistance / mLastFingerDistance);
-                        float rotateDelta = (float) (currentDegree - mLastDegree);
+                        if (isFlag) {
+                            double fingerDistance = distanceBetweenFingers(event);
+                            //当前的旋转角度
+                            double currentDegree = rotation(event);
+                            //当前手指距离和上一次的手指距离的比即为图片缩放比
+                            float scaleRatioDelta = (float) (fingerDistance / mLastFingerDistance);
+                            float rotateDelta = (float) (currentDegree - mLastDegree);
 
-                        float tempScaleX = scaleRatioDelta * jigsawPictureModel.getScaleX();
-                        float tempScaleY = scaleRatioDelta * jigsawPictureModel.getScaleY();
-                        //对缩放比做限制
-                        if (Math.abs(tempScaleX) < 2.5 && Math.abs(tempScaleX) > 0.1 &&
-                                Math.abs(tempScaleY) < 2.5 && Math.abs(tempScaleY) > 0.1) {
-                            jigsawPictureModel.setScaleX(tempScaleX);
-                            jigsawPictureModel.setScaleY(tempScaleY);
-                            jigsawPictureModel.setRotate(jigsawPictureModel.getRotate() + rotateDelta);
-                            //记录上一次的两手指距离以便下次计算出相对的位置以算出缩放系数
+                            float tempScaleX = scaleRatioDelta * jigsawPictureModel.getScaleX();
+                            float tempScaleY = scaleRatioDelta * jigsawPictureModel.getScaleY();
+                            //对缩放比做限制
+                            if (Math.abs(tempScaleX) < 2.5 && Math.abs(tempScaleX) > 0.1 &&
+                                    Math.abs(tempScaleY) < 2.5 && Math.abs(tempScaleY) > 0.1) {
+                                jigsawPictureModel.setScaleX(tempScaleX);
+                                jigsawPictureModel.setScaleY(tempScaleY);
+                                jigsawPictureModel.setRotate(jigsawPictureModel.getRotate() + rotateDelta);
+                                //记录上一次的两手指距离以便下次计算出相对的位置以算出缩放系数
 //                            invalidate();
-                            if (isFlag) {
                                 mSource.invalidateMode(jigsawPictureModel);
+                                mLastFingerDistance = fingerDistance;
+                                //记录上次的角度以便下一个事件计算出角度变化值
                             }
-                            mLastFingerDistance = fingerDistance;
-                            //记录上次的角度以便下一个事件计算出角度变化值
+                            mLastDegree = currentDegree;
                         }
-                        mLastDegree = currentDegree;
                         break;
                 }
                 break;

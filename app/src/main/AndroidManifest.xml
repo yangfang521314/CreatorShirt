@@ -45,8 +45,7 @@
         <activity
             android:name=".mvp.ui.activity.ChoicePayActivity"
             android:label="@string/title_activity_my_order"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.AddressShowActivity"
             android:screenOrientation="portrait" />
@@ -174,7 +173,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.NewDesignActivity"
-            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".mvp.ui.activity.OrderEditActivity"

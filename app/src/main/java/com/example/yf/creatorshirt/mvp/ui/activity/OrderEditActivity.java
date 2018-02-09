@@ -31,6 +31,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.picker.LineConfig;
 import com.example.yf.creatorshirt.mvp.ui.view.picker.NumberPicker;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -336,6 +337,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             ToastUtil.showToast(this, orderType.getDispContext(), 0);
         }
         if (mPresenter.getSaveOrderInfo() != null) {
+            FileUtils.deleteDir(this);//删除cache图片资源
             Bundle bundle1 = new Bundle();
             SaveOrderInfo saveStyleEntity = mPresenter.getSaveOrderInfo();
             bundle1.putParcelable("orderInfo", saveStyleEntity);

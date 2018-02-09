@@ -99,7 +99,10 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         mAppBarBack.setVisibility(View.VISIBLE);
         mButtonFront.setSelected(true);
         if (mFrontImageUrl != null) {
-            GlideApp.with(this).load(mFrontImageUrl).into(mFrontImage);
+            GlideApp.with(this).load(mFrontImageUrl)
+                    .placeholder(R.mipmap.mcshort_orange_a)
+                    .error(R.mipmap.mcshort_orange_a)
+                    .into(mFrontImage);
         }
     }
 
@@ -128,6 +131,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
                 GlideApp.with(this).load(mFrontImageUrl)
+                        .placeholder(R.mipmap.mcshort_orange_a)
+                        .error(R.mipmap.mcshort_orange_a)
                         .into(mFrontImage);
                 break;
             case R.id.clothes_back:
@@ -137,6 +142,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonFront.setSelected(false);
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
+                            .placeholder(R.mipmap.mcshort_orange_a)
+                            .error(R.mipmap.mcshort_orange_a)
                             .into(mBackImage);
 
                 }

@@ -84,6 +84,4 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
         this.jigsawPictureModel = jigsawPictureModel;
         invalidate();
     }
-
-
 }
