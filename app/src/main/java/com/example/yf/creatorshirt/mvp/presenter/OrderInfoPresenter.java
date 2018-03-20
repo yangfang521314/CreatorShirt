@@ -1,13 +1,10 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
+import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
@@ -20,6 +17,7 @@ import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.GsonUtils;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.NetworkUtils;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
@@ -32,20 +30,10 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
-
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yangfang on 2017/8/28.
@@ -56,34 +44,24 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         OrderInfoContract.Presenter {
 
     private static final int WHAT_SUCCESS = 1;
-    private static final int WHAT_SUCCESS2 = 2;
     private DataManager manager;
     private String QiniuToken;
     private UploadManager uploadManager = new UploadManager();
     private String userToken;
     private String UserId;
-    private String mBack;
-    private AsyncTask<String, Integer, Void> asyncTask;
+    private SimpleArrayMap<String, String> mapList = new SimpleArrayMap<>();
+    private SimpleArrayMap<String, String> mapTotal = new SimpleArrayMap<>();
     private SaveOrderInfo saveOrderInfo;
+    ExecutorService executor = Executors.newCachedThreadPool();
 
-    private Map<String, String> map = new HashMap<>();
-    private List<String> mapAvatar = new ArrayList<>();
-    private List<String> totalNum = new ArrayList<>();
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == WHAT_SUCCESS) {
-                getList("B", mBack);
-            }
-            if (msg.what == WHAT_SUCCESS2) {
                 ToastUtil.cancel();
-                if (asyncTask != null) {
-                    asyncTask.cancel(true);
-                    asyncTask = null;
-                }
-                saveOrderInfo();
+                saveOrderInfo(mapList);
             }
         }
     };
@@ -94,8 +72,9 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     }
 
     private void getList(final String kewWord, final String imageUrl) {
+
         if (TextUtils.isEmpty(QiniuToken)) {
-            Log.e("TAG", "没有取到token");
+            LogUtil.e("TAG", "没有取到token");
             return;
         }
         if (imageUrl == null) {
@@ -106,40 +85,39 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
+                String url;
                 if (info.isOK()) {
-                    Log.e("qiniu_clothes", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
-                    if (kewWord.equals("A")) {
-                        try {
-                            String imageFrontUrl = Constants.ImageUrl + response.get("key");
-                            map.put("A", imageFrontUrl);
-                            handler.sendEmptyMessage(WHAT_SUCCESS);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    try {
+                        url = Constants.ImageUrl + response.get("key");
+                        LogUtil.e("qiniu_clothes", "UPLOAD SUCCESS:" + url);
+                        mapList.put(kewWord, url);
+                        if (mapTotal.size() == 2) {
+                            if (mapList != null && mapList.size() == 2) {
+                                handler.sendEmptyMessage(WHAT_SUCCESS);
+                            }
                         }
-                    }
-                    if (kewWord.equals("B")) {
-                        try {
-                            String imageBackUrl = Constants.ImageUrl + response.get("key");
-                            map.put("B", imageBackUrl);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (mapTotal.size() == 3) {
+                            if (mapList != null && mapList.size() == 3) {
+                                handler.sendEmptyMessage(WHAT_SUCCESS);
+                            }
                         }
-                    }
-                    if (map.size() == 2) {
-                        handler.sendEmptyMessage(WHAT_SUCCESS2);
+                        if (mapTotal.size() == 4) {
+                            if (mapList != null && mapList.size() == 4) {
+                                handler.sendEmptyMessage(WHAT_SUCCESS);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
                 } else {
-                    Log.e("qiniu_clothes", "UPLOAD fail");
+                    LogUtil.e("qiniu_clothes", "UPLOAD fail");
                     mView.showErrorMsg("保存图片失败");
-                    if (asyncTask != null) {
-                        asyncTask.cancel(true);
-                        asyncTask = null;
-                    }
+                    ToastUtil.cancel();
                 }
-            }
 
+            }
         }, null);
     }
 
@@ -149,39 +127,41 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
      */
     public void getToken() {
         userToken = UserInfoManager.getInstance().getToken();
-        Log.e("UserToken", "UserToken" + userToken);
+        LogUtil.e("UserToken", "UserToken" + userToken);
         if (userToken == null) {
             return;
         }
         addSubscribe(manager.getQiToken(userToken)
-                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                        .compose(RxUtils.<String>handleResult())
-                        .subscribeWith(new CommonSubscriber<String>(mView) {
-                            @Override
-                            public void onNext(String s) {
-                                QiniuToken = s;
-//                        mView.showTokenSuccess(s);
-                            }
-                        })
+                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
+                .compose(RxUtils.<String>handleResult())
+                .subscribeWith(new CommonSubscriber<String>(mView) {
+                    @Override
+                    public void onNext(String s) {
+                        QiniuToken = s;
+                    }
+                })
         );
     }
 
     /**
      * 保存信息上传到服务器
+     *
+     * @param map
      */
-    private void saveOrderInfo() {
-        saveOrderInfo.setFinishBimage(map.get("B"));
-        saveOrderInfo.setFinishAimage(map.get("A"));
-
-        if (totalNum.size() > 1) {
-            saveOrderInfo.setPicture1(totalNum.get(0));
-            saveOrderInfo.setPicture2(totalNum.get(1));
-        } else if (totalNum.size() == 1) {
-            saveOrderInfo.setPicture1(totalNum.get(0));
-            saveOrderInfo.setPicture2("");
-        } else {
-            saveOrderInfo.setPicture1("");
-            saveOrderInfo.setPicture2("");
+    private void saveOrderInfo(SimpleArrayMap<String, String> map) {
+        if (map != null && map.size() != 0) {
+            saveOrderInfo.setFinishBimage(map.get("B"));
+            saveOrderInfo.setFinishAimage(map.get("A"));
+            if (map.containsKey("0")) {
+                saveOrderInfo.setPicture1(map.get("0"));
+            } else {
+                saveOrderInfo.setPicture1("");
+            }
+            if (map.containsKey("1")) {
+                saveOrderInfo.setPicture2(map.get("1"));
+            } else {
+                saveOrderInfo.setPicture2("");
+            }
         }
         addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
                 .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
@@ -190,160 +170,81 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
                     @Override
                     public void onNext(OrderType orderType) {
                         if (orderType != null) {
-                            Log.e("OrderInfo", "orderId" + orderType.getOrderId());
-                            mView.showOrderId(orderType);
+                            LogUtil.e("OrderInfo", "orderId" + orderType.getOrderId());
+                            mView.showOrderId(orderType, saveOrderInfo);
                         }
                     }
 
                 }));
+
     }
 
     /**
      * 保存图片
      *
-     * @param key
-     * @param value
+     * @param frontUrl
+     * @param backUrl
+     * @param arrayList
      */
     @SuppressLint("StaticFieldLeak")
-    public void requestSave(final String key, final String value) {
+    public void requestSave(final String frontUrl, final String backUrl, final SimpleArrayMap<String, String> arrayList) {
         if (!NetworkUtils.isNetWorkConnected()) {
             mView.showErrorMsg(App.getInstance().getString(R.string.no_upload_net));
             return;
         }
-        asyncTask = new AsyncTask<String, Integer, Void>() {
-            @Override
-            protected Void doInBackground(String... params) {
-                getList(key, value);
-                return null;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                mView.showPreExecute("正在生成订单");
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-            }
-        };
-        asyncTask.execute();
-
-    }
-
-    public void setBackUrl(String mBackImageUrl) {
-        mBack = mBackImageUrl;
-    }
-
-//    /**
-//     * 分享方法
-//     *
-//     * @param mActivity
-//     */
-//    public void getShare(final Activity mActivity) {
-//        if (mOrderBaseInfo.getFrontUrl() == null) {
-//            return;
-//        }
-//        if (UserInfoManager.getInstance().getUserName() == null) {
-//            return;
-//        }
-//        ShareContentUtil shareContentUtil = new ShareContentUtil(mActivity);
-//        ShareInfoEntity infoEntity = new ShareInfoEntity();
-//        infoEntity.setPicUrl(imageFrontUrl);
-//        infoEntity.setTargetUrl("http://styleweb.man-kang.com?orderid=" + mOrderType.getOrderId());
-//
-//        infoEntity.setContent("衣秀，做自己的设计师");
-//        infoEntity.setTitle(UserInfoManager.getInstance().getUserName() + "的原创定制");
-//        infoEntity.setDefaultImg(R.mipmap.man_t_shirt);//默认图片
-////        shareContentUtil.setOnClickListener(this);
-//        shareContentUtil.startShare(infoEntity, 1);
-//
-//    }
-//
-//
-//    public void getShareToken() {
-//        userToken = UserInfoManager.getInstance().getToken();
-//        if (userToken == null) {
-//            return;
-//        }
-//        addSubscribe(manager.getQiToken(userToken)
-//                        .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-//                        .compose(RxUtils.<String>handleResult())
-//                        .subscribeWith(new CommonSubscriber<String>(mView) {
-//                            @Override
-//                            public void onNext(String s) {
-//                                if (s != null) {
-//                                    QiniuToken = s;
-////                            mView.showShareTokenSuccess(s);
-//                                }
-//                            }
-//                        })
-//        );
-//
-//    }
-
-    private void getAvatarList(final String s, final int i) {
-        if (!NetworkUtils.isNetWorkConnected()) {
-            mView.showErrorMsg(App.getInstance().getString(R.string.no_upload_net));
-            return;
-        }
-        Flowable.create(new FlowableOnSubscribe<String>() {
-            @Override
-            public void subscribe(@NonNull final FlowableEmitter<String> e) throws Exception {
-                String kewWord = "pattern";
-                if (TextUtils.isEmpty(QiniuToken)) {
-                    Log.e("TAG", "没有取到token");
-                    return;
+        mapTotal.put("A", frontUrl);
+        mapTotal.put("B", backUrl);
+        SaveWork work1 = null;
+        SaveWork work2 = null;
+        if (arrayList != null) {
+            if (arrayList.size() != 0) {
+                if (arrayList.containsKey("0")) {
+                    mapTotal.put("0", arrayList.get("0"));
+                    work1 = new SaveWork("0", arrayList.get("0"));
                 }
-                UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
-                String key = UserId + Utils.getTime() + kewWord + i;
-                uploadManager.put(s, key, QiniuToken, new UpCompletionHandler() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void complete(String key, ResponseInfo info, JSONObject response) {
-
-                        if (info.isOK()) {
-                            try {
-                                String url = Constants.ImageUrl + response.get("key");
-                                e.onNext(url);
-                                Log.e("TAG", "avatar_url:" + url);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Log.e("qiniu_avatar", "UPLOAD fail" + key + ":" + info + ":" + response);
-                            mView.showErrorMsg("保存图片失败");
-                        }
-
-                    }
-                }, null);
+                if (arrayList.containsKey("1")) {
+                    mapTotal.put("1", arrayList.get("1"));
+                    work2 = new SaveWork("1", arrayList.get("1"));
+                }
             }
-        }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new CommonSubscriber<String>(mView) {
-                    @Override
-                    public void onNext(String s) {
-                        totalNum.add(s);
-                        if (mapAvatar.size() >= 2) {
-                            if (totalNum.size() < mapAvatar.size()) {
-                                getAvatarList(mapAvatar.get(totalNum.size()), totalNum.size());
-                            }
-                        }
-                    }
-                });
+        }
+
+        SaveWork work3 = new SaveWork("A", frontUrl);
+        SaveWork work4 = new SaveWork("B", backUrl);
+        ToastUtil.showProgressToast(App.getInstance(), "正在生成订单", R.drawable.progress_icon);
+        executor.execute(work3);
+        executor.execute(work4);
+        if (work1 != null) {
+            executor.execute(work1);
+        }
+        if (work2 != null) {
+            executor.execute(work2);
+        }
+        executor.shutdown();
+        if (executor.isTerminated()) {
+            ToastUtil.cancel();
+        }
     }
 
-    public void saveAvatar(List<String> avatarList) {
-        mapAvatar = avatarList;
-        getAvatarList(avatarList.get(0), 0);
-    }
 
     public void setSaveEntity(SaveOrderInfo saveStyleEntity) {
         saveOrderInfo = saveStyleEntity;
     }
+
+    private class SaveWork implements Runnable {
+        private String key;
+
+        private String avatar;
+
+        SaveWork(String s, String s1) {
+            key = s;
+            avatar = s1;
+        }
+
+        @Override
+        public void run() {
+            getList(key, avatar);
+        }
+    }
+
 }

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +43,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.TextItemView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
 
@@ -269,12 +269,23 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
+                            if (mContainerFront.getCurrentSticker() != null) {
+                                TextSticker textSticker = (TextSticker) mContainerFront.getCurrentSticker();
+                                mContainerFront.remove(textSticker);
+                                mContainerFront.removeText(textSticker.getText());
+                            }
                             if (!mContainerFront.isNoneSticker()) {
                                 mContainerFront.removeCurrentSticker();
                                 mContainerFront.setLocked(true);
                             }
+
                         }
                         if (mButtonBack.isSelected()) {
+                            if (mContainerBack.getCurrentSticker() != null) {
+                                TextSticker textSticker = (TextSticker) mContainerBack.getCurrentSticker();
+                                mContainerBack.remove(textSticker);
+                                mContainerBack.removeText(textSticker.getText());
+                            }
                             if (!mContainerBack.isNoneSticker()) {
                                 mContainerBack.removeCurrentSticker();
                                 mContainerBack.setLocked(true);
@@ -414,23 +425,21 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mOrderBaseInfo.setColorName(mCurrentClothes.getColorName());
         mOrderBaseInfo.setType(mCurrentClothes.getType());
         mOrderBaseInfo.setColor(mCurrentClothes.getColor());
-        if (maskA != null) {
-            mOrderBaseInfo.setMaskA(maskA);
-        }
-        if (maskB != null) {
-            mOrderBaseInfo.setMaskB(maskB);
-        }
-        if (patternFrontUrl != null) {
-            mOrderBaseInfo.setPicture1(patternFrontUrl);
-        }
-        if (patternBackUrl != null) {
-            mOrderBaseInfo.setPicture2(patternBackUrl);
-        }
+        mOrderBaseInfo.setMaskA(maskA == null ? "" : maskA);
+        mOrderBaseInfo.setMaskB(maskB == null ? "" : maskB);
+        mOrderBaseInfo.setPicture1(patternFrontUrl);
+        mOrderBaseInfo.setPicture2(patternBackUrl);
         if (mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0) {
             mOrderBaseInfo.setText(mContainerFront.getTextEntities());
+            LogUtil.e("News", "util" + mContainerFront.getTextEntities().toString());
+        } else {
+            mOrderBaseInfo.setText(null);
         }
         if (mContainerBack.getTextEntities() != null && mContainerBack.getTextEntities().size() != 0) {
             mOrderBaseInfo.setBackText(mContainerBack.getTextEntities());
+            LogUtil.e("News", "util" + mContainerBack.getTextEntities().toString());
+        } else {
+            mOrderBaseInfo.setBackText(null);
         }
         bundle.putParcelable("clothesInfo", mOrderBaseInfo);
         startCommonActivity(this, bundle, ShowImageActivity.class);
@@ -531,7 +540,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private void setColorBackBg(int resource) {
         if (currentBackMask == null) {
             mPresenter.setClothesBg(resource);
-            Log.e("ya", "dvvf");
         } else {
             mPresenter.setClothesBg(resource);
             mPresenter.setImageMask(currentBackMask, Utils.getBitmapResource(resource));
@@ -762,6 +770,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        FileUtils.destroyBitmap();
     }
 
     @Override

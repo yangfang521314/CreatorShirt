@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,6 +36,7 @@ import com.example.yf.creatorshirt.mvp.ui.view.popupwindow.ChoiceSizePopupWindow
 import com.example.yf.creatorshirt.mvp.ui.view.CircleView;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -116,13 +116,13 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private boolean isCheck() {
         if (TextUtils.isEmpty(mBombStyleBean.getColor())) {
-            Log.e(TAG, "没有颜色值");
+            LogUtil.e(TAG, "没有颜色值");
             return true;
         } else if (TextUtils.isEmpty(mBombStyleBean.getBaseName())) {
-            Log.e(TAG, "没有衣服名字");
+            LogUtil.e(TAG, "没有衣服名字");
             return true;
         } else if (TextUtils.isEmpty(mBombStyleBean.getTitle())) {
-            Log.e(TAG, "没有TITLE");
+            LogUtil.e(TAG, "没有TITLE");
             return true;
         }
         return false;
@@ -187,6 +187,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);
                 }
+                break;
             case R.id.user_avatar:
                 break;
             case R.id.praise:

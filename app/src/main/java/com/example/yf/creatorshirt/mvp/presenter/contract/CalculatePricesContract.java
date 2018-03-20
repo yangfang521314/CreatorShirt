@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
-import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
@@ -17,11 +16,11 @@ public interface CalculatePricesContract {
 
     interface CalculatePricesView extends BaseView{
 
-        void showPrices(ClothesPrice prcie);
-
         void showSizeList(Map<String, List<ClothesSize>> list);
 
         void showPay(OrderType orderType);
+
+        void showPrices(double discountPrice, double orderPrice);
     }
 
     interface  Presenter extends BasePresenter<CalculatePricesView>{

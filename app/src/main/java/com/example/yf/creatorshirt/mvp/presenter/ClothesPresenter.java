@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
@@ -11,6 +10,7 @@ import com.example.yf.creatorshirt.mvp.model.ClothesStyleBean;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.ClothesContract;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.widget.CommonObserver;
 
@@ -20,7 +20,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 /**
@@ -44,64 +43,61 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
      */
     @Override
     public void getClothesVersion() {
-        Observable.create(new ObservableOnSubscribe<ClothesStyleBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<ClothesStyleBean> e) throws Exception {
-                NSDictionary ary = (NSDictionary) PropertyListParser.parse(App.getInstance().getAssets().open("version_1.plist"));
-                VerName = ary.allKeys();//衣服类型
-                for (String aVerName : VerName) {
+        Observable.create((ObservableOnSubscribe<ClothesStyleBean>) e -> {
+            NSDictionary ary = (NSDictionary) PropertyListParser.parse(App.getInstance().getAssets().open("version_1.plist"));
+            VerName = ary.allKeys();//衣服类型
+            for (String aVerName : VerName) {
 
-                    NSDictionary dictionary = (NSDictionary) ary.objectForKey(aVerName);
-                    String name = dictionary.objectForKey("name").toJavaObject().toString();
-                    mListVerName.add(name);
-                    if (dictionary.containsKey("M")) {
-                        mVersionStyle = new ArrayList<>();
-                        NSArray nsArray = (NSArray) dictionary.objectForKey("M");
-                        for (int j = 0; j < nsArray.count(); j++) {
-                            NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
-                            String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
-                            String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
-                            String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
-                            VersionStyle style = new VersionStyle();
-                            style.setColor(color);
-                            style.setType(aVerName);
-                            style.setColorName(colorName);
-                            style.setGender(type);
-                            style.setSex("m");
-                            style.setClothesType(name);
-                            mVersionStyle.add(style);
-                        }
-                        totalManMap.put(name, mVersionStyle);
+                NSDictionary dictionary = (NSDictionary) ary.objectForKey(aVerName);
+                String name = dictionary.objectForKey("name").toJavaObject().toString();
+                mListVerName.add(name);
+                if (dictionary.containsKey("M")) {
+                    mVersionStyle = new ArrayList<>();
+                    NSArray nsArray = (NSArray) dictionary.objectForKey("M");
+                    for (int j = 0; j < nsArray.count(); j++) {
+                        NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
+                        String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
+                        String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
+                        String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
+                        VersionStyle style = new VersionStyle();
+                        style.setColor(color);
+                        style.setType(aVerName);
+                        style.setColorName(colorName);
+                        style.setGender(type);
+                        style.setSex("m");
+                        style.setClothesType(name);
+                        mVersionStyle.add(style);
                     }
-
-                    if (dictionary.containsKey("W")) {
-                        mVersionStyle = new ArrayList<>();
-                        NSArray nsArray = (NSArray) dictionary.objectForKey("W");
-                        for (int j = 0; j < nsArray.count(); j++) {
-                            NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
-                            String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
-                            String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
-                            String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
-                            VersionStyle style = new VersionStyle();
-                            style.setColor(color);
-                            style.setType(aVerName);
-                            style.setColorName(colorName);
-                            style.setGender(type);
-                            style.setSex("w");
-                            style.setClothesType(name);
-                            mVersionStyle.add(style);
-
-                        }
-                        totalWomanMap.put(name, mVersionStyle);
-                    }
+                    totalManMap.put(name, mVersionStyle);
                 }
-                ClothesStyleBean clothesStyleBean = new ClothesStyleBean();
-                clothesStyleBean.setmListVerName(mListVerName);
-                clothesStyleBean.setTotalManMap(totalManMap);
-                clothesStyleBean.setTotalWomanMap(totalWomanMap);
-                e.onNext(clothesStyleBean);
 
+                if (dictionary.containsKey("W")) {
+                    mVersionStyle = new ArrayList<>();
+                    NSArray nsArray = (NSArray) dictionary.objectForKey("W");
+                    for (int j = 0; j < nsArray.count(); j++) {
+                        NSDictionary dictionaryDic = (NSDictionary) nsArray.objectAtIndex(j);
+                        String type = dictionaryDic.objectForKey("type").toJavaObject().toString();
+                        String color = dictionaryDic.objectForKey("colorhex").toJavaObject().toString();
+                        String colorName = dictionaryDic.objectForKey("color").toJavaObject().toString();
+                        VersionStyle style = new VersionStyle();
+                        style.setColor(color);
+                        style.setType(aVerName);
+                        style.setColorName(colorName);
+                        style.setGender(type);
+                        style.setSex("w");
+                        style.setClothesType(name);
+                        mVersionStyle.add(style);
+
+                    }
+                    totalWomanMap.put(name, mVersionStyle);
+                }
             }
+            ClothesStyleBean clothesStyleBean = new ClothesStyleBean();
+            clothesStyleBean.setmListVerName(mListVerName);
+            clothesStyleBean.setTotalManMap(totalManMap);
+            clothesStyleBean.setTotalWomanMap(totalWomanMap);
+            e.onNext(clothesStyleBean);
+
         }).compose(RxUtils.<ClothesStyleBean>rxObScheduleHelper())
                 .compose(RxUtils.<ClothesStyleBean>rxObScheduleHelper())
                 .subscribeWith(new CommonObserver<ClothesStyleBean>(null) {
@@ -109,7 +105,7 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
                     public void onNext(ClothesStyleBean clothesStyleBean) {
                         if (clothesStyleBean != null) {
                             mView.showTotalClothes(clothesStyleBean);
-                            Log.e("R", "clo" + clothesStyleBean.toString());
+                            LogUtil.e("R", "clo" + clothesStyleBean.toString());
                         }
                     }
                 });

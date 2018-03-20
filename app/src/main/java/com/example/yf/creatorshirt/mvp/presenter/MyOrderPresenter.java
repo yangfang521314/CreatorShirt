@@ -209,18 +209,6 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
                 })
 
         );
-//        TestRequestServer.getInstance().payMentOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
-//                .enqueue(new Callback<HttpResponse>() {
-//                    @Override
-//                    public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-//                        Log.e("tga", "fuck" + response.body().getResult());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<HttpResponse> call, Throwable t) {
-//
-//                    }
-//                });
     }
 
     /**

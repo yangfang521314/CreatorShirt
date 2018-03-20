@@ -88,8 +88,8 @@ public class ClothesSizePresenter implements BasePresenter {
             for (int j = 0; j < jsonArray1.size(); j++) {
                 com.alibaba.fastjson.JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
                 clothesSize = new ClothesSize();
-                clothesSize.setSize(jsonObject1.getString("value"));
-                clothesSize.setLetter(jsonObject1.getString("size"));
+                clothesSize.setValue(jsonObject1.getString("value"));
+                clothesSize.setSize(jsonObject1.getString("size"));
                 mClothesSizesList.add(clothesSize);
             }
             putMap(name, mClothesSizesList);

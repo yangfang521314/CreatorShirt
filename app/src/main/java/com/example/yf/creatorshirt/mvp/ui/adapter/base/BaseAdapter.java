@@ -106,4 +106,10 @@ public abstract class BaseAdapter<M, VH extends BaseViewHolder> extends AbsAdapt
         notifyItemRangeInserted(startPosition, mData.size());
     }
 
+    public void deleteListener() {
+        if (clickListener != null) {
+            clickListener = null;
+        }
+    }
+
 }

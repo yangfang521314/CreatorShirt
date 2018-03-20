@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -12,7 +13,7 @@ public interface OrderInfoContract {
 
     interface OrderInfoView extends BaseView {
 
-        void showOrderId(OrderType orderType);
+        void showOrderId(OrderType orderType, SaveOrderInfo saveOrderInfo);
 
         void showPreExecute(String info);
     }

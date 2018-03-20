@@ -71,4 +71,6 @@ public interface TestRequestApi {
     @POST("f-orders/updateOrders")
     Call<HttpResponse> updateOrders(@Header("Token") String token, @Body RequestBody gson);
 
+    @POST("f-orders/requestOrders")
+    Call<HttpResponse> requestMyorder(@Header("Token") String token, @Body RequestBody gson);
 }

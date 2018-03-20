@@ -76,8 +76,8 @@ public class RxUtils {
                     @Override
                     public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
                         if (tHttpResponse.getStatus() == 1) {
-                            Log.e(TAG, "status" + tHttpResponse.getStatus());
-                            Log.e(TAG, "status" + tHttpResponse.getResult());
+                            LogUtil.e(TAG, "status" + tHttpResponse.getStatus());
+                            LogUtil.e(TAG, "status" + tHttpResponse.getResult());
                             if (tHttpResponse.getResult() == null) {
                                 return Flowable.error(new Throwable("没有数据"));
                             }

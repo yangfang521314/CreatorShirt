@@ -7,35 +7,38 @@ import java.util.ArrayList;
 
 /**
  * Created by yangfang on 2018/1/30.
- * "orderId": 286,
- * "partner": "15868178345",
- * "baseId": "kidl",
- * "picture1": "",
- * "picture2": "",
- * "text": "",
- * "allimage1": "http://oub3nsjgh.bkt.clouddn.com/1143_20180130_154839A",
- * "orderPrice": 0,
- * "adddate": "2018-01-30T15:48:40.000Z",
- * "address": "北京又来北京又来北京又来北京又来北京又来被额模型重庆噢噢噢哦哦哦哦哦哦哦莫",
- * "zipcode": 0,
- * "mobile": "15868178344",
- * "paymode": "aliPay",
- * "status": "new",
- * "payorderid": "9529e56d053a46369500d976e5c2a609",
- * "color": "CBEBFB",
- * "allimage2": "http://oub3nsjgh.bkt.clouddn.com/1143_20180130_154840B",
- * "username": "undefined",
- * "maskAName": "pattern_1",
- * "maskBName": "pattern_2",
- * "discount": "",
- * "backText": "",
- * "finishAimage": "http://oub3nsjgh.bkt.clouddn.com/1143_20180130_154839A",
- * "finishBimage": "http://oub3nsjgh.bkt.clouddn.com/1143_20180130_154840B",
- * "detailList": []
+ * "
+ * {orderId=750.0,
+ * partner=15868178345,
+ * baseId=cshort,
+ * picture1=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_1546500,
+ * picture2=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_1546501,
+ * text=,
+ * allimage1=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_154650A,
+ * orderPrice=0.0,
+ * adddate=2018-03-20T15:46:52.000Z,
+ * address=null,
+ * zipcode=null,
+ * mobile=null,
+ * paymode=,
+ * status=new,
+ * payorderid=,
+ * color=000000,
+ * allimage2=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_154650B,
+ * username=null,
+ * maskAName=,
+ * maskBName=,
+ * discount=,
+ * backText=[hello],
+ * expressName=,
+ * expressId=,
+ * submit=0.0,
+ * finishAimage=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_154650A,
+ * finishBimage=http://oub3nsjgh.bkt.clouddn.com/1143_20180320_154650B,
  * }
  */
 
-public class MyOrderInfo implements Parcelable{
+public class MyOrderInfo implements Parcelable {
     private int orderId;
     private String partner;
     private String baseId;//自定义的图片
@@ -57,6 +60,9 @@ public class MyOrderInfo implements Parcelable{
     private String maskBName;
     private String discount;
     private String backText;
+    private String expressName;
+    private String expressId;
+    private String submit;
     private String finishAimage;
     private String finishBimage;
     private ArrayList<ClotheRetureSize> detailList;
@@ -83,6 +89,9 @@ public class MyOrderInfo implements Parcelable{
         maskBName = in.readString();
         discount = in.readString();
         backText = in.readString();
+        expressName = in.readString();
+        expressId = in.readString();
+        submit = in.readString();
         finishAimage = in.readString();
         finishBimage = in.readString();
         detailList = in.createTypedArrayList(ClotheRetureSize.CREATOR);
@@ -128,6 +137,9 @@ public class MyOrderInfo implements Parcelable{
         dest.writeString(maskBName);
         dest.writeString(discount);
         dest.writeString(backText);
+        dest.writeString(expressName);
+        dest.writeString(expressId);
+        dest.writeString(submit);
         dest.writeString(finishAimage);
         dest.writeString(finishBimage);
         dest.writeTypedList(detailList);
@@ -135,13 +147,13 @@ public class MyOrderInfo implements Parcelable{
 
 
     /**
-     *  "detailId": 1,
-     "size": "M",
-     "count": 15,
-     "sex": 1,
-     "value": "165~175cm"
+     * "detailId": 1,
+     * "size": "M",
+     * "count": 15,
+     * "sex": 1,
+     * "value": "165~175cm"
      */
-    public static class ClotheRetureSize implements Parcelable{
+    public static class ClotheRetureSize implements Parcelable {
         private int orderid;
         private int detailId;
         private String size;
@@ -414,6 +426,30 @@ public class MyOrderInfo implements Parcelable{
         this.backText = backText;
     }
 
+    public String getExpressName() {
+        return expressName;
+    }
+
+    public void setExpressName(String expressName) {
+        this.expressName = expressName;
+    }
+
+    public String getExpressId() {
+        return expressId;
+    }
+
+    public void setExpressId(String expressId) {
+        this.expressId = expressId;
+    }
+
+    public String getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(String submit) {
+        this.submit = submit;
+    }
+
     public String getFinishAimage() {
         return finishAimage;
     }
@@ -436,10 +472,6 @@ public class MyOrderInfo implements Parcelable{
 
     public void setDetailList(ArrayList<ClotheRetureSize> detailList) {
         this.detailList = detailList;
-    }
-
-    public static Creator<MyOrderInfo> getCREATOR() {
-        return CREATOR;
     }
 
     @Override
@@ -466,6 +498,9 @@ public class MyOrderInfo implements Parcelable{
                 ", maskBName='" + maskBName + '\'' +
                 ", discount='" + discount + '\'' +
                 ", backText='" + backText + '\'' +
+                ", expressName='" + expressName + '\'' +
+                ", expressId='" + expressId + '\'' +
+                ", submit='" + submit + '\'' +
                 ", finishAimage='" + finishAimage + '\'' +
                 ", finishBimage='" + finishBimage + '\'' +
                 ", detailList=" + detailList +

@@ -33,4 +33,5 @@ public class HttpResponse<T> {
                 ", result=" + result +
                 '}';
     }
+
 }

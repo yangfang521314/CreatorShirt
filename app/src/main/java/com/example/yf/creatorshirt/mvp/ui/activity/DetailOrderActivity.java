@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
@@ -18,6 +19,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.MyOrderSizeAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
+import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,14 @@ public class DetailOrderActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_price)
     TextView mTvPrices;
+    @BindView(R.id.submit)
+    TextView mSubmit;
+    @BindView(R.id.expressName)
+    TextView mExpressName;
+    @BindView(R.id.expressId)
+    TextView mExpressId;
+    @BindView(R.id.ll_express_info)
+    LinearLayout mLLExpressInfo;
     private ShapeView shapeView;
     private MyOrderInfo myOrderInfo;
     private String[] mAllImage = new String[2];
@@ -56,6 +66,7 @@ public class DetailOrderActivity extends BaseActivity {
         super.initData();
         if (getIntent().hasExtra("orderInfo") && getIntent().getExtras() != null) {
             myOrderInfo = getIntent().getExtras().getParcelable("orderInfo");
+            LogUtil.e("FFF", "DDDD" + myOrderInfo.toString());
             if (myOrderInfo != null) {
                 mAllImage[0] = myOrderInfo.getAllimage1();
                 mAllImage[1] = myOrderInfo.getAllimage2();
@@ -73,15 +84,31 @@ public class DetailOrderActivity extends BaseActivity {
         mReceiverMobile.setText(myOrderInfo.getMobile());
         mReceiverAddress.setText(myOrderInfo.getAddress());
         mTvPrices.setText("¥：" + myOrderInfo.getOrderPrice());
-
+        if ("new".equals(myOrderInfo.getStatus())) {
+            mStartOrder.setVisibility(View.VISIBLE);
+            mLLExpressInfo.setVisibility(View.GONE);
+        } else {
+            mStartOrder.setVisibility(View.GONE);
+            mLLExpressInfo.setVisibility(View.VISIBLE);
+            if (myOrderInfo.getSubmit().equals("1")) {
+                mSubmit.setText("提交厂家：已提交");
+            } else {
+                mSubmit.setText("提交厂家：未提交");
+            }
+            mExpressName.setText("快递公司："+myOrderInfo.getExpressName());
+            mExpressId.setText("快递单号："+myOrderInfo.getExpressId());
+        }
     }
 
-    @OnClick({R.id.btn_start})
+    @OnClick({R.id.btn_start, R.id.back})
     void onClick(View view) {
         if (view.getId() == R.id.btn_start) {
             Bundle bundle = new Bundle();
             bundle.putParcelable("clothesInfoOrder", myOrderInfo);
             startCommonActivity(this, bundle, OrderEditActivity.class);
+        }
+        if (view.getId() == R.id.back) {
+            finish();
         }
     }
 
@@ -105,12 +132,14 @@ public class DetailOrderActivity extends BaseActivity {
             GlideApp.with(this).load(mAllImage[0])
                     .placeholder(R.mipmap.mcshort_orange_a)
                     .error(R.mipmap.mcshort_orange_a)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(imageView);
             mViewList.add(imageView);
             final ImageView imageView2 = new ImageView(this);
             GlideApp.with(this).asBitmap()
                     .placeholder(R.mipmap.mcshort_orange_a)
                     .error(R.mipmap.mcshort_orange_a)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .load(mAllImage[1])
                     .into(imageView2);
             mViewList.add(imageView2);

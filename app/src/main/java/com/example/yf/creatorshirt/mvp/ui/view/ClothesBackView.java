@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,6 +98,9 @@ public class ClothesBackView extends StickerView {
 
             @Override
             public void onStickerDeleted(@NonNull Sticker sticker) {
+                if (sticker instanceof TextSticker) {
+                    removeText(((TextSticker) sticker).getText());
+                }
             }
 
             @Override
@@ -231,7 +233,6 @@ public class ClothesBackView extends StickerView {
                 break;
             //单指模式
             case MotionEvent.ACTION_DOWN:
-                Log.e("down", "DDD" + event.getX());
                 //记录上一次事件的位置
                 mLastX = event.getX();
                 mLastY = event.getY();
@@ -250,7 +251,6 @@ public class ClothesBackView extends StickerView {
                                 int dy = (int) (event.getY() - mLastY);
                                 int tempX = jigsawPictureModel.getPictureX() + dx;
                                 int tempY = jigsawPictureModel.getPictureY() + dy;
-                                Log.e("Tag", "dx" + dx + "::::" + dy);
                                 if (checkPictureLocation(jigsawPictureModel, tempX, tempY)) {
                                     //检查到没有越出镂空部分才真正赋值给mPicModelTouch
                                     jigsawPictureModel.setPictureX(tempX);
@@ -315,7 +315,6 @@ public class ClothesBackView extends StickerView {
      * 检查图片范围是否超出窗口,此方法还要完善
      */
     private boolean checkPictureLocation(PictureModel mPictureModel, int tempX, int tempY) {
-//        Bitmap picture = mPictureModel.getBitmapPicture();
         return (tempY < mSource.getHeight() / 2 && tempY > -mSource.getHeight() / 2)
                 && (tempX < mSource.getWidth() / 2) && (tempX > -mSource.getWidth() / 2);
     }
@@ -344,5 +343,13 @@ public class ClothesBackView extends StickerView {
 
     public void setTouchFlag(boolean b) {
         isFlag = b;
+    }
+
+    public void removeText(String text) {
+        if (textEntities != null) {
+            if (textEntities.contains(text)) {
+                textEntities.remove(text);
+            }
+        }
     }
 }

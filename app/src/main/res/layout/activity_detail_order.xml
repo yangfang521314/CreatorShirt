@@ -14,10 +14,10 @@
 
     <RelativeLayout
         android:id="@+id/rl_detail"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar">
+        android:layout_below="@+id/app_bar"
+        android:layout_marginTop="5dp">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_clothes"
@@ -73,6 +73,47 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_express_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_clothes_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="提交厂家：已提交"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/expressName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="快递公司：申通快递"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/expressId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:text="快递单号：1111111111"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -98,9 +139,9 @@
     <Button
         android:id="@+id/btn_start"
         style="@style/common_start_btn"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
         android:background="@color/sand"
         android:text="下单"
         android:textSize="16sp" />

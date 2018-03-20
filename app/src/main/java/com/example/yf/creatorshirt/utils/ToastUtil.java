@@ -32,8 +32,9 @@ public class ToastUtil {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW_TOAST:
-
-                    mToast.show();
+                    if(mToast != null) {
+                        mToast.show();
+                    }
                     mHandler.sendEmptyMessageDelayed(SHOW_TOAST, TOAST_SHORT_DELAY);
 
                     break;

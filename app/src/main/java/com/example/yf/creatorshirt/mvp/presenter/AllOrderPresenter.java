@@ -30,7 +30,7 @@ public class AllOrderPresenter extends RxPresenter<AllOrderContract.AllOrderView
 
     public void getMyAllOrder() {
         Map<String, String> keyValues = new HashMap<>();
-        if(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile() != null) {
+        if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile() != null) {
             keyValues.put("partner", String.valueOf(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile()));
             addSubscribe(manager.requestMyOrder(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(keyValues))
                     .compose(RxUtils.<HttpResponse<List<MyOrderInfo>>>rxSchedulerHelper())

@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,7 +59,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     private String mBackImageUrl;
     private String mFrontImageUrl;
     private VersionStyle mOrderBaseInfo;
-    private List<String> arrayList = new ArrayList<>();
+    private SimpleArrayMap<String, String> arrayList = new SimpleArrayMap<>();
     private SaveOrderInfo saveStyleEntity;
 
     @Override
@@ -75,10 +76,10 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
             }
             assert mOrderBaseInfo != null;
             if (mOrderBaseInfo.getPicture1() != null) {
-                arrayList.add(mOrderBaseInfo.getPicture1());
+                arrayList.put("0", mOrderBaseInfo.getPicture1());
             }
             if (mOrderBaseInfo.getPicture2() != null) {
-                arrayList.add(mOrderBaseInfo.getPicture2());
+                arrayList.put("1", mOrderBaseInfo.getPicture2());
             }
         }
     }
@@ -112,11 +113,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
             case R.id.btn_choice_order:
                 if (App.isLogin) {
                     mPresenter.setSaveEntity(setBaseInfo());
-                    mPresenter.setBackUrl(mBackImageUrl);
-                    if (arrayList != null && arrayList.size() != 0) {
-                        mPresenter.saveAvatar(arrayList);
-                    }
-                    mPresenter.requestSave("A", mOrderBaseInfo.getFrontUrl());
+                    mPresenter.requestSave(mOrderBaseInfo.getFrontUrl(), mOrderBaseInfo.getBackUrl(), arrayList);
                     mCreateOrder.setEnabled(false);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
@@ -131,6 +128,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonBack.setSelected(false);
                 mButtonFront.setSelected(true);
                 GlideApp.with(this).load(mFrontImageUrl)
+                        .skipMemoryCache(true)
                         .placeholder(R.mipmap.mcshort_orange_a)
                         .error(R.mipmap.mcshort_orange_a)
                         .into(mFrontImage);
@@ -142,6 +140,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
                 mButtonFront.setSelected(false);
                 if (mBackImageUrl != null) {
                     GlideApp.with(this).load(mBackImageUrl)
+                            .skipMemoryCache(true)
                             .placeholder(R.mipmap.mcshort_orange_a)
                             .error(R.mipmap.mcshort_orange_a)
                             .into(mBackImage);
@@ -159,6 +158,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         saveStyleEntity.setColor(mOrderBaseInfo.getColor());
         saveStyleEntity.setPicture1(mOrderBaseInfo.getPicture1());
         saveStyleEntity.setPicture2(mOrderBaseInfo.getPicture2());
+        saveStyleEntity.setMaskAName(mOrderBaseInfo.getMaskA());
+        saveStyleEntity.setMaskBName(mOrderBaseInfo.getMaskB());
         if (mOrderBaseInfo.getText() != null && mOrderBaseInfo.getText().size() != 0) {
             saveStyleEntity.setText(mOrderBaseInfo.getText().toString());
         } else {
@@ -169,12 +170,9 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
         } else {
             saveStyleEntity.setBackText("");
         }
-        //todo 要设置 mask的name
-        saveStyleEntity.setMaskAName("pattern_1");//暂时未设置替换
-        saveStyleEntity.setMaskBName("pattern_2");
         saveStyleEntity.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
         saveStyleEntity.setDiscount("");
-        ArrayList<ClothesSize> list = new ArrayList<>();//这里传""
+        List<ClothesSize> list = new ArrayList<>();//这里传""
         ClothesSize versionStyle = new ClothesSize();
         versionStyle.setSize("");
         saveStyleEntity.setDetailList(list);
@@ -208,13 +206,13 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     }
 
     @Override
-    public void showOrderId(OrderType orderType) {//orderId
+    public void showOrderId(OrderType orderType, SaveOrderInfo saveOrderInfo) {//orderId
         if (orderType.getDispContext() != null) {
             ToastUtil.showToast(this, orderType.getDispContext(), 0);
         }
         Bundle bundle = new Bundle();
-        saveStyleEntity.setOrderId(orderType.getOrderId());
-        bundle.putParcelable("clothesInfo", saveStyleEntity);
+        saveOrderInfo.setOrderId(orderType.getOrderId());
+        bundle.putParcelable("clothesInfo", saveOrderInfo);
         startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
     }
 

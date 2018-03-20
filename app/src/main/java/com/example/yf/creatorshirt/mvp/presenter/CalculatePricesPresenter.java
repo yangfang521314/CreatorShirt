@@ -51,24 +51,17 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
      * 衣服和尺寸
      *
      * @param mOrderClothesInfo
+     * @param clothesSizeList
      * @param discount
      */
-    public void setSaveEntity(SaveOrderInfo mOrderClothesInfo, ArrayList<ClothesSize> clothesSizeList, String discount) {
+    public void setSaveEntity(SaveOrderInfo mOrderClothesInfo, List<ClothesSize> clothesSizeList, String discount) {
         saveOrderInfo = mOrderClothesInfo;
         if (discount == null) {
             saveOrderInfo.setDiscount("");
         }
         saveOrderInfo.setDiscount(discount);
         sizeList = clothesSizeList;
-        List<ClothesSize> list = new ArrayList<>();
-        ClothesSize clothesSize;
-        for (int i = 0; i < clothesSizeList.size(); i++) {
-            clothesSize = new ClothesSize();
-            clothesSize.setCount(clothesSizeList.get(i).getCount());
-            clothesSize.setSize(clothesSizeList.get(i).getSize());
-            list.add(clothesSize);
-        }
-        saveOrderInfo.setDetailList(list);
+        saveOrderInfo.setDetailList(clothesSizeList);
         computerOrderPrice();
     }
 
@@ -87,14 +80,15 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                     @Override
                     public void onNext(ClothesPrice s) {
                         if (s != null) {
-                            mView.showPrices(s);
                             if (s.getDiscountPrice() != 0) {
                                 if (s.getOrderPrice() > s.getDiscountPrice()) {
                                     saveOrderInfo.setOrderPrice(s.getDiscountPrice());
                                     saveOrderInfo.setDiscount(s.getDiscountcode());
+                                    mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
                                 } else {
                                     saveOrderInfo.setOrderPrice(s.getOrderPrice());
                                     saveOrderInfo.setDiscount("");
+                                    mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
                                 }
                             }
                         }
@@ -151,8 +145,8 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
             for (int j = 0; j < jsonArray1.size(); j++) {
                 com.alibaba.fastjson.JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
                 clothesSize = new ClothesSize();
-                clothesSize.setSize(jsonObject1.getString("value"));
-                clothesSize.setLetter(jsonObject1.getString("size"));
+                clothesSize.setValue(jsonObject1.getString("value"));
+                clothesSize.setSize(jsonObject1.getString("size"));
                 mClothesSizesList.add(clothesSize);
             }
             putMap(name, mClothesSizesList);
@@ -170,15 +164,15 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
         saveOrderInfo.setDetailList(sizeList);
 
         addSubscribe(manager.updateOrders(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveOrderInfo))
-        .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-        .compose(RxUtils.<OrderType>handleResult())
-        .subscribeWith(new CommonSubscriber<OrderType>(mView) {
-            @Override
-            public void onNext(OrderType orderType) {
-                if(orderType != null)
-                mView.showPay(orderType);
-            }
-        }));
+                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
+                .compose(RxUtils.<OrderType>handleResult())
+                .subscribeWith(new CommonSubscriber<OrderType>(mView) {
+                    @Override
+                    public void onNext(OrderType orderType) {
+                        if (orderType != null)
+                            mView.showPay(orderType);
+                    }
+                }));
 
     }
 }

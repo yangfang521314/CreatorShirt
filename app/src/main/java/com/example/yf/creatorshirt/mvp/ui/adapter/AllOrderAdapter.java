@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
@@ -29,6 +30,7 @@ public class AllOrderAdapter extends BaseAdapter<MyOrderInfo, ItemViewHolder> {
     @Override
     protected void bindCustomViewHolder(ItemViewHolder holder, final int position) {
         GlideApp.with(mContext).load(mData.get(position).getAllimage1())
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .placeholder(R.mipmap.mcshort_orange_a)
                 .error(R.mipmap.mcshort_orange_a)
                 .into(holder.mStyleImageView);

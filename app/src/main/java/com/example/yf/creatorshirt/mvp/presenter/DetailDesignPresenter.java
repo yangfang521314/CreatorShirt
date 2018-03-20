@@ -216,8 +216,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
-                Bitmap bitmap = FileUtils.getMaskBitmap(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, source, mask);
-                e.onNext(bitmap);
+                e.onNext(FileUtils.getMaskBitmap(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, source, mask));
             }
         }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
                 .subscribe(new CommonObserver<Bitmap>(mView) {
@@ -237,8 +236,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         Observable.create(new ObservableOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
-                Bitmap bitmap = FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(image));
-                e.onNext(bitmap);
+                e.onNext(FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(image)));
             }
         }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
                 .subscribe(new CommonObserver<Bitmap>(mView) {

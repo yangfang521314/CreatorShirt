@@ -19,15 +19,15 @@ import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
 import com.example.yf.creatorshirt.mvp.model.address.City;
-import com.example.yf.creatorshirt.utils.RequestCityListTask;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.AddressListAdapter;
+import com.example.yf.creatorshirt.utils.LogUtil;
+import com.example.yf.creatorshirt.utils.RequestCityListTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +155,7 @@ public class AddressCheckActivity extends BaseActivity {
 
             City one = mOneList.get(mCurrentOneSelect);
             mTwoList = one.getCityList();
-            Log.e("TAG", "" + mOneList.size() + ":" + mCurrentOneSelect + "：：");
+            LogUtil.e("TAG", "" + mOneList.size() + ":" + mCurrentOneSelect + "：：");
 
             if (mTwoList == null || mTwoList.size() == 0) { // 选定一级。
                 setResultFinish(one, null, null);

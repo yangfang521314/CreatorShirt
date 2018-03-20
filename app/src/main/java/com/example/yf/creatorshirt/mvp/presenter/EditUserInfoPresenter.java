@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.UpdateUserInfoEvent;
@@ -15,6 +14,7 @@ import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.EditUserInfoContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.GsonUtils;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.Utils;
@@ -94,7 +94,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
                     public Integer apply(@NonNull HttpResponse httpResponse) throws Exception {
-                        Log.e("TAG", "RESPONSE" + httpResponse.getStatus());
+                        LogUtil.e("TAG", "RESPONSE" + httpResponse.getStatus());
                         return httpResponse.getStatus();
                     }
                 })
@@ -121,14 +121,14 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
      */
     public void saveUserAvatar() {
         String key = "avatar_" + SharedPreferencesUtil.getUserId() + Utils.getTime();
-        Log.e("TAG", "EditUSER" + QiniuToken);
+        LogUtil.e("TAG", "EditUSER" + QiniuToken);
         uploadManager.put(file, key, QiniuToken, new UpCompletionHandler() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
 
                 if (info.isOK()) {
-                    Log.e("qiniu_back", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
+                    LogUtil.e("qiniu_back", "UPLOAD SUCCESS" + key + ":" + info + ":" + response);
                     try {
                         userAvatar = Constants.ImageUrl + response.get("key");
                         mHandler.sendEmptyMessage(IMAGE_SUCCESS);
@@ -138,7 +138,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
                     }
 
                 } else {
-                    Log.e("qiniu_back", "UPLOAD fail");
+                    LogUtil.e("qiniu_back", "UPLOAD fail");
                     mView.showErrorMsg("保存图片失败");
                 }
 

@@ -98,7 +98,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
                 } else {
                     //Umeng有提醒是否安装的Toast，不需要设置Toast。
-                    Log.e("TAG", "dfuc you");
                 }
                 break;
             case R.id.send_code:

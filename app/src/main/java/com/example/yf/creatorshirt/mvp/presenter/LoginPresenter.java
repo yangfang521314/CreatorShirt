@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
@@ -12,6 +11,7 @@ import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
 import com.example.yf.creatorshirt.utils.GsonUtils;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.RxUtils;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.widget.CommonSubscriber;
@@ -65,7 +65,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
             map.put("password", password);
             Gson gson = new Gson();
             String requestEntity = gson.toJson(map);
-            Log.e("TAG", "phone" + requestEntity);
+            LogUtil.e("TAG", "phone" + requestEntity);
             RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), requestEntity);
             addSubscribe(mDataManager.login(body)
                     .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())

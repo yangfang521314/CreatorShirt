@@ -7,24 +7,38 @@ import java.io.Serializable;
 
 /**
  * Created by yangfang on 2017/9/1.
+ * [{"count":"1","sex":"1","size":"M","value":"165~175cm"}]
  */
 
 public class ClothesSize implements Parcelable,Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String size;//尺寸
-    private String letter;//性别中文
+    private String size;//尺寸字母
+    private String value;//具体尺寸数量
     private int count;//数量
     private int sex;//性别英文or数字代表
 
     protected ClothesSize(Parcel in) {
         size = in.readString();
-        letter = in.readString();
+        value = in.readString();
         count = in.readInt();
         sex = in.readInt();
     }
 
     public ClothesSize() {
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(size);
+        dest.writeString(value);
+        dest.writeInt(count);
+        dest.writeInt(sex);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ClothesSize> CREATOR = new Creator<ClothesSize>() {
@@ -39,6 +53,10 @@ public class ClothesSize implements Parcelable,Serializable {
         }
     };
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public String getSize() {
         return size;
     }
@@ -47,12 +65,12 @@ public class ClothesSize implements Parcelable,Serializable {
         this.size = size;
     }
 
-    public String getLetter() {
-        return letter;
+    public String getValue() {
+        return value;
     }
 
-    public void setLetter(String letter) {
-        this.letter = letter;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public int getCount() {
@@ -69,28 +87,5 @@ public class ClothesSize implements Parcelable,Serializable {
 
     public void setSex(int sex) {
         this.sex = sex;
-    }
-
-    @Override
-    public String toString() {
-        return "ClothesSize{" +
-                "size='" + size + '\'' +
-                ", letter='" + letter + '\'' +
-                ", count=" + count +
-                ", sex='" + sex + '\'' +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(size);
-        dest.writeString(letter);
-        dest.writeInt(count);
-        dest.writeInt(sex);
     }
 }

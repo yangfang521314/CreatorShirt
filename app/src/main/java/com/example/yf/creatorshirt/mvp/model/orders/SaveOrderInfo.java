@@ -32,22 +32,22 @@ import java.util.List;
  **/
 public class SaveOrderInfo implements Parcelable  {
 
-    protected String baseId;
-    protected String picture1;
-    protected String picture2;//自定义的图片
-    protected String text;
-    protected String backText;
-    protected String finishAimage;
-    protected String finishBimage;
-    protected String partner;
-    protected String discount;
-    protected String payorderid;
-    protected String color;
-    protected String maskAName;//遮罩名字
-    protected String maskBName;
-    protected double orderPrice;
-    protected String orderId;
-    protected List<ClothesSize> detailList;
+    private String baseId;
+    private String picture1;
+    private String picture2;//自定义的图片
+    private String text;
+    private String backText;
+    private String finishAimage;
+    private String finishBimage;
+    private String partner;
+    private String discount;
+    private String payorderid;
+    private String color;
+    private String maskAName;//遮罩名字
+    private String maskBName;
+    private double orderPrice;
+    private String orderId;
+    private List<ClothesSize> detailList;
 
 
     public SaveOrderInfo() {
@@ -185,7 +185,7 @@ public class SaveOrderInfo implements Parcelable  {
         return CREATOR;
     }
 
-    protected SaveOrderInfo(Parcel in) {
+    private SaveOrderInfo(Parcel in) {
         baseId = in.readString();
         picture1 = in.readString();
         picture2 = in.readString();

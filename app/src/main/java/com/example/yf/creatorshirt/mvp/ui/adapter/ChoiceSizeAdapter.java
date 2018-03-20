@@ -32,10 +32,10 @@ public class ChoiceSizeAdapter extends BaseAdapter<ClothesSize, SizeViewHolder> 
             @Override
             public void onClick(View v) {
                 if(clickListener != null)
-                clickListener.onItemClick(v,0,mData.get(position).getLetter());
+                clickListener.onItemClick(v,0,mData.get(position).getSize());
             }
         });
-        holder.mSize.setText(mData.get(position).getLetter());
+        holder.mSize.setText(mData.get(position).getSize());
         if(position == mData.size()-1){
             holder.mDivider.setVisibility(View.GONE);
         }

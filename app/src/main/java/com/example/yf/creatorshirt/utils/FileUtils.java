@@ -31,6 +31,8 @@ import java.util.Locale;
 
 public class FileUtils {
     private static File file;
+    private static Bitmap bitmap;
+
 
     public static String getCacheFile() {
         return App.getInstance().getCacheDir().getAbsolutePath() + File
@@ -284,7 +286,6 @@ public class FileUtils {
      * @return
      */
     public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask1) {
-        Bitmap bitmap;
         if (source != null && mask1 != null) {
             Bitmap mask = FileUtils.getZoomImage(mask1, 600, 800);
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -310,7 +311,6 @@ public class FileUtils {
 
 
     public static Bitmap getClothesImage(int width, int height, Bitmap bitmapResource) {
-        Bitmap bitmap;
         if (bitmapResource != null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
@@ -323,5 +323,12 @@ public class FileUtils {
             return null;
         }
         return bitmap;
+    }
+
+    public static void destroyBitmap() {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            bitmap.recycle();
+            bitmap = null;
+        }
     }
 }
