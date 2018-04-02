@@ -154,6 +154,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
                     .skipMemoryCache(true)
                     .error(R.mipmap.mbaseball_white_a).into(mClothesImage);
             mCircleShape.setOutColor(Color.parseColor("#" + mOrderClothesInfo.getColor()));
+            mTextClothesType.setText("类型： "+mOrderClothesInfo.getBaseId());
         }
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         dividerItemDecoration.setDrawable(App.getInstance().getResources().getDrawable(R.drawable.mysetting_divider));
@@ -174,18 +175,22 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     private void initChoiceNumber(final String flag) {
         int number = 0;
-        if (flag.equals(MAN)) {
-            if (mCurrentManClothesSize != null) {
-                number = mCurrentManClothesSize.getCount();
-            }
-        } else if (flag.equals(WOMAN)) {
-            if (mCurrentWomanClothesSize != null) {
-                number = mCurrentWomanClothesSize.getCount();
-            }
-        } else if (flag.equals(KID)) {
-            if (mCurrentKidClothesSize != null) {
-                number = mCurrentKidClothesSize.getCount();
-            }
+        switch (flag) {
+            case MAN:
+                if (mCurrentManClothesSize != null) {
+                    number = mCurrentManClothesSize.getCount();
+                }
+                break;
+            case WOMAN:
+                if (mCurrentWomanClothesSize != null) {
+                    number = mCurrentWomanClothesSize.getCount();
+                }
+                break;
+            case KID:
+                if (mCurrentKidClothesSize != null) {
+                    number = mCurrentKidClothesSize.getCount();
+                }
+                break;
         }
         picker = new NumberPicker(OrderEditActivity.this);
         picker.setWidth(picker.getScreenWidthPixels());
@@ -214,34 +219,38 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         picker.setOnNumberPickListener(new NumberPicker.OnNumberPickListener() {
             @Override
             public void onNumberPicked(int index, Number item) {
-                if (flag.equals(MAN)) {
-                    updateNumberClothes(String.valueOf(item.intValue()), mManSizeAdapter, mCurrentManClothesSize);
-                    if (mapManSize.containsKey(mCurrentManClothesSize.getSize())) {
-                        mapManSize.get(mCurrentManClothesSize.getSize()).setCount(item.intValue());
-                    } else {
-                        mCurrentManClothesSize.setCount(item.intValue());
-                        mCurrentManClothesSize.setSex(0);
-                        mapManSize.put(mCurrentManClothesSize.getSize(), mCurrentManClothesSize);
-                    }
-                } else if (flag.equals(WOMAN)) {
-                    updateNumberClothes(String.valueOf(item.intValue()), mWomanSizeAdapter, mCurrentWomanClothesSize);
-                    if (mapWomanSize.containsKey(mCurrentWomanClothesSize.getSize())) {
-                        mapWomanSize.get(mCurrentWomanClothesSize.getSize()).setCount(item.intValue());
-                    } else {
-                        mCurrentWomanClothesSize.setCount(item.intValue());
-                        mCurrentWomanClothesSize.setSex(1);
-                        mapWomanSize.put(mCurrentWomanClothesSize.getSize(), mCurrentWomanClothesSize);
-                    }
+                switch (flag) {
+                    case MAN:
+                        updateNumberClothes(String.valueOf(item.intValue()), mManSizeAdapter, mCurrentManClothesSize);
+                        if (mapManSize.containsKey(mCurrentManClothesSize.getSize())) {
+                            mapManSize.get(mCurrentManClothesSize.getSize()).setCount(item.intValue());
+                        } else {
+                            mCurrentManClothesSize.setCount(item.intValue());
+                            mCurrentManClothesSize.setSex(0);
+                            mapManSize.put(mCurrentManClothesSize.getSize(), mCurrentManClothesSize);
+                        }
+                        break;
+                    case WOMAN:
+                        updateNumberClothes(String.valueOf(item.intValue()), mWomanSizeAdapter, mCurrentWomanClothesSize);
+                        if (mapWomanSize.containsKey(mCurrentWomanClothesSize.getSize())) {
+                            mapWomanSize.get(mCurrentWomanClothesSize.getSize()).setCount(item.intValue());
+                        } else {
+                            mCurrentWomanClothesSize.setCount(item.intValue());
+                            mCurrentWomanClothesSize.setSex(1);
+                            mapWomanSize.put(mCurrentWomanClothesSize.getSize(), mCurrentWomanClothesSize);
+                        }
 
-                } else if (flag.equals(KID)) {
-                    updateNumberClothes(String.valueOf(item.intValue()), mKidSizeAdapter, mCurrentKidClothesSize);
-                    if (mapKidSize.containsKey(mCurrentKidClothesSize.getSize())) {
-                        mapKidSize.get(mCurrentKidClothesSize.getSize()).setCount(item.intValue());
-                    } else {
-                        mCurrentKidClothesSize.setCount(item.intValue());
-                        mCurrentKidClothesSize.setSex(2);
-                        mapKidSize.put(mCurrentKidClothesSize.getSize(), mCurrentKidClothesSize);
-                    }
+                        break;
+                    case KID:
+                        updateNumberClothes(String.valueOf(item.intValue()), mKidSizeAdapter, mCurrentKidClothesSize);
+                        if (mapKidSize.containsKey(mCurrentKidClothesSize.getSize())) {
+                            mapKidSize.get(mCurrentKidClothesSize.getSize()).setCount(item.intValue());
+                        } else {
+                            mCurrentKidClothesSize.setCount(item.intValue());
+                            mCurrentKidClothesSize.setSex(2);
+                            mapKidSize.put(mCurrentKidClothesSize.getSize(), mCurrentKidClothesSize);
+                        }
+                        break;
                 }
                 if (clothesSizeList != null && clothesSizeList.size() != 0) {
                     clothesSizeList.clear();
@@ -391,13 +400,10 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             mTvManView.setVisibility(View.VISIBLE);
         }
         mManSizeAdapter.setOnItemClickListener(this);
-        mWomanSizeAdapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, Object object) {
-                currentPosition = position;
-                mCurrentWomanClothesSize = (ClothesSize) object;
-                initChoiceNumber("woman");
-            }
+        mWomanSizeAdapter.setOnItemClickListener((view, position, object) -> {
+            currentPosition = position;
+            mCurrentWomanClothesSize = (ClothesSize) object;
+            initChoiceNumber("woman");
         });
 
     }
@@ -410,13 +416,10 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             mKidSizeAdapter.setData(listArrayMap.get("commonKid"));
         }
         mDetailKidRecycler.setAdapter(mKidSizeAdapter);
-        mKidSizeAdapter.setOnItemClickListener(new ItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, Object object) {
-                currentPosition = position;
-                mCurrentKidClothesSize = (ClothesSize) object;
-                initChoiceNumber("kid");
-            }
+        mKidSizeAdapter.setOnItemClickListener((view, position, object) -> {
+            currentPosition = position;
+            mCurrentKidClothesSize = (ClothesSize) object;
+            initChoiceNumber("kid");
         });
     }
 

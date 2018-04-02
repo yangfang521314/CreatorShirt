@@ -2,30 +2,27 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.example.yf.creatorshirt.mvp.model.PictureModel;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 
 /**
  * Created by yangfang on 2018/1/3.
  */
 
 public class PatterImage extends android.support.v7.widget.AppCompatImageView {
-    private Bitmap source;
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint mColorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Rect srcRect;
-    private Rect sourceRect;
-    private Rect dstRect;
-    private int width;
-    private int height;
-    private PictureModel jigsawPictureModel;
+
+    private static final String TAG = PatterImage.class.getSimpleName();
+    private Matrix mMatrix = new Matrix();
+    private RectF mImageRect = new RectF();// 保存图片所在区域矩形，坐标为相对于本View的坐标
+    private float mScaleFactor = 0.8f; //图片放大倍数
+    static {
+        SharedPreferencesUtil.setMoFlag(true);
+    }
 
     public PatterImage(Context context) {
         super(context);
@@ -33,10 +30,7 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
     }
 
     private void init() {
-        jigsawPictureModel = new PictureModel();
-        mColorPaint.setColor(Color.BLUE);
-        mColorPaint.setStrokeWidth(2);
-        mColorPaint.setStyle(Paint.Style.STROKE);
+        setScaleType(ScaleType.MATRIX);
     }
 
     public PatterImage(Context context, @Nullable AttributeSet attrs) {
@@ -49,39 +43,85 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
         init();
     }
 
-
-    public void setImageNetSource(Bitmap res) {
-        source = res;
-        postInvalidate();
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        initImgPositionAndSize();
     }
+
+    private void initImgPositionAndSize() {
+        if (SharedPreferencesUtil.getMoFlag()) {
+            mMatrix.reset();
+            // 初始化ImageRect
+            refreshImageRect();
+
+            float scaleFactor = mScaleFactor;
+            // 初始图片缩放比例比最小缩放比例稍大
+            mScaleFactor = scaleFactor;
+            mMatrix.postScale(scaleFactor, scaleFactor, mImageRect.centerX(), mImageRect.centerY());
+            refreshImageRect();
+            // 移动图片到中心
+            mMatrix.postTranslate((getRight() - getLeft()) / 2 - mImageRect.centerX(),
+                    (getBottom() - getTop()) / 2 - mImageRect.centerY());
+            applyMatrix();
+            SharedPreferencesUtil.setMoFlag(false);
+        } else {
+            applyMatrix();
+        }
+    }
+
+    /**
+     * 图片使用矩阵变换后，刷新图片所对应的mImageRect所指示的区域
+     */
+    protected void refreshImageRect() {
+        if (getDrawable() != null) {
+            mImageRect.set(getDrawable().getBounds());
+            mMatrix.mapRect(mImageRect, mImageRect);
+        }
+    }
+
 
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        if (source != null) {
-            srcRect = new Rect(0, 0, source.getWidth(), source.getHeight());
-            sourceRect = new Rect(width / 2 - source.getWidth() / 2,
-                    height / 2 - source.getHeight() / 2, width / 2 + source.getHeight() / 2,
-                    height / 2 + source.getHeight() / 2);
-            canvas.scale(jigsawPictureModel.getScaleX(), jigsawPictureModel.getScaleY(), width / 2, height / 2);
-            canvas.rotate(jigsawPictureModel.getRotate(), width / 2, height / 2);
-            canvas.translate(jigsawPictureModel.getPictureX(), jigsawPictureModel.getPictureY());
-            canvas.drawBitmap(source, srcRect, sourceRect, mPaint);
-            mPaint.setXfermode(null);
-        }
         super.onDraw(canvas);
 
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = getMeasuredWidth();
-        height = getMeasuredHeight();
+    public void applyMatrix() {
+        refreshImageRect(); /*将矩阵映射到ImageRect*/
+        setImageMatrix(mMatrix);
     }
 
-    public void invalidateMode(PictureModel jigsawPictureModel) {
-        this.jigsawPictureModel = jigsawPictureModel;
-        invalidate();
+    public void setTransMartix(float dx, float dy) {
+        mMatrix.postTranslate(dx, dy);
+    }
+
+    public void setScaleMatrix(float scaleFactor, float scaleFactor1, float x, float y) {
+        mMatrix.postScale(scaleFactor, scaleFactor1, x, y);
+    }
+
+    public void mapVectors(float[] xAxis) {
+        mMatrix.mapVectors(xAxis);
+    }
+
+    public void setCurrentScale(float currentScale) {
+        mScaleFactor = currentScale;
+    }
+
+    public RectF getImageRect() {
+        return mImageRect;
+    }
+
+    public void setImageRect(RectF mImageRect) {
+        this.mImageRect = mImageRect;
+    }
+
+    public void setRotate(float degree) {
+        mMatrix.postRotate(degree, mImageRect.centerX(), mImageRect.centerY());
+    }
+
+    public float getScaleFactor() {
+        return mScaleFactor;
     }
 }

@@ -1,9 +1,8 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -49,6 +48,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     Button mWeiXin;
     @BindView(R.id.send_code)
     TextView btnSendCode;
+    @BindView(R.id.server)
+    TextView mServer;
     private UMShareAPI mShareAPI = null;
     private SHARE_MEDIA platform = null;
     private int countTime;
@@ -81,8 +82,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @OnClick({R.id.next, R.id.send_code, R.id.weixin_login})
+    @OnClick({R.id.next, R.id.send_code, R.id.weixin_login,R.id.server})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next:
@@ -108,6 +108,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     mPresenter.setPhoneNumber(PhoneUtils.getTextString(mEditPhone));
                     mPresenter.getVerifyCode();
                 }
+                break;
+            case R.id.server:
+                Bundle bundle= new Bundle();
+
+                bundle.putString("url","file:///android_asset/license.html");
+                startCommonActivity(this,bundle,ServerActivity.class);
                 break;
         }
     }

@@ -12,6 +12,14 @@
         android:background="@color/gainsboro"
         android:id="@+id/all_order_recyclerView"
         android:layout_width="match_parent"
-        android:layout_marginBottom="15dp"
         android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/no_data"
+        android:text="没有订单数据"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

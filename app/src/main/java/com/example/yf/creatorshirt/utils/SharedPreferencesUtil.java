@@ -192,4 +192,11 @@ public final class SharedPreferencesUtil {
     public static String getLastVersionCodeFromServer() {
         return getString(PrefKey.APP_SETTING, PrefKey.VER_CODE_FROM_SERVER_KEY, "");
     }
+
+    public static boolean getMoFlag(){
+        return getBoolean(PrefKey.APP_SETTING,PrefKey.MOTION,false);
+    }
+    public static void setMoFlag(boolean flag){
+         getBoolean(PrefKey.APP_SETTING,PrefKey.MOTION,flag);
+    }
 }

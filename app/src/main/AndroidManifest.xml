@@ -24,18 +24,25 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DEBUG_MODE"
-            android:value="${isDebug}"></meta-data>
+            android:value="${isDebug}" />
 
         <activity
-            android:name=".mvp.ui.activity.MainActivity"
-            android:launchMode="singleTask"
+            android:name=".mvp.ui.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
+        <activity
+            android:name=".mvp.ui.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <activity
             android:name=".mvp.ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
@@ -96,14 +103,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+            android:screenOrientation="behind" />
 
         <!-- 友盟登录 -->
 
@@ -176,9 +181,13 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".mvp.ui.activity.OrderEditActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".mvp.ui.activity.ServerActivity"
+            android:label="@string/title_activity_server"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -16,7 +17,8 @@ import android.widget.ImageView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.mvp.model.PictureModel;
+import com.example.yf.creatorshirt.mvp.presenter.MotionEventPresenter;
+import com.example.yf.creatorshirt.mvp.presenter.contract.MotionEventContract;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
@@ -32,7 +34,7 @@ import butterknife.ButterKnife;
  * Creatd by yangfang on 2017/8/26.
  */
 
-public class ClothesBackView extends StickerView {
+public class ClothesBackView extends StickerView implements MotionEventContract.MotionEventView{
     @BindView(R.id.clothes)
     ImageView mClothes;//衣服
     @BindView(R.id.source)
@@ -42,17 +44,7 @@ public class ClothesBackView extends StickerView {
     private TextSticker textSticker;
     private List<String> textEntities = new ArrayList<>();//保存字体
     private Context mContext;
-    private PictureModel jigsawPictureModel;
-    private boolean isContain;
-    private double mLastFingerDistance;
-    private double mLastDegree;
-    private boolean mIsDoubleFinger;
-    private float mLastX;
-    private float mLastY;
-    private boolean isFlag;
-
-    private float mDownX;
-    private float mDownY;
+    private MotionEventPresenter mPresenter;
 
     public ClothesBackView(Context context) {
         super(context);
@@ -72,7 +64,8 @@ public class ClothesBackView extends StickerView {
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.clothes_back_layout, this);
         ButterKnife.bind(this, view);
-        jigsawPictureModel = new PictureModel();
+        mPresenter = new MotionEventPresenter();
+        mPresenter.attachView(this);
         setBackgroundColor(Color.WHITE);
         setLocked(false);
         setConstrained(true);
@@ -119,6 +112,14 @@ public class ClothesBackView extends StickerView {
             public void onStickerDoubleTapped(@NonNull Sticker sticker) {
             }
         });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mPresenter.onTouchEvent(event)) {
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     /**
@@ -207,8 +208,7 @@ public class ClothesBackView extends StickerView {
      * @param resource
      */
     public void setImageSource(Bitmap resource) {
-        mSource.setImageNetSource(resource);
-        jigsawPictureModel.setBitmapPicture(resource);
+        mSource.setImageBitmap(resource);
 
     }
 
@@ -216,133 +216,8 @@ public class ClothesBackView extends StickerView {
         this.mContext = context;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_POINTER_DOWN:
-                //双指模式
-                if (event.getPointerCount() == 2) {
-                    //两手指的距离
-                    mLastFingerDistance = distanceBetweenFingers(event);
-                    //两手指间的角度
-                    mLastDegree = rotation(event);
-                    mIsDoubleFinger = true;
-//                    mSource.invalidateMode(jigsawPictureModel);
-                }
-                break;
-            //单指模式
-            case MotionEvent.ACTION_DOWN:
-                //记录上一次事件的位置
-                mLastX = event.getX();
-                mLastY = event.getY();
-                //记录Down事件的位置
-                mDownX = event.getX();
-                mDownY = event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                switch (event.getPointerCount()) {
-                    //单指模式
-                    case 1:
-                        if (isFlag) {
-                            if (!mIsDoubleFinger) {
-                                //记录每次事件在x,y方向上移动
-                                int dx = (int) (event.getX() - mLastX);
-                                int dy = (int) (event.getY() - mLastY);
-                                int tempX = jigsawPictureModel.getPictureX() + dx;
-                                int tempY = jigsawPictureModel.getPictureY() + dy;
-                                if (checkPictureLocation(jigsawPictureModel, tempX, tempY)) {
-                                    //检查到没有越出镂空部分才真正赋值给mPicModelTouch
-                                    jigsawPictureModel.setPictureX(tempX);
-                                    jigsawPictureModel.setPictureY(tempY);
-                                    //保存上一次的位置，以便下次事件算出相对位移
-                                    mLastX = event.getX();
-                                    mLastY = event.getY();
-                                    //修改了mPicModelTouch的位置后刷新View
-                                    mSource.invalidateMode(jigsawPictureModel);
-                                }
-                            }
-                        }
-                        break;
-                    //双指模式
-                    case 2:
-                        //算出两根手指的距离
-                        if (isFlag) {
-                            double fingerDistance = distanceBetweenFingers(event);
-                            //当前的旋转角度
-                            double currentDegree = rotation(event);
-                            //当前手指距离和上一次的手指距离的比即为图片缩放比
-                            float scaleRatioDelta = (float) (fingerDistance / mLastFingerDistance);
-                            float rotateDelta = (float) (currentDegree - mLastDegree);
-
-                            float tempScaleX = scaleRatioDelta * jigsawPictureModel.getScaleX();
-                            float tempScaleY = scaleRatioDelta * jigsawPictureModel.getScaleY();
-                            //对缩放比做限制
-                            if (Math.abs(tempScaleX) < 2.5 && Math.abs(tempScaleX) > 0.1 &&
-                                    Math.abs(tempScaleY) < 2.5 && Math.abs(tempScaleY) > 0.1) {
-                                jigsawPictureModel.setScaleX(tempScaleX);
-                                jigsawPictureModel.setScaleY(tempScaleY);
-                                jigsawPictureModel.setRotate(jigsawPictureModel.getRotate() + rotateDelta);
-                                //记录上一次的两手指距离以便下次计算出相对的位置以算出缩放系数
-//                            invalidate();
-                                mSource.invalidateMode(jigsawPictureModel);
-                                mLastFingerDistance = fingerDistance;
-                                //记录上次的角度以便下一个事件计算出角度变化值
-                            }
-                            mLastDegree = currentDegree;
-                        }
-                        break;
-                }
-                break;
-            //两手指都离开屏幕
-            case MotionEvent.ACTION_UP:
-                mIsDoubleFinger = false;
-//                invalidate();
-                if (isFlag) {
-                    mSource.invalidateMode(jigsawPictureModel);
-                }
-                break;
-        }
-        if (isFlag) {
-            return true;
-        } else {
-            return super.onTouchEvent(event);
-        }
-
-    }
-
-    /**
-     * 检查图片范围是否超出窗口,此方法还要完善
-     */
-    private boolean checkPictureLocation(PictureModel mPictureModel, int tempX, int tempY) {
-        return (tempY < mSource.getHeight() / 2 && tempY > -mSource.getHeight() / 2)
-                && (tempX < mSource.getWidth() / 2) && (tempX > -mSource.getWidth() / 2);
-    }
-
-
-    /**
-     * 计算两个手指之间的距离。
-     *
-     * @param event
-     * @return 两个手指之间的距离
-     */
-    private double distanceBetweenFingers(MotionEvent event) {
-        float disX = Math.abs(event.getX(0) - event.getX(1));
-        float disY = Math.abs(event.getY(0) - event.getY(1));
-        return Math.sqrt(disX * disX + disY * disY);
-    }
-
-
-    // 取旋转角度
-    private float rotation(MotionEvent event) {
-        double disX = (event.getX(0) - event.getX(1));
-        double disY = (event.getY(0) - event.getY(1));
-        double radians = Math.atan2(disY, disX);
-        return (float) Math.toDegrees(radians);
-    }
-
     public void setTouchFlag(boolean b) {
-        isFlag = b;
+        mPresenter.setTouchFlag(b);
     }
 
     public void removeText(String text) {
@@ -352,4 +227,79 @@ public class ClothesBackView extends StickerView {
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView(this);
+    }
+
+
+    @Override
+    public void applyMatrix() {
+        mSource.applyMatrix();
+    }
+
+    @Override
+    public void setScaleMatrix(float scaleFactor, float scaleFactor1, float x, float y) {
+        mSource.setScaleMatrix(scaleFactor,scaleFactor1,x,y);
+    }
+
+    @Override
+    public void postRotate(float degree) {
+        mSource.setRotate(degree);
+    }
+
+    @Override
+    public void setCurrentScale(float mScaleFactor) {
+        mSource.setCurrentScale(mScaleFactor);
+    }
+
+    @Override
+    public void refreshImageRect() {
+
+    }
+
+    @Override
+    public RectF getImageRect() {
+        return mSource.getImageRect();
+
+    }
+
+    @Override
+    public void setTransMartix(float dx, float dy) {
+        mSource.setTransMartix(dx,dy);
+    }
+
+    @Override
+    public void mapVectors(float[] xAxis) {
+        mSource.mapVectors(xAxis);
+    }
+
+    @Override
+    public float getScaleCurrentF() {
+        return mSource.getScaleFactor();
+    }
+
+
+    @Override
+    public void showErrorMsg(String msg) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void stateError() {
+
+    }
+
 }

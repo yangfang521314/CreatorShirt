@@ -36,4 +36,6 @@
     <string name="check_ingore_update">忽略该版本</string>
     <string name="txt_btn_update">立即更新</string>
     <string name="txt_btn_cancel">以后再说</string>
+    <string name="title_activity_server">ServerActivity</string>
+    <string name="permission_tip">您未允许衣加一获取手机状态权限,我们不会收集您的信息,您可以在系统设置中开启</string>
 </resources>

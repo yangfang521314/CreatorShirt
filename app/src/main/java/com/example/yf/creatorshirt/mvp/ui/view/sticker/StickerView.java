@@ -38,10 +38,17 @@ import java.util.List;
  * @author wupanjie
  */
 public class StickerView extends FrameLayout {
+    protected TextSticker textSticker;
+    protected List<String> textEntities = new ArrayList<>();//保存字体
+    protected Context mContext;
 
     private final boolean showIcons;
     private final boolean showBorder;
     private final boolean bringToFrontCurrentSticker;
+
+    public void onDestroy() {
+
+    }
 
 
     @IntDef({

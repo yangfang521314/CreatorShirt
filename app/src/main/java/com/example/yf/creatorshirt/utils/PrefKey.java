@@ -12,4 +12,5 @@ public final class PrefKey {
     public static final String APP_CAMERA_PERMISSION = "camera_permission";
     public static final String APP_USER_IS_LOGIN_KEY = "APP_USER_IS_LOGIN_KEY";
     public static final String VER_CODE_FROM_SERVER_KEY = "ver_code_from_server_key";
+    public static final String MOTION = "motion";
 }

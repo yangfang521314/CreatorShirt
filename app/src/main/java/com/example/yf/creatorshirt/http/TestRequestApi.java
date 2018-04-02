@@ -60,7 +60,7 @@ public interface TestRequestApi {
     Call<HttpResponse> getTexture(RequestBody gson);
 
     @POST("f-Users/userLogin")
-    Call<HttpResponse> login(@Body RequestBody gson);
+    Call<HttpResponse> loginPhone(@Body RequestBody gson);
 
     @POST("f-orders/computerOrderPrice")
     Call<HttpResponse> getCalculateOrderPrice(@Header("Token") String token, @Body RequestBody gson);

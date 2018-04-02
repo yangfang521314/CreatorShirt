@@ -771,6 +771,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     protected void onDestroy() {
         super.onDestroy();
         FileUtils.destroyBitmap();
+        mContainerFront.onDestroy();
     }
 
     @Override

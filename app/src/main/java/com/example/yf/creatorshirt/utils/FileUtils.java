@@ -272,7 +272,7 @@ public class FileUtils {
     public static int getResource(String imageName) {
         Context ctx = App.getInstance().getBaseContext();
         int resId = ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
-        //如果没有在"mipmap"下找到imageName,将会返回0
+        //如果没有在"mipmap"下找到imageName,将会返回
         return resId;
     }
 

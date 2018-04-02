@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.util.Log;
+
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by yangfang on 2018/1/30.
@@ -38,8 +42,12 @@ public class AllOrderPresenter extends RxPresenter<AllOrderContract.AllOrderView
                     .subscribeWith(new CommonSubscriber<List<MyOrderInfo>>(mView) {
                         @Override
                         public void onNext(List<MyOrderInfo> myOrderInfo) {
-                            if (myOrderInfo != null) {
+                            Log.e(TAG, "onNext: "+myOrderInfo.toString() );
+                            if (myOrderInfo != null && myOrderInfo.size() != 0) {
                                 mView.showSuccess(myOrderInfo);
+
+                            }else {
+                                mView.showErrorMsg("没有数据");
                             }
                         }
                     })

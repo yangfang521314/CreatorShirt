@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
@@ -29,6 +30,8 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
         AllOrderContract.AllOrderView {
     @BindView(R.id.all_order_recyclerView)
     RecyclerView mAllOrderRY;
+    @BindView(R.id.no_data)
+    TextView mTextNoData;
 
     private String title;
 
@@ -85,6 +88,8 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
 
     @Override
     public void showSuccess(List<MyOrderInfo> myOrderInfo) {
+        mAllOrderRY.setVisibility(View.VISIBLE);
+        mTextNoData.setVisibility(View.GONE);
         AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);
         allOrderAdapter.setOnItemClickListener(this);
         allOrderAdapter.setData(myOrderInfo);
@@ -101,5 +106,12 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
             EventBus.getDefault().post(new ChangeSelectEvent(true));
         }
         finish();
+    }
+
+    @Override
+    public void showErrorMsg(String msg) {
+        super.showErrorMsg(msg);
+        mTextNoData.setVisibility(View.VISIBLE);
+        mAllOrderRY.setVisibility(View.GONE);
     }
 }

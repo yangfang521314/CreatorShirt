@@ -90,14 +90,6 @@
                     <key>type</key>
                     <string>Polo杉</string>
                 </dict>
-                <dict>
-                    <key>color</key>
-                    <string>white</string>
-                    <key>colorhex</key>
-                    <string>ffffff</string>
-                    <key>type</key>
-                    <string>Polo杉</string>
-                </dict>
             </array>
         </dict>
         <key>kidl</key>
@@ -110,7 +102,7 @@
                     <key>color</key>
                     <string>white</string>
                     <key>colorhex</key>
-                    <string>CBEBFB</string>
+                    <string>FFFFFF</string>
                     <key>type</key>
                     <string>童装长袖</string>
                 </dict>
@@ -615,6 +607,14 @@
             <array>
                 <dict>
                     <key>color</key>
+                    <string>white</string>
+                    <key>colorhex</key>
+                    <string>ffffff</string>
+                    <key>type</key>
+                    <string>女式短袖</string>
+                </dict>
+                <dict>
+                    <key>color</key>
                     <string>astronaut</string>
                     <key>colorhex</key>
                     <string>2A366C</string>
@@ -767,28 +767,13 @@
                 </dict>
                 <dict>
                     <key>color</key>
-                    <string>spectra</string>
-                    <key>colorhex</key>
-                    <string>367C6C</string>
-                    <key>type</key>
-                    <string>女式短袖</string>
-                </dict>
-                <dict>
-                    <key>color</key>
                     <string>thistle</string>
                     <key>colorhex</key>
                     <string>D6BAD3</string>
                     <key>type</key>
                     <string>女式短袖</string>
                 </dict>
-                <dict>
-                    <key>color</key>
-                    <string>white</string>
-                    <key>colorhex</key>
-                    <string>ffffff</string>
-                    <key>type</key>
-                    <string>女式短袖</string>
-                </dict>
+
             </array>
         </dict>
         <key>cshort</key>

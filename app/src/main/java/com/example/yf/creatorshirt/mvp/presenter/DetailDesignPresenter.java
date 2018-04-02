@@ -80,7 +80,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
         }
         DetailColorStyle maskStyle = null;
         //贴图
-        for (int i = 1; i < 151; i++) {
+        for (int i = 1; i < 104; i++) {
             maskStyle = new DetailColorStyle();
             maskStyle.setName("pattern_" + i);
             patterList.add(maskStyle);
@@ -233,12 +233,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
      * @param image
      */
     public void setClothesBg(final int image) {
-        Observable.create(new ObservableOnSubscribe<Bitmap>() {
-            @Override
-            public void subscribe(ObservableEmitter<Bitmap> e) throws Exception {
-                e.onNext(FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(image)));
-            }
-        }).compose(RxUtils.<Bitmap>rxObScheduleHelper())
+        Observable.create((ObservableOnSubscribe<Bitmap>) e -> e.onNext(FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK, Utils.getBitmapResource(image)))).compose(RxUtils.<Bitmap>rxObScheduleHelper())
                 .subscribe(new CommonObserver<Bitmap>(mView) {
                     @Override
                     public void onNext(Bitmap bitmap) {

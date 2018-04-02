@@ -72,7 +72,7 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
     /**
      * 计算价格
      */
-    public void computerOrderPrice() {
+    private void computerOrderPrice() {
         addSubscribe(manager.getCalculateOrderPrice(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveOrderInfo))
                 .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
                 .compose(RxUtils.<ClothesPrice>handleResult())
@@ -80,16 +80,14 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                     @Override
                     public void onNext(ClothesPrice s) {
                         if (s != null) {
-                            if (s.getDiscountPrice() != 0) {
-                                if (s.getOrderPrice() > s.getDiscountPrice()) {
-                                    saveOrderInfo.setOrderPrice(s.getDiscountPrice());
-                                    saveOrderInfo.setDiscount(s.getDiscountcode());
-                                    mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
-                                } else {
-                                    saveOrderInfo.setOrderPrice(s.getOrderPrice());
-                                    saveOrderInfo.setDiscount("");
-                                    mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
-                                }
+                            if (s.getOrderPrice() > s.getDiscountPrice()) {
+                                saveOrderInfo.setOrderPrice(s.getDiscountPrice());
+                                saveOrderInfo.setDiscount(s.getDiscountcode());
+                                mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
+                            } else {
+                                saveOrderInfo.setOrderPrice(s.getOrderPrice());
+                                saveOrderInfo.setDiscount("");
+                                mView.showPrices(s.getDiscountPrice(), s.getOrderPrice());
                             }
                         }
                     }

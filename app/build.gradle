@@ -45,7 +45,7 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "衣舍"
+            resValue "string", "app_name", "衣加一"
             buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
             manifestPlaceholders = [
                     file_authorities: "com.example.yf.creatorshirt",
@@ -56,12 +56,12 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "develop 衣舍"
+            resValue "string", "app_name", "develop 衣加一"
 
-            buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt"')
+            buildConfigField("String", "PROVIDER_CONFIG", '"com.example.yf.creatorshirt.develop"')
             //AndroidManifest.xml文件对应的变量
             manifestPlaceholders = [
-                    file_authorities: "com.example.yf.creatorshirt",
+                    file_authorities: "com.example.yf.creatorshirt.develop",
                     isDebug         : true,
             ]
         }
@@ -136,6 +136,7 @@ dependencies {
     implementation 'com.googlecode.plist:dd-plist:1.20'
     implementation files('libs/umeng_shareboard_widget.jar')
     implementation files('libs/alipaySdk-20170922.jar')
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 }
 repositories {
     mavenCentral()

@@ -1,8 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.ArrayMap;
+
+import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
@@ -56,7 +55,6 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
      * @param phone
      * @param password
      */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void phoneLogin(String phone, String password) {
         if (password != null && phone != null) {
