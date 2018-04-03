@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by yangfang on 2018/1/3.
  */
 
-public class ClothesFrontView extends StickerView implements MotionEventContract.MotionEventView{
+public class ClothesFrontView extends StickerView implements MotionEventContract.MotionEventView {
     @BindView(R.id.clothes)
     ImageView mClothes;
     @BindView(R.id.source)
@@ -56,7 +56,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
     }
 
     private void initView(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.clothes_back_layout, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.clothes_front_layout, this);
         ButterKnife.bind(this, view);
         mPresenter = new MotionEventPresenter();
         mPresenter.attachView(this);
@@ -250,7 +250,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
 
     @Override
     public void setScaleMatrix(float scaleFactor, float scaleFactor1, float x, float y) {
-        mSource.setScaleMatrix(scaleFactor,scaleFactor1,x,y);
+        mSource.setScaleMatrix(scaleFactor, scaleFactor1, x, y);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
 
     @Override
     public void setTransMartix(float dx, float dy) {
-        mSource.setTransMartix(dx,dy);
+        mSource.setTransMartix(dx, dy);
     }
 
     @Override

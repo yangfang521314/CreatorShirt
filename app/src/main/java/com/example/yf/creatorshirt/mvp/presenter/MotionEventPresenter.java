@@ -3,9 +3,11 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
+import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MotionEventContract;
 import com.example.yf.creatorshirt.utils.Constants;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 /**
  * Created by yangfang on 2018/4/2.
@@ -193,8 +195,8 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
         mView.getImageRect();
         if (mView.getImageRect().centerX() < 0) {
             dx = -mView.getImageRect().centerX();
-        } else if ((mView.getImageRect().centerX() > Constants.WIDTH_MASK)) {
-            dx = Constants.WIDTH_MASK - mView.getImageRect().centerX();
+        } else if ((mView.getImageRect().centerX() > DisplayUtil.getScreenW(App.getInstance()))) {
+            dx = DisplayUtil.getScreenW(App.getInstance()) - mView.getImageRect().centerX();
         }
         if (mView.getImageRect().centerY() < 0) {
             dy = -mView.getImageRect().centerY();

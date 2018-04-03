@@ -24,6 +24,7 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.VersionUpdateContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
+import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
@@ -210,6 +211,8 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
 
     @Override
     protected void onResume() {
+        Constants.IS_BACK_TOKEN = true;
+        Constants.ISTOKEN = true;
         super.onResume();
     }
 

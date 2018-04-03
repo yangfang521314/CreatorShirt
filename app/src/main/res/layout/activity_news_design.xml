@@ -17,8 +17,7 @@
         android:id="@+id/rl_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
-        android:layout_marginTop="10dp">
+        android:layout_below="@+id/app_bar">
 
         <com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView
             android:id="@+id/rl_clothes_root"

@@ -10,8 +10,8 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center" />
 
-    <com.example.yf.creatorshirt.mvp.ui.view.BackPatterImage
-        android:id="@+id/source_back"
+    <com.example.yf.creatorshirt.mvp.ui.view.PatterImage
+        android:id="@+id/source"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

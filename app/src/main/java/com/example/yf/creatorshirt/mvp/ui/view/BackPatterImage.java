@@ -9,36 +9,34 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.LogUtil;
 
 /**
  * Created by yangfang on 2018/1/3.
  */
 
-public class PatterImage extends android.support.v7.widget.AppCompatImageView {
+public class BackPatterImage extends android.support.v7.widget.AppCompatImageView {
 
-    private static final String TAG = PatterImage.class.getSimpleName();
+    private static final String TAG = BackPatterImage.class.getSimpleName();
     private Matrix mMatrix = new Matrix();
     private RectF mImageRect = new RectF();// 保存图片所在区域矩形，坐标为相对于本View的坐标
     private float mScaleFactor = 0.8f; //图片放大倍数
 
 
-    public PatterImage(Context context) {
+    public BackPatterImage(Context context) {
         super(context);
         init();
-        LogUtil.e(TAG, "PatterImage: "+"fdffff" );
     }
 
     private void init() {
         setScaleType(ScaleType.MATRIX);
     }
 
-    public PatterImage(Context context, @Nullable AttributeSet attrs) {
+    public BackPatterImage(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public PatterImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BackPatterImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -50,8 +48,7 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
     }
 
     private void initImgPositionAndSize() {
-        LogUtil.e(TAG, "initImgPositionAndSize: "+Constants.ISTOKEN );
-        if(Constants.ISTOKEN) {
+        if (Constants.IS_BACK_TOKEN) {
             mMatrix.reset();
             // 初始化ImageRect
             refreshImageRect();
@@ -65,7 +62,7 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
             mMatrix.postTranslate((getRight() - getLeft()) / 2 - mImageRect.centerX(),
                     (getBottom() - getTop()) / 2 - mImageRect.centerY());
             applyMatrix();
-        }else {
+        } else {
             applyMatrix();
         }
     }

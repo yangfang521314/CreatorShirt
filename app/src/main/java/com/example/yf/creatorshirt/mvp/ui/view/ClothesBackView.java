@@ -24,7 +24,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,16 +33,14 @@ import butterknife.ButterKnife;
  * Creatd by yangfang on 2017/8/26.
  */
 
-public class ClothesBackView extends StickerView implements MotionEventContract.MotionEventView{
+public class ClothesBackView extends StickerView implements MotionEventContract.MotionEventView {
     @BindView(R.id.clothes)
     ImageView mClothes;//衣服
-    @BindView(R.id.source)
-    PatterImage mSource;//自定义图
+    @BindView(R.id.source_back)
+    BackPatterImage mSource;//自定义图
     @BindView(R.id.mask)//遮罩
             ImageView mMask;
-    private TextSticker textSticker;
-    private List<String> textEntities = new ArrayList<>();//保存字体
-    private Context mContext;
+
     private MotionEventPresenter mPresenter;
 
     public ClothesBackView(Context context) {
@@ -242,7 +239,7 @@ public class ClothesBackView extends StickerView implements MotionEventContract.
 
     @Override
     public void setScaleMatrix(float scaleFactor, float scaleFactor1, float x, float y) {
-        mSource.setScaleMatrix(scaleFactor,scaleFactor1,x,y);
+        mSource.setScaleMatrix(scaleFactor, scaleFactor1, x, y);
     }
 
     @Override
@@ -268,7 +265,7 @@ public class ClothesBackView extends StickerView implements MotionEventContract.
 
     @Override
     public void setTransMartix(float dx, float dy) {
-        mSource.setTransMartix(dx,dy);
+        mSource.setTransMartix(dx, dy);
     }
 
     @Override

@@ -194,7 +194,7 @@ public final class SharedPreferencesUtil {
     }
 
     public static boolean getMoFlag(){
-        return getBoolean(PrefKey.APP_SETTING,PrefKey.MOTION,false);
+        return getBoolean(PrefKey.APP_SETTING,PrefKey.MOTION,true);
     }
     public static void setMoFlag(boolean flag){
          getBoolean(PrefKey.APP_SETTING,PrefKey.MOTION,flag);

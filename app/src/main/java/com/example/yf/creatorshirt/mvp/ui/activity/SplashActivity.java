@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private List<Boolean> mPermissionList = new ArrayList<>();
     private static final String SCHEME = "package";
@@ -32,6 +34,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash);
         onCheckPermission();
     }
 
@@ -83,27 +89,13 @@ public class SplashActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     if (aLong.intValue() == 0) {
-                        startCommonActivity(SplashActivity.this, null, MainActivity.class);
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         SplashActivity.this.finish();
                     }
                 });
 
     }
 
-    @Override
-    protected void inject() {
-
-    }
-
-    @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected int getView() {
-        return R.layout.activity_splash;
-    }
 
     @Override
     protected void onDestroy() {

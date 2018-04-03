@@ -117,6 +117,8 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private String maskA;
     private String maskB;
     private boolean isClick = false;
+    private boolean isMotion = false;
+    private boolean isMotionBack = false;
 
     @Override
     protected void inject() {
@@ -307,19 +309,19 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         break;
                     case PATTERN:
                         if (mButtonFront.isSelected()) {
-                            mContainerFront.setTouchFlag(true);
+                            mContainerFront.setTouchFlag(false);
                         }
                         if (mButtonBack.isSelected()) {
-                            mContainerBack.setTouchFlag(true);
+                            mContainerBack.setTouchFlag(false);
                         }
                         mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
                     case MASK:
                         if (mButtonFront.isSelected()) {
-                            mContainerFront.setTouchFlag(true);
+                            mContainerFront.setTouchFlag(false);
                         }
                         if (mButtonBack.isSelected()) {
-                            mContainerBack.setTouchFlag(true);
+                            mContainerBack.setTouchFlag(false);
                         }
                         mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
                         break;
@@ -628,9 +630,11 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
             patternStyleAdapter.notifyDataSetChanged();
             if (mButtonFront.isSelected()) {
+                isMotion = true;
                 mContainerFront.setTouchFlag(true);
             }
             if (mButtonBack.isSelected()) {
+                isMotionBack = true;
                 mContainerBack.setTouchFlag(true);
             }
         }
@@ -641,10 +645,17 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             if (mButtonFront.isSelected()) {
+                if(isMotion) {
+                    Constants.ISTOKEN = false;
+                }
                 mContainerFront.setTouchFlag(true);
             }
             if (mButtonBack.isSelected()) {
+                if(isMotionBack) {
+                    Constants.IS_BACK_TOKEN = false;
+                }
                 mContainerBack.setTouchFlag(true);
+
             }
         }
         if (mSignatureData.containsKey((newList.get(position).getTitle()))) {
