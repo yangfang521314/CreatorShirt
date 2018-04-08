@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 
 public class OrderType implements Parcelable{
-    private int orderId;
+    private String orderId;
     private String dispContext;
 
     protected OrderType(Parcel in) {
-        orderId = in.readInt();
+        orderId = in.readString();
         dispContext = in.readString();
     }
 
@@ -28,11 +28,11 @@ public class OrderType implements Parcelable{
         }
     };
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -51,7 +51,7 @@ public class OrderType implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(orderId);
+        dest.writeString(orderId);
         dest.writeString(dispContext);
     }
 }

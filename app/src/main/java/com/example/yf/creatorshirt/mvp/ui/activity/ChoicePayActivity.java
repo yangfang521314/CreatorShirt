@@ -3,10 +3,12 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
@@ -58,6 +60,10 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     TextView mTextTotal;
     @BindView(R.id.freight)
     TextView mFreight;
+    @BindView(R.id.rl_weichat_pay)
+    RelativeLayout mWechatPay;
+    @BindView(R.id.rl_alipay)
+    RelativeLayout mAliPay;
 
 
     private String payType;
@@ -109,7 +115,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
 
 
     @OnClick({R.id.order_receiver_address, R.id.pay_for_money, R.id.pay_weixin, R.id.pay_alipay,
-            R.id.back})
+            R.id.back, R.id.rl_alipay, R.id.rl_weichat_pay})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_receiver_address:
@@ -130,6 +136,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 }
                 break;
             case R.id.pay_alipay:
+            case R.id.rl_alipay:
                 mPayWeixin.setChecked(false);
                 mPayAlipay.setChecked(true);
                 if (mPayAlipay.isChecked()) {
@@ -140,6 +147,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
                 }
                 break;
             case R.id.pay_weixin:
+            case R.id.rl_weichat_pay:
                 mPayWeixin.setChecked(true);
                 mPayAlipay.setChecked(false);
                 if (mPayWeixin.isChecked()) {

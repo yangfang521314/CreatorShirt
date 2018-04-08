@@ -46,7 +46,7 @@ public class SaveOrderInfo implements Parcelable  {
     protected String maskAName;//遮罩名字
     protected String maskBName;
     protected double orderPrice;
-    protected int orderId;
+    protected String orderId;
 
     private String allimage1;
     private String adddate;
@@ -81,7 +81,7 @@ public class SaveOrderInfo implements Parcelable  {
         maskAName = in.readString();
         maskBName = in.readString();
         orderPrice = in.readDouble();
-        orderId = in.readInt();
+        orderId = in.readString();
         allimage1 = in.readString();
         adddate = in.readString();
         address = in.readString();
@@ -112,7 +112,7 @@ public class SaveOrderInfo implements Parcelable  {
         dest.writeString(maskAName);
         dest.writeString(maskBName);
         dest.writeDouble(orderPrice);
-        dest.writeInt(orderId);
+        dest.writeString(orderId);
         dest.writeString(allimage1);
         dest.writeString(adddate);
         dest.writeString(address);
@@ -256,11 +256,11 @@ public class SaveOrderInfo implements Parcelable  {
         this.orderPrice = orderPrice;
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

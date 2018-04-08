@@ -193,6 +193,7 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
         if (myOrderInfo == null) {
             return;
         }
+        saveOrderInfo.setDetailList(sizeList);
         myOrderInfo.setDetailList(sizeList);
         myOrderInfo.setDiscount(discount == null ? "" : discount);
         myOrderInfo.setOrderPrice(prices);

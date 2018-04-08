@@ -124,7 +124,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
             mClothesInfo.setPicture2(myOrderInfo.getPicture2() == null || myOrderInfo.getPicture2().equals("") ? "0" : "1");
             mClothesInfo.setPicture1(myOrderInfo.getPicture1() == null || myOrderInfo.getPicture1().equals("") ? "0" : "1");
             mClothesInfo.setBaseId(myOrderInfo.getBaseId());
-            mClothesInfo.setPayorderid(myOrderInfo.getPayorderid());
+            mClothesInfo.setOrderId(String.valueOf(myOrderInfo.getOrderId()));
             mClothesInfo.setFinishAimage(myOrderInfo.getFinishAimage());
             mClothesInfo.setFinishBimage(myOrderInfo.getFinishBimage());
         }

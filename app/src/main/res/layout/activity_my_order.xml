@@ -112,8 +112,8 @@
 
             <CheckBox
                 android:id="@+id/pay_alipay"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:background="@drawable/choice_selector"
                 android:button="@null" />
 
@@ -121,11 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/pay_alipay"
                 android:text="支付宝"
                 android:textColor="@color/black"
-                android:textSize="15.5sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
 
@@ -140,8 +140,8 @@
 
             <CheckBox
                 android:id="@+id/pay_weixin"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:background="@drawable/choice_selector"
                 android:button="@null" />
 
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@+id/pay_weixin"
                 android:text="微信支付"
                 android:textColor="@color/black"
