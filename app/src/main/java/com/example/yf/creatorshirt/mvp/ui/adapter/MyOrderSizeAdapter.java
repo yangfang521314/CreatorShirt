@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.example.yf.creatorshirt.R;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 
@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHold
  * Created by yang on 31/07/2017.
  */
 
-public class MyOrderSizeAdapter extends BaseAdapter<MyOrderInfo.ClotheRetureSize, ItemViewHolder> {
+public class MyOrderSizeAdapter extends BaseAdapter<ClothesSize, ItemViewHolder> {
 
     public MyOrderSizeAdapter(Context context) {
         super(context);

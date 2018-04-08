@@ -5,7 +5,6 @@ import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
@@ -14,6 +13,7 @@ import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderStyleBean;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.TextureEntity;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public interface RequestApi {
     Flowable<HttpResponse<ClothesPrice>> calculateOrderPrice(@Header("Token") String token, @Body RequestBody requestBody);
 
     @POST("f-orders/requestOrders")
-    Flowable<HttpResponse<List<MyOrderInfo>>> requestOrderInfo(@Header("Token") String token, @Body RequestBody requestBody);
+    Flowable<HttpResponse<List<SaveOrderInfo>>> requestOrderInfo(@Header("Token") String token, @Body RequestBody requestBody);
 
     @POST("f-orders/updateOrders")
     Flowable<HttpResponse<OrderType>> updateOrders(@Header("Token") String token, @Body RequestBody gson);

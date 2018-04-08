@@ -30,6 +30,7 @@
             android:layout_marginLeft="7dp"
             android:layout_toRightOf="@+id/order_size_letter"
             android:text="160～170"
+            android:textColor="@color/ashgrey"
             android:textSize="14sp" />
 
     </RelativeLayout>

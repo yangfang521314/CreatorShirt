@@ -6,7 +6,7 @@ package com.example.yf.creatorshirt.mvp.model;
  */
 
 public class PayInfoEntity {
-    private String orderId;
+    private int orderId;
     private String paymode;
     private String address;
     private String zipcode;
@@ -14,11 +14,11 @@ public class PayInfoEntity {
     private String userName;
 
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

@@ -129,6 +129,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (netInterface != null) {
             netInterface = null;
         }
+
         Utils.fixInputMethodManagerLeak(this);
     }
 

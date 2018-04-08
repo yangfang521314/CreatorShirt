@@ -28,14 +28,6 @@
                 </dict>
                 <dict>
                     <key>color</key>
-                    <string>orange</string>
-                    <key>colorhex</key>
-                    <string>CB783E</string>
-                    <key>type</key>
-                    <string>Polo杉</string>
-                </dict>
-                <dict>
-                    <key>color</key>
                     <string>yellow</string>
                     <key>colorhex</key>
                     <string>F2E891</string>

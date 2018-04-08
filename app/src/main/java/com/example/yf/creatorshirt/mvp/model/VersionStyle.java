@@ -191,4 +191,25 @@ public class VersionStyle extends BaseChoiceEntity implements Parcelable {
         dest.writeStringList(text);
         dest.writeStringList(backText);
     }
+
+    @Override
+    public String toString() {
+        return "VersionStyle{" +
+                "isSelect=" + isSelect +
+                ", type='" + type + '\'' +
+                ", color='" + color + '\'' +
+                ", colorName='" + colorName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", sex='" + sex + '\'' +
+                ", clothesType='" + clothesType + '\'' +
+                ", backUrl='" + backUrl + '\'' +
+                ", frontUrl='" + frontUrl + '\'' +
+                ", picture1='" + picture1 + '\'' +
+                ", picture2='" + picture2 + '\'' +
+                ", maskA='" + maskA + '\'' +
+                ", maskB='" + maskB + '\'' +
+                ", text=" + text +
+                ", backText=" + backText +
+                '}';
+    }
 }

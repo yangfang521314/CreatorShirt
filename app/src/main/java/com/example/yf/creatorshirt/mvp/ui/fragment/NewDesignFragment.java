@@ -114,6 +114,11 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
         });
     }
 
+    /**
+     * 选择不同的
+     * @param firstList
+     * @param o
+     */
     private void choiceDiff(List<VersionStyle> firstList, Object o) {
         if (firstList.size() == 2) {
             initPopupWindow(firstList).showAtLocation(mBaseNewFragment, Gravity.CENTER, 0, 0);

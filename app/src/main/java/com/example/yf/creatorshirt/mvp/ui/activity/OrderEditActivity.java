@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,6 @@ import com.example.yf.creatorshirt.app.GlideApp;
 import com.example.yf.creatorshirt.common.UpdateStateEvent;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
@@ -33,8 +33,10 @@ import com.example.yf.creatorshirt.mvp.ui.view.picker.NumberPicker;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.GridLinearLayoutManager;
+import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
+import com.example.yf.creatorshirt.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,6 +53,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     private static final String KID = "kid";
     private static final String MAN = "man";
     private static final String WOMAN = "woman";
+    private static final String TAG = OrderEditActivity.class.getSimpleName();
 
     @BindView(R.id.clothes_picture)
     ImageView mClothesImage;
@@ -70,6 +73,8 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     TextView mTextClothesType;
     @BindView(R.id.total_price)
     TextView mTotalPrice;
+    @BindView(R.id.order_clothes_text)
+    TextView mClothesText;
     @BindView(R.id.discount)
     EditText mEditDiscount;
     @BindView(R.id.prices)
@@ -88,14 +93,14 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     private DetailOrderAdapter mManSizeAdapter;
     private DetailOrderAdapter mWomanSizeAdapter;
     private DetailOrderAdapter mKidSizeAdapter;
-    private SaveOrderInfo mOrderClothesInfo;
+    private SaveOrderInfo mClothesInfo;//计算价格的model
     private int currentPosition;
     private ClothesSize mCurrentManClothesSize;
     private ClothesSize mCurrentWomanClothesSize;
     private ClothesSize mCurrentKidClothesSize;
 
     private NumberPicker picker;
-    private MyOrderInfo myOrderInfo;
+    private SaveOrderInfo myOrderInfo;//初始化数据
 
     private List<ClothesSize> clothesSizeList = new ArrayList<>();
     private ArrayMap<String, ClothesSize> mapManSize = new ArrayMap<>();//计算size的map集合
@@ -106,30 +111,22 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     public void initData() {
         super.initData();
         if (getIntent().hasExtra("clothesInfo") && getIntent().getExtras() != null) {
-            mOrderClothesInfo = getIntent().getExtras().getParcelable("clothesInfo");
-            assert mOrderClothesInfo != null;
-            mOrderClothesInfo.setPicture1(mOrderClothesInfo.getPicture1() == null || mOrderClothesInfo.getPicture1().equals("") ? "0" : "1");
-            mOrderClothesInfo.setPicture2(mOrderClothesInfo.getPicture2() == null || mOrderClothesInfo.getPicture2().equals("") ? "0" : "1");
-            mOrderClothesInfo.setText(mOrderClothesInfo.getText() == null || mOrderClothesInfo.getText().equals("") ? "0" : "1");
-            mOrderClothesInfo.setBackText(mOrderClothesInfo.getBackText() == null || mOrderClothesInfo.getBackText().equals("") ? "0" : "1");
-        }
-        if (getIntent().hasExtra("clothesInfoOrder") && getIntent().getExtras() != null) {
-            myOrderInfo = getIntent().getExtras().getParcelable("clothesInfoOrder");
-            mOrderClothesInfo = new SaveOrderInfo();
-            mOrderClothesInfo.setDiscount("");
-            mOrderClothesInfo.setColor(myOrderInfo.getColor());
-            mOrderClothesInfo.setPartner(myOrderInfo.getPartner());
-            mOrderClothesInfo.setMaskBName(myOrderInfo.getMaskBName());
-            mOrderClothesInfo.setMaskAName(myOrderInfo.getMaskAName());
-            mOrderClothesInfo.setBackText(myOrderInfo.getBackText() == null || myOrderInfo.getBackText().equals("") ? "0" : "1");
-            mOrderClothesInfo.setText(myOrderInfo.getText() == null || myOrderInfo.getText().equals("") ? "0" : "1");
-            mOrderClothesInfo.setPicture2(myOrderInfo.getPicture2() == null || myOrderInfo.getPicture2().equals("") ? "0" : "1");
-            mOrderClothesInfo.setPicture1(myOrderInfo.getPicture1() == null || myOrderInfo.getPicture1().equals("") ? "0" : "1");
-            mOrderClothesInfo.setBaseId(myOrderInfo.getBaseId());
-            mOrderClothesInfo.setOrderId(String.valueOf(myOrderInfo.getOrderId()));
-            mOrderClothesInfo.setPayorderid(myOrderInfo.getPayorderid());
-            mOrderClothesInfo.setFinishAimage(myOrderInfo.getFinishAimage());
-            mOrderClothesInfo.setFinishBimage(myOrderInfo.getFinishBimage());
+            myOrderInfo = getIntent().getExtras().getParcelable("clothesInfo");
+            mClothesInfo = new SaveOrderInfo();
+            assert myOrderInfo != null;
+            mClothesInfo.setDiscount("");
+            mClothesInfo.setColor(myOrderInfo.getColor());
+            mClothesInfo.setPartner(myOrderInfo.getPartner());
+            mClothesInfo.setMaskBName(myOrderInfo.getMaskBName());
+            mClothesInfo.setMaskAName(myOrderInfo.getMaskAName());
+            mClothesInfo.setBackText(myOrderInfo.getBackText() == null || myOrderInfo.getBackText().equals("") ? "0" : "1");
+            mClothesInfo.setText(myOrderInfo.getText() == null || myOrderInfo.getText().equals("") ? "0" : "1");
+            mClothesInfo.setPicture2(myOrderInfo.getPicture2() == null || myOrderInfo.getPicture2().equals("") ? "0" : "1");
+            mClothesInfo.setPicture1(myOrderInfo.getPicture1() == null || myOrderInfo.getPicture1().equals("") ? "0" : "1");
+            mClothesInfo.setBaseId(myOrderInfo.getBaseId());
+            mClothesInfo.setPayorderid(myOrderInfo.getPayorderid());
+            mClothesInfo.setFinishAimage(myOrderInfo.getFinishAimage());
+            mClothesInfo.setFinishBimage(myOrderInfo.getFinishBimage());
         }
         if (ClothesSizeManager.getInstance().getClothesSizeList() == null) {
             mPresenter.getClothesSize();
@@ -148,13 +145,19 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         mAppBarTitle.setText(R.string.design);
         mDetailKidRecycler.setVisibility(View.GONE);
         mTvKidView.setVisibility(View.GONE);
-
-        if (mOrderClothesInfo != null) {
-            GlideApp.with(this).load(mOrderClothesInfo.getFinishAimage())
+        mPrices.setText("原价 ¥：0.00");
+        mTotalPrice.setText("¥：0.00");
+        if (myOrderInfo != null) {
+            GlideApp.with(this).load(myOrderInfo.getFinishAimage())
                     .skipMemoryCache(true)
                     .error(R.mipmap.mbaseball_white_a).into(mClothesImage);
-            mCircleShape.setOutColor(Color.parseColor("#" + mOrderClothesInfo.getColor()));
-            mTextClothesType.setText("类型： "+mOrderClothesInfo.getBaseId());
+            mCircleShape.setOutColor(Color.parseColor("#" + myOrderInfo.getColor()));
+            SimpleArrayMap<String, String> clothesMap = Utils.getClothesName();//对应衣服中文名称
+            if (myOrderInfo.getBaseId() != null) {
+                if (clothesMap.containsKey(myOrderInfo.getBaseId())) {
+                    mTextClothesType.setText("类型： " + clothesMap.get(myOrderInfo.getBaseId()));
+                }
+            }
         }
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
         dividerItemDecoration.setDrawable(App.getInstance().getResources().getDrawable(R.drawable.mysetting_divider));
@@ -226,7 +229,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
                             mapManSize.get(mCurrentManClothesSize.getSize()).setCount(item.intValue());
                         } else {
                             mCurrentManClothesSize.setCount(item.intValue());
-                            mCurrentManClothesSize.setSex(0);
+                            mCurrentManClothesSize.setSex(1);
                             mapManSize.put(mCurrentManClothesSize.getSize(), mCurrentManClothesSize);
                         }
                         break;
@@ -236,7 +239,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
                             mapWomanSize.get(mCurrentWomanClothesSize.getSize()).setCount(item.intValue());
                         } else {
                             mCurrentWomanClothesSize.setCount(item.intValue());
-                            mCurrentWomanClothesSize.setSex(1);
+                            mCurrentWomanClothesSize.setSex(0);
                             mapWomanSize.put(mCurrentWomanClothesSize.getSize(), mCurrentWomanClothesSize);
                         }
 
@@ -292,7 +295,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         } else {
             dis = null;
         }
-        mPresenter.setSaveEntity(mOrderClothesInfo, clothesSizeList, dis);
+        mPresenter.setSaveEntity(mClothesInfo, clothesSizeList, dis);
     }
 
 
@@ -301,14 +304,15 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         getActivityComponent().inject(this);
     }
 
-    @OnClick({R.id.confirm_pay,R.id.back})
+    @OnClick({R.id.confirm_pay, R.id.back})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.confirm_pay:
-                if (mOrderClothesInfo == null) {
+                if (mClothesInfo == null) {
                     return;
                 }
                 if (clothesSizeList != null && clothesSizeList.size() != 0) {
+                    mPresenter.setUpDateOrders(myOrderInfo);
                     mPresenter.updateOrders();
                 } else {
                     ToastUtil.showToast(this, "选择数量", 0);
@@ -326,7 +330,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         if (PhoneUtils.notEmptyText(mEditDiscount)) {
             if (PhoneUtils.getTextString(mEditDiscount).length() <= 10 && PhoneUtils.getTextString(mEditDiscount).length() > 3) {
                 if (clothesSizeList != null && clothesSizeList.size() != 0) {
-                    mPresenter.setSaveEntity(mOrderClothesInfo, clothesSizeList, PhoneUtils.getTextString(mEditDiscount));
+                    mPresenter.setSaveEntity(mClothesInfo, clothesSizeList, PhoneUtils.getTextString(mEditDiscount));
                 } else {
                     ToastUtil.showToast(OrderEditActivity.this, "选择件数", 0);
                 }
@@ -347,7 +351,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     @Override
     public void showPrices(double discountPrice, double orderPrice) {
-        mPrices.setText("原价 ¥：" + orderPrice);
+        mPrices.setText("原价 ¥：" + Double.valueOf(orderPrice));
         mTotalPrice.setText("¥：" + discountPrice);
     }
 
@@ -379,25 +383,29 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     private void initClothesSize(Map<String, List<ClothesSize>> listArrayMap) {
         mManSizeAdapter = new DetailOrderAdapter(this);
         mWomanSizeAdapter = new DetailOrderAdapter(this);
-        if (mOrderClothesInfo.getBaseId().equals("hoodie") || mOrderClothesInfo.getBaseId().equals("sweater")
-                || mOrderClothesInfo.getBaseId().equals("baseball")) {
-            mManSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
-            mWomanSizeAdapter.setData(listArrayMap.get("commonSizeWomen"));
+        switch (myOrderInfo.getBaseId()) {
+            case "hoodie":
+            case "sweater":
+            case "baseball":
+                mManSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
+                mWomanSizeAdapter.setData(listArrayMap.get("commonSizeWomen"));
 
-            mDetailManRecycler.setAdapter(mManSizeAdapter);
-            mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
-            commonChoiceKid(listArrayMap);
-        } else if (mOrderClothesInfo.getBaseId().equals("kidl") || mOrderClothesInfo.getBaseId().equals("kids")) {
-            commonChoiceKid(listArrayMap);
-            mTvWomanView.setVisibility(View.GONE);
-            mTvManView.setVisibility(View.GONE);
-        } else {
-            mManSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
-            mWomanSizeAdapter.setData(listArrayMap.get("commonSizeWomen"));
-            mDetailManRecycler.setAdapter(mManSizeAdapter);
-            mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
-            mTvWomanView.setVisibility(View.VISIBLE);
-            mTvManView.setVisibility(View.VISIBLE);
+                mDetailManRecycler.setAdapter(mManSizeAdapter);
+                mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
+                commonChoiceKid(listArrayMap, true);
+                break;
+            case "kidl":
+            case "kids":
+                commonChoiceKid(listArrayMap, false);
+                break;
+            default:
+                mManSizeAdapter.setData(listArrayMap.get("commonSizeMan"));
+                mWomanSizeAdapter.setData(listArrayMap.get("commonSizeWomen"));
+                mDetailManRecycler.setAdapter(mManSizeAdapter);
+                mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
+                mTvWomanView.setVisibility(View.VISIBLE);
+                mTvManView.setVisibility(View.VISIBLE);
+                break;
         }
         mManSizeAdapter.setOnItemClickListener(this);
         mWomanSizeAdapter.setOnItemClickListener((view, position, object) -> {
@@ -408,19 +416,29 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
 
     }
 
-    private void commonChoiceKid(Map<String, List<ClothesSize>> listArrayMap) {
-        mDetailKidRecycler.setVisibility(View.VISIBLE);
-        mTvKidView.setVisibility(View.VISIBLE);
-        mKidSizeAdapter = new DetailOrderAdapter(this);
-        if (ClothesSizeManager.getInstance().getClothesSizeList() != null) {
-            mKidSizeAdapter.setData(listArrayMap.get("commonKid"));
+    private void commonChoiceKid(Map<String, List<ClothesSize>> listArrayMap, boolean check) {
+        LogUtil.e(TAG, "commonChoiceKid: "+check);
+        if (check) {
+            mDetailKidRecycler.setVisibility(View.VISIBLE);
+            mTvKidView.setVisibility(View.VISIBLE);
+            mKidSizeAdapter = new DetailOrderAdapter(this);
+            if (ClothesSizeManager.getInstance().getClothesSizeList() != null) {
+                mKidSizeAdapter.setData(listArrayMap.get("commonKid"));
+            }
+            mDetailKidRecycler.setAdapter(mKidSizeAdapter);
+            mKidSizeAdapter.setOnItemClickListener((view, position, object) -> {
+                currentPosition = position;
+                mCurrentKidClothesSize = (ClothesSize) object;
+                initChoiceNumber("kid");
+            });
+        } else {
+            mManSizeAdapter.setData(listArrayMap.get("commonKid"));
+            mWomanSizeAdapter.setData(listArrayMap.get("commonKid"));
+            mDetailManRecycler.setAdapter(mManSizeAdapter);
+            mDetailWomanRecycler.setAdapter(mWomanSizeAdapter);
+            mTvWomanView.setVisibility(View.VISIBLE);
+            mTvManView.setVisibility(View.VISIBLE);
         }
-        mDetailKidRecycler.setAdapter(mKidSizeAdapter);
-        mKidSizeAdapter.setOnItemClickListener((view, position, object) -> {
-            currentPosition = position;
-            mCurrentKidClothesSize = (ClothesSize) object;
-            initChoiceNumber("kid");
-        });
     }
 
     @Override

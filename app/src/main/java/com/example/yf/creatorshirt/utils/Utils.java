@@ -3,6 +3,7 @@ package com.example.yf.creatorshirt.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -238,5 +239,21 @@ public class Utils {
             return BitmapFactory.decodeResource(App.getInstance().getResources(), R.mipmap.pattern_6);
         }
         return BitmapFactory.decodeResource(App.getInstance().getResources(), resource);
+    }
+
+    public static SimpleArrayMap<String, String> getClothesName() {
+        SimpleArrayMap<String, String> map = new SimpleArrayMap<>();
+        map.put("polo", "Polo杉");
+        map.put("kidl", "童装长袖");
+        map.put("kids", "童装短袖");
+        map.put("long", "圆领长袖");
+        map.put("clong", "插肩长袖");
+        map.put("short", "圆领短袖");
+        map.put("cshort", "插肩短袖");
+        map.put("v", "v领");
+        map.put("baseball", "棒球服");
+        map.put("sweater", "卫衣");
+        map.put("hoodie", "连帽卫衣");
+        return map;
     }
 }

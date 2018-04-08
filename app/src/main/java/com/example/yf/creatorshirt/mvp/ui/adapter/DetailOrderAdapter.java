@@ -28,10 +28,11 @@ public class DetailOrderAdapter extends BaseAdapter<ClothesSize, DetailOrderHold
 
     @Override
     protected void bindCustomViewHolder(final DetailOrderHolder holder, final int position) {
-        String[] VALUE = mData.get(position).getValue().split("c");
-        if (VALUE.length == 2) {
-            holder.mSizeNumber.setText(VALUE[0]);
-        }
+//        String[] VALUE = mData.get(position).getValue().split("c");
+//        if (VALUE.length == 2) {
+//            holder.mSizeNumber.setText(VALUE[0]);
+//        }
+        holder.mSizeNumber.setText(mData.get(position).getValue());
         holder.mSizeLetter.setText(mData.get(position).getSize());
         if (mData.get(position).getCount() == 0) {
             holder.mClothesNumber.setTextColor(App.getInstance().getResources().getColor(R.color.taupegray_3));

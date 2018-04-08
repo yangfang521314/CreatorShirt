@@ -138,6 +138,4 @@ dependencies {
     implementation files('libs/alipaySdk-20170922.jar')
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 }
-repositories {
-    mavenCentral()
-}
+

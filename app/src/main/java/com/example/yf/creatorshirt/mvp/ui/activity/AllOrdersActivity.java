@@ -12,7 +12,7 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.ChangeSelectEvent;
 import com.example.yf.creatorshirt.mvp.listener.ItemClickListener;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.AllOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AllOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
@@ -87,7 +87,7 @@ public class AllOrdersActivity extends BaseActivity<AllOrderPresenter> implement
     }
 
     @Override
-    public void showSuccess(List<MyOrderInfo> myOrderInfo) {
+    public void showSuccess(List<SaveOrderInfo> myOrderInfo) {
         mAllOrderRY.setVisibility(View.VISIBLE);
         mTextNoData.setVisibility(View.GONE);
         AllOrderAdapter allOrderAdapter = new AllOrderAdapter(this);

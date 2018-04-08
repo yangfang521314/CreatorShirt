@@ -5,7 +5,7 @@ import android.util.Log;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.AllOrderContract;
 import com.example.yf.creatorshirt.utils.GsonUtils;
@@ -37,12 +37,11 @@ public class AllOrderPresenter extends RxPresenter<AllOrderContract.AllOrderView
         if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile() != null) {
             keyValues.put("partner", String.valueOf(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile()));
             addSubscribe(manager.requestMyOrder(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(keyValues))
-                    .compose(RxUtils.<HttpResponse<List<MyOrderInfo>>>rxSchedulerHelper())
-                    .compose(RxUtils.<List<MyOrderInfo>>handleResult())
-                    .subscribeWith(new CommonSubscriber<List<MyOrderInfo>>(mView) {
+                    .compose(RxUtils.<HttpResponse<List<SaveOrderInfo>>>rxSchedulerHelper())
+                    .compose(RxUtils.<List<SaveOrderInfo>>handleResult())
+                    .subscribeWith(new CommonSubscriber<List<SaveOrderInfo>>(mView) {
                         @Override
-                        public void onNext(List<MyOrderInfo> myOrderInfo) {
-                            Log.e(TAG, "onNext: "+myOrderInfo.toString() );
+                        public void onNext(List<SaveOrderInfo> myOrderInfo) {
                             if (myOrderInfo != null && myOrderInfo.size() != 0) {
                                 mView.showSuccess(myOrderInfo);
 

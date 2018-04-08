@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +61,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     public static final String PATTERN = "pattern";
     public static final String MASK = "icon_select_mask";
     public static final String SIGNATURE = "signature";
+    private static final String TAG = NewDesignActivity.class.getSimpleName();
 
 
     @BindView(R.id.design_choice_style)
@@ -429,6 +431,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mOrderBaseInfo.setColor(mCurrentClothes.getColor());
         mOrderBaseInfo.setMaskA(maskA == null ? "" : maskA);
         mOrderBaseInfo.setMaskB(maskB == null ? "" : maskB);
+        mOrderBaseInfo.setGender(mCurrentClothes.getGender());//显示衣服的中文名称
         mOrderBaseInfo.setPicture1(patternFrontUrl);
         mOrderBaseInfo.setPicture2(patternBackUrl);
         if (mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0) {

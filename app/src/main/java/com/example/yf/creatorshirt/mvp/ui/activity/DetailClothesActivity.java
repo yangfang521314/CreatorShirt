@@ -269,7 +269,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private void startChoiceActivity(OrderType orderType) {
         Bundle bundle = new Bundle();
-        bundle.putString("orderId", orderType.getOrderId());
+        bundle.putInt("orderId", orderType.getOrderId());
         startCommonActivity(this, bundle, ChoicePayActivity.class);
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();

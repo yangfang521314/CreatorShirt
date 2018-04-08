@@ -14,6 +14,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.example.yf.creatorshirt.mvp.view.BaseView;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.Map;
  */
 
 public class SystemUtilsBar {
-    private static Map<String, BarParams> mMap = new HashMap<>();
+    private Map<String, BarParams> mMap = new HashMap<>();
     private String mFragmentName;
     private static List<String> mFragmentList = new ArrayList<>();
     private String mActivityName;
@@ -36,7 +38,6 @@ public class SystemUtilsBar {
     private ViewGroup mContentView;
     private BarConfig mConfig;
     private BarParams mBarParams;
-    private static SystemUtilsBar systemUtilsBar;
 
     private SystemUtilsBar(Activity activity) {
         mActivityName = activity.getClass().getName();
@@ -322,5 +323,12 @@ public class SystemUtilsBar {
     public static boolean isSupportStatusBarDarkFont() {
         return OSUtils.isMIUI6More() || OSUtils.isFlymeOS4More()
                 || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+    }
+
+    public void onDestroy() {
+        if (mMap != null) {
+            mMap.clear();
+            mMap = null;
+        }
     }
 }

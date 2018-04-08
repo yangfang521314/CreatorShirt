@@ -68,7 +68,7 @@ public class VersionUpdatePresenter extends RxPresenter<VersionUpdateContract.Ve
      * @param request
      */
     private void update(final int request) {
-        isNeedToUpdate(request);
+//        isNeedToUpdate(request);
     }
 
     private void isNeedToUpdate(int request) {

@@ -58,7 +58,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 }
             });
         } else {
-            if (mData.get(position).isSelect()) {
+            if (mData.get(position-1).isSelect()) {
                 holder.itemView.setSelected(true);
                 preView = holder.itemView;
                 prePosition = position;

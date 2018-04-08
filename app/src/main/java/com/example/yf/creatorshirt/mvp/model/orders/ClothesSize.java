@@ -10,22 +10,26 @@ import java.io.Serializable;
  * [{"count":"1","sex":"1","size":"M","value":"165~175cm"}]
  */
 
-public class ClothesSize implements Parcelable,Serializable {
+public class ClothesSize implements Parcelable, Serializable {
 
     private static final long serialVersionUID = 1L;
     private String size;//尺寸字母
     private String value;//具体尺寸数量
     private int count;//数量
     private int sex;//性别英文or数字代表
+    private int orderid;
+    private int detailId;
+
+    public ClothesSize() {
+    }
 
     protected ClothesSize(Parcel in) {
         size = in.readString();
         value = in.readString();
         count = in.readInt();
         sex = in.readInt();
-    }
-
-    public ClothesSize() {
+        orderid = in.readInt();
+        detailId = in.readInt();
     }
 
     @Override
@@ -34,6 +38,8 @@ public class ClothesSize implements Parcelable,Serializable {
         dest.writeString(value);
         dest.writeInt(count);
         dest.writeInt(sex);
+        dest.writeInt(orderid);
+        dest.writeInt(detailId);
     }
 
     @Override
@@ -87,5 +93,21 @@ public class ClothesSize implements Parcelable,Serializable {
 
     public void setSex(int sex) {
         this.sex = sex;
+    }
+
+    public int getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(int orderid) {
+        this.orderid = orderid;
+    }
+
+    public int getDetailId() {
+        return detailId;
+    }
+
+    public void setDetailId(int detailId) {
+        this.detailId = detailId;
     }
 }

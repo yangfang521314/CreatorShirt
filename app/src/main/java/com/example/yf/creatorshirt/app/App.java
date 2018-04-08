@@ -54,15 +54,14 @@ public class App extends MultiDexApplication {
 
         initShareConfig();
         setIsLogin(SharedPreferencesUtil.getIsLogin());
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             refWatcher = LeakCanary.install(this);
         }
     }
 
     private void initShareConfig() {
-//        59b105c7717c19193f00057f
         PlatformConfig.setWeixin("wx1b403c8f6e9b990b", "5167021796dfd6b73766af3a6b3a33ee");
-        PlatformConfig.setSinaWeibo("4176293252", "a3dda28debdc8bc811013fcf928ad6a9","http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("4176293252", "a3dda28debdc8bc811013fcf928ad6a9", "http://sns.whalecloud.com");
     }
 
     public static void setIsLogin(boolean b) {

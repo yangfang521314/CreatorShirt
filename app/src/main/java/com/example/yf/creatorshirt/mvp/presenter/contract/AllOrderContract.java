@@ -1,6 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter.contract;
 
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.BasePresenter;
 import com.example.yf.creatorshirt.mvp.view.BaseView;
 
@@ -14,7 +14,7 @@ public interface AllOrderContract {
     interface AllOrderView extends BaseView {
 
 
-        void showSuccess(List<MyOrderInfo> myOrderInfo);
+        void showSuccess(List<SaveOrderInfo> myOrderInfo);
     }
 
     interface Presenter extends BasePresenter<AllOrderContract.AllOrderView> {

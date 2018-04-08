@@ -1,22 +1,26 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
+import com.example.yf.creatorshirt.utils.Utils;
+
+import retrofit2.http.POST;
 
 /**
  * Created by yang on 03/07/2017.
  * 订单详情页的Adapter
  */
 
-public class AllOrderAdapter extends BaseAdapter<MyOrderInfo, ItemViewHolder> {
+public class AllOrderAdapter extends BaseAdapter<SaveOrderInfo, ItemViewHolder> {
 
     public AllOrderAdapter(Context context) {
         super(context);
@@ -35,7 +39,10 @@ public class AllOrderAdapter extends BaseAdapter<MyOrderInfo, ItemViewHolder> {
                 .error(R.mipmap.mcshort_orange_a)
                 .into(holder.mStyleImageView);
         holder.mShowPriceClothes.setText("¥" + mData.get(position).getOrderPrice());
-        holder.mShowTypeClothes.setText(mData.get(position).getBaseId());
+        SimpleArrayMap<String, String> map = Utils.getClothesName();
+        if (map.containsKey(mData.get(position).getBaseId())) {
+            holder.mShowTypeClothes.setText(map.get(mData.get(position).getBaseId()));
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

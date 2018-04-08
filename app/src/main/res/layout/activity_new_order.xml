@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/clothes_picture"
             android:layout_toRightOf="@+id/clothes_picture"
             android:orientation="vertical">
@@ -44,7 +44,7 @@
                     android:id="@+id/tv_create"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的定制—T恤"
+                    android:text="我的定制"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:text="颜色："
                     android:textSize="14sp" />
 
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="文字：乱输入的文字"
+                android:text="文字："
                 android:textSize="14sp"
                 android:visibility="gone" />
         </LinearLayout>
@@ -198,11 +198,11 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="left|center"
-            android:lines="1"
             android:hint="点击输入折扣码"
+            android:inputType="number"
+            android:lines="1"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:inputType="number"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -216,7 +216,7 @@
             android:gravity="center|left"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:textColor="@color/red_e73a3d"
+            android:textColor="@color/taupegray_2"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -229,12 +229,29 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/server_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="客服电话"
+            android:textColor="@color/red"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/server_TV"
+            android:layout_marginLeft="3dp"
+            android:text="0571-85785975"
+            android:textColor="@color/red" />
+
+        <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/total_price"
             android:gravity="center"
             android:text="合计"

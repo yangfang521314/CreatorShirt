@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.GlideApp;
-import com.example.yf.creatorshirt.mvp.model.MyOrderInfo;
+import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.MyOrderSizeAdapter;
@@ -53,7 +53,7 @@ public class DetailOrderActivity extends BaseActivity {
     @BindView(R.id.ll_express_info)
     LinearLayout mLLExpressInfo;
     private ShapeView shapeView;
-    private MyOrderInfo myOrderInfo;
+    private SaveOrderInfo myOrderInfo;
     private String[] mAllImage = new String[2];
     private List<View> mViewList = new ArrayList<>();
 
@@ -104,7 +104,7 @@ public class DetailOrderActivity extends BaseActivity {
     void onClick(View view) {
         if (view.getId() == R.id.btn_start) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("clothesInfoOrder", myOrderInfo);
+            bundle.putParcelable("clothesInfo", myOrderInfo);
             startCommonActivity(this, bundle, OrderEditActivity.class);
         }
         if (view.getId() == R.id.back) {
