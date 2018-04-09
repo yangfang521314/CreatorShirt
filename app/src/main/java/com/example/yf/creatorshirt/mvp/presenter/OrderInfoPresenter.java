@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
@@ -35,6 +36,8 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
+import static com.umeng.socialize.utils.Log.TAG;
+
 /**
  * Created by yangfang on 2017/8/28.
  * 保存信息到服务器
@@ -48,11 +51,10 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
     private String QiniuToken;
     private UploadManager uploadManager = new UploadManager();
     private String userToken;
-    private String UserId;
-    private SimpleArrayMap<String, String> mapList = new SimpleArrayMap<>();
-    private SimpleArrayMap<String, String> mapTotal = new SimpleArrayMap<>();
+    private SimpleArrayMap<String, String> mapList = new SimpleArrayMap<>();//上传服务器的形成的url集合
+    private SimpleArrayMap<String, String> mapTotal = new SimpleArrayMap<>();//本地图片的url集合
     private SaveOrderInfo saveOrderInfo;
-    ExecutorService executor = Executors.newCachedThreadPool();
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
 
     @SuppressLint("HandlerLeak")
@@ -80,8 +82,8 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         if (imageUrl == null) {
             return;
         }
-        UserId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
-        String key = UserId + Utils.getTime() + kewWord;
+        String userId = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getUserid() + "_";
+        String key = userId + Utils.getTime() + kewWord;
         uploadManager.put(imageUrl, key, QiniuToken, new UpCompletionHandler() {
             @Override
             public void complete(String key, ResponseInfo info, JSONObject response) {
@@ -200,11 +202,22 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             if (arrayList.size() != 0) {
                 if (arrayList.containsKey("0")) {
                     mapTotal.put("0", arrayList.get("0"));
-                    work1 = new SaveWork("0", arrayList.get("0"));
+                    if (arrayList.get("0").contains("pattern")) {
+                        Log.e(TAG, "requestSave: " + Constants.ImageUrl + arrayList.get(0) + ".png");
+                        mapList.put("0", Constants.ImageUrl + arrayList.get(0) + ".png");
+                    } else {
+                        work1 = new SaveWork("0", arrayList.get("0"));
+                    }
                 }
                 if (arrayList.containsKey("1")) {
                     mapTotal.put("1", arrayList.get("1"));
-                    work2 = new SaveWork("1", arrayList.get("1"));
+                    if (arrayList.get("1").contains("pattern")) {
+                        mapList.put("1", Constants.ImageUrl + arrayList.get("1") + ".png");
+                    } else {
+                        work2 = new SaveWork("1", arrayList.get("1"));
+                    }
+
+
                 }
             }
         }
