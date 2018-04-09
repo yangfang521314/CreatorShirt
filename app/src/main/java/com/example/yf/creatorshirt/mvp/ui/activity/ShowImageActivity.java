@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,8 +58,8 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     private String mBackImageUrl;
     private String mFrontImageUrl;
     private VersionStyle mOrderBaseInfo;
-    private SimpleArrayMap<String, String> arrayList = new SimpleArrayMap<>();
-    private SaveOrderInfo saveStyleEntity;
+    private String picture1;
+    private String picture2;
 
     @Override
     public void initData() {
@@ -76,10 +75,10 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
             }
             assert mOrderBaseInfo != null;
             if (mOrderBaseInfo.getPicture1() != null) {
-                arrayList.put("0", mOrderBaseInfo.getPicture1());
+                picture1 = mOrderBaseInfo.getPicture1();
             }
             if (mOrderBaseInfo.getPicture2() != null) {
-                arrayList.put("1", mOrderBaseInfo.getPicture2());
+                picture2 = mOrderBaseInfo.getPicture2();
             }
         }
     }
@@ -113,7 +112,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
             case R.id.btn_choice_order:
                 if (App.isLogin) {
                     mPresenter.setSaveEntity(setBaseInfo());
-                    mPresenter.requestSave(mOrderBaseInfo.getFrontUrl(), mOrderBaseInfo.getBackUrl(), arrayList);
+                    mPresenter.requestSave(mOrderBaseInfo.getFrontUrl(), mOrderBaseInfo.getBackUrl(), picture1,picture2);
                     mCreateOrder.setEnabled(false);
                 } else {
                     startCommonActivity(this, null, LoginActivity.class);//跳转到登录界面
@@ -151,7 +150,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     }
 
     private SaveOrderInfo setBaseInfo() {
-        saveStyleEntity = new SaveOrderInfo();
+        SaveOrderInfo saveStyleEntity = new SaveOrderInfo();
         saveStyleEntity.setBaseId(mOrderBaseInfo.getType());
         saveStyleEntity.setFinishAimage(mOrderBaseInfo.getFrontUrl());
         saveStyleEntity.setFinishBimage(mOrderBaseInfo.getBackUrl());

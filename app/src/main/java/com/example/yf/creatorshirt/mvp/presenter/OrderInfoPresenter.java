@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
@@ -35,8 +34,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
-
-import static com.umeng.socialize.utils.Log.TAG;
 
 /**
  * Created by yangfang on 2017/8/28.
@@ -129,7 +126,6 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
      */
     public void getToken() {
         userToken = UserInfoManager.getInstance().getToken();
-        LogUtil.e("UserToken", "UserToken" + userToken);
         if (userToken == null) {
             return;
         }
@@ -172,7 +168,6 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
                     @Override
                     public void onNext(OrderType orderType) {
                         if (orderType != null) {
-                            LogUtil.e("OrderInfo", "orderId" + orderType.getOrderId());
                             mView.showOrderId(orderType, saveOrderInfo);
                         }
                     }
@@ -186,10 +181,9 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
      *
      * @param frontUrl
      * @param backUrl
-     * @param arrayList
      */
     @SuppressLint("StaticFieldLeak")
-    public void requestSave(final String frontUrl, final String backUrl, final SimpleArrayMap<String, String> arrayList) {
+    public void requestSave(final String frontUrl, final String backUrl, String picture1, String picture2) {
         if (!NetworkUtils.isNetWorkConnected()) {
             mView.showErrorMsg(App.getInstance().getString(R.string.no_upload_net));
             return;
@@ -198,43 +192,43 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
         mapTotal.put("B", backUrl);
         SaveWork work1 = null;
         SaveWork work2 = null;
-        if (arrayList != null) {
-            if (arrayList.size() != 0) {
-                if (arrayList.containsKey("0")) {
-                    mapTotal.put("0", arrayList.get("0"));
-                    if (arrayList.get("0").contains("pattern")) {
-                        Log.e(TAG, "requestSave: " + Constants.ImageUrl + arrayList.get(0) + ".png");
-                        mapList.put("0", Constants.ImageUrl + arrayList.get(0) + ".png");
-                    } else {
-                        work1 = new SaveWork("0", arrayList.get("0"));
-                    }
-                }
-                if (arrayList.containsKey("1")) {
-                    mapTotal.put("1", arrayList.get("1"));
-                    if (arrayList.get("1").contains("pattern")) {
-                        mapList.put("1", Constants.ImageUrl + arrayList.get("1") + ".png");
-                    } else {
-                        work2 = new SaveWork("1", arrayList.get("1"));
-                    }
-
-
-                }
+        if (picture1 != null) {
+            mapTotal.put("0", picture1);
+            if (picture1.contains("pattern")) {
+                mapList.put("0", Constants.ImageUrl + picture1 + ".png");
+            } else {
+                work1 = new SaveWork("0", picture1);
             }
         }
+        if (picture2 != null) {
+            mapTotal.put("1", picture2);
+            if (picture2.contains("pattern")) {
+                mapList.put("1", Constants.ImageUrl + picture2 + ".png");
+            } else {
+                work2 = new SaveWork("1", picture2);
+            }
+        }
+
 
         SaveWork work3 = new SaveWork("A", frontUrl);
         SaveWork work4 = new SaveWork("B", backUrl);
         ToastUtil.showProgressToast(App.getInstance(), "正在生成订单", R.drawable.progress_icon);
         executor.execute(work3);
         executor.execute(work4);
-        if (work1 != null) {
+        if (work1 != null)
+
+        {
             executor.execute(work1);
         }
-        if (work2 != null) {
+        if (work2 != null)
+
+        {
             executor.execute(work2);
         }
         executor.shutdown();
-        if (executor.isTerminated()) {
+        if (executor.isTerminated())
+
+        {
             ToastUtil.cancel();
         }
     }

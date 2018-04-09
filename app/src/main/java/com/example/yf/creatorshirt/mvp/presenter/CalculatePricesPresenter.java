@@ -1,15 +1,11 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
-import android.support.v4.util.SimpleArrayMap;
-import android.util.Log;
-
 import com.alibaba.fastjson.JSONArray;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.HttpResponse;
-import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -33,11 +29,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by yangfang on 2018/1/21.
@@ -93,7 +84,6 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                 .subscribeWith(new CommonSubscriber<ClothesPrice>(mView, "访问出错") {
                     @Override
                     public void onNext(ClothesPrice s) {
-                        Log.e(TAG, "onNext: " + s);
                         if (s != null) {
                             if (s.getOrderPrice() > s.getDiscountPrice()) {
                                 saveOrderInfo.setOrderPrice(s.getDiscountPrice());

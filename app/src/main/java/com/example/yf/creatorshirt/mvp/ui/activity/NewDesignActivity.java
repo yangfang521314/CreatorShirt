@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +43,6 @@ import com.example.yf.creatorshirt.mvp.ui.view.TextItemView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.FileUtils;
-import com.example.yf.creatorshirt.utils.LogUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.example.yf.creatorshirt.utils.Utils;
 
@@ -436,13 +434,11 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         mOrderBaseInfo.setPicture2(patternBackUrl);
         if (mContainerFront.getTextEntities() != null && mContainerFront.getTextEntities().size() != 0) {
             mOrderBaseInfo.setText(mContainerFront.getTextEntities());
-            LogUtil.e("News", "util" + mContainerFront.getTextEntities().toString());
         } else {
             mOrderBaseInfo.setText(null);
         }
         if (mContainerBack.getTextEntities() != null && mContainerBack.getTextEntities().size() != 0) {
             mOrderBaseInfo.setBackText(mContainerBack.getTextEntities());
-            LogUtil.e("News", "util" + mContainerBack.getTextEntities().toString());
         } else {
             mOrderBaseInfo.setBackText(null);
         }
@@ -472,12 +468,14 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 if (mButtonFront.isSelected()) {
                     resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
-                    patternFrontUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
+//                    patternFrontUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
+                    patternFrontUrl = (String) o;
                 }
                 if (mButtonBack.isSelected()) {
                     resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
-                    patternBackUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
+//                    patternBackUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
+                    patternBackUrl = (String) o;
                 }
                 break;
             case MASK:
@@ -648,13 +646,13 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mRecyclerDetailStyle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             if (mButtonFront.isSelected()) {
-                if(isMotion) {
+                if (isMotion) {
                     Constants.ISTOKEN = false;
                 }
                 mContainerFront.setTouchFlag(true);
             }
             if (mButtonBack.isSelected()) {
-                if(isMotionBack) {
+                if (isMotionBack) {
                     Constants.IS_BACK_TOKEN = false;
                 }
                 mContainerBack.setTouchFlag(true);

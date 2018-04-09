@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.example.yf.creatorshirt.utils.Constants;
-import com.example.yf.creatorshirt.utils.LogUtil;
 
 /**
  * Created by yangfang on 2018/1/3.
@@ -26,7 +25,6 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
     public PatterImage(Context context) {
         super(context);
         init();
-        LogUtil.e(TAG, "PatterImage: "+"fdffff" );
     }
 
     private void init() {
@@ -50,7 +48,6 @@ public class PatterImage extends android.support.v7.widget.AppCompatImageView {
     }
 
     private void initImgPositionAndSize() {
-        LogUtil.e(TAG, "initImgPositionAndSize: "+Constants.ISTOKEN );
         if(Constants.ISTOKEN) {
             mMatrix.reset();
             // 初始化ImageRect
