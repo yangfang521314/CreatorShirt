@@ -14,11 +14,13 @@ public class DetailOrderHolder extends BaseViewHolder {
     public TextView mSizeLetter;
     public TextView mSizeNumber;
     public TextView mClothesNumber;
+    public TextView mWeigth;
 
     public DetailOrderHolder(ViewGroup parent, int resId) {
         super(parent, resId);
         mSizeLetter = getView(R.id.order_size_letter);
         mSizeNumber = getView(R.id.order_size_number);
         mClothesNumber = getView(R.id.clothes_number);
+        mWeigth = getView(R.id.weight);
     }
 }

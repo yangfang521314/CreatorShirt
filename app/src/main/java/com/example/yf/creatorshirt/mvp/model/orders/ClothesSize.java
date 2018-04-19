@@ -19,6 +19,7 @@ public class ClothesSize implements Parcelable, Serializable {
     private int sex;//性别英文or数字代表
     private int orderid;
     private int detailId;
+    private String weight;
 
     public ClothesSize() {
     }
@@ -30,6 +31,7 @@ public class ClothesSize implements Parcelable, Serializable {
         sex = in.readInt();
         orderid = in.readInt();
         detailId = in.readInt();
+        weight = in.readString();
     }
 
     @Override
@@ -40,6 +42,7 @@ public class ClothesSize implements Parcelable, Serializable {
         dest.writeInt(sex);
         dest.writeInt(orderid);
         dest.writeInt(detailId);
+        dest.writeString(weight);
     }
 
     @Override
@@ -105,6 +108,14 @@ public class ClothesSize implements Parcelable, Serializable {
 
     public int getDetailId() {
         return detailId;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public void setDetailId(int detailId) {

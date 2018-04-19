@@ -41,7 +41,7 @@ public class DetailOrderAdapter extends BaseAdapter<ClothesSize, DetailOrderHold
             holder.mClothesNumber.setTextColor(App.getInstance().getResources().getColor(R.color.red_e73a3d));
         }
         holder.mClothesNumber.setText("已选：" + mData.get(position).getCount());
-
+        holder.mWeigth.setText(mData.get(position).getWeight());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

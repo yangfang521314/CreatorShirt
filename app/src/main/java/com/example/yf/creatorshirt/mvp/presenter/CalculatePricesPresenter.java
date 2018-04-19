@@ -1,5 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSONArray;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
@@ -29,6 +31,8 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by yangfang on 2018/1/21.
@@ -121,24 +125,21 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
      * 造衣服的尺寸
      */
     public void getClothesSize() {
-        Observable.create(new ObservableOnSubscribe<Map<String, List<ClothesSize>>>() {
-            @Override
-            public void subscribe(ObservableEmitter<Map<String, List<ClothesSize>>> e) throws Exception {
-                InputStream inputStream = null;
-                inputStream = App.getInstance().getAssets().open("clothes_size.json");
+        Observable.create((ObservableOnSubscribe<Map<String, List<ClothesSize>>>) e -> {
+            InputStream inputStream = null;
+            inputStream = App.getInstance().getAssets().open("clothes_size.json");
 
-                ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int len;
-                while ((len = inputStream.read(buffer)) != -1) {
-                    arrayOutputStream.write(buffer, 0, len);
-                }
-                arrayOutputStream.flush();
-                arrayOutputStream.close();
-                inputStream.close();
-                String json = new String(arrayOutputStream.toByteArray());
-                e.onNext(getArrayList(json));
+            ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int len;
+            while ((len = inputStream.read(buffer)) != -1) {
+                arrayOutputStream.write(buffer, 0, len);
             }
+            arrayOutputStream.flush();
+            arrayOutputStream.close();
+            inputStream.close();
+            String json = new String(arrayOutputStream.toByteArray());
+            e.onNext(getArrayList(json));
         }).compose(RxUtils.<Map<String, List<ClothesSize>>>rxObScheduleHelper())
                 .subscribe(new CommonObserver<Map<String, List<ClothesSize>>>(mView) {
                     @Override
@@ -166,6 +167,8 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                 clothesSize = new ClothesSize();
                 clothesSize.setValue(jsonObject1.getString("value"));
                 clothesSize.setSize(jsonObject1.getString("size"));
+                clothesSize.setWeight(jsonObject1.getString("weight"));
+                Log.e(TAG, "getArrayList: "+jsonObject1.getString("weight") );
                 mClothesSizesList.add(clothesSize);
             }
             putMap(name, mClothesSizesList);

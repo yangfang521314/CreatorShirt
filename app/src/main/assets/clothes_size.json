@@ -64,35 +64,35 @@
       }
     ]
   },
-  {
-    "name": "commonPolo",
-    "type": [
-      {
-        "size": "S",
-        "value": "155~160cm"
-      },
-      {
-        "size": "M",
-        "value": "160~165cm"
-      },
-      {
-        "size": "L",
-        "value": "165~170cm"
-      },
-      {
-        "size": "XL",
-        "value": "170~175cm"
-      },
-      {
-        "size": "2XL",
-        "value": "175~180cm"
-      },
-      {
-        "size": "3XL",
-        "value": "180~185cm"
-      }
-    ]
-  },
+//  {
+//    "name": "commonPolo",
+//    "type": [
+//      {
+//        "size": "S",
+//        "value": "155~160cm"
+//      },
+//      {
+//        "size": "M",
+//        "value": "160~165cm"
+//      },
+//      {
+//        "size": "L",
+//        "value": "165~170cm"
+//      },
+//      {
+//        "size": "XL",
+//        "value": "170~175cm"
+//      },
+//      {
+//        "size": "2XL",
+//        "value": "175~180cm"
+//      },
+//      {
+//        "size": "3XL",
+//        "value": "180~185cm"
+//      }
+//    ]
+//  },
   {
     "name": "commonKid",
     "type": [
