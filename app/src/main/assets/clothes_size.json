@@ -1,60 +1,71 @@
 [
   {
-    "name":"commonSizeMan",
+    "name": "commonSizeMan",
     "type": [
       {
         "size": "S",
-        "value": "160~170cm"
+        "value": "160~170cm",
+        "weight": "90-100斤"
       },
       {
         "size": "M",
-        "value": "165~175cm"
+        "value": "165~175cm",
+        "weight": "100-120斤"
       },
       {
         "size": "L",
-        "value": "170~180cm"
+        "value": "170~180cm",
+        "weight": "120-140斤"
       },
       {
         "size": "XL",
-        "value": "175~185cm"
+        "value": "175~185cm",
+        "weight": "140-160斤"
       },
       {
         "size": "2XL",
-        "value": "180~190cm"
+        "value": "180~190cm",
+        "weight": "160-180斤"
       },
       {
         "size": "3XL",
-        "value": "185~195cm"
+        "value": "185~195cm",
+        "weight": "180-200斤"
       }
     ]
   },
   {
-    "name":"commonSizeWomen",
+    "name": "commonSizeWomen",
     "type": [
       {
         "size": "S",
-        "value": "145~150cm"
+        "value": "145~150cm",
+        "weight": "70-80斤"
       },
       {
         "size": "M",
-        "value": "150~155cm"
+        "value": "150~155cm",
+        "weight": "80-90斤"
       },
       {
         "size": "L",
-        "value": "155~160cm"
+        "value": "155~160cm",
+        "weight": "90-100斤"
       },
       {
         "size": "XL",
-        "value": "160~165cm"
+        "value": "160~165cm",
+        "weight": "100-110斤"
       },
       {
         "size": "2XL",
-        "value": "165~170cm"
+        "value": "165~170cm",
+        "weight": "110-120斤"
       }
     ]
   },
   {
-    "name":"commonPolo",
+    "name": "commonPolo",
     "type": [
       {
         "size": "S",
