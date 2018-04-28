@@ -26,7 +26,7 @@ public class MaskStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHold
 
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        return new ItemViewHolder(parent, R.layout.item_style_layout);
+        return new ItemViewHolder(parent, R.layout.item_mask_layout);
     }
 
     @Override
