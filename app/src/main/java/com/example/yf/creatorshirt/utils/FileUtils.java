@@ -297,8 +297,8 @@ public class FileUtils {
             canvas.drawBitmap(source, rectSource, rectF, paint);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
             Rect maskRect = new Rect(0, 0, mask.getWidth(), mask.getHeight());
-            Rect dstRect = new Rect((width - mask.getWidth()) / 2,
-                    (height - mask.getHeight()) / 2,
+            Rect dstRect = new Rect(0,
+                    0,
                     (width + mask.getWidth()) / 2, (height + mask.getHeight()) / 2);
             canvas.drawBitmap(mask, maskRect, dstRect, paint);
             paint.setXfermode(null);

@@ -52,4 +52,12 @@ public class ItemViewHolder extends BaseViewHolder {
             DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
         }
     }
+
+    public ItemViewHolder(ViewGroup parent, int resId, boolean b) {
+        super(parent, resId);
+        mStyleImageView = getView(R.id.design_icon_style);
+        mStyleTextView = getView(R.id.design_text_style);
+        mCommonStyle = getView(R.id.common_style);
+        DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
+    }
 }

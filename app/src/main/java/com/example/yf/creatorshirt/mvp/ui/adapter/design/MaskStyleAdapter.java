@@ -61,4 +61,8 @@ public class MaskStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHold
             }
         });
     }
+
+    public void clearSelect() {
+        mData.get(prePosition).setSelect(false);
+    }
 }

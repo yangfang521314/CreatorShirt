@@ -2,12 +2,16 @@ package com.example.yf.creatorshirt.mvp.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,18 +27,21 @@ import com.example.yf.creatorshirt.mvp.ui.view.sticker.SignatureDialog;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.Sticker;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.StickerView;
 import com.example.yf.creatorshirt.mvp.ui.view.sticker.TextSticker;
+import com.example.yf.creatorshirt.utils.DisplayUtil;
 import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.http.PATCH;
 
 /**
  * Created by yangfang on 2018/1/3.
  */
 
 public class ClothesFrontView extends StickerView implements MotionEventContract.MotionEventView {
+    private static final String TAG = "ClothesFrontView";
     @BindView(R.id.clothes)
     ImageView mClothes;
     @BindView(R.id.source)
@@ -288,6 +295,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
     public float getScaleCurrentF() {
         return mSource.getScaleFactor();
     }
+
 
 
     @Override

@@ -57,4 +57,7 @@ public class ColorStyleAdapter extends BaseAdapter<VersionStyle, ColorItemViewHo
     }
 
 
+    public void clearSelect() {
+        mData.get(prePosition).setSelect(false);
+    }
 }

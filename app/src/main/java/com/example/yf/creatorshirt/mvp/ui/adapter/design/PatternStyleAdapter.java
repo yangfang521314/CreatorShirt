@@ -11,6 +11,7 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
+import com.example.yf.creatorshirt.mvp.ui.view.ClearView;
 import com.example.yf.creatorshirt.utils.FileUtils;
 
 /**
@@ -40,7 +41,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
         ItemViewHolder holder;
-        holder = new ItemViewHolder(parent, R.layout.item_style_layout);
+        holder = new ItemViewHolder(parent, R.layout.item_style_layout, true);
         return holder;
     }
 
@@ -58,7 +59,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 }
             });
         } else {
-            if (mData.get(position-1).isSelect()) {
+            if (mData.get(position - 1).isSelect()) {
                 holder.itemView.setSelected(true);
                 preView = holder.itemView;
                 prePosition = position;
@@ -85,7 +86,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
             }
             holder.mStyleTextView.setVisibility(View.GONE);
             GlideApp.with(mContext).load(FileUtils.getResource(mData.get(position - 1).getName()))
-                    .override(140, 140)
+                    .override(240, 260)
                     .skipMemoryCache(true)
                     .into(holder.mStyleImageView);
         }
@@ -93,5 +94,9 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
 
     public void setOnComClickListener(NewDesignActivity.ChoiceAvatarListener choiceAvatarListener) {
         this.choiceAvatarListener = choiceAvatarListener;
+    }
+
+    public void clearSelect() {
+        mData.get(prePosition - 1).setSelect(false);
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,8 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.MaskStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
+import com.example.yf.creatorshirt.mvp.ui.view.ClearPresenter;
+import com.example.yf.creatorshirt.mvp.ui.view.ClearView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
@@ -119,6 +122,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private boolean isClick = false;
     private boolean isMotion = false;
     private boolean isMotionBack = false;
+    private ColorStyleAdapter colorStyleAdapter;
+    private PatternStyleAdapter patternStyleAdapter;
+    private MaskStyleAdapter maskStyleAdapter;
 
     @Override
     protected void inject() {
@@ -147,6 +153,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     protected void initView() {
         mAppBarTitle.setText("设计定制");
         mRecyclerStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        patternStyleAdapter = new PatternStyleAdapter(this);
+        maskStyleAdapter = new MaskStyleAdapter(this);
+        colorStyleAdapter = new ColorStyleAdapter(this);
         //默认显示正面
         isFirst = true;
         initFront();
@@ -247,6 +256,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                             }
                         }
                         mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+                        colorStyleAdapter.clearSelect();
                         break;
                     case PATTERN:
                         if (mButtonFront.isSelected()) {
@@ -256,7 +266,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                             mContainerBack.setImageSource(null);
                         }
                         mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
-
+                        patternStyleAdapter.clearSelect();
                         break;
                     case MASK:
                         if (mButtonFront.isSelected()) {
@@ -267,7 +277,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                             mContainerBack.setImageMask(null);
                         }
                         mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
-
+                        maskStyleAdapter.clearSelect();
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
@@ -306,6 +316,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                     case COLOR:
                         mOrderBaseInfo.setColor(mCurrentClothes.getColor());
                         mClothesData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+                        colorStyleAdapter.clearSelect();
                         break;
                     case PATTERN:
                         if (mButtonFront.isSelected()) {
@@ -314,7 +325,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setTouchFlag(false);
                         }
-                        mPatternData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+                        patternStyleAdapter.clearSelect();
                         break;
                     case MASK:
                         if (mButtonFront.isSelected()) {
@@ -323,7 +334,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                         if (mButtonBack.isSelected()) {
                             mContainerBack.setTouchFlag(false);
                         }
-                        mMaskData.get(newList.get(mCurrentPosition).getTitle()).get(prePosition).setSelect(false);
+                        maskStyleAdapter.clearSelect();
                         break;
                     case SIGNATURE:
                         if (mButtonFront.isSelected()) {
@@ -468,13 +479,11 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
                 if (mButtonFront.isSelected()) {
                     resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
-//                    patternFrontUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
                     patternFrontUrl = (String) o;
                 }
                 if (mButtonBack.isSelected()) {
                     resourcePattern = FileUtils.getResource((String) o);
                     setPatternUrl(resourcePattern);
-//                    patternBackUrl = FileUtils.saveBitmap(Utils.getBitmapResource(resourcePattern), mContext, "pattern");
                     patternBackUrl = (String) o;
                 }
                 break;
@@ -617,14 +626,15 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     private void clickItem(int position) {
         mRecyclerDetailStyle.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         if (mClothesData.containsKey((newList.get(position).getTitle()))) {
-            ColorStyleAdapter colorStyleAdapter = new ColorStyleAdapter(this);
             colorStyleAdapter.setData(mClothesData.get(newList.get(position).getTitle()));
             colorStyleAdapter.setOnItemClickListener(this);
             mRecyclerDetailStyle.setAdapter(colorStyleAdapter);
             colorStyleAdapter.notifyDataSetChanged();
         }
         if (mPatternData.containsKey(newList.get(position).getTitle())) {
-            PatternStyleAdapter patternStyleAdapter = new PatternStyleAdapter(this);
+            if (patternStyleAdapter == null) {
+                return;
+            }
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
             patternStyleAdapter.setOnItemClickListener(this);
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
@@ -640,11 +650,10 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             }
         }
         if (mMaskData.containsKey(newList.get(position).getTitle())) {
-            MaskStyleAdapter adapter = new MaskStyleAdapter(this);
-            adapter.setData(mMaskData.get(newList.get(position).getTitle()));
-            adapter.setOnItemClickListener(this);
-            mRecyclerDetailStyle.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            maskStyleAdapter.setData(mMaskData.get(newList.get(position).getTitle()));
+            maskStyleAdapter.setOnItemClickListener(this);
+            mRecyclerDetailStyle.setAdapter(maskStyleAdapter);
+            maskStyleAdapter.notifyDataSetChanged();
             if (mButtonFront.isSelected()) {
                 if (isMotion) {
                     Constants.ISTOKEN = false;

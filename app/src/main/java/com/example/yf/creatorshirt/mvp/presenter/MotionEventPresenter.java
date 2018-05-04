@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.graphics.PointF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.yf.creatorshirt.app.App;
@@ -8,6 +9,8 @@ import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MotionEventContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by yangfang on 2018/4/2.
@@ -30,7 +33,7 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
     private static final int VERTICAL = 1;
     private float mHorizontalMinScaleFactor = 0.1f;
     private float mVerticalMinScaleFactor = 0.1f;
-    private float mMaxScaleFactor = 1.8f;//最大放大倍数
+    private float mMaxScaleFactor = 1.0f;//最大放大倍数
     private float[] xAxis = new float[]{1f, 0f};
     private boolean mOpenScaleRevert = true; // 是否开启旋转回弹
     private boolean mOpenTranslateRevert = false; // 是否开启旋转回弹
@@ -92,6 +95,44 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
 
     }
 
+    /**
+     * 放大
+     *
+     * @param event
+     */
+    private void scale(MotionEvent event) {
+        PointF scaleCenter = getScaleCenter();
+        // 初始化当前两指触点
+        mCurrentPoint1.set(event.getX(0), event.getY(0));
+        mCurrentPoint2.set(event.getX(1), event.getY(1));
+        // 计算缩放比例
+        float scaleFactor = distance(mCurrentPoint1, mCurrentPoint2)
+                / distance(mLastPoint1, mLastPoint2);
+        // 更新当前图片的缩放比例
+//        float scaleCurrentF = mView.getScaleCurrentF();
+        int imgOrientation = imgOrientation();
+        // 超过设置的上限或下限则回弹到设置的限制值
+        float mScaleFactor = mView.getScaleCurrentF();
+        // 除以当前图片缩放比例mScaleFactor，postScale()方法执行后的图片的缩放比例即为被除数大小
+        if (imgOrientation == HORIZONTAL
+                && mView.getScaleCurrentF() < mHorizontalMinScaleFactor) {
+            scaleFactor = mHorizontalMinScaleFactor / mScaleFactor;
+        } else if (imgOrientation == VERTICAL
+                && mScaleFactor < mVerticalMinScaleFactor) {
+            scaleFactor = mVerticalMinScaleFactor / mScaleFactor;
+        } else if (mScaleFactor > mMaxScaleFactor) {
+            scaleFactor = mMaxScaleFactor / mScaleFactor;
+        }
+        mScaleFactor *= scaleFactor;
+        mView.setCurrentScale(mScaleFactor);
+        mView.setScaleMatrix(scaleFactor, scaleFactor,
+                scaleCenter.x, scaleCenter.y);
+        mLastPoint1.set(mCurrentPoint1);
+        mLastPoint2.set(mCurrentPoint2);
+
+    }
+
+
     private void checkScale() {
         PointF scaleCenter = getScaleCenter();
         float scaleFactor = 1.0f;
@@ -150,30 +191,6 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
     }
 
     /**
-     * 放大
-     *
-     * @param event
-     */
-    private void scale(MotionEvent event) {
-        PointF scaleCenter = getScaleCenter();
-        // 初始化当前两指触点
-        mCurrentPoint1.set(event.getX(0), event.getY(0));
-        mCurrentPoint2.set(event.getX(1), event.getY(1));
-        // 计算缩放比例
-        float scaleFactor = distance(mCurrentPoint1, mCurrentPoint2)
-                / distance(mLastPoint1, mLastPoint2);
-        // 更新当前图片的缩放比例
-        float scaleCurrentF = mView.getScaleCurrentF();
-        scaleCurrentF *= scaleFactor;
-        mView.setCurrentScale(scaleCurrentF);
-        mView.setScaleMatrix(scaleFactor, scaleFactor,
-                scaleCenter.x, scaleCenter.y);
-        mLastPoint1.set(mCurrentPoint1);
-        mLastPoint2.set(mCurrentPoint2);
-
-    }
-
-    /**
      * 判断图片当前是水平还是垂直
      *
      * @return 水平则返回 {@code HORIZONTAL}，垂直则返回 {@code VERTICAL}
@@ -187,14 +204,41 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
         return orientation;
     }
 
+
+    /**
+     * 平移
+     *
+     * @param midCurrentPoint
+     */
+    private void translate(PointF midCurrentPoint) {
+        float dx = midCurrentPoint.x - mLastMidPointF.x;
+        float dy = midCurrentPoint.y - mLastMidPointF.y;
+        float limitWidth = 150 + (DisplayUtil.getScreenW(App.getInstance()) - Constants.WIDTH_MASK) / 2;
+        float limitHeight = DisplayUtil.getScreenW(App.getInstance()) / 2 + 150;
+        if (mView.getImageRect().centerX() < limitWidth) {
+            dx = limitWidth - mView.getImageRect().centerX();
+        } else if ((mView.getImageRect().centerX() > limitHeight)) {
+            dx = limitHeight - mView.getImageRect().centerX();
+        }
+        if (mView.getImageRect().centerY() < 0) {
+            dy = -mView.getImageRect().centerY();
+        } else if (mView.getImageRect().centerY() > Constants.HEIGHT_MASK) {
+            dy = Constants.HEIGHT_MASK - mView.getImageRect().centerY();
+        }
+        mView.setTransMartix(dx, dy);
+        mLastMidPointF.set(midCurrentPoint);
+
+    }
+
+
     //检测移动边界
     private void checkTrans() {
         mView.refreshImageRect();
         float dx = 0;
         float dy = 0;
         mView.getImageRect();
-        if (mView.getImageRect().centerX() < 0) {
-            dx = -mView.getImageRect().centerX();
+        if (mView.getImageRect().centerX() < 300) {
+            dx = 300 - mView.getImageRect().centerX();
         } else if ((mView.getImageRect().centerX() > DisplayUtil.getScreenW(App.getInstance()))) {
             dx = DisplayUtil.getScreenW(App.getInstance()) - mView.getImageRect().centerX();
         }
@@ -249,19 +293,6 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
         // 使用全局变量避免频繁创建变量
         scaleCenter.set(mView.getImageRect().centerX(), mView.getImageRect().centerY());
         return scaleCenter;
-    }
-
-    /**
-     * 平移
-     *
-     * @param midCurrentPoint
-     */
-    private void translate(PointF midCurrentPoint) {
-        float dx = midCurrentPoint.x - mLastMidPointF.x;
-        float dy = midCurrentPoint.y - mLastMidPointF.y;
-        mView.setTransMartix(dx, dy);
-        mLastMidPointF.set(midCurrentPoint);
-
     }
 
 

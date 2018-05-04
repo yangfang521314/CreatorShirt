@@ -2,6 +2,7 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.mvp.model.VersionStyle;
@@ -28,6 +29,7 @@ import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.COLO
 import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.MASK;
 import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.PATTERN;
 import static com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity.SIGNATURE;
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 
 /**
@@ -222,6 +224,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 .subscribe(new CommonObserver<Bitmap>(mView) {
                     @Override
                     public void onNext(Bitmap bitmap) {
+//                        Bitmap bitmap1 = FileUtils.getClothesImage(Constants.WIDTH_MASK, Constants.HEIGHT_MASK,bitmap);
                         mView.showMaskView(bitmap);
                     }
                 });

@@ -66,7 +66,6 @@ public class DetailOrderActivity extends BaseActivity {
         super.initData();
         if (getIntent().hasExtra("orderInfo") && getIntent().getExtras() != null) {
             myOrderInfo = getIntent().getExtras().getParcelable("orderInfo");
-            LogUtil.e("FFF", "DDDD" + myOrderInfo.toString());
             if (myOrderInfo != null) {
                 mAllImage[0] = myOrderInfo.getAllimage1();
                 mAllImage[1] = myOrderInfo.getAllimage2();
