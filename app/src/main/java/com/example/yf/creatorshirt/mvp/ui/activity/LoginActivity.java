@@ -167,7 +167,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     private class RegisterHandler extends WeakReferenceHandler<LoginActivity> {
 
-        public RegisterHandler(LoginActivity reference) {
+        RegisterHandler(LoginActivity reference) {
             super(reference);
         }
 

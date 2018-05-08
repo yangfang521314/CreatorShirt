@@ -21,7 +21,7 @@ import com.example.yf.creatorshirt.mvp.ui.activity.AllOrdersActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.EditUserActivity;
 import com.example.yf.creatorshirt.mvp.ui.activity.LoginActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.base.BaseFragment;
-import com.example.yf.creatorshirt.mvp.ui.view.DialogLogout;
+import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
 import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
@@ -54,7 +54,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     RelativeLayout mRLUserOrder;
     @BindView(R.id.exit_login)
     Button mExitLogin;
-    private DialogLogout dialogLogout;
+    private DialogAlert dialogLogout;
 
     @Inject
     Activity mActivity;
@@ -124,7 +124,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
                 }
                 break;
             case R.id.exit_login:
-                if(App.isLogin) {
+                if (App.isLogin) {
                     getDialog();
                 }
                 break;
@@ -133,29 +133,22 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     }
 
     private void getDialog() {
-        dialogLogout = new DialogLogout();
-        dialogLogout.setOnDialogClickListener(itemsOnclickListener);
-        dialogLogout.show(getFragmentManager(), "dialog");
+        dialogLogout = new DialogAlert.Builder()
+                .setContext(mActivity)
+                .setTitle("是否注销用户")
+                .setConfirm("确定")
+                .setCancel("取消")
+                .builder();
+        dialogLogout.show();
+        dialogLogout.setOnPositionClickListener(new DialogAlert.PositiveClickListener() {
+            @Override
+            public void onClickListener() {
+                logout();
+                ToastUtil.showToast(mActivity, "注销成功", 0);
+            }
+        });
     }
 
-    private View.OnClickListener itemsOnclickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.negative:
-                    dialogLogout.dismiss();
-                    break;
-                case R.id.positive:
-                    logout();
-                    dialogLogout.dismiss();
-                    ToastUtil.showToast(getContext(), "注销成功", 0);
-                    break;
-                default:
-                    break;
-            }
-
-        }
-    };
 
     private void logout() {
         UserInfoManager.getInstance().logOut();

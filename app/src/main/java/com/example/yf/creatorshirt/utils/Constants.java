@@ -7,6 +7,8 @@ package com.example.yf.creatorshirt.utils;
 public class Constants {
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     public static final String APP_ID = "wxd930ea5d5a258f4f";
+    public static final String PHOTO_URL = "https://eyun.baidu.com/s/3oAj8jNk#sharelink/path=%2F%E8%A1%A3%E5%8A%A0%E4%B8%80%20%E5%9B%BE%E7%89%87%E7%B4%A0%E6%9D%90";
+    public static final String DOWNIMAGES = "/Download/image";
     public static volatile   boolean ISTOKEN = true;//让自定义图片在中间
     public static volatile   boolean IS_BACK_TOKEN = true;//让背面自定义图片在中间
     //透明度

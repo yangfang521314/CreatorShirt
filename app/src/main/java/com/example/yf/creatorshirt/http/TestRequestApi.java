@@ -1,10 +1,15 @@
 package com.example.yf.creatorshirt.http;
 
+import io.reactivex.Flowable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by yangfang on 2017/8/31
@@ -73,4 +78,8 @@ public interface TestRequestApi {
 
     @POST("f-orders/requestOrders")
     Call<HttpResponse> requestMyorder(@Header("Token") String token, @Body RequestBody gson);
+
+    @Streaming
+    @GET
+    Flowable<ResponseBody> downloadImage(@Url String url);
 }

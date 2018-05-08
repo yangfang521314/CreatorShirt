@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +36,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.design.BaseStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.ColorStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.MaskStyleAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.design.PatternStyleAdapter;
-import com.example.yf.creatorshirt.mvp.ui.view.ClearPresenter;
-import com.example.yf.creatorshirt.mvp.ui.view.ClearView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesBackView;
 import com.example.yf.creatorshirt.mvp.ui.view.ClothesFrontView;
 import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
@@ -161,7 +159,12 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
         initFront();
         mContainerFront.setContext(this);
         mContainerBack.setContext(this);
-        dialogAlert = new DialogAlert(this, "你确认要退出编辑吗");
+        dialogAlert = new DialogAlert.Builder()
+                .setContext(this)
+                .setTitle("你确认要退出编辑吗")
+                .setCancel("取消")
+                .setConfirm("确定")
+                .builder();
     }
 
     private void initFront() {
@@ -381,28 +384,9 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     }
 
     private void getDialog() {
-        dialogAlert.setOnDialogClickListener(itemsOnclickListener);
         dialogAlert.show();
+        dialogAlert.setOnPositionClickListener(NewDesignActivity.this::finish);
     }
-
-    private View.OnClickListener itemsOnclickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.negative:
-                    dialogAlert.dismiss();
-                    break;
-                case R.id.positive:
-                    finish();
-                    dialogAlert.dismiss();
-                    break;
-                default:
-                    break;
-            }
-
-        }
-    };
-
 
     private void generateBitmap() {
         if (mContainerFront.getWidth() > 0) {
@@ -638,6 +622,7 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             patternStyleAdapter.setData(mPatternData.get(newList.get(position).getTitle()));
             patternStyleAdapter.setOnItemClickListener(this);
             patternStyleAdapter.setOnComClickListener(new ChoiceAvatarListener());
+            patternStyleAdapter.setMoreClickListener(new MoreAdapterListener());
             mRecyclerDetailStyle.setAdapter(patternStyleAdapter);
             patternStyleAdapter.notifyDataSetChanged();
             if (mButtonFront.isSelected()) {
@@ -736,6 +721,16 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
             mDesCurrentView = view;
         }
     }
+
+    public class MoreAdapterListener implements ItemClickListener.OnItemClickListener {
+        @Override
+        public void onItemClick(View view, int position, Object object) {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", Constants.PHOTO_URL);
+            startCommonActivity(NewDesignActivity.this, bundle, ServerActivity.class);
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

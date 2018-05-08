@@ -10,46 +10,99 @@ import android.widget.TextView;
 
 import com.example.yf.creatorshirt.R;
 
+
 /**
  * Created by yangfang on 2018/1/23.
  */
 
-public class DialogAlert extends AlertDialog {
+public class DialogAlert extends AlertDialog implements View.OnClickListener {
     private View mLine;
-    private View mLine1;
     private TextView mDialogName;
     private Button mCancle;
     private Button mConfirm;
+    private PositiveClickListener positiveClickListener;
 
-    private Context mContext;
-
-    private String title;
-
-    public DialogAlert(@NonNull Context context, String title) {
+    public DialogAlert(Builder builder, @NonNull Context context) {
         super(context);
-        mContext = context;
-        this.title = title;
-        View view = LayoutInflater.from(mContext).inflate(R.layout.fragment_fragment_dialog, null,false);
-        initView(view);
+        View view = LayoutInflater.from(builder.mContext).inflate(R.layout.fragment_fragment_dialog, null, false);
+        initView(view, builder);
         setView(view);
     }
 
-
-    public void setOnDialogClickListener(View.OnClickListener onclickListener) {
-        mCancle.setOnClickListener(onclickListener);
-        mConfirm.setOnClickListener(onclickListener);
+    @Override
+    public void dismiss() {
+        super.dismiss();
     }
 
-
-    private void initView(View view) {
+    private void initView(View view, Builder builder) {
         mLine = view.findViewById(R.id.view_line1);
         mDialogName = view.findViewById(R.id.tv_dialog_name);
         mConfirm = view.findViewById(R.id.positive);
         mCancle = view.findViewById(R.id.negative);
-
-        mDialogName.setText(title);
+        mDialogName.setText(builder.title);
+        mConfirm.setText(builder.nei);
+        mCancle.setText(builder.pos);
         mLine.setVisibility(View.GONE);
+        mConfirm.setOnClickListener(this);
+        mCancle.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.negative:
+                dismiss();
+                break;
+            case R.id.positive:
+                dismiss();
+                positiveClickListener.onClickListener();
+                break;
+            default:
+                break;
+        }
 
     }
+
+    public void setOnPositionClickListener(PositiveClickListener positiveClickListener) {
+        this.positiveClickListener = positiveClickListener;
+    }
+
+
+    public interface PositiveClickListener {
+        void onClickListener();
+    }
+
+    public static class Builder {
+        private Context mContext;
+        private String title;
+        private String pos;
+        private String nei;
+
+        public Builder setContext(Context mContext) {
+            this.mContext = mContext;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setCancel(String pos) {
+            this.pos = pos;
+            return this;
+        }
+
+        public Builder setConfirm(String nei) {
+            this.nei = nei;
+            return this;
+        }
+
+        public DialogAlert builder() {
+            return new DialogAlert(this, mContext);
+        }
+
+    }
+
 
 }

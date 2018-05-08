@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design;
 
 import android.support.annotation.LayoutRes;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,7 @@ public class ItemViewHolder extends BaseViewHolder {
         mStyleImageView = getView(R.id.design_icon_style);
         mStyleTextView = getView(R.id.design_text_style);
         mCommonStyle = getView(R.id.common_style);
+        mPayState = getView(R.id.more_photo);
         DisplayUtil.calculateItemWidth(App.getInstance(), mCommonStyle);
     }
 }

@@ -39,6 +39,7 @@ public class HttpModule {
         return createRetrofit(builder, client, RequestApi.HOST);
     }
 
+
     /**
      * 将适配器请求的地址加入retrofit
      * 提供RequestApi的对象

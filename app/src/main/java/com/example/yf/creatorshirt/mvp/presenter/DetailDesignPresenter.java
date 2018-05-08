@@ -240,8 +240,7 @@ public class DetailDesignPresenter extends RxPresenter<DetailDesignContract.Deta
                 .subscribe(new CommonObserver<Bitmap>(mView) {
                     @Override
                     public void onNext(Bitmap bitmap) {
-                        mView.showClothesBg(bitmap);
-                    }
+                        mView.showClothesBg(bitmap);                 }
                 });
     }
 }

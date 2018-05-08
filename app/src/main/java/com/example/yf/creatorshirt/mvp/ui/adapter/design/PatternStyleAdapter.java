@@ -11,7 +11,6 @@ import com.example.yf.creatorshirt.mvp.model.detaildesign.DetailColorStyle;
 import com.example.yf.creatorshirt.mvp.ui.activity.NewDesignActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
-import com.example.yf.creatorshirt.mvp.ui.view.ClearView;
 import com.example.yf.creatorshirt.utils.FileUtils;
 
 /**
@@ -20,6 +19,7 @@ import com.example.yf.creatorshirt.utils.FileUtils;
 
 public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHolder> {
     private NewDesignActivity.ChoiceAvatarListener choiceAvatarListener;
+    private NewDesignActivity.MoreAdapterListener moreAdapterListener;
 
     private View preView;
     private int prePosition;
@@ -50,12 +50,20 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
 
         if (position == 0) {
             holder.mStyleTextView.setVisibility(View.VISIBLE);
+            holder.mPayState.setVisibility(View.VISIBLE);
             holder.mStyleImageView.setImageResource(R.mipmap.add_clothes);
             holder.mStyleTextView.setText("添加本地图片");
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.mStyleImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     choiceAvatarListener.onItemClick(v, 0, mData.get(position));
+                }
+            });
+            holder.mPayState.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(moreAdapterListener != null)
+                    moreAdapterListener.onItemClick(holder.mPayState, 0, null);
                 }
             });
         } else {
@@ -97,6 +105,11 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
     }
 
     public void clearSelect() {
+        if(prePosition != 0)
         mData.get(prePosition - 1).setSelect(false);
+    }
+
+    public void setMoreClickListener(NewDesignActivity.MoreAdapterListener moreAdapterListener) {
+        this.moreAdapterListener = moreAdapterListener;
     }
 }

@@ -152,8 +152,8 @@ public class CommonAvatarPresenter implements BasePresenter {
         intent.putExtra("crop", "true");// crop=true 有这句才能出来最后的裁剪页面.
         intent.putExtra("aspectX", 1);// 这两项为裁剪框的比例.
         intent.putExtra("aspectY", 1);// x:y=1:1
-        intent.putExtra("outputX", 700);//图片输出大小
-        intent.putExtra("outputY", 700);
+        intent.putExtra("outputX", 400);//图片输出大小
+        intent.putExtra("outputY", 400);
         intent.putExtra("output", Uri.fromFile(file));
         intent.putExtra("outputFormat", "JPEG");// 返回格式
         mActivity.startActivityForResult(intent, REQUEST_CODE_CROUP_PHOTO);
@@ -193,5 +193,9 @@ public class CommonAvatarPresenter implements BasePresenter {
         mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return mPopupWindow;
+    }
+
+    public void downloadImage(App mContext, String extra) {
+
     }
 }

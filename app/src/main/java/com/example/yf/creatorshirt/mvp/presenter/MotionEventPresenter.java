@@ -76,12 +76,12 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (mOpenScaleRevert) {
-                    checkScale();
+//                    checkScale();
                 }
                 if (mOpenTranslateRevert) {
-                    checkTrans();
+//                    checkTrans();
                 }
-                mView.applyMatrix();
+//                mView.applyMatrix();
             case MotionEvent.ACTION_POINTER_UP:
                 mCanScale = false;
                 mCanDrag = false;

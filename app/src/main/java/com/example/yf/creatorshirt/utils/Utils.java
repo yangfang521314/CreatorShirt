@@ -1,15 +1,22 @@
 package com.example.yf.creatorshirt.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.SimpleArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
+import com.example.yf.creatorshirt.app.GlideApp;
+import com.example.yf.creatorshirt.http.TestRequestServer;
+import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
 
+import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,6 +26,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import io.reactivex.functions.Function;
+import okhttp3.ResponseBody;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by yangfang on 2017/8/29.
@@ -39,8 +51,8 @@ public class Utils {
     }
 
     /*
-    * 对象转为json字符串
-    */
+     * 对象转为json字符串
+     */
     @SuppressWarnings("unchecked")
     public static String object2json(Object obj) {
         StringBuilder json = new StringBuilder();
@@ -256,4 +268,7 @@ public class Utils {
         map.put("hoodie", "连帽卫衣");
         return map;
     }
+
+
+
 }
