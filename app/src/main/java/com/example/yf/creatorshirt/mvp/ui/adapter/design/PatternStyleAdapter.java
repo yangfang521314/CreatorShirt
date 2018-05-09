@@ -67,6 +67,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
                 }
             });
         } else {
+            holder.mPayState.setVisibility(View.GONE);
             if (mData.get(position - 1).isSelect()) {
                 holder.itemView.setSelected(true);
                 preView = holder.itemView;

@@ -11,6 +11,7 @@
     <ImageView
         android:id="@+id/design_icon_style"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:src="@mipmap/icon_select_longarm" />
 

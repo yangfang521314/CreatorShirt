@@ -1,6 +1,10 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -39,6 +43,7 @@ public class ServerActivity extends BaseActivity {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView() {
         if (url.contains("https")) {
@@ -46,10 +51,11 @@ public class ServerActivity extends BaseActivity {
         } else {
             mAppBarTitle.setText("用户协议说明");
         }
-        mWebView.loadUrl(url);
         mAppBarBack.setOnClickListener(v -> finish());
         mWebView.setWebViewClient(new ViewClient());
-        mWebView.setWebChromeClient(new WebChromeClient());
+
+        mWebView.loadUrl(url);
+
     }
 
     @Override
@@ -59,8 +65,18 @@ public class ServerActivity extends BaseActivity {
 
     private class ViewClient extends WebViewClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return true;
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            Log.e(TAG, "onPageStarted: "+url );
+            super.onPageStarted(view, url, favicon);
         }
     }
 }

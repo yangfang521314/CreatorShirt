@@ -12,6 +12,7 @@ public class PayInfoEntity {
     private String zipcode;
     private String mobile;
     private String userName;
+    private String remark;
 
 
     public String getOrderId() {
@@ -62,6 +63,14 @@ public class PayInfoEntity {
         this.userName = username;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         return "PayInfoEntity{" +
@@ -73,4 +82,6 @@ public class PayInfoEntity {
                 ", username='" + userName + '\'' +
                 '}';
     }
+
+
 }

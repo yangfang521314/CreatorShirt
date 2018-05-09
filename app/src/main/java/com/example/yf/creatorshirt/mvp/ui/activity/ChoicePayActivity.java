@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.example.yf.creatorshirt.mvp.presenter.MyOrderPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MyOrderContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.utils.FileUtils;
+import com.example.yf.creatorshirt.utils.PhoneUtils;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +66,8 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
     RelativeLayout mWechatPay;
     @BindView(R.id.rl_alipay)
     RelativeLayout mAliPay;
-
+    @BindView(R.id.remark)
+    EditText mRemark;
 
     private String payType;
     private SaveOrderInfo mOrderClothesInfo;
@@ -175,6 +178,7 @@ public class ChoicePayActivity extends BaseActivity<MyOrderPresenter> implements
         payInfoEntity.setOrderId(mOrderClothesInfo.getOrderId());
         payInfoEntity.setZipcode("");
         payInfoEntity.setUsername(mOrderName.getText().toString());
+        payInfoEntity.setRemark(mRemark.getText().toString());
         mPresenter.setSaveEntity(payInfoEntity);
         if ("aliPay".equals(payType)) {
             mPresenter.payMomentOrders();//支付信息

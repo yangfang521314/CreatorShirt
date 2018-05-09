@@ -19,7 +19,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -53,6 +52,7 @@
         <activity
             android:name=".mvp.ui.activity.ChoicePayActivity"
             android:label="@string/title_activity_my_order"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.AddressShowActivity"
@@ -179,6 +179,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.NewDesignActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".mvp.ui.activity.OrderEditActivity"
@@ -187,6 +188,7 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".mvp.ui.activity.ServerActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_server"
             android:theme="@style/AppTheme" />
     </application>

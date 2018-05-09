@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/order_size_number"
             android:layout_marginLeft="8dp"
-            android:textColor="@color/red_e73a3d"
+            android:textColor="@color/ashgrey"
             android:layout_toRightOf="@+id/order_size_letter"
             android:text="100-200斤"
             android:layout_marginTop="9dp"

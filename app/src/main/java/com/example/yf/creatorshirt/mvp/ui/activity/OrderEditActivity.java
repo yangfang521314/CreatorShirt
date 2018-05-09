@@ -344,6 +344,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
         clothesSize.setSize(mCurrentClothesSize.getSize());
         clothesSize.setCount(Integer.valueOf(number));
         clothesSize.setValue(mCurrentClothesSize.getValue());
+        clothesSize.setWeight(mCurrentClothesSize.getWeight());
         detailOrderAdapter.remove(currentPosition);
         detailOrderAdapter.add(currentPosition, clothesSize);
         detailOrderAdapter.notifyDataSetChanged();
