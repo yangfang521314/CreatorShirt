@@ -2,8 +2,6 @@ package com.example.yf.creatorshirt.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.webkit.WebSettings;
 
@@ -20,7 +18,7 @@ public class MyWebSetting {
     }
 
     //初始化设置，即基本setting
-    @SuppressLint({"NewApi"})
+    @SuppressLint({"NewApi", "SetJavaScriptEnabled"})
     private void initMyWeb() {
         webSetting.setDomStorageEnabled(true);
         webSetting.setGeolocationEnabled(true);
@@ -61,12 +59,6 @@ public class MyWebSetting {
     public void setAppCache(String string){
         webSetting.setAppCacheEnabled(true);
         webSetting.setAppCachePath(string);
-    }
-
-    private String versionName() throws Exception {
-        PackageManager manager = context.getPackageManager();
-        PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-        return webSetting.getUserAgentString() + " ChinasoClient ChinasoAndroid version:" + info.versionName;
     }
 
 

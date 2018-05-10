@@ -11,9 +11,10 @@
     <ImageView
         android:id="@+id/design_icon_style"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:src="@mipmap/icon_select_longarm" />
+
 
     <TextView
         android:id="@+id/design_text_style"
@@ -23,15 +24,4 @@
         android:text="衣领"
         android:textSize="14.0sp" />
 
-    <TextView
-        android:id="@+id/more_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="获取更多"
-        android:gravity="bottom"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:textColor="@color/bg_btn_update"
-        android:textSize="14sp"
-        android:visibility="gone" />
 </LinearLayout>

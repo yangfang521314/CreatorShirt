@@ -56,4 +56,5 @@ public interface ActivityComponent {
 
     void inject(AllOrdersActivity allOrdersActivity);
 
+    void inject(ServerActivity serverActivity);
 }

@@ -18,14 +18,28 @@ import com.example.yf.creatorshirt.utils.FileUtils;
  */
 
 public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewHolder> {
+    private static final int HEADER = 1;
+    private static final int IMAGE = 2;
     private NewDesignActivity.ChoiceAvatarListener choiceAvatarListener;
     private NewDesignActivity.MoreAdapterListener moreAdapterListener;
 
     private View preView;
     private int prePosition;
 
+
     public PatternStyleAdapter(Context context) {
         super(context);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int type;
+        if (position == 0) {
+            type = HEADER;
+        } else {
+            type = IMAGE;
+        }
+        return type;
     }
 
     @Override
@@ -40,8 +54,16 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
 
     @Override
     protected ItemViewHolder createItemViewHolder(ViewGroup parent, int viewType) {
-        ItemViewHolder holder;
-        holder = new ItemViewHolder(parent, R.layout.item_style_layout, true);
+        ItemViewHolder holder = null;
+        switch (viewType) {
+            case HEADER:
+                holder = new ItemViewHolder(parent, R.layout.item_mask_layout);
+                break;
+            case IMAGE:
+                holder = new ItemViewHolder(parent, R.layout.item_style_layout, true);
+                break;
+        }
+
         return holder;
     }
 
@@ -49,7 +71,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
     protected void bindCustomViewHolder(final ItemViewHolder holder, final int position) {
 
         if (position == 0) {
-            holder.mStyleTextView.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.whitesmoke));
             holder.mPayState.setVisibility(View.VISIBLE);
             holder.mStyleImageView.setImageResource(R.mipmap.add_clothes);
             holder.mStyleTextView.setText("添加本地图片");
@@ -62,12 +84,11 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
             holder.mPayState.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(moreAdapterListener != null)
-                    moreAdapterListener.onItemClick(holder.mPayState, 0, null);
+                    if (moreAdapterListener != null)
+                        moreAdapterListener.onItemClick(holder.mPayState, 0, null);
                 }
             });
         } else {
-            holder.mPayState.setVisibility(View.GONE);
             if (mData.get(position - 1).isSelect()) {
                 holder.itemView.setSelected(true);
                 preView = holder.itemView;
@@ -96,6 +117,7 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
             holder.mStyleTextView.setVisibility(View.GONE);
             GlideApp.with(mContext).load(FileUtils.getResource(mData.get(position - 1).getName()))
                     .override(240, 260)
+                    .centerCrop()
                     .skipMemoryCache(true)
                     .into(holder.mStyleImageView);
         }
@@ -106,8 +128,8 @@ public class PatternStyleAdapter extends BaseAdapter<DetailColorStyle, ItemViewH
     }
 
     public void clearSelect() {
-        if(prePosition != 0)
-        mData.get(prePosition - 1).setSelect(false);
+        if (prePosition != 0)
+            mData.get(prePosition - 1).setSelect(false);
     }
 
     public void setMoreClickListener(NewDesignActivity.MoreAdapterListener moreAdapterListener) {

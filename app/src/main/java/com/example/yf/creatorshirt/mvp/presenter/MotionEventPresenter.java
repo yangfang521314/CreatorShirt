@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import android.graphics.PointF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.yf.creatorshirt.app.App;
@@ -9,8 +8,6 @@ import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.MotionEventContract;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.DisplayUtil;
-
-import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by yangfang on 2018/4/2.
@@ -33,7 +30,7 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
     private static final int VERTICAL = 1;
     private float mHorizontalMinScaleFactor = 0.1f;
     private float mVerticalMinScaleFactor = 0.1f;
-    private float mMaxScaleFactor = 1.0f;//最大放大倍数
+    private float mMaxScaleFactor = 0.9f;//最大放大倍数
     private float[] xAxis = new float[]{1f, 0f};
     private boolean mOpenScaleRevert = true; // 是否开启旋转回弹
     private boolean mOpenTranslateRevert = false; // 是否开启旋转回弹
