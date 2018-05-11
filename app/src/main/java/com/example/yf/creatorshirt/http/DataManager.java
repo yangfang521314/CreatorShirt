@@ -175,12 +175,12 @@ public class DataManager implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson) {
-        return mHttpHelper.updateOrders(token,gson);
+        return mHttpHelper.updateOrders(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<WechatInfo>> payMomentWeChatOrders(String userToken, RequestBody gson) {
-        return mHttpHelper.payMomentWeChatOrders(userToken,gson);
+        return mHttpHelper.payMomentWeChatOrders(userToken, gson);
     }
 
 

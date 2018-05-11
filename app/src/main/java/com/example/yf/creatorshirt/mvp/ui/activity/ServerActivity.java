@@ -1,11 +1,16 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.mvp.presenter.DownloadImagePresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.CommonAvatarContract;
@@ -19,12 +24,11 @@ import java.io.File;
 import butterknife.BindView;
 
 public class ServerActivity extends BaseActivity<DownloadImagePresenter> implements CommonAvatarContract.CommonAvatarView {
-    private static final String TAG = "KKK";
+    private static final String TAG = ServerActivity.class.getSimpleName();
     @BindView(R.id.webView)
     BaseWebView mWebView;
 
     private String url;
-    private File file;
     private DialogAlert dialogAlert;
 
     @Override
@@ -64,13 +68,20 @@ public class ServerActivity extends BaseActivity<DownloadImagePresenter> impleme
     }
 
     @Override
+    public void showErrorMsg(String msg) {
+        showToast(msg);
+    }
+
+    @Override
     protected int getView() {
         return R.layout.activity_server;
     }
 
     @Override
     public void showSuccessAvatar(File cover) {
-
+        showToast("已保存图片");
+        scanFileAsync(this, cover.getAbsolutePath());
+        scanDirAsync(this, cover.getParent());
     }
 
     private class ViewClient extends WebViewClient {
@@ -100,7 +111,6 @@ public class ServerActivity extends BaseActivity<DownloadImagePresenter> impleme
         }
     }
 
-
     /**
      * 长按下载图片
      */
@@ -108,7 +118,6 @@ public class ServerActivity extends BaseActivity<DownloadImagePresenter> impleme
 
         @Override
         public boolean onLongClick(View v) {
-            Log.e(TAG, "onLongClick: ");
             if (v instanceof WebView) {
                 WebView.HitTestResult result = ((WebView) v).getHitTestResult();
                 if (result != null) {
@@ -134,6 +143,27 @@ public class ServerActivity extends BaseActivity<DownloadImagePresenter> impleme
         dialogAlert.setOnPositionClickListener(() -> mPresenter.downloadImage(extra));
     }
 
+    //扫描指定文件
+    public void scanFileAsync(Context ctx, String filePath) {
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(Uri.fromFile(new File(filePath)));
+        ctx.sendBroadcast(scanIntent);
+    }
+
+    //扫描指定目录
+    public static final String ACTION_MEDIA_SCANNER_SCAN_DIR = "android.intent.action.MEDIA_SCANNER_SCAN_DIR";
+
+    public void scanDirAsync(Context ctx, String dir) {
+        Intent scanIntent = new Intent(ACTION_MEDIA_SCANNER_SCAN_DIR);
+        Uri uri = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0通过FileProvider授权访问
+            uri = FileProvider.getUriForFile(ctx, BuildConfig.PROVIDER_CONFIG, new File(dir));
+        } else {
+            uri = Uri.fromFile(new File(dir));
+        }
+        scanIntent.setData(uri);
+        ctx.sendBroadcast(scanIntent);
+    }
 
     @Override
     protected void onDestroy() {

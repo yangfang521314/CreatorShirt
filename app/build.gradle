@@ -14,8 +14,8 @@ android {
             storePassword 'yixiu2017'
         }
     }
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -82,7 +82,7 @@ android {
             path "CMakeLists.txt"
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8

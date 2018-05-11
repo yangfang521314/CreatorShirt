@@ -30,7 +30,7 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
     private static final int VERTICAL = 1;
     private float mHorizontalMinScaleFactor = 0.1f;
     private float mVerticalMinScaleFactor = 0.1f;
-    private float mMaxScaleFactor = 0.9f;//最大放大倍数
+    private float mMaxScaleFactor = 1.05f;//最大放大倍数
     private float[] xAxis = new float[]{1f, 0f};
     private boolean mOpenScaleRevert = true; // 是否开启旋转回弹
     private boolean mOpenTranslateRevert = false; // 是否开启旋转回弹
@@ -105,10 +105,9 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
         // 计算缩放比例
         float scaleFactor = distance(mCurrentPoint1, mCurrentPoint2)
                 / distance(mLastPoint1, mLastPoint2);
-        // 更新当前图片的缩放比例
 //        float scaleCurrentF = mView.getScaleCurrentF();
         int imgOrientation = imgOrientation();
-        // 超过设置的上限或下限则回弹到设置的限制值
+        // 更新当前图片的缩放比例
         float mScaleFactor = mView.getScaleCurrentF();
         // 除以当前图片缩放比例mScaleFactor，postScale()方法执行后的图片的缩放比例即为被除数大小
         if (imgOrientation == HORIZONTAL
@@ -120,10 +119,10 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
         } else if (mScaleFactor > mMaxScaleFactor) {
             scaleFactor = mMaxScaleFactor / mScaleFactor;
         }
-        mScaleFactor *= scaleFactor;
-        mView.setCurrentScale(mScaleFactor);
         mView.setScaleMatrix(scaleFactor, scaleFactor,
                 scaleCenter.x, scaleCenter.y);
+        mScaleFactor *= scaleFactor;
+        mView.setCurrentScale(mScaleFactor);
         mLastPoint1.set(mCurrentPoint1);
         mLastPoint2.set(mCurrentPoint2);
 

@@ -1,15 +1,15 @@
 ext {
     android = [
             compileSdkVersion: 25,
-            buildToolsVersion: '27.0.2',
+            buildToolsVersion: '27.0.3',
             applicationId    : "com.example.yf.creatorshirt",
             minSdkVersion    : 15,
-            targetSdkVersion : 25,
-            versionCode      : 1,
-            versionName      : "1.0",
+            targetSdkVersion : 27,
+            versionCode      : 1805111040,
+            versionName      : "1.1",
     ]
     def dependVersion = [
-            support    : "27.0.2",
+            support    : "27.1.1",
             retrofit   : "2.2.0",
             okhttp     : "3.8.1",
             dagger2    : "2.5",

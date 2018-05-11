@@ -85,6 +85,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void initData() {
     }
 
+    public void showToast(String msg) {
+        ToastUtil.showToast(this, msg, 0);
+    }
+
     /**
      * 依赖注入框架
      */

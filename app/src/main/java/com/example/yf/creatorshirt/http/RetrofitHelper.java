@@ -37,15 +37,16 @@ public class RetrofitHelper implements HttpHelper {
      * @param requestApiService
      */
     @Inject
-    public RetrofitHelper(RequestApi requestApiService) {
+    RetrofitHelper(RequestApi requestApiService) {
         mRequestApi = requestApiService;
     }
+
 
     /**
      * phone login
      *
-     * @return
      * @param body
+     * @return
      */
     @Override
     public Flowable<HttpResponse<LoginBean>> login(RequestBody body) {
@@ -75,7 +76,7 @@ public class RetrofitHelper implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse<List<HotDesignsBean>>> getHotDesign(String userToken, RequestBody body) {
-        return mRequestApi.getHotDesign(userToken,body);
+        return mRequestApi.getHotDesign(userToken, body);
     }
 
     @Override
@@ -101,22 +102,22 @@ public class RetrofitHelper implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse<OrderType>> saveOrderData(String userToken, RequestBody body) {
-        return mRequestApi.saveOrderData(userToken,body);
+        return mRequestApi.saveOrderData(userToken, body);
     }
 
     @Override
     public Flowable<HttpResponse<OrderStyleBean>> getOrdersFromOrderId(String userToken, RequestBody orderId) {
-        return mRequestApi.getOrdersFromOrderId(userToken,orderId);
+        return mRequestApi.getOrdersFromOrderId(userToken, orderId);
     }
 
     @Override
     public Flowable<HttpResponse<PayTradeInfo>> payMentOrders(String userToken, RequestBody requestBody) {
-        return mRequestApi.payMentOrders(userToken,requestBody);
+        return mRequestApi.payMentOrders(userToken, requestBody);
     }
 
     @Override
     public Flowable<HttpResponse> saveUserInfo(String userToken, RequestBody requestBody) {
-        return mRequestApi.saveUserInfo(userToken,requestBody);
+        return mRequestApi.saveUserInfo(userToken, requestBody);
     }
 
     @Override
@@ -126,27 +127,27 @@ public class RetrofitHelper implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse> saveAddress(String userToKen, RequestBody requestbody) {
-        return mRequestApi.saveAddress(userToKen,requestbody);
+        return mRequestApi.saveAddress(userToKen, requestbody);
     }
 
     @Override
     public Flowable<HttpResponse<Integer>> requestOrdersPraise(String userToKen, RequestBody requestbody) {
-        return mRequestApi.requestPraise(userToKen,requestbody);
+        return mRequestApi.requestPraise(userToKen, requestbody);
     }
 
     @Override
     public Flowable<HttpResponse<PraiseEntity>> OrderPraise(String token, RequestBody gson) {
-        return mRequestApi.OrderPraise(token,gson);
+        return mRequestApi.OrderPraise(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<OrderType>> saveOrdersFromShare(String token, RequestBody requestBody) {
-        return mRequestApi.saveOrdersFromShare(token,requestBody);
+        return mRequestApi.saveOrdersFromShare(token, requestBody);
     }
 
     @Override
     public Flowable<HttpResponse<Integer>> setDefaultAddress(String token, RequestBody requestBody) {
-        return mRequestApi.setDefaultAddress(token,requestBody);
+        return mRequestApi.setDefaultAddress(token, requestBody);
     }
 
     @Override
@@ -161,23 +162,22 @@ public class RetrofitHelper implements HttpHelper {
 
     @Override
     public Flowable<HttpResponse<ClothesPrice>> getCalculateOrderPrice(String token, RequestBody requestBody) {
-        return mRequestApi.calculateOrderPrice(token,requestBody);
+        return mRequestApi.calculateOrderPrice(token, requestBody);
     }
 
     @Override
     public Flowable<HttpResponse<List<SaveOrderInfo>>> requestMyOrder(String token, RequestBody gson) {
-        return mRequestApi.requestOrderInfo(token,gson);
+        return mRequestApi.requestOrderInfo(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<OrderType>> updateOrders(String token, RequestBody gson) {
-        return mRequestApi.updateOrders(token,gson);
+        return mRequestApi.updateOrders(token, gson);
     }
 
     @Override
     public Flowable<HttpResponse<WechatInfo>> payMomentWeChatOrders(String userToken, RequestBody gson) {
-        return mRequestApi.payMomentWeChatOrders(userToken,gson);
+        return mRequestApi.payMomentWeChatOrders(userToken, gson);
     }
-
 
 }
