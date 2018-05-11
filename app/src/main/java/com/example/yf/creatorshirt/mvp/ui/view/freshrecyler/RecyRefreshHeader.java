@@ -79,12 +79,10 @@ public class RecyRefreshHeader extends LinearLayout implements BaseRefreshHeader
                 msg.setText(R.string.listview_header_hint_normal);
                 break;
             case STATE_RELEASE_TO_REFRESH:
-                if (mState != STATE_RELEASE_TO_REFRESH) {
-                    if (!animationDrawable.isRunning()) {
-                        animationDrawable.start();
-                    }
-                    msg.setText(R.string.listview_header_hint_release);
+                if (!animationDrawable.isRunning()) {
+                    animationDrawable.start();
                 }
+                msg.setText(R.string.listview_header_hint_release);
                 break;
             case STATE_REFRESHING:
                 msg.setText(R.string.refreshing);
@@ -109,7 +107,7 @@ public class RecyRefreshHeader extends LinearLayout implements BaseRefreshHeader
             isOnRefresh = true;
         }
         // refreshing and header isn't shown fully. do nothing.
-        if (mState == STATE_REFRESHING && height <= mMeasuredHeight) {
+        if ((mState == STATE_REFRESHING) && (height <= mMeasuredHeight)) {
             //return;
         }
         int destHeight = 0; // default: scroll back to dismiss header.

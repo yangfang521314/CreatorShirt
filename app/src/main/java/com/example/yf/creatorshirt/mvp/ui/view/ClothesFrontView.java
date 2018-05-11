@@ -94,7 +94,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
         mSource.setImageBitmap(resource);
     }
 
-    public void initSignature() {
+    private void initSignature() {
         textSticker = new TextSticker(App.getInstance());
         setBackgroundColor(Color.WHITE);
         setLocked(false);
@@ -205,10 +205,7 @@ public class ClothesFrontView extends StickerView implements MotionEventContract
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mPresenter.onTouchEvent(event)) {
-            return true;
-        }
-        return super.onTouchEvent(event);
+        return mPresenter.onTouchEvent(event) || super.onTouchEvent(event);
 
     }
 

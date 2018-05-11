@@ -14,8 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.example.yf.creatorshirt.mvp.view.BaseView;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ public class SystemUtilsBar {
     private Activity mActivity;
     private Window mWindow;
     private ViewGroup mViewGroup;
-    private ViewGroup mContentView;
     private BarConfig mConfig;
     private BarParams mBarParams;
 
@@ -77,7 +74,7 @@ public class SystemUtilsBar {
         mActivity = activity;
         mWindow = mActivity.getWindow();
         mViewGroup = (ViewGroup) mWindow.getDecorView();
-        mContentView = mActivity.findViewById(android.R.id.content);
+        ViewGroup mContentView = mActivity.findViewById(android.R.id.content);
         mConfig = new BarConfig(activity);
         if (!mMap.isEmpty() && !mActivityName.isEmpty()) {
             if (mMap.get(mActivityName) == null) {

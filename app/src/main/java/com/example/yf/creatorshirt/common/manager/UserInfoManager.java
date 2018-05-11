@@ -15,15 +15,12 @@ public class UserInfoManager {
     private static UserInfoManager ourInstance = new UserInfoManager();
     private LoginBean mLoginResponse;
     private UserInfoCache userInfoCache;
-    private Context mContext;
-    private String token;
 
     public static UserInfoManager getInstance() {
         return ourInstance;
     }
 
     public void init(Context context) {
-        mContext = context;
         userInfoCache = new UserInfoCache(context);
         if (isLogin()) {
             mLoginResponse = userInfoCache.getUserInfo();

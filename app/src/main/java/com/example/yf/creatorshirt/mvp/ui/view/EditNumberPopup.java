@@ -30,6 +30,7 @@ public class EditNumberPopup extends BasePopupWindow {
     private ItemClickListener.OnItemClickListener onPopupClickListener;
 
     public EditNumberPopup(Context context) {
+        super();
         mContext = context;
     }
 

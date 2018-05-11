@@ -96,12 +96,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (mShareAPI.isInstall(LoginActivity.this, SHARE_MEDIA.WEIXIN)) {
                     platform = SHARE_MEDIA.WEIXIN;
                     mShareAPI.doOauthVerify(LoginActivity.this, platform, umAuthListener);
-                } else {
-                    //Umeng有提醒是否安装的Toast，不需要设置Toast。
-                }
+                }  //Umeng有提醒是否安装的Toast，不需要设置Toast。
+
                 break;
             case R.id.send_code:
-                if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
+                if (PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
                     ToastUtil.showToast(mContext, "请输入正确的手机号码", 0);
                 } else {
                     countTime = 60;
@@ -120,7 +119,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     public boolean emptyCheck() {
-        if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
+        if (PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mEditPhone))) {
             ToastUtil.showToast(mContext, "请输入13位正确的手机号", 0);
             return false;
         }
@@ -212,6 +211,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
              * 点击空白位置 隐藏软键盘
              */
             InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            assert mInputMethodManager != null;
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super.onTouchEvent(event);

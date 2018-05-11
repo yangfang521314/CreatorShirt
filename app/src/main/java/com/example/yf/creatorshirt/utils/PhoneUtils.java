@@ -14,13 +14,12 @@ public class PhoneUtils {
     public static boolean isPhoneNumberValid(String phoneNumber) {
         boolean isValid = false;
         String expression = "^1[0-9]{10}$";
-        CharSequence inputStr = phoneNumber;
         Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputStr);
+        Matcher matcher = pattern.matcher(phoneNumber);
         if (matcher.matches()) {
             isValid = true;
         }
-        return isValid;
+        return !isValid;
     }
 
     public static boolean notPassWord(String str) {
@@ -49,12 +48,7 @@ public class PhoneUtils {
      * @return
      */
     public static boolean match(String str1, String str2) {
-        if (str1 != null && str2 != null) {
-            if (str1.equals(str2)) {
-                return true;
-            }
-        }
-        return false;
+        return str1 != null && str2 != null && str1.equals(str2);
     }
 
     /**

@@ -30,8 +30,6 @@ import java.util.Locale;
  */
 
 public class FileUtils {
-    private static File file;
-    private static Bitmap bitmap;
 
 
     public static String getCacheFile() {
@@ -81,7 +79,7 @@ public class FileUtils {
         if (TextUtils.isEmpty(path)) {
             return null;
         }
-        file = new File(path);
+        File file = new File(path);
         return file;
     }
 
@@ -237,8 +235,7 @@ public class FileUtils {
         float scaleWidth = (float) (newWidth / width);
         float scaleHeight = (float) (newHeight / height);
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, (int) width, (int) height, matrix, true);
-        return newBitmap;
+        return Bitmap.createBitmap(bitmap, 0, 0, (int) width, (int) height, matrix, true);
 
     }
 
@@ -271,9 +268,8 @@ public class FileUtils {
 
     public static int getResource(String imageName) {
         Context ctx = App.getInstance().getBaseContext();
-        int resId = ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
         //如果没有在"mipmap"下找到imageName,将会返回
-        return resId;
+        return ctx.getResources().getIdentifier(imageName, "mipmap", ctx.getPackageName());
     }
 
     /**
@@ -286,6 +282,8 @@ public class FileUtils {
      * @return
      */
     public static Bitmap getMaskBitmap(final int width, final int height, final Bitmap source, final Bitmap mask1) {
+         Bitmap bitmap;
+
         if (source != null && mask1 != null) {
             Bitmap mask = FileUtils.getZoomImage(mask1, 600, 800);
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -311,6 +309,7 @@ public class FileUtils {
 
 
     public static Bitmap getClothesImage(int width, int height, Bitmap bitmapResource) {
+        Bitmap bitmap;
         if (bitmapResource != null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
@@ -325,10 +324,4 @@ public class FileUtils {
         return bitmap;
     }
 
-    public static void destroyBitmap() {
-        if (bitmap != null && !bitmap.isRecycled()) {
-            bitmap.recycle();
-            bitmap = null;
-        }
-    }
 }

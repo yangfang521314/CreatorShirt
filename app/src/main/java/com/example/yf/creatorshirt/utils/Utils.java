@@ -1,22 +1,15 @@
 package com.example.yf.creatorshirt.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.util.SimpleArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.app.GlideApp;
-import com.example.yf.creatorshirt.http.TestRequestServer;
-import com.example.yf.creatorshirt.mvp.ui.view.DialogAlert;
 
-import java.io.File;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -27,11 +20,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import io.reactivex.functions.Function;
-import okhttp3.ResponseBody;
-
-import static org.greenrobot.eventbus.EventBus.TAG;
-
 /**
  * Created by yangfang on 2017/8/29.
  */
@@ -40,21 +28,19 @@ public class Utils {
     //获取时间
     public static String getTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA);
-        String timeStamp = simpleDateFormat.format(new Date());
-        return timeStamp;
+        return simpleDateFormat.format(new Date());
     }
 
     public static String getTimeOther() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-        String timeStamp = simpleDateFormat.format(new Date());
-        return timeStamp;
+        return simpleDateFormat.format(new Date());
     }
 
     /*
      * 对象转为json字符串
      */
     @SuppressWarnings("unchecked")
-    public static String object2json(Object obj) {
+    private static String object2json(Object obj) {
         StringBuilder json = new StringBuilder();
         if (obj == null) {
             json.append("\"\"");
@@ -80,7 +66,7 @@ public class Utils {
     /*
      * List集合转为json字符串
      */
-    public static String list2json(List<?> list) {
+    private static String list2json(List<?> list) {
         StringBuilder json = new StringBuilder();
         json.append("[");
         if (list != null && list.size() > 0) {
@@ -98,7 +84,7 @@ public class Utils {
     /*
      * 数组转为json字符串
      */
-    public static String array2json(Object[] array) {
+    private static String array2json(Object[] array) {
         StringBuilder json = new StringBuilder();
         json.append("[");
         if (array != null && array.length > 0) {
@@ -116,7 +102,7 @@ public class Utils {
     /*
      * Map集合转为json字符串
      */
-    public static String map2json(Map<?, ?> map) {
+    private static String map2json(Map<?, ?> map) {
         StringBuilder json = new StringBuilder();
         json.append("{");
         if (map != null && map.size() > 0) {
@@ -136,7 +122,7 @@ public class Utils {
     /*
      * Set集合转为json字符串
      */
-    public static String set2json(Set<?> set) {
+    private static String set2json(Set<?> set) {
         StringBuilder json = new StringBuilder();
         json.append("[");
         if (set != null && set.size() > 0) {
@@ -154,7 +140,7 @@ public class Utils {
     /*
      * 字符串转为json字符串
      */
-    public static String string2json(String s) {
+    private static String string2json(String s) {
         if (s == null)
             return "";
         StringBuilder sb = new StringBuilder();
@@ -186,7 +172,7 @@ public class Utils {
                     sb.append("\\/");
                     break;
                 default:
-                    if (ch >= '\u0000' && ch <= '\u001F') {
+                    if (ch <= '\u001F') {
                         String ss = Integer.toHexString(ch);
                         sb.append("\\u");
                         for (int k = 0; k < 4 - ss.length(); k++) {

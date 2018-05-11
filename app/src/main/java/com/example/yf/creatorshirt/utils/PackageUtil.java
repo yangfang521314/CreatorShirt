@@ -20,6 +20,7 @@ public class PackageUtil {
                 e.printStackTrace();
             }
             /******* 通过返回的包信息获得签名数组 *******/
+            assert packageInfo != null;
             Signature[] signatures = packageInfo.signatures;
             /******* 循环遍历签名数组拼接应用签名 *******/
             return signatures[0].toCharsString();

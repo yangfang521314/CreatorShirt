@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -786,7 +785,6 @@ public class NewDesignActivity extends BaseActivity<DetailDesignPresenter> imple
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FileUtils.destroyBitmap();
         mContainerFront.onDestroy();
     }
 

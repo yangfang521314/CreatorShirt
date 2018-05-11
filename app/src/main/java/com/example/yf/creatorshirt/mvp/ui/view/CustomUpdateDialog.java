@@ -14,7 +14,7 @@ import com.example.yf.creatorshirt.utils.DisplayUtil;
 
 public class CustomUpdateDialog extends Dialog {
 
-    public CustomUpdateDialog(Context context, int themeResId) {
+    CustomUpdateDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
 
@@ -136,7 +136,7 @@ public class CustomUpdateDialog extends Dialog {
                 // 更新信息
                 if (message != null) {
                     ((TextView) contentView.findViewById(R.id.txt_updateLog)).setText(message);
-                } else if (contentView != null) {
+                } else if (null != contentView) {
 
                 }
                 dialog.setContentView(contentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

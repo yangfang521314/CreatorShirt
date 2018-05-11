@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="240dp"
     android:id="@+id/llayout_update"
     android:layout_height="wrap_content"
@@ -49,7 +50,8 @@
             android:background="@color/bg_btn_update"
             android:text="@string/txt_btn_update"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_btn_update_size" />
+            android:textSize="@dimen/txt_btn_update_size"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -59,7 +61,8 @@
             android:layout_weight="1"
             android:background="@color/bg_btn_cancel_update"
             android:text="@string/txt_btn_cancel"
-            android:textSize="@dimen/txt_btn_update_size" />
+            android:textSize="@dimen/txt_btn_update_size"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 

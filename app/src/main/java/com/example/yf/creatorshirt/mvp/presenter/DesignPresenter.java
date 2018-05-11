@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseBean;
 import com.example.yf.creatorshirt.mvp.model.basechoice.DesignBaseInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -34,11 +33,11 @@ public class DesignPresenter extends RxPresenter<DesignBaseContract.DesignBaseVi
     @Override
     public void getBaseData() {
         addSubscribe(manager.getBaseDesign()
-                .compose(RxUtils.<HttpResponse<DesignBaseInfo>>rxSchedulerHelper())
-                .compose(RxUtils.<DesignBaseInfo>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .map(new Function<DesignBaseInfo, Map<String, List<DesignBaseBean>>>() {
                     @Override
-                    public Map<String, List<DesignBaseBean>> apply(@NonNull DesignBaseInfo value) throws Exception {
+                    public Map<String, List<DesignBaseBean>> apply(@NonNull DesignBaseInfo value) {
                         Map<String, List<DesignBaseBean>> map = new HashMap<>();
                         map.put("m", value.getM());
                         map.put("w", value.getW());

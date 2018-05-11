@@ -31,6 +31,7 @@ public class NetworkUtils {
      */
     public static boolean isWifiConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) App.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo wifiInfo = connectivityManager.getActiveNetworkInfo();
         return (wifiInfo != null
                 && wifiInfo.getType() == ConnectivityManager.TYPE_WIFI);
@@ -43,6 +44,7 @@ public class NetworkUtils {
      */
     public static boolean isMobileConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) App.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo mobileNetWorkInfo = connectivityManager.getActiveNetworkInfo();
         return (mobileNetWorkInfo != null
                 && mobileNetWorkInfo.getType() == ConnectivityManager.TYPE_MOBILE);

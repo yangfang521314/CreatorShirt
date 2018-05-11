@@ -130,9 +130,7 @@ class OSUtils {
             } else {
                 num = Integer.valueOf(version.substring(6, 7));
             }
-            if (num >= 4) {
-                return true;
-            }
+            return num >= 4;
         }
         return false;
     }

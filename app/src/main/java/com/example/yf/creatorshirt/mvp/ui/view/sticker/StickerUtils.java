@@ -23,10 +23,7 @@ class StickerUtils {
   private static final String TAG = "StickerView";
 
   public static File saveImageToGallery(@NonNull File file, @NonNull Bitmap bmp) {
-    if (bmp == null) {
-      throw new IllegalArgumentException("bmp should not be null");
-    }
-    try {
+      try {
       FileOutputStream fos = new FileOutputStream(file);
       bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
       fos.flush();
@@ -40,7 +37,7 @@ class StickerUtils {
   }
 
   public static void notifySystemGallery(@NonNull Context context, @NonNull File file) {
-    if (file == null || !file.exists()) {
+    if (!file.exists()) {
       throw new IllegalArgumentException("bmp should not be null");
     }
 

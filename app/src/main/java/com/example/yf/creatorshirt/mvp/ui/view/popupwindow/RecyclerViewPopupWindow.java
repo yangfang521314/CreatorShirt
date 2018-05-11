@@ -25,9 +25,11 @@ import butterknife.ButterKnife;
 public class RecyclerViewPopupWindow extends BasePopupWindow {
     @BindView(R.id.detail_recyclerview)
     RecyclerView mDetailRCY;
-    private ScaleLayoutManager scaleMLayoutManager;
     private NewClothesAdapter designAdapter;
-    private NewDesignFragment.OnObjectClickListener clickListener;
+
+    public RecyclerViewPopupWindow() {
+        super();
+    }
 
     @Override
     public View getView() {
@@ -38,7 +40,7 @@ public class RecyclerViewPopupWindow extends BasePopupWindow {
     }
 
     private void initView() {
-        scaleMLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(App.getInstance(), 10));
+        ScaleLayoutManager scaleMLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(App.getInstance(), 10));
         scaleMLayoutManager.setItemSpace(DisplayUtil.Dp2Px(App.getInstance(), 10));
         scaleMLayoutManager.setCenterScale(1.4f);
         scaleMLayoutManager.setOrientation(ViewPagerLayoutManager.HORIZONTAL);
@@ -54,9 +56,8 @@ public class RecyclerViewPopupWindow extends BasePopupWindow {
     }
 
     public void setOnClickListener(NewDesignFragment.OnObjectClickListener onObjectClickListener) {
-        this.clickListener = onObjectClickListener;
-        if (clickListener != null) {
-            designAdapter.setOnItemClickListener(clickListener);
+        if (onObjectClickListener != null) {
+            designAdapter.setOnItemClickListener(onObjectClickListener);
         }
     }
 }

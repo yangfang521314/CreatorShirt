@@ -32,7 +32,6 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
     private float mVerticalMinScaleFactor = 0.1f;
     private float mMaxScaleFactor = 1.05f;//最大放大倍数
     private float[] xAxis = new float[]{1f, 0f};
-    private boolean mOpenScaleRevert = true; // 是否开启旋转回弹
     private boolean mOpenTranslateRevert = false; // 是否开启旋转回弹
     private boolean isFlag;
 
@@ -72,12 +71,13 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (mOpenScaleRevert) {
+                boolean mOpenScaleRevert = true;
+//                if (mOpenScaleRevert) {
 //                    checkScale();
-                }
-                if (mOpenTranslateRevert) {
+//                }
+//                if (mOpenTranslateRevert) {
 //                    checkTrans();
-                }
+//                }
 //                mView.applyMatrix();
             case MotionEvent.ACTION_POINTER_UP:
                 mCanScale = false;
@@ -85,10 +85,7 @@ public class MotionEventPresenter extends RxPresenter<MotionEventContract.Motion
                 mCanRotate = false;
                 break;
         }
-        if (isFlag) {
-            return true;
-        }
-        return false;
+        return isFlag;
 
     }
 

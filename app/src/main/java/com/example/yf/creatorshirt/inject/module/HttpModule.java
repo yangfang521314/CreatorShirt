@@ -3,8 +3,8 @@ package com.example.yf.creatorshirt.inject.module;
 
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.app.App;
-import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.http.RequestApi;
+import com.example.yf.creatorshirt.utils.FileUtils;
 import com.example.yf.creatorshirt.utils.NetworkUtils;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class HttpModule {
     @Singleton
     @Provides
     Retrofit providerRequest(Retrofit.Builder builder, OkHttpClient client) {
-        return createRetrofit(builder, client, RequestApi.HOST);
+        return createRetrofit(builder, client);
     }
 
 
@@ -130,12 +130,11 @@ public class HttpModule {
      *
      * @param builder
      * @param client
-     * @param url
      * @return
      */
-    private Retrofit createRetrofit(Retrofit.Builder builder, OkHttpClient client, String url) {
+    private Retrofit createRetrofit(Retrofit.Builder builder, OkHttpClient client) {
         return builder
-                .baseUrl(url)
+                .baseUrl(RequestApi.HOST)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

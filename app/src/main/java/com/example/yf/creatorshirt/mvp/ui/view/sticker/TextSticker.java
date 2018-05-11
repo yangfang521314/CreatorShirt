@@ -70,7 +70,7 @@ public class TextSticker extends Sticker {
         this(context, null);
     }
 
-    public TextSticker(@NonNull Context context, @Nullable Drawable drawable) {
+    private TextSticker(@NonNull Context context, @Nullable Drawable drawable) {
         this.context = context;
         this.drawable = drawable;
         if (drawable == null) {
@@ -319,8 +319,8 @@ public class TextSticker extends Sticker {
      * with the specified width
      * and when the text has the specified size.
      */
-    protected int getTextHeightPixels(@NonNull CharSequence source, int availableWidthPixels,
-                                      float textSizePixels) {
+    private int getTextHeightPixels(@NonNull CharSequence source, int availableWidthPixels,
+                                    float textSizePixels) {
         textPaint.setTextSize(textSizePixels);
         // It's not efficient to create a StaticLayout instance
         // every time when measuring, we can use StaticLayout.Builder

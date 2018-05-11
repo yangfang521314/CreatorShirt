@@ -18,17 +18,15 @@ import com.example.yf.creatorshirt.utils.LogUtil;
  */
 
 public class DownloadService extends Service {
-    private Context mContext;
     private boolean flag = true;
     private String downloadPath;
     private String type;
     private DownloadManager dManager = null;
-    private long ext = 0l;
+    private long ext = 0L;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = App.getInstance();
         LogUtil.e("DOWLOADService", "Start");
         IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(downloadCompleteReceiver, filter);

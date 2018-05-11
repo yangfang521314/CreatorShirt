@@ -200,7 +200,8 @@
                 android:textColor="@color/black_1"
                 android:layout_toRightOf="@+id/pay_clothes_picture"
                 android:background="@color/white"
-                android:gravity="left|top" />
+                android:gravity="left|top"
+                android:inputType="text" />
         </RelativeLayout>
 
         <RelativeLayout

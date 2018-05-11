@@ -26,10 +26,7 @@ public class CircleView extends View {
     private int mHeight;
     private int inColor;
     private int outColor;
-    private int outStrokeWidth;
-    private Canvas canvas;
-    Paint paint;
-    private int min;
+    private Paint paint;
 
     public CircleView(Context context) {
         this(context, null);
@@ -48,7 +45,7 @@ public class CircleView extends View {
             inColor = array.getColor(R.styleable.StockManage_inColor, Color.WHITE);
         }
         outColor = array.getColor(R.styleable.StockManage_outColor, -1);
-        outStrokeWidth = array.getDimensionPixelSize(R.styleable.StockManage_stroke, 0);
+        int outStrokeWidth = array.getDimensionPixelSize(R.styleable.StockManage_stroke, 0);
         mWidth = array.getDimensionPixelSize(R.styleable.StockManage_width, 0);
         mHeight = array.getDimensionPixelSize(R.styleable.StockManage_height, 0);
         array.recycle();
@@ -63,7 +60,7 @@ public class CircleView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        min = Math.min(mWidth, mHeight);
+        int min = Math.min(mWidth, mHeight);
         /**
          110          * 长度如果不一致，按小的值进行压缩
          111          */
@@ -79,7 +76,7 @@ public class CircleView extends View {
         paint = new Paint();
         paint.setAntiAlias(true);
         Bitmap target = Bitmap.createBitmap(min, min, Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(target);
+        Canvas canvas = new Canvas(target);
         canvas.drawCircle(min / 2, min / 2, min / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         /**

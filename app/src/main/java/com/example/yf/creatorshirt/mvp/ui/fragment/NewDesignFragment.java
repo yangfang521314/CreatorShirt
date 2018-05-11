@@ -48,15 +48,12 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     RelativeLayout mBaseNewFragment;
     @Inject
     Activity mActivity;
-    private ScaleLayoutManager scaleLayoutManager;
-    private NewDesignAdapter adapter;
     private List<String> mClothesName;
     private ArrayMap<String, List<VersionStyle>> mManData;
     private List<VersionStyle> mBaseClothes = new ArrayList<>();
     private ArrayMap<String, List<VersionStyle>> mWomanData;
     private List<VersionStyle> firstList = new ArrayList<>();//显示第一张图片
     private Map<String, List<VersionStyle>> sendMap = new HashMap<>();//到达第二个页面数据
-    private RecyclerViewPopupWindow mPopupWindow;
 
     @Override
     protected void initInject() {
@@ -79,12 +76,12 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
     }
 
     private void initClothesName() {
-        scaleLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
+        ScaleLayoutManager scaleLayoutManager = new ScaleLayoutManager(DisplayUtil.Dp2Px(mContext, 10));
         mStyleRecyclerView.setLayoutManager(scaleLayoutManager);
         scaleLayoutManager.setItemSpace(DisplayUtil.Dp2Px(mContext, 15));
         scaleLayoutManager.setCenterScale(1.4f);
         scaleLayoutManager.setOrientation(ViewPagerLayoutManager.VERTICAL);
-        adapter = new NewDesignAdapter(mActivity);
+        NewDesignAdapter adapter = new NewDesignAdapter(mActivity);
         VersionStyle versionStyle;
         for (int i = 0; i < mClothesName.size(); i++) {
             String type = mManData.get(mClothesName.get(i)).get(0).getType();
@@ -151,7 +148,7 @@ public class NewDesignFragment extends BaseFragment<ClothesPresenter> implements
 
     @SuppressLint("WrongConstant")
     private RecyclerViewPopupWindow initPopupWindow(final List<VersionStyle> firstList) {
-        mPopupWindow = new RecyclerViewPopupWindow();
+        RecyclerViewPopupWindow mPopupWindow = new RecyclerViewPopupWindow();
         mPopupWindow.setData(firstList);
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable());

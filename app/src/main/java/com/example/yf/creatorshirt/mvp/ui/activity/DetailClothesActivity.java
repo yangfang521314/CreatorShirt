@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -83,7 +84,6 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     private BombStyleBean mBombStyleBean;
     private List<View> mViewList;
-    private String[] mAllImage;
     private boolean isFlag = false;
     private ChoiceSizePopupWindow mPopupWindow;
     private List<TextureEntity> textureEntityList;
@@ -128,9 +128,10 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
         return false;
     }
 
+    @SuppressLint("CheckResult")
     private void initViewPager() {
-        mAllImage = mBombStyleBean.getAllImage().split(",");
-        ImageViewAdapter adapter = new ImageViewAdapter(this);
+        String[] mAllImage = mBombStyleBean.getAllImage().split(",");
+        ImageViewAdapter adapter = new ImageViewAdapter();
         RequestOptions options = new RequestOptions();
         options.diskCacheStrategy(DiskCacheStrategy.ALL);
         final ImageView imageView = new ImageView(this);
@@ -217,7 +218,7 @@ public class DetailClothesActivity extends BaseActivity<DetailClothesPresenter> 
 
     //初始化PopupWindow
     private PopupWindow initPopupWindow() {
-        mPopupWindow = new ChoiceSizePopupWindow(this, textureEntityList);
+        mPopupWindow = new ChoiceSizePopupWindow(textureEntityList);
         mPopupWindow.showAtLocation(mRelativeClothes, Gravity.CENTER | Gravity.BOTTOM, 0, 0);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

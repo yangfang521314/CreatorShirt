@@ -38,11 +38,11 @@ public class TextItemView extends RelativeLayout {
     TextView mScaleMax;
     @BindView(R.id.tv_min)
     TextView mScaleMin;
-    public CommonListener.TextSizeClickListener sizeClickListener;
+    private CommonListener.TextSizeClickListener sizeClickListener;
     private int textColor;
     private Typeface typeface;
     private int sizeText = 36;
-    public int[] colors = {R.color.red, R.color.black,
+    private int[] colors = {R.color.red, R.color.black,
             R.color.white, R.color.blue, R.color.green, R.color.orange,
             R.color.purple, R.color.cyan, R.color.grey, R.color.yellow};
     private Context mContext;

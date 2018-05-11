@@ -22,7 +22,7 @@ public class BarParams implements Cloneable{
     @FloatRange(from = 0f, to = 1f)
     public float navigationBarAlpha = 0.0f;       //导航栏透明度
     public boolean fullScreen = false;            //有导航栏的情况，全屏显示
-    public boolean fullScreenTemp = fullScreen;
+    public boolean fullScreenTemp = false;
     public BarHide barHide = BarHide.FLAG_SHOW_BAR;  //隐藏Bar
     public boolean darkFont = false;                 //状态栏字、体深色与亮色标志位
     public boolean statusBarFlag = false;            //是否可以修改状态栏颜色

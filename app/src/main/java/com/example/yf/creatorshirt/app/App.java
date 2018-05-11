@@ -26,7 +26,6 @@ public class App extends MultiDexApplication {
     private static AppComponent mAppComponent;
     /*用户是否登录*/
     public static boolean isLogin;
-    private RefWatcher refWatcher;
 
     public static AppComponent getAppComponent() {
         if (mAppComponent == null) {
@@ -55,7 +54,7 @@ public class App extends MultiDexApplication {
         initShareConfig();
         setIsLogin(SharedPreferencesUtil.getIsLogin());
         if (BuildConfig.DEBUG) {
-            refWatcher = LeakCanary.install(this);
+            RefWatcher refWatcher = LeakCanary.install(this);
         }
     }
 

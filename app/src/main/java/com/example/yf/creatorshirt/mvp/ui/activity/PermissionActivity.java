@@ -30,7 +30,6 @@ public class PermissionActivity extends AppCompatActivity {
     public static final int PERMISSIONS_DENIED = 1;//权限拒绝
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
 
-    private static int mRequestCode;
     private PermissionChecker mChecker; // 权限检测器
     private boolean isRequireCheck; // 是否需要系统权限检测, 防止和系统提示框重叠
 
@@ -51,7 +50,7 @@ public class PermissionActivity extends AppCompatActivity {
 
     // 启动当前权限页面的公开接口 requestCode也可以作为判断是从哪个Activity过来的
     public static void startActivityForResult(Activity activity, String notice, int requestCode, String[] permissions) {
-        mRequestCode = requestCode;
+        int mRequestCode = requestCode;
         Intent intent = new Intent(activity, PermissionActivity.class);
         intent.putExtra(EXTRA_PERMISSIONS, permissions);
         intent.putExtra("NOTICE", notice);

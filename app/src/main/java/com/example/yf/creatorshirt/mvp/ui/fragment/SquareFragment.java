@@ -24,8 +24,7 @@ public class SquareFragment extends BaseFragment {
     @BindView(R.id.tab)
     TabLayout mTab;
     private ArrayList<Fragment> mFragmentList = new ArrayList<>();
-    private HotDesignsFragment mHotDesignsFragment;
-    private BombStylesFragment mBombStylesFragment;
+
     @Override
     protected void initInject() {
 //        getFragmentComponent().inject(this);
@@ -39,8 +38,8 @@ public class SquareFragment extends BaseFragment {
     @Override
     protected void initViews(View mView) {
         mFragmentList.clear();
-        mHotDesignsFragment = new HotDesignsFragment();
-        mBombStylesFragment = new BombStylesFragment();
+        HotDesignsFragment mHotDesignsFragment = new HotDesignsFragment();
+        BombStylesFragment mBombStylesFragment = new BombStylesFragment();
         mFragmentList.add(mBombStylesFragment);
         mFragmentList.add(mHotDesignsFragment);
         ArrayList<String> tabName = new ArrayList<>();

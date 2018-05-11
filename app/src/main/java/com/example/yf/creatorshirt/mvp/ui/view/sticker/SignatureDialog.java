@@ -31,8 +31,6 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
 
     private Context mContext;
     private EditText mEditSignature;
-    private ImageView choiceBack;
-    private ImageView choiceDone;
     private CompleteCallBack completeCallBack;
     private String str;
     private List<TextEntity> fontName = new ArrayList<>();
@@ -55,8 +53,8 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.view_input_dialog);
         initData();
         mEditSignature = findViewById(R.id.edit_signature);
-        choiceBack = findViewById(R.id.choice_back);
-        choiceDone = findViewById(R.id.choice_done);
+        ImageView choiceBack = findViewById(R.id.choice_back);
+        ImageView choiceDone = findViewById(R.id.choice_done);
         choiceBack.setOnClickListener(this);
         choiceDone.setOnClickListener(this);
 
@@ -124,6 +122,7 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
             @Override
             public void run() {
                 InputMethodManager m = (InputMethodManager) mEditSignature.getContext().getSystemService(INPUT_METHOD_SERVICE);
+                assert m != null;
                 m.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
             }
         }, 500);
@@ -138,12 +137,13 @@ public class SignatureDialog extends Dialog implements View.OnClickListener {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (null != this.getCurrentFocus()) {
             /**
              * 点击空白位置 隐藏软键盘
              */
             InputMethodManager mInputMethodManager = (InputMethodManager) mContext.getSystemService(INPUT_METHOD_SERVICE);
+            assert mInputMethodManager != null;
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super.onTouchEvent(event);

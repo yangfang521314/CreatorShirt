@@ -10,7 +10,6 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
 import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
@@ -130,8 +129,8 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             return;
         }
         addSubscribe(manager.getQiToken(userToken)
-                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(String s) {
@@ -162,8 +161,8 @@ public class OrderInfoPresenter extends RxPresenter<OrderInfoContract.OrderInfoV
             }
         }
         addSubscribe(manager.saveOrderData(userToken, GsonUtils.getGson(saveOrderInfo))
-                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                .compose(RxUtils.<OrderType>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<OrderType>(mView, "保存失败，请检查网络") {
                     @Override
                     public void onNext(OrderType orderType) {

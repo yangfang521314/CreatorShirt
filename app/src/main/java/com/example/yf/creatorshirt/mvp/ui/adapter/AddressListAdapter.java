@@ -15,6 +15,7 @@
  */
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
         super.notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public AddressViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         AddressViewHolder viewHolder = new AddressViewHolder(mLayoutInflater.inflate(R.layout.item_address_select, parent, false));

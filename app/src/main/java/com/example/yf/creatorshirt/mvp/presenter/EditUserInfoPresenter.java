@@ -65,7 +65,7 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
 
     private class EditUserHandler extends WeakReferenceHandler<EditUserInfoPresenter> {
 
-        public EditUserHandler(EditUserInfoPresenter reference) {
+        EditUserHandler(EditUserInfoPresenter reference) {
             super(reference);
         }
 
@@ -86,21 +86,28 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
     @Override
     public void saveUserInfo() {
         Map<String, String> map = new HashMap<>();
+        if(userAvatar == null) {
+          if(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage() != null){
+              userAvatar = UserInfoManager.getInstance().getLoginResponse().getUserInfo().getHeadImage();
+          }else {
+              userAvatar ="";
+          }
+        }
         map.put("mobile", UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
         map.put("headimage", userAvatar);
         map.put("name", mUserName);
         addSubscribe(manager.saveUserInfo(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+                .compose(RxUtils.rxSchedulerHelper())
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
-                    public Integer apply(@NonNull HttpResponse httpResponse) throws Exception {
+                    public Integer apply(@NonNull HttpResponse httpResponse) {
                         LogUtil.e("TAG", "RESPONSE" + httpResponse.getStatus());
                         return httpResponse.getStatus();
                     }
                 })
                 .subscribe(new Consumer<Integer>() {
                     @Override
-                    public void accept(@NonNull Integer status) throws Exception {
+                    public void accept(@NonNull Integer status) {
                         if (status == 1) {
                             if (App.isLogin) {
                                 UserInfoManager.getInstance().getLoginResponse().getUserInfo().setHeadImage(userAvatar);
@@ -163,8 +170,8 @@ public class EditUserInfoPresenter extends RxPresenter<EditUserInfoContract.Edit
      */
     public void getToken() {
         addSubscribe(manager.getQiToken(UserInfoManager.getInstance().getToken())
-                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<String>(mView, "没有TOKEN") {
                     @Override
                     public void onNext(String s) {

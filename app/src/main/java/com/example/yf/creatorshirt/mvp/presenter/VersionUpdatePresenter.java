@@ -12,7 +12,6 @@ import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
 import com.example.yf.creatorshirt.http.DownloadService;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.VersionUpdateResponse;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.VersionUpdateContract;
@@ -77,8 +76,8 @@ public class VersionUpdatePresenter extends RxPresenter<VersionUpdateContract.Ve
         }
 
         addSubscribe(manager.getVersionCode(getVerCode())
-                .compose(RxUtils.<HttpResponse<VersionUpdateResponse>>rxSchedulerHelper())
-                .compose(RxUtils.<VersionUpdateResponse>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<VersionUpdateResponse>(mView, "没有新版本") {
                     @Override
                     public void onNext(VersionUpdateResponse versionUpdateResponse) {

@@ -15,8 +15,7 @@ public class GsonUtils {
         Gson gson = new Gson();
         String entity = gson.toJson(data);
         LogUtil.e("GsonUtils", "ENTITY" + entity);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), entity);
-        return body;
+        return  RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), entity);
     }
 
 }

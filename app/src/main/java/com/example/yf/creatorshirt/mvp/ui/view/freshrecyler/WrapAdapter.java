@@ -65,11 +65,11 @@ public class WrapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return position < getItemCount() && position >= getItemCount() - mFootViews.size();
     }
 
-    public boolean isRefreshHeader(int position) {
+    private boolean isRefreshHeader(int position) {
         return position == 0;
     }
 
-    public int getHeadersCount() {
+    private int getHeadersCount() {
         return mHeaderViews.size();
     }
 

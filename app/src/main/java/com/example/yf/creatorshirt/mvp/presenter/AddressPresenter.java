@@ -39,8 +39,8 @@ public class AddressPresenter extends RxPresenter<AddressContract.AddressView> i
     @Override
     public void getAddressData() {
         addSubscribe(mDataManager.getAddressData(SharedPreferencesUtil.getUserToken())
-                .compose(RxUtils.<HttpResponse<List<AddressBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<AddressBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView) {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {

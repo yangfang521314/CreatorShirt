@@ -70,7 +70,7 @@ public class BackPatterImage extends android.support.v7.widget.AppCompatImageVie
     /**
      * 图片使用矩阵变换后，刷新图片所对应的mImageRect所指示的区域
      */
-    protected void refreshImageRect() {
+    private void refreshImageRect() {
         if (getDrawable() != null) {
             mImageRect.set(getDrawable().getBounds());
             mMatrix.mapRect(mImageRect, mImageRect);

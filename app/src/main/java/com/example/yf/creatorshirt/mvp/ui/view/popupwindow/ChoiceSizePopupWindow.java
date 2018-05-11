@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.view.popupwindow;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,7 +29,6 @@ import butterknife.OnClick;
 
 public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickListener.OnItemClickListener {
     private CommonListener.CommonClickListener onPopupClickListener;
-    private Context mContext;
     private ArrayList<ClothesSize> clothesList;
 
     @BindView(R.id.btn_make_order)
@@ -46,8 +44,8 @@ public class ChoiceSizePopupWindow extends BasePopupWindow implements ItemClickL
     private String textUre;
 
 
-    public ChoiceSizePopupWindow(Context context, List<TextureEntity> textureEntityList) {
-        mContext = context;
+    public ChoiceSizePopupWindow(List<TextureEntity> textureEntityList) {
+        super();
         if (textureEntityList != null) {
             list = textureEntityList;
         }

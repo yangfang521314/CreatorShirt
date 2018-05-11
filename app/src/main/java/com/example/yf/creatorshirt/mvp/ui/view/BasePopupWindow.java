@@ -16,10 +16,10 @@ import com.example.yf.creatorshirt.app.App;
  */
 
 public abstract class BasePopupWindow extends PopupWindow{
-    public LayoutInflater layoutInflater;
+    protected LayoutInflater layoutInflater;
 
     @SuppressLint("WrongConstant")
-    public BasePopupWindow() {
+    protected BasePopupWindow() {
         layoutInflater = (LayoutInflater) App.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setContentView(getView());
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -30,5 +30,5 @@ public abstract class BasePopupWindow extends PopupWindow{
         setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    public abstract View getView();
+    protected abstract View getView();
 }

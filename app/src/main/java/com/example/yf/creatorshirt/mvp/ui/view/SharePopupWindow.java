@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.view;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,11 +18,10 @@ public class SharePopupWindow extends BasePopupWindow {
     @BindView(R.id.share_button)
     TextView mTextView;
 
-    private Context mContext;
     private CommonListener.CommonClickListener onPopupClickListener;
 
-    public SharePopupWindow(Context context) {
-        mContext = context;
+    public SharePopupWindow() {
+        super();
     }
 
     @OnClick(R.id.share_button)

@@ -64,7 +64,7 @@ public class ClothesSizePresenter implements BasePresenter {
                 String json = new String(arrayOutputStream.toByteArray());
                 e.onNext(getArrayList(json));
             }
-        }).compose(RxUtils.<Map<String, List<ClothesSize>>>rxObScheduleHelper())
+        }).compose(RxUtils.rxObScheduleHelper())
                 .subscribe(new CommonObserver<Map<String, List<ClothesSize>>>(mView) {
                     @Override
                     public void onNext(Map<String, List<ClothesSize>> list) {
@@ -74,7 +74,6 @@ public class ClothesSizePresenter implements BasePresenter {
                 });
     }
 
-    private List<ClothesSize> mClothesSizesList;
     private Map<String, List<ClothesSize>> mSizeMap = new HashMap<>();
 
     private Map<String, List<ClothesSize>> getArrayList(String json) {
@@ -84,7 +83,7 @@ public class ClothesSizePresenter implements BasePresenter {
             String name = (String) jsonObject.get("name");
             JSONArray jsonArray1 = jsonObject.getJSONArray("type");
             ClothesSize clothesSize;
-            mClothesSizesList = new ArrayList<>();
+            List<ClothesSize> mClothesSizesList = new ArrayList<>();
             for (int j = 0; j < jsonArray1.size(); j++) {
                 com.alibaba.fastjson.JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
                 clothesSize = new ClothesSize();

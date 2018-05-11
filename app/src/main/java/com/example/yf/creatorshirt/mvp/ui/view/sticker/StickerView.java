@@ -14,7 +14,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,6 +36,7 @@ import java.util.List;
  *
  * @author wupanjie
  */
+@SuppressWarnings("WeakerAccess")
 public class StickerView extends FrameLayout {
     protected TextSticker textSticker;
     protected List<String> textEntities = new ArrayList<>();//保存字体
@@ -148,7 +148,7 @@ public class StickerView extends FrameLayout {
         }
     }
 
-    public void configDefaultIcons() {
+    private void configDefaultIcons() {
         BitmapStickerIcon deleteIcon = new BitmapStickerIcon(
                 ContextCompat.getDrawable(getContext(), R.mipmap.sticker_ic_close_white_18dp),
                 BitmapStickerIcon.LEFT_TOP);
@@ -209,7 +209,7 @@ public class StickerView extends FrameLayout {
         drawStickers(canvas);
     }
 
-    protected void drawStickers(Canvas canvas) {
+    private void drawStickers(Canvas canvas) {
         for (int i = 0; i < stickers.size(); i++) {
             Sticker sticker = stickers.get(i);
             if (sticker != null) {
@@ -297,7 +297,7 @@ public class StickerView extends FrameLayout {
             return super.onTouchEvent(event);
         }
 
-        int action = MotionEventCompat.getActionMasked(event);
+        int action = event.getAction();
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
@@ -693,6 +693,7 @@ public class StickerView extends FrameLayout {
         if (stickers.contains(sticker)) {
             stickers.remove(sticker);
             if (onStickerOperationListener != null) {
+                assert sticker != null;
                 onStickerOperationListener.onStickerDeleted(sticker);
             }
             if (handlingSticker == sticker) {
@@ -722,7 +723,7 @@ public class StickerView extends FrameLayout {
     }
 
     @NonNull
-    public StickerView addSticker(@NonNull Sticker sticker) {
+    protected StickerView addSticker(@NonNull Sticker sticker) {
         return addSticker(sticker, Sticker.Position.CENTER);
     }
 

@@ -1,7 +1,5 @@
 package com.example.yf.creatorshirt.utils;
 
-import android.util.Log;
-
 import com.example.yf.creatorshirt.http.HttpResponse;
 
 import org.reactivestreams.Publisher;
@@ -74,7 +72,7 @@ public class RxUtils {
             public Publisher<T> apply(@NonNull Flowable<HttpResponse<T>> flowable) {
                 return flowable.flatMap(new Function<HttpResponse<T>, Flowable<T>>() {
                     @Override
-                    public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
+                    public Flowable<T> apply(@NonNull HttpResponse<T> tHttpResponse) {
                         if (tHttpResponse.getStatus() == 1) {
                             LogUtil.e(TAG, "status" + tHttpResponse.getStatus());
                             LogUtil.e(TAG, "status" + tHttpResponse.getResult());
@@ -104,7 +102,7 @@ public class RxUtils {
             public ObservableSource<T> apply(@NonNull Observable<HttpResponse<T>> upstream) {
                 return upstream.flatMap(new Function<HttpResponse<T>, ObservableSource<T>>() {
                     @Override
-                    public ObservableSource<T> apply(@NonNull HttpResponse<T> tHttpResponse) throws Exception {
+                    public ObservableSource<T> apply(@NonNull HttpResponse<T> tHttpResponse) {
                         if (tHttpResponse.getStatus() == 1) {
                             return createObservablData(tHttpResponse.getResult());
                         } else {
@@ -119,7 +117,7 @@ public class RxUtils {
     private static <T> ObservableSource<T> createObservablData(final T result) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<T> emitter) throws Exception {
+            public void subscribe(@NonNull ObservableEmitter<T> emitter) {
                 try {
                     emitter.onNext(result);
                     emitter.onComplete();
@@ -140,7 +138,7 @@ public class RxUtils {
     private static <T> Flowable<T> createData(final T result) {
         return Flowable.create(new FlowableOnSubscribe<T>() {
             @Override
-            public void subscribe(@NonNull FlowableEmitter<T> emitter) throws Exception {
+            public void subscribe(@NonNull FlowableEmitter<T> emitter) {
                 try {
                     emitter.onNext(result);
                     emitter.onComplete();

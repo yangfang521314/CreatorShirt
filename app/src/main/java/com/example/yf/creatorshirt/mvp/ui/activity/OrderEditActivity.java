@@ -99,7 +99,6 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
     private ClothesSize mCurrentWomanClothesSize;
     private ClothesSize mCurrentKidClothesSize;
 
-    private NumberPicker picker;
     private SaveOrderInfo myOrderInfo;//初始化数据
 
     private List<ClothesSize> clothesSizeList = new ArrayList<>();
@@ -195,7 +194,7 @@ public class OrderEditActivity extends BaseActivity<CalculatePricesPresenter> im
                 }
                 break;
         }
-        picker = new NumberPicker(OrderEditActivity.this);
+        NumberPicker picker = new NumberPicker(OrderEditActivity.this);
         picker.setWidth(picker.getScreenWidthPixels());
         picker.setHeight(picker.getScreenHeightPixels() * 2 / 5);
         picker.setItemWidth(DisplayUtil.getScreenW(this));

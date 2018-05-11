@@ -8,13 +8,13 @@ import java.util.TimerTask;
  * blog: addapp.cn
  * @since 2015/9/29
  */
-final public class InertiaTimerTask extends TimerTask {
+final class InertiaTimerTask extends TimerTask {
 
-    float a;
-    final float velocityY;
-    final WheelView wheelView;
+    private float a;
+    private final float velocityY;
+    private final WheelView wheelView;
 
-    public InertiaTimerTask(WheelView wheelView, float velocityY) {
+    InertiaTimerTask(WheelView wheelView, float velocityY) {
         super();
         this.wheelView = wheelView;
         this.velocityY = velocityY;

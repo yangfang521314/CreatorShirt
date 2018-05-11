@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import com.example.yf.creatorshirt.R;
 import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.http.HttpResultResponse;
 import com.example.yf.creatorshirt.http.TestRequestServer;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
@@ -46,8 +45,8 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
         map.put("desginUserId", userID);
         map.put("pageIndex", pageIndex);
         addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, false) {
                     @Override
                     public void onNext(List<BombStyleBean> orderStyleBeen) {
@@ -154,8 +153,8 @@ public class DesignerOrdersPresenter extends RxPresenter<DesignerOrdersContract.
         map.put("desginUserId", userID);
         map.put("pageIndex", pageIndex);
         addSubscribe(mDataManager.getDesignOrders(GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<List<BombStyleBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<BombStyleBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<BombStyleBean>>(mView, false) {
                     @Override
                     public void onNext(List<BombStyleBean> orderStyleBeen) {

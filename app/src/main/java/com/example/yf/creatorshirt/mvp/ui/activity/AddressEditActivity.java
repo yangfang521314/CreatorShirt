@@ -94,12 +94,12 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
                 String receiverCity = mReceiverCity.getText().toString();
                 String receiverAddress = mEditAddress.getText().toString();
                 if (mAddressBean == null) {
-                    if (!isCheck()) {
+                    if (isCheck()) {
                         mPresenter.setAddressInfo(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress);
                         mPresenter.saveAddressData();
                     }
                 } else {
-                    if (!isCheck()) {
+                    if (isCheck()) {
                         mPresenter.setUpdate(receiverName, receiverPhone, receiverEmail, receiverCity, receiverAddress, mAddressBean.getIsDefault(), mAddressBean.getId());
                         mPresenter.setUpdateAddress();
                     }
@@ -114,18 +114,18 @@ public class AddressEditActivity extends BaseActivity<AddressEditPresenter> impl
     private boolean isCheck() {
         if (TextUtils.isEmpty(PhoneUtils.getTextString(mReceiverName))) {
             ToastUtil.showToast(mContext, "请输入收件人姓名", 0);
-            return true;
-        } else if (!PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
+            return false;
+        } else if (PhoneUtils.isPhoneNumberValid(PhoneUtils.getTextString(mReceiverPhone))) {
             ToastUtil.showToast(mContext, "请输入有效的电话号码", 0);
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(mReceiverCity.getText().toString())) {
             ToastUtil.showToast(mContext, "请输入收件人地区", 0);
-            return true;
+            return false;
         } else if (TextUtils.isEmpty(PhoneUtils.getTextString(mEditAddress))) {
             ToastUtil.showToast(mContext, "请输入完整地址", 0);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
 

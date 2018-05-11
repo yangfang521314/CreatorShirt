@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.UserInfoContract;
@@ -34,8 +33,8 @@ public class UserInfoPresenter extends RxPresenter<UserInfoContract.UserView> im
     @Override
     public void getUserInfo(String token) {
         addSubscribe(manager.getUserInfo(token)
-                .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
-                .compose(RxUtils.<LoginBean>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<LoginBean>(mView) {
                     @Override
                     public void onNext(@NonNull LoginBean loginBean) {

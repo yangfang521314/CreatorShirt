@@ -18,8 +18,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by yangfang on 2018/1/30.
  */
@@ -37,8 +35,8 @@ public class AllOrderPresenter extends RxPresenter<AllOrderContract.AllOrderView
         if (UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile() != null) {
             keyValues.put("partner", String.valueOf(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile()));
             addSubscribe(manager.requestMyOrder(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(keyValues))
-                    .compose(RxUtils.<HttpResponse<List<SaveOrderInfo>>>rxSchedulerHelper())
-                    .compose(RxUtils.<List<SaveOrderInfo>>handleResult())
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
                     .subscribeWith(new CommonSubscriber<List<SaveOrderInfo>>(mView) {
                         @Override
                         public void onNext(List<SaveOrderInfo> myOrderInfo) {

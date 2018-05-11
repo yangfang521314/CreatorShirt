@@ -29,6 +29,7 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
         // 监听网络连接，包括wifi和移动数据的打开和关闭,以及连接上可用的连接都会接到监听，这种广播可能有点慢
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
             ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert manager != null;
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
             if (networkInfo != null) {
                 if (networkInfo.isConnected()) {

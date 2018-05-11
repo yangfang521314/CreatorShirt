@@ -13,8 +13,6 @@ import com.example.yf.creatorshirt.mvp.ui.adapter.base.BaseAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.viewholder.design.ItemViewHolder;
 import com.example.yf.creatorshirt.utils.Utils;
 
-import retrofit2.http.POST;
-
 /**
  * Created by yang on 03/07/2017.
  * 订单详情页的Adapter

@@ -113,10 +113,7 @@ public class ClothesBackView extends StickerView implements MotionEventContract.
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mPresenter.onTouchEvent(event)) {
-            return true;
-        }
-        return super.onTouchEvent(event);
+        return mPresenter.onTouchEvent(event) || super.onTouchEvent(event);
     }
 
     /**

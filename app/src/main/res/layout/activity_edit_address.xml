@@ -58,7 +58,8 @@
                 android:textColor="@color/black_1"
                 android:padding="10dp"
                 android:textColorHint="#c2c3cb"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="text|textPersonName" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,7 +101,8 @@
                 android:textColor="@color/black_1"
                 android:padding="10dp"
                 android:textColorHint="#c2c3cb"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="phone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -181,7 +183,8 @@
                 android:hint="请输入"
                 android:textColorHint="#c2c3cb"
                 android:textColor="@color/black_1"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="phone" />
         </RelativeLayout>
 
         <RelativeLayout

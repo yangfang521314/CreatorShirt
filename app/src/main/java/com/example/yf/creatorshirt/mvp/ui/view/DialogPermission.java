@@ -9,8 +9,8 @@ import android.content.DialogInterface;
  */
 
 public class DialogPermission {
-    Context mContext;
-    String mNotice;
+    private Context mContext;
+    private String mNotice;
     public DialogPermission(Context context, String notice){
         mContext=context;
         mNotice=notice;

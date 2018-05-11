@@ -47,10 +47,10 @@ public class AddressEditPresenter extends RxPresenter<AddressEditContract.Addres
     public void saveAddressData() {
         RequestBody body = GsonUtils.getGson(saveEntity);
         addSubscribe(mDataManager.saveAddress(SharedPreferencesUtil.getUserToken(), body)
-                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+                .compose(RxUtils.rxSchedulerHelper())
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
-                    public Integer apply(@NonNull HttpResponse httpResponse) throws Exception {
+                    public Integer apply(@NonNull HttpResponse httpResponse) {
                         return httpResponse.getStatus();
                     }
                 })
@@ -72,10 +72,10 @@ public class AddressEditPresenter extends RxPresenter<AddressEditContract.Addres
     @Override
     public void setUpdateAddress() {
         addSubscribe(mDataManager.saveAddress(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveEntity))
-                .compose(RxUtils.<HttpResponse>rxSchedulerHelper())
+                .compose(RxUtils.rxSchedulerHelper())
                 .map(new Function<HttpResponse, Integer>() {
                     @Override
-                    public Integer apply(@NonNull HttpResponse httpResponse) throws Exception {
+                    public Integer apply(@NonNull HttpResponse httpResponse) {
                         return httpResponse.getStatus();
                     }
                 })

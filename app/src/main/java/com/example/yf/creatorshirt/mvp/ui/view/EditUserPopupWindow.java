@@ -22,6 +22,10 @@ public class EditUserPopupWindow extends BasePopupWindow {
     @BindView(R.id.take_cancel)
     TextView mTakeCancel;
 
+    public EditUserPopupWindow() {
+        super();
+    }
+
     @Override
     public View getView() {
         View view = layoutInflater.inflate(R.layout.item_edit_user, null);

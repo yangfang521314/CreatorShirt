@@ -5,7 +5,6 @@ import android.support.v4.util.ArrayMap;
 
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.LoginBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.LoginContract;
@@ -66,8 +65,8 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
             LogUtil.e("TAG", "phone" + requestEntity);
             RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), requestEntity);
             addSubscribe(mDataManager.login(body)
-                    .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
-                    .compose(RxUtils.<LoginBean>handleResult())
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
                     .subscribeWith(new CommonSubscriber<LoginBean>(mView, "登录失败，请重试") {
 
                         @Override
@@ -98,8 +97,8 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
         String strEntity = gson.toJson(paramsMap);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
         addSubscribe(mDataManager.getVerifyCode(body)
-                .compose(RxUtils.<HttpResponse<String>>rxSchedulerHelper())
-                .compose(RxUtils.<String>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<String>(mView) {
                     @Override
                     public void onNext(@NonNull String s) {
@@ -115,8 +114,8 @@ public class LoginPresenter extends RxPresenter<LoginContract.LoginView> impleme
             Map<String, String> map = new HashMap<>();
             map.put("openId", id);
             addSubscribe(mDataManager.login(GsonUtils.getGson(map))
-                    .compose(RxUtils.<HttpResponse<LoginBean>>rxSchedulerHelper())
-                    .compose(RxUtils.<LoginBean>handleResult())
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
                     .subscribeWith(new CommonSubscriber<LoginBean>(mView, "登录失败，请重试") {
 
                         @Override

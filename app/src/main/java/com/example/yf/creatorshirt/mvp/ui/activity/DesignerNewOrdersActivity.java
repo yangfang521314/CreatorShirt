@@ -55,7 +55,6 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
     @BindView(R.id.designer_recyclerview)
     FreshRecyclerView mDesignerRecycler;
     private HotDesignsBean mHotDesignsBean;
-    private GridLayoutManager mGridLayoutManager;
     private DesignerOrdersAdapter mAdapter;
     private TextView heardTextView;
     private List<BombStyleBean> mFirstStyleEntity = new ArrayList<>();
@@ -76,7 +75,7 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
     protected void initView() {
         mAppBarTitle.setText("定制详情");
         mAppBarBack.setVisibility(View.VISIBLE);
-        mGridLayoutManager = new GridLinearLayoutManager(this, 3);
+        GridLayoutManager mGridLayoutManager = new GridLinearLayoutManager(this, 3);
         mDesignerRecycler.setLayoutManager(mGridLayoutManager);
         mAdapter = new DesignerOrdersAdapter(this);
         mAdapter.setOnItemClickListener(this);
@@ -195,13 +194,13 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Long, Integer>() {
                     @Override
-                    public Integer apply(@NonNull Long aLong) throws Exception {
+                    public Integer apply(@NonNull Long aLong) {
                         return 4 - aLong.intValue();
                     }
                 })
                 .take(5).doOnSubscribe(new Consumer<Subscription>() {
             @Override
-            public void accept(@NonNull Subscription subscription) throws Exception {
+            public void accept(@NonNull Subscription subscription) {
 
             }
         })
@@ -249,13 +248,13 @@ public class DesignerNewOrdersActivity extends BaseActivity<DesignerOrdersPresen
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<Long, Integer>() {
                     @Override
-                    public Integer apply(@NonNull Long aLong) throws Exception {
+                    public Integer apply(@NonNull Long aLong) {
                         return 4 - aLong.intValue();
                     }
                 })
                 .take(5).doOnSubscribe(new Consumer<Subscription>() {
             @Override
-            public void accept(@NonNull Subscription subscription) throws Exception {
+            public void accept(@NonNull Subscription subscription) {
 
             }
         })

@@ -26,7 +26,8 @@ public class ShareContentUtil extends ShareContentUtilAbstract {
     private String mDescription;//分享内容
     private String mShareUrl;//分享链接
     private UMImage mThumb;
-    private UMWeb weixinContent, wbContent,qqShareContent;
+    private UMWeb weixinContent;
+    private UMWeb wbContent;
     private CommonListener.CommonClickListener commonClickListener;
 
     public ShareContentUtil(Activity context) {
@@ -59,7 +60,7 @@ public class ShareContentUtil extends ShareContentUtilAbstract {
 //        qzoneShareContent.setThumb(myshareImage);
 
         //QQ好友分享
-        qqShareContent = new UMWeb(mShareUrl);
+        UMWeb qqShareContent = new UMWeb(mShareUrl);
         qqShareContent.setDescription(mDescription);
         qqShareContent.setTitle(mTitle);
         qqShareContent.setThumb(mThumb);

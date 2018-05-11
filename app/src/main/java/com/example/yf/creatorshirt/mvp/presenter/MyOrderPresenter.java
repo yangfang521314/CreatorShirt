@@ -3,7 +3,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 import android.content.Context;
 
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.AddressBean;
 import com.example.yf.creatorshirt.mvp.model.PayInfoEntity;
 import com.example.yf.creatorshirt.mvp.model.PayTradeInfo;
@@ -34,7 +33,7 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
 
     private PayInfoEntity payInfoEntity;
 
-    public static final String APPID = "2017082308338778";
+    private static final String APPID = "2017082308338778";
     private PayTradeInfo tradeInfo;
     private WechatInfo wechatInfo;
 
@@ -50,8 +49,8 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
 
     public void getAddressData() {
         addSubscribe(manager.getAddressData(SharedPreferencesUtil.getUserToken())
-                .compose(RxUtils.<HttpResponse<List<AddressBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<AddressBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<AddressBean>>(mView, "请求地址错误") {
                     @Override
                     public void onNext(List<AddressBean> addressBeen) {
@@ -189,8 +188,8 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
     public void payMomentOrders() {
 
         addSubscribe(manager.payMentOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
-                .compose(RxUtils.<HttpResponse<PayTradeInfo>>rxSchedulerHelper())
-                .compose(RxUtils.<PayTradeInfo>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<PayTradeInfo>(mView) {
                     @Override
                     public void onNext(PayTradeInfo payTradeInfo) {
@@ -216,8 +215,8 @@ public class MyOrderPresenter extends RxPresenter<MyOrderContract.MyOrderView> i
      */
     public void payMomentWeChatOrders() {
         addSubscribe(manager.payMomentWeChatOrders(SharedPreferencesUtil.getUserToken(), GsonUtils.getGson(payInfoEntity))
-                .compose(RxUtils.<HttpResponse<WechatInfo>>rxSchedulerHelper())
-                .compose(RxUtils.<WechatInfo>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<WechatInfo>(mView) {
                     @Override
                     public void onNext(WechatInfo chatInfo) {

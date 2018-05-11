@@ -18,7 +18,6 @@ public class WXPay {
 
     private static WXPay mWXPay;
     private IWXAPI mWXApi;
-    private WechatInfo mPayParam;
     private WXPayResultCallBack mCallback;
 
     public static final int NO_OR_LOW_WX = 1;   //未安装微信或微信版本过低
@@ -56,7 +55,6 @@ public class WXPay {
      * 发起微信支付
      */
     public void doPay(WechatInfo pay_param, WXPayResultCallBack callback) {
-        mPayParam = pay_param;
         mCallback = callback;
 
         if (!check()) {
@@ -66,10 +64,10 @@ public class WXPay {
             return;
         }
 
-        if (TextUtils.isEmpty(mPayParam.getAppId()) ||
-                TextUtils.isEmpty(mPayParam.getMch_id()) || TextUtils.isEmpty(mPayParam.getPrepay_id()) ||
-                TextUtils.isEmpty(mPayParam.getTimeStamp()) || TextUtils.isEmpty(mPayParam.getNonceStr()) ||
-                TextUtils.isEmpty(mPayParam.getPaySign())) {
+        if (TextUtils.isEmpty(pay_param.getAppId()) ||
+                TextUtils.isEmpty(pay_param.getMch_id()) || TextUtils.isEmpty(pay_param.getPrepay_id()) ||
+                TextUtils.isEmpty(pay_param.getTimeStamp()) || TextUtils.isEmpty(pay_param.getNonceStr()) ||
+                TextUtils.isEmpty(pay_param.getPaySign())) {
             if (mCallback != null) {
                 mCallback.onError(ERROR_PAY_PARAM);
             }

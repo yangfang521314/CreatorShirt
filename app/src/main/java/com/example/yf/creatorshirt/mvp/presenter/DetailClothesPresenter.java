@@ -2,7 +2,6 @@ package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.BombStyleBean;
 import com.example.yf.creatorshirt.mvp.model.PraiseEntity;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -42,8 +41,8 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
         map.put("orderId", id);
         addSubscribe(manager.requestOrdersPraise(UserInfoManager.getInstance().getLoginResponse().getToken(),
                 GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<Integer>>rxSchedulerHelper())
-                .compose(RxUtils.<Integer>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<Integer>(mView) {
                     @Override
                     public void onNext(Integer integer) {
@@ -58,8 +57,8 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
         map.put("orderId", id);
         addSubscribe(manager.OrderPraise(UserInfoManager.getInstance().getLoginResponse().getToken(),
                 GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<PraiseEntity>>rxSchedulerHelper())
-                .compose(RxUtils.<PraiseEntity>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<PraiseEntity>(mView) {
                     @Override
                     public void onNext(PraiseEntity integer) {
@@ -77,8 +76,8 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
         map.put("texture",textUre);
         addSubscribe(manager.saveOrdersFromShare(UserInfoManager.getInstance().getLoginResponse().getToken(),
                 GsonUtils.getGson(map))
-                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                .compose(RxUtils.<OrderType>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<OrderType>(mView,"订单生成出错") {
                     @Override
                     public void onNext(OrderType orderType) {
@@ -96,8 +95,8 @@ public class DetailClothesPresenter extends RxPresenter<DetailClothesContract.De
             jsonObject.put("Gender", mBombStyleBean.getGender());
             jsonObject.put("Typeversion", mBombStyleBean.getBaseId());
             addSubscribe(manager.getTextUre(GsonUtils.getGson(jsonObject))
-                    .compose(RxUtils.<HttpResponse<List<TextureEntity>>>rxSchedulerHelper())
-                    .compose(RxUtils.<List<TextureEntity>>handleResult())
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
                     .subscribeWith(new CommonSubscriber<List<TextureEntity>>(mView) {
                         @Override
                         public void onNext(List<TextureEntity> textureEntity) {

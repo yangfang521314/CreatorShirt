@@ -54,7 +54,6 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     RelativeLayout mRLUserOrder;
     @BindView(R.id.exit_login)
     Button mExitLogin;
-    private DialogAlert dialogLogout;
 
     @Inject
     Activity mActivity;
@@ -133,7 +132,7 @@ public class MineFragment extends BaseFragment<UserInfoPresenter> implements Use
     }
 
     private void getDialog() {
-        dialogLogout = new DialogAlert.Builder()
+        DialogAlert dialogLogout = new DialogAlert.Builder()
                 .setContext(mActivity)
                 .setTitle("是否注销用户")
                 .setConfirm("确定")

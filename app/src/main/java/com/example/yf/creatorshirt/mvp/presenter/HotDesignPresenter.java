@@ -1,7 +1,6 @@
 package com.example.yf.creatorshirt.mvp.presenter;
 
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.HotDesignsBean;
 import com.example.yf.creatorshirt.mvp.presenter.base.RxPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.HotDesignContract;
@@ -39,8 +38,8 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
         map.put("pageIndex", pageIndex);
         RequestBody body = GsonUtils.getGson(map);
         addSubscribe(dataManager.getHotDesign(SharedPreferencesUtil.getUserToken(), body)
-                .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<HotDesignsBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView) {
                     @Override
                     public void onNext(List<HotDesignsBean> hotDesigns) {
@@ -63,8 +62,8 @@ public class HotDesignPresenter extends RxPresenter<HotDesignContract.HotDesignV
         map.put("pageIndex", ++pageIndex);
         RequestBody body = GsonUtils.getGson(map);
         addSubscribe(dataManager.getHotDesign(SharedPreferencesUtil.getUserToken(), body)
-                .compose(RxUtils.<HttpResponse<List<HotDesignsBean>>>rxSchedulerHelper())
-                .compose(RxUtils.<List<HotDesignsBean>>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<List<HotDesignsBean>>(mView) {
                     @Override
                     public void onNext(List<HotDesignsBean> hotDesigns) {

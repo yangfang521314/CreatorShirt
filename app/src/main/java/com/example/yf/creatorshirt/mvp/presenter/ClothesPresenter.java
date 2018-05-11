@@ -98,8 +98,8 @@ public class ClothesPresenter extends RxPresenter<ClothesContract.ClothesView> i
             clothesStyleBean.setTotalWomanMap(totalWomanMap);
             e.onNext(clothesStyleBean);
 
-        }).compose(RxUtils.<ClothesStyleBean>rxObScheduleHelper())
-                .compose(RxUtils.<ClothesStyleBean>rxObScheduleHelper())
+        }).compose(RxUtils.rxObScheduleHelper())
+                .compose(RxUtils.rxObScheduleHelper())
                 .subscribeWith(new CommonObserver<ClothesStyleBean>(null) {
                     @Override
                     public void onNext(ClothesStyleBean clothesStyleBean) {

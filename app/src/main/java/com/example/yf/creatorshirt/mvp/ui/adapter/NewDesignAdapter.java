@@ -46,11 +46,11 @@ public class NewDesignAdapter extends BaseAdapter<VersionStyle, DesignBaseHolder
         });
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
-            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+            public void subscribe(ObservableEmitter<Integer> e) {
                 int resId = FileUtils.getResource(mData.get(position).getColorName());
                 e.onNext(resId);
             }
-        }).compose(RxUtils.<Integer>rxObScheduleHelper())
+        }).compose(RxUtils.rxObScheduleHelper())
                 .subscribeWith(new CommonObserver<Integer>(null) {
                     @Override
                     public void onNext(Integer bitmap) {

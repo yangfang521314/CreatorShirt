@@ -39,6 +39,6 @@ public class RxBus {
 
     // 封装默认订阅
     public <T> Disposable toDefaultFlowable(Class<T> eventType, Consumer<T> act) {
-        return bus.ofType(eventType).compose(RxUtils.<T>rxSchedulerHelper()).subscribe(act);
+        return bus.ofType(eventType).compose(RxUtils.rxSchedulerHelper()).subscribe(act);
     }
 }

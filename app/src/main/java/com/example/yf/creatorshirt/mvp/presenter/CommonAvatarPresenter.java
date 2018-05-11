@@ -31,12 +31,12 @@ import java.io.File;
  * Created by yangfang on 2017/10/11.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class CommonAvatarPresenter implements BasePresenter {
 
-    public static final int REQUEST_CODE_ALBUM = 0;
-    public static final int REQUEST_CODE_TAKE_PHOTO = 1;
-    public static final int REQUEST_CODE_CROUP_PHOTO = 2;
-    private Context mContext;
+    private static final int REQUEST_CODE_ALBUM = 0;
+    private static final int REQUEST_CODE_TAKE_PHOTO = 1;
+    private static final int REQUEST_CODE_CROUP_PHOTO = 2;
     private BaseActivity mActivity;
     private EditUserPopupWindow mPopupWindow;
     private Uri uri;
@@ -56,7 +56,6 @@ public class CommonAvatarPresenter implements BasePresenter {
     }
 
     public CommonAvatarPresenter(Context context) {
-        mContext = context;
         mActivity = (BaseActivity) context;
         file = new File(FileUtils.getCachePath(App.getInstance()), "photo.jpg");
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -145,7 +144,7 @@ public class CommonAvatarPresenter implements BasePresenter {
      *
      * @param uri
      */
-    public void startPhotoZoom(Uri uri) {
+    private void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

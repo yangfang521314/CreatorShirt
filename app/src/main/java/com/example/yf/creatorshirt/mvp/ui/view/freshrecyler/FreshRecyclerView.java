@@ -15,11 +15,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+@SuppressWarnings("Convert2Diamond")
 public class FreshRecyclerView extends RecyclerView {
     private LoadingListener mLoadingListener;
     private WrapAdapter mWrapAdapter;
-    private SparseArray<View> mHeaderViews = new SparseArray<View>();
-    private SparseArray<View> mFootViews = new SparseArray<View>();
+    private SparseArray<View> mHeaderViews = new SparseArray<>();
+    private SparseArray<View> mFootViews = new SparseArray<>();
     private boolean pullRefreshEnabled = true;
     private boolean loadingMoreEnabled = true;
     private RecyRefreshHeader mRefreshHeader;

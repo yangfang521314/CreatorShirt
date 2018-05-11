@@ -1,6 +1,5 @@
 package com.example.yf.creatorshirt.mvp.ui.adapter;
 
-import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,7 @@ import java.util.List;
 
 public class ImageViewAdapter extends PagerAdapter {
     private List<View> list = new ArrayList<>();
-    private Context mContext;
 
-    public ImageViewAdapter(Context detailClothesActivity) {
-        mContext = detailClothesActivity;
-    }
 
     @Override
     public int getCount() {

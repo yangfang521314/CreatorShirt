@@ -16,13 +16,9 @@ import com.example.yf.creatorshirt.R;
  */
 
 public class DialogAlert extends AlertDialog implements View.OnClickListener {
-    private View mLine;
-    private TextView mDialogName;
-    private Button mCancle;
-    private Button mConfirm;
     private PositiveClickListener positiveClickListener;
 
-    public DialogAlert(Builder builder, @NonNull Context context) {
+    private DialogAlert(Builder builder, @NonNull Context context) {
         super(context);
         View view = LayoutInflater.from(builder.mContext).inflate(R.layout.fragment_fragment_dialog, null, false);
         initView(view, builder);
@@ -35,10 +31,10 @@ public class DialogAlert extends AlertDialog implements View.OnClickListener {
     }
 
     private void initView(View view, Builder builder) {
-        mLine = view.findViewById(R.id.view_line1);
-        mDialogName = view.findViewById(R.id.tv_dialog_name);
-        mConfirm = view.findViewById(R.id.positive);
-        mCancle = view.findViewById(R.id.negative);
+        View mLine = view.findViewById(R.id.view_line1);
+        TextView mDialogName = view.findViewById(R.id.tv_dialog_name);
+        Button mConfirm = view.findViewById(R.id.positive);
+        Button mCancle = view.findViewById(R.id.negative);
         mDialogName.setText(builder.title);
         mConfirm.setText(builder.nei);
         mCancle.setText(builder.pos);

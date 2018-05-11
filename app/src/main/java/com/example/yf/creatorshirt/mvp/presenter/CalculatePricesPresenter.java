@@ -7,7 +7,6 @@ import com.example.yf.creatorshirt.app.App;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
 import com.example.yf.creatorshirt.common.manager.UserInfoManager;
 import com.example.yf.creatorshirt.http.DataManager;
-import com.example.yf.creatorshirt.http.HttpResponse;
 import com.example.yf.creatorshirt.mvp.model.ClothesPrice;
 import com.example.yf.creatorshirt.mvp.model.orders.ClothesSize;
 import com.example.yf.creatorshirt.mvp.model.orders.OrderType;
@@ -29,7 +28,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 import static org.greenrobot.eventbus.EventBus.TAG;
@@ -83,8 +81,8 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
      */
     private void computerOrderPrice() {
         addSubscribe(manager.getCalculateOrderPrice(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(saveOrderInfo))
-                .compose(RxUtils.<HttpResponse<ClothesPrice>>rxSchedulerHelper())
-                .compose(RxUtils.<ClothesPrice>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<ClothesPrice>(mView, "访问出错") {
                     @Override
                     public void onNext(ClothesPrice s) {
@@ -140,7 +138,7 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
             inputStream.close();
             String json = new String(arrayOutputStream.toByteArray());
             e.onNext(getArrayList(json));
-        }).compose(RxUtils.<Map<String, List<ClothesSize>>>rxObScheduleHelper())
+        }).compose(RxUtils.rxObScheduleHelper())
                 .subscribe(new CommonObserver<Map<String, List<ClothesSize>>>(mView) {
                     @Override
                     public void onNext(Map<String, List<ClothesSize>> list) {
@@ -151,7 +149,6 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
                 });
     }
 
-    private List<ClothesSize> mClothesSizesList;
     private Map<String, List<ClothesSize>> mSizeMap = new HashMap<>();
 
     private Map<String, List<ClothesSize>> getArrayList(String json) {
@@ -161,7 +158,7 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
             String name = (String) jsonObject.get("name");
             JSONArray jsonArray1 = jsonObject.getJSONArray("type");
             ClothesSize clothesSize;
-            mClothesSizesList = new ArrayList<>();
+            List<ClothesSize> mClothesSizesList = new ArrayList<>();
             for (int j = 0; j < jsonArray1.size(); j++) {
                 com.alibaba.fastjson.JSONObject jsonObject1 = jsonArray1.getJSONObject(j);
                 clothesSize = new ClothesSize();
@@ -192,8 +189,8 @@ public class CalculatePricesPresenter extends RxPresenter<CalculatePricesContrac
         myOrderInfo.setOrderPrice(prices);
         myOrderInfo.setPartner(UserInfoManager.getInstance().getLoginResponse().getUserInfo().getMobile());
         addSubscribe(manager.updateOrders(UserInfoManager.getInstance().getToken(), GsonUtils.getGson(myOrderInfo))
-                .compose(RxUtils.<HttpResponse<OrderType>>rxSchedulerHelper())
-                .compose(RxUtils.<OrderType>handleResult())
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .subscribeWith(new CommonSubscriber<OrderType>(mView) {
                     @Override
                     public void onNext(OrderType orderType) {

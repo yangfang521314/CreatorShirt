@@ -19,7 +19,6 @@ import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.adapter.ImageViewAdapter;
 import com.example.yf.creatorshirt.mvp.ui.adapter.MyOrderSizeAdapter;
 import com.example.yf.creatorshirt.mvp.ui.view.ShapeView;
-import com.example.yf.creatorshirt.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +124,7 @@ public class DetailOrderActivity extends BaseActivity {
 
     private void initViewPager() {
 
-        ImageViewAdapter adapter = new ImageViewAdapter(this);
+        ImageViewAdapter adapter = new ImageViewAdapter();
         final ImageView imageView = new ImageView(this);
         if (mAllImage != null) {
             GlideApp.with(this).load(mAllImage[0])
