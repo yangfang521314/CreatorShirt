@@ -1,5 +1,6 @@
 package com.example.yf.creatorshirt.mvp.ui.activity;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +28,10 @@ import com.example.yf.creatorshirt.mvp.presenter.contract.VersionUpdateContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
 import com.example.yf.creatorshirt.mvp.ui.fragment.MineFragment;
 import com.example.yf.creatorshirt.mvp.ui.fragment.NewDesignFragment;
+import com.example.yf.creatorshirt.mvp.ui.view.CustomUpdateDialog;
 import com.example.yf.creatorshirt.utils.Constants;
 import com.example.yf.creatorshirt.utils.PackageUtil;
+import com.example.yf.creatorshirt.utils.SharedPreferencesUtil;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -245,6 +251,32 @@ public class MainActivity extends BaseActivity<VersionUpdatePresenter> implement
     @Override
     public void showSuccessUpdate(VersionUpdateResponse versionUpdateResponse) {
 
+    }
+
+    @Override
+    public void suggestVerUpdate(VersionUpdateResponse versionResponse) {
+        final CustomUpdateDialog.Builder builder = new CustomUpdateDialog.Builder(mContext);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View v = inflater.inflate(R.layout.dialog_version_update, null);
+        builder.setContentView(v).setTitle(R.string.txt_update_title).setMessage(versionResponse.getUpdate_log()).setPositiveButton(R.string.txt_btn_update, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mPresenter.downloadApk(versionResponse.getApk_url());
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.txt_btn_cancel, (dialog, which) -> dialog.dismiss());
+        final CustomUpdateDialog dialog = builder.create();
+        v.findViewById(R.id.check_ignore).setVisibility(View.VISIBLE);
+        ((CheckBox) v.findViewById(R.id.check_ignore)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //忽略更新
+                    SharedPreferencesUtil.setLastVersionCodeFromServer(versionResponse.getNew_version());
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     private ArrayList<MyTouchListener> myTouchListeners = new ArrayList<>();

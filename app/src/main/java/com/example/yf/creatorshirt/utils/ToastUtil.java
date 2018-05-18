@@ -32,7 +32,7 @@ public class ToastUtil {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW_TOAST:
-                    if(mToast != null) {
+                    if (mToast != null) {
                         mToast.show();
                     }
                     mHandler.sendEmptyMessageDelayed(SHOW_TOAST, TOAST_SHORT_DELAY);
@@ -47,7 +47,7 @@ public class ToastUtil {
         showToast(context, cs, resId);
     }
 
-    public static void showToast(Context context, CharSequence cs, int resId) {
+    public static void showToasts(Context context, CharSequence cs, int resId) {
 
         destroy();
 
@@ -72,6 +72,38 @@ public class ToastUtil {
         toastView.addView(imageCodeProject, 0);
         mToast.show();
     }
+
+    /**
+     * @param context
+     * @param cs
+     * @param duration //时间
+     */
+    public static void showToast(Context context, CharSequence cs, int duration) {
+
+        destroy();
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.custom_toast,  null);
+
+        ProgressBar pro = layout.findViewById(R.id.progressIconToast);
+        pro.setVisibility(View.GONE);
+
+        // 设置toast文字
+        TextView tv = layout.findViewById(R.id.tvTextToast);
+        tv.setText(cs);
+
+        mToast = new Toast(context);
+        mToast.setGravity(Gravity.CENTER, 0, 0);
+        mToast.setDuration(duration);
+        mToast.setView(layout);
+
+//        LinearLayout toastView = (LinearLayout) mToast.getView();
+//        ImageView imageCodeProject = new ImageView(context);
+//        imageCodeProject.setImageResource(resId);
+//        toastView.addView(imageCodeProject, 0);
+        mToast.show();
+    }
+
 
     public static void showProgressToast(Context context, String text, int icon) {
 

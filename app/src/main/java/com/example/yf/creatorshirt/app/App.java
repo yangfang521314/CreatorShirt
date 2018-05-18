@@ -1,6 +1,7 @@
 package com.example.yf.creatorshirt.app;
 
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.example.yf.creatorshirt.BuildConfig;
 import com.example.yf.creatorshirt.common.manager.ClothesSizeManager;
@@ -15,6 +16,8 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by yf on 2017/5/11.

@@ -38,4 +38,7 @@
     <string name="txt_btn_cancel">以后再说</string>
     <string name="title_activity_server">ServerActivity</string>
     <string name="permission_tip">您未允许衣加一获取手机状态权限,我们不会收集您的信息,您可以在系统设置中开启</string>
+    <string name="downloading_info">正在下载</string>
+    <string name="update_notify_content">最新版应用继续下载，请稍等..</string>
+    <string name="begin_download">开始下载</string>
 </resources>

@@ -12,6 +12,13 @@ public interface VersionUpdateContract {
     interface VersionUpdateView extends BaseView {
 
         void showSuccessUpdate(VersionUpdateResponse versionUpdateResponse);
+
+        /**
+         * 更新提示界面
+         *
+         * @param versionResponse
+         */
+        void suggestVerUpdate(VersionUpdateResponse versionResponse);
     }
 
     interface Presenter extends BasePresenter {

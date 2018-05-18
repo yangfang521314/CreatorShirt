@@ -207,7 +207,7 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     @Override
     public void showOrderId(OrderType orderType, SaveOrderInfo saveOrderInfo) {//orderId
         if (orderType.getDispContext() != null) {
-            ToastUtil.showToast(this, orderType.getDispContext(), 0);
+            ToastUtil.showToast(this, orderType.getDispContext(), 1);
         }
         Bundle bundle = new Bundle();
         saveOrderInfo.setOrderId(orderType.getOrderId());
