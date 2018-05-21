@@ -2,8 +2,10 @@ package com.example.yf.creatorshirt.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,9 @@ public class ToastUtil {
      */
     private static final int SHOW_TOAST = 0;
     private static final long TOAST_SHORT_DELAY = 1000;
+
+    private TimeCount timeCount;
+    private boolean canceled = true;
 
     @SuppressLint("HandlerLeak")
     private static Handler mHandler = new Handler() {
@@ -83,7 +88,7 @@ public class ToastUtil {
         destroy();
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View layout = inflater.inflate(R.layout.custom_toast,  null);
+        View layout = inflater.inflate(R.layout.custom_toast, null);
 
         ProgressBar pro = layout.findViewById(R.id.progressIconToast);
         pro.setVisibility(View.GONE);
@@ -92,16 +97,73 @@ public class ToastUtil {
         TextView tv = layout.findViewById(R.id.tvTextToast);
         tv.setText(cs);
 
-        mToast = new Toast(context);
+        if(mToast == null) {
+            mToast = new Toast(context);
+        }
         mToast.setGravity(Gravity.CENTER, 0, 0);
         mToast.setDuration(duration);
         mToast.setView(layout);
-
-//        LinearLayout toastView = (LinearLayout) mToast.getView();
-//        ImageView imageCodeProject = new ImageView(context);
-//        imageCodeProject.setImageResource(resId);
-//        toastView.addView(imageCodeProject, 0);
         mToast.show();
+    }
+
+    /**
+     * 自定义时长、居中显示toast
+     *
+     * @param duration
+     */
+    public void show(int duration) {
+        timeCount = new TimeCount(duration, 1000);
+        Log.i("ToastUtil", "Toast show...");
+        if (canceled) {
+            timeCount.start();
+            canceled = false;
+            showUntilCancel();
+        }
+    }
+
+    /**
+     * 隐藏toast
+     */
+    private void hide() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        canceled = true;
+        Log.i("ToastUtil", "Toast that customed duration hide...");
+    }
+
+    private void showUntilCancel() {
+        if (canceled) { //如果已经取消显示，就直接return
+            return;
+        }
+        mToast.show();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("ToastUtil", "Toast showUntilCancel...");
+                showUntilCancel();
+            }
+        }, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * 自定义计时器
+     */
+    private class TimeCount extends CountDownTimer {
+
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval); //millisInFuture总计时长，countDownInterval时间间隔(一般为1000ms)
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+//            mTextView.setText(message + ": " + millisUntilFinished / 1000 + "s后消失");
+        }
+
+        @Override
+        public void onFinish() {
+            hide();
+        }
     }
 
 

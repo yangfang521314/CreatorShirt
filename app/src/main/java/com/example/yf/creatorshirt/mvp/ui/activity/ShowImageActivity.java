@@ -21,6 +21,7 @@ import com.example.yf.creatorshirt.mvp.model.orders.SaveOrderInfo;
 import com.example.yf.creatorshirt.mvp.presenter.OrderInfoPresenter;
 import com.example.yf.creatorshirt.mvp.presenter.contract.OrderInfoContract;
 import com.example.yf.creatorshirt.mvp.ui.activity.base.BaseActivity;
+import com.example.yf.creatorshirt.utils.ShowLengthToast;
 import com.example.yf.creatorshirt.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
 
@@ -200,19 +201,20 @@ public class ShowImageActivity extends BaseActivity<OrderInfoPresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateUserViewByLogin(UpdateStateEvent event) {
         if (event.getFlag()) {
-            mCreateOrder.setEnabled(true);
+            mCreateOrder.setEnabled(false);
         }
     }
 
     @Override
     public void showOrderId(OrderType orderType, SaveOrderInfo saveOrderInfo) {//orderId
-        if (orderType.getDispContext() != null) {
-            ToastUtil.showToast(this, orderType.getDispContext(), 1);
-        }
         Bundle bundle = new Bundle();
         saveOrderInfo.setOrderId(orderType.getOrderId());
         bundle.putParcelable("clothesInfo", saveOrderInfo);
         startCommonActivity(ShowImageActivity.this, bundle, OrderEditActivity.class);
+        if (orderType.getDispContext() != null) {
+            ShowLengthToast showLengthToast = new ShowLengthToast(this,R.layout.custom_toast,orderType.getDispContext());
+            showLengthToast.show(6000);
+        }
     }
 
     @Override
